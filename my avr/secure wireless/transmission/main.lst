@@ -1,0 +1,320 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  69               	.global	USART_INIT
+  71               	USART_INIT:
+  73               	.Ltext1:
+   1:uart.h        **** /*
+   2:uart.h        **** ===================================================================
+   3:uart.h        **** SET DESIRED BAUD RATE
+   4:uart.h        **** ===================================================================
+   5:uart.h        **** */
+   6:uart.h        **** 
+   7:uart.h        **** #define BAUDRATE 9600
+   8:uart.h        **** /*
+   9:uart.h        **** ===================================================================
+  10:uart.h        **** CALCULATE UBRR VALUE
+  11:uart.h        **** ===================================================================
+  12:uart.h        **** */
+  13:uart.h        **** #define UBRRVAL ((F_CPU/(BAUDRATE*16UL))-1)
+  14:uart.h        **** 
+  15:uart.h        **** void USART_INIT()
+  16:uart.h        **** {
+  74               	me size = 0 */
+  76               	.LM1:
+  77               		ldi r24,lo8(103)
+  78               		out 41-32,r24
+  17:uart.h        **** /*
+  18:uart.h        **** ===================================================================
+  19:uart.h        **** SET BAUD RATE
+  20:uart.h        **** ===================================================================
+  21:uart.h        **** */
+  22:uart.h        **** 	UBRRL=UBRRVAL;
+  79               	bn	68,0,23,.LM2-.LFBB1
+  80               	.LM2:
+  81 0000 87E6      		out 64-32,__zero_reg__
+  23:uart.h        **** 	UBRRH=(UBRRVAL>>8);
+  83               	:
+  85 0004 10BC      	.LM0:
+  24:uart.h        **** 
+  25:uart.h        **** /*===================================================================
+  26:uart.h        **** SET DATAFRAME FORMAT : ASYNCHRONOUS MODE, NO PARITY, 1 START BIT, 8BIT
+  27:uart.h        ****                        SIZE DATA	
+  28:uart.h        **** ===================================================================
+  29:uart.h        **** */
+  30:uart.h        **** 	UCSRC=(1<<URSEL)|(0<<UMSEL)|(0<<UPM1)|(0<<UPM0)|(0<<USBS)|(1<<UCSZ1)|(1<<UCSZ0);
+  86               	BB1:
+  87               	/* prologue: function */
+  88 0006 86E8      	/* frame size = 0 */
+  31:uart.h        **** /*
+  32:uart.h        **** ===================================================================
+  33:uart.h        **** ENABLE TRANSMITTER AND RECEIVER	
+  34:uart.h        **** ===================================================================
+  35:uart.h        **** */
+  36:uart.h        **** 	UCSRB=(1<<RXEN)|(1<<TXEN);
+  90               	:
+  91               		ldi r24,lo8(103)
+  92 000a 88E1      		out 41-32,r24
+  94               	.LM2:
+  37:uart.h        **** }
+  95               	n
+  96               	USART_INIT:
+  98               	.Ltext1:
+ 100               	.LM0:
+ 101               	.LFBB1:
+ 102               	/* prologue: function */
+ 103               	/* frame size = 0 */
+  38:uart.h        **** 
+  39:uart.h        **** /*
+  40:uart.h        **** ===================================================================
+  41:uart.h        **** FUNCTION TO WRITE CHARACTER
+  42:uart.h        **** ===================================================================
+  43:uart.h        **** */
+  44:uart.h        **** void rswritechar(unsigned char c)
+  45:uart.h        **** {
+ 105               	 r24,lo8(103)
+ 106               		out 41-32,r24
+ 108               	.LM2:
+ 109               		out 64-32,__zero_reg__
+  46:uart.h        **** /*
+  47:uart.h        **** ===================================================================
+  48:uart.h        **** WAIT FOR EMPTY TRANSMIT BUFFER
+  49:uart.h        **** ===================================================================
+  50:uart.h        **** */
+  51:uart.h        **** 	while(!(UCSRA&(1<<UDRE)));
+ 111               	:
+ 113 0010 5D9B      	.LM0:
+ 114 0012 00C0      	.LFBB1:
+  52:uart.h        **** 	UDR=c; //SEND RECEIVED DATA BACK
+ 115               	rologue: function */
+ 116               	/* frame size = 0 */
+ 118               	.LM1:
+  53:uart.h        **** }
+ 119               	 r24,lo8(103)
+ 120               		out 41-32,r24
+ 122               	.LM2:
+ 123               		out 64-32,__zero_reg__
+ 125               	.LM3:
+ 126               		ldi r24,lo8(-122)
+ 127               		out 64-32,r24
+  54:uart.h        **** 
+  55:uart.h        **** /*
+  56:uart.h        **** ===================================================================
+  57:uart.h        **** FUNCTION TO READ CHARACTER
+  58:uart.h        **** ===================================================================
+  59:uart.h        **** */
+  60:uart.h        **** 
+  61:uart.h        **** unsigned char rsreadchar(void)
+  62:uart.h        **** {
+ 128               	
+ 129               	/* prologue: function */
+ 130               	/* frame size = 0 */
+ 132               	.LM1:
+ 133               		ldi r24,lo8(103)
+  63:uart.h        **** /*
+  64:uart.h        **** ===================================================================
+  65:uart.h        **** WAIT UNTIL DATA IS AVAILABLE
+  66:uart.h        **** ===================================================================
+  67:uart.h        **** */
+  68:uart.h        **** 	while(!(UCSRA&(1<<RXC)))
+ 134               	41-32,r24
+ 136 0018 5F9B      	.LM2:
+ 137 001a 00C0      		out 64-32,__zero_reg__
+  69:uart.h        **** 	{	}
+  70:uart.h        **** 	return UDR;
+ 138               	rt.h",132,0,0,.Ltext1
+ 139               	.Ltext1:
+ 141               	.LM0:
+  71:uart.h        **** }
+ 142               	B1:
+ 143               	/* prologue: function */
+ 144 001e 0895      	/* frame size = 0 */
+ 146               	.LM1:
+ 147               		ldi r24,lo8(103)
+ 148               		out 41-32,r24
+ 150               	.LM2:
+ 151               		out 64-32,__zero_reg__
+  72:uart.h        **** 
+  73:uart.h        **** /*
+  74:uart.h        **** ===================================================================
+  75:uart.h        **** FUNCTION TO PRINT STRING
+  76:uart.h        **** ===================================================================
+  77:uart.h        **** */
+  78:uart.h        **** void rsstr(char *s)
+  79:uart.h        **** {
+ 152               	,0,30,.LM3-.LFBB1
+ 153               	.LM3:
+ 154               		ldi r24,lo8(-122)
+ 155               		out 64-32,r24
+ 157 0020 FC01      	.LM4:
+ 158 0022 00C0      		ldi r24,lo8(24)
+ 159               		out 42-32,r24
+ 160               	/* epilogue start */
+ 162               	.LM5:
+ 163               		ret
+ 165 0026 00C0      	.Lscope1:
+ 168 0028 8CB9      	.global	rswritechar
+ 170               	rswritechar:
+  80:uart.h        **** 	while(*s)
+  81:uart.h        **** 	{
+  82:uart.h        **** 		rswritechar(*s);
+  83:uart.h        **** 		s++;
+ 171               	/
+ 173 002a 3196      	.LM5:
+ 174               		ret
+ 176               	.Lscope1:
+ 179 0030 01F4      	.global	rswritechar
+  84:uart.h        **** 	}
+  85:uart.h        **** }...
+ 181               	ilogue start */
+ 183 0032 0895      	.LM5:
+ 184               		ret
+ 186               	.Lscope1:
+ 189               	.global	rswritechar
+ 191               	rswritechar:
+ 193               	.LM6:
+ 194               	.LFBB2:
+ 195               	/* prologue: function */
+   1:main.c        **** /*
+   2:main.c        **** ===================================================================
+   3:main.c        **** PROGRAM TO PRINT A STRING ON COMPUTER SCREEN
+   4:main.c        **** ===================================================================
+   5:main.c        **** */
+   6:main.c        **** 
+   7:main.c        **** #include<avr/io.h>
+   8:main.c        **** #include "uart.h"
+   9:main.c        **** #include<util/delay.h>
+  10:main.c        **** #include <compat/deprecated.h>
+  11:main.c        **** 
+  12:main.c        **** int main(void)
+  13:main.c        **** {
+ 196               	T
+ 197               	.Lscope1:
+ 200               	.global	rswritechar
+ 202               	rswritechar:
+ 204               	.LM6:
+ 205               	.LFBB2:
+ 206               	/* prologue: function */
+ 207 0034 87E6      	/* frame size = 0 */
+ 208 0036 89B9      	.L4:
+ 210               	.LM7:
+ 211 0038 10BC      		sbis 43-32,5
+ 212               		rjmp .L4
+ 214 003a 86E8      	.LM8:
+ 215 003c 80BD      		out 44-32,r24
+ 216               	/* epilogue start */
+ 218 003e 88E1      	.LM9:
+ 219 0040 8AB9      		ret
+ 221 0044 F0E0      	.Lscope2:
+ 223               	.global	rsreadchar
+ 225               	rsreadchar:
+ 227               	.LM10:
+ 228               	.LFBB3:
+ 229               	/* prologue: function */
+ 230               	/* frame size = 0 */
+ 231               	.L8:
+ 233 004a 00C0      	.LM11:
+ 234               		sbis 43-32,7
+ 235               		rjmp .L8
+ 237               	.LM12:
+ 238               		in r24,44-32
+ 239               	/* epilogue start */
+ 241 004e 3196      	.LM13:
+ 242               		ret
+ 244               	.Lscope3:
+ 247 0054 01F4      	.global	rsstr
+ 249               	rsstr:
+ 251               	.LM14:
+  14:main.c        **** 	unsigned char t;
+  15:main.c        **** 	USART_INIT();
+  16:main.c        **** 	rsstr("Secure wireless terminal\r\n");
+  17:main.c        **** 	DDRA=0xFF;
+ 252               	rsreadchar
+ 253               	.Lscope3:
+  18:main.c        **** 	while(1)
+  19:main.c        **** 	{
+  20:main.c        **** 		t=rsreadchar();
+  21:main.c        **** 		switch(t)
+  22:main.c        **** 		{
+  23:main.c        **** 		 case '5':PORTA=0x10;break;
+  24:main.c        **** 		 case '6':PORTA=0x20;break;
+ 256               	32
+ 257               	/* epilogue start */
+  25:main.c        **** 		 case '7':PORTA=0x40;break;
+ 259               	
+ 260               	/* frame size = 0 */
+ 261 005c 30E4      	.L8:
+  26:main.c        **** 		 case '8':PORTA=0x80;break;
+ 262               	s	"rsreadchar:F(0,11)",36,0,0,rsreadchar
+ 263               	.global	rsreadchar
+ 265               	rsreadchar:
+ 267 0060 90E1      	.LM10:
+ 268               	.LFBB3:
+ 269               	/* prologue: function */
+ 270               	/* frame size = 0 */
+ 271               	.L8:
+ 273               	.LM11:
+ 274               		sbis 43-32,7
+ 275 0062 5F9B      		rjmp .L8
+ 277               	.LM12:
+ 278               		in r24,44-32
+ 279 0066 8CB1      	/* epilogue start */
+ 281               	.LM13:
+ 282               		ret
+ 284               	.Lscope3:
+ 287 006a 01F0      	.global	rsstr
+ 289 006e 00F4      	rsstr:
+ 291 0072 01F4      	.LM14:
+ 292 0074 00C0      	.LFBB4:
+ 293               	/* prologue: function */
+ 294 0076 8733      	/* frame size = 0 */
+ 295 0078 01F0      		movw r30,r24
+ 296 007a 8833      		rjmp .L12
+ 297 007c 01F4      	.L15:
+ 298 007e 00C0      	.LBB12:
+ 299               	.LBB13:
+ 301               	.LM15:
+ 302 0080 9BBB      		sbis 43-32,5
+ 303 0082 00C0      		rjmp .L15
+ 305               	.LM16:
+ 306               		out 44-32,r24
+ 307 0084 4BBB      	.LBE13:
+ 308 0086 00C0      	.LBE12:
+ 310               	.LM17:
+ 311               		adiw r30,1
+ 312 0088 3BBB      	.L12:
+ 314               	.LM18:
+ 315               		ld r24,Z
+ 316               		tst r24
+ 317 008c 2BBB      		brne .L15
+ 318 008e 00C0      	/* epilogue start */
+ 320               	.LM19:
+ 321               		ret
+ 323               	.Lscope4:
+ 324               		.data
+ 325               	.LC0:
+ 326               		.string	"Secure wireless terminal\r\n"
+ 327               		.text
+ 329               	.global	main
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:71     .text:00000000 USART_INIT
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:104    .text:00000010 rswritechar
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:127    .text:00000018 rsreadchar
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:151    .text:00000020 rsstr
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccmWnaKP.s:193    .text:00000034 main
+
+UNDEFINED SYMBOLS
+__do_copy_data

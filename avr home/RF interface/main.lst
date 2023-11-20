@@ -1,0 +1,1720 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  69               	.global	spi_master_init
+  71               	spi_master_init:
+  73               	.Ltext1:
+   1:cc2500.h      **** /*SPI master to interface CC2500 with atmega 8 
+   2:cc2500.h      **** 
+   3:cc2500.h      **** *********************************************************************************
+   4:cc2500.h      **** *	COPYRIGHT(C)2009 Technophilia												*
+   5:cc2500.h      **** *	date:-11 th september 2009													*
+   6:cc2500.h      **** *	Author: Prasanta Kumar Nayak												*
+   7:cc2500.h      **** *	Organization: Technophilia													*
+   8:cc2500.h      **** *	Target system-SWARM devlopment board s/n-98020								*
+   9:cc2500.h      **** *	manufacturer: Technophilia													*
+  10:cc2500.h      **** *	microcontroller: ATmega-8													*
+  11:cc2500.h      **** *	clock: 8mhz internal oscillator												*
+  12:cc2500.h      **** *																				*	
+  13:cc2500.h      **** *	H fuse=0xD9																	*
+  14:cc2500.h      **** *	L fuse=0xE4																	*
+  15:cc2500.h      **** *																				*
+  16:cc2500.h      **** *	compiler win avr															*		
+  17:cc2500.h      **** *																				*
+  18:cc2500.h      **** *	PORTS USED																	*
+  19:cc2500.h      **** *																				*	
+  20:cc2500.h      **** *	CC2500……………….(RF trans receiver module)										*
+  21:cc2500.h      **** *	PB3-MOSI																	*
+  22:cc2500.h      **** *	PB4-MISO																	*
+  23:cc2500.h      **** *	PB5-SCK																		*	
+  24:cc2500.h      **** *	PD1-SS'																		*
+  25:cc2500.h      **** *	PD2-GD0																		*		
+  26:cc2500.h      **** *	PD3-GD2																		*
+  27:cc2500.h      **** *																				*
+  28:cc2500.h      **** *	LCD……………………….(PCD 8544, 48X84 pixel graphics LCD)							*
+  29:cc2500.h      **** *	PB0-SCK																		*
+  30:cc2500.h      **** *	PB1-SDIN																	*
+  31:cc2500.h      **** *	PB2-D/C																		*
+  32:cc2500.h      **** *	PB6-CS																		*		
+  33:cc2500.h      **** *	PB7-RESET																	*
+  34:cc2500.h      **** *	MOTOR…………………																*
+  35:cc2500.h      **** *	D4																			*
+  36:cc2500.h      **** *	D5																			*
+  37:cc2500.h      **** *	D6																			*
+  38:cc2500.h      **** *	D7																			*
+  39:cc2500.h      **** *																				*	
+  40:cc2500.h      **** *	SENSOR………………																*
+  41:cc2500.h      **** *	PC0																			*		
+  42:cc2500.h      **** *	PC1																			*
+  43:cc2500.h      **** *	PC2																			*
+  44:cc2500.h      **** *	PC3																			*
+  45:cc2500.h      **** *	PC4																			*
+  46:cc2500.h      **** *	PD0																			*	
+  47:cc2500.h      **** *																				*
+  48:cc2500.h      **** *	SWITCHES……………																*
+  49:cc2500.h      **** *	PC5-4 SWITCHES READ THROUGH ADC												*		
+  50:cc2500.h      **** *																				*
+  51:cc2500.h      **** *	LED………………………																*	
+  52:cc2500.h      **** *	LED1-PB0																	*
+  53:cc2500.h      **** 	LED2-PB1																	*
+  54:cc2500.h      **** *	LED3-PB2																	*
+  55:cc2500.h      **** *	LED4-PB3																	*
+  56:cc2500.h      **** *																				*	
+  57:cc2500.h      **** *																				*
+  58:cc2500.h      **** *********************************************************************************/
+  59:cc2500.h      **** #include<avr/interrupt.h>
+  60:cc2500.h      **** 
+  61:cc2500.h      **** 
+  62:cc2500.h      **** #ifndef _CC2500_H_
+  63:cc2500.h      **** #define _CC2500_H_
+  64:cc2500.h      **** 
+  65:cc2500.h      **** #define csn1 (PORTD|=0x02)
+  66:cc2500.h      **** #define csn0 (PORTD&=0xFD)
+  67:cc2500.h      **** 
+  68:cc2500.h      **** #define miso (PINB & 0x20)
+  69:cc2500.h      **** 
+  70:cc2500.h      **** #define gd0 (PIND & 0x04)
+  71:cc2500.h      **** 
+  72:cc2500.h      **** void rf_init();				//for initialization of rf device
+  73:cc2500.h      **** void rf_transmit(unsigned char CCdata);
+  74:cc2500.h      **** 
+  75:cc2500.h      **** void rf_receive();
+  76:cc2500.h      **** void spi_master_init(void);
+  77:cc2500.h      **** void cc_reset(void);
+  78:cc2500.h      **** void cc_config(void);
+  79:cc2500.h      **** void cc_readreg(char add);
+  80:cc2500.h      **** void cc_writereg(char add,char data);
+  81:cc2500.h      **** void cc_strobe(char data);
+  82:cc2500.h      **** void Wait(char timeout);
+  83:cc2500.h      **** 
+  84:cc2500.h      **** 
+  85:cc2500.h      **** unsigned char retval,flag,cc_data;
+  86:cc2500.h      **** 
+  87:cc2500.h      **** ISR (INT0_vect) //****************************************************************************0
+  88:cc2500.h      **** { 
+  89:cc2500.h      ****   if(flag==0)
+  90:cc2500.h      ****    {
+  91:cc2500.h      ****     // LCD_gotoXY(4,3);
+  92:cc2500.h      ****     // LCD_writeString_F ("inter ");
+  93:cc2500.h      ****     // LCD_showvalue(count);
+  94:cc2500.h      ****      rf_receive();
+  95:cc2500.h      ****    }
+  96:cc2500.h      ****   else
+  97:cc2500.h      ****    {
+  98:cc2500.h      ****      flag=0;
+  99:cc2500.h      ****    }
+ 100:cc2500.h      ****    
+ 101:cc2500.h      **** }
+ 102:cc2500.h      **** 
+ 103:cc2500.h      **** void rf_init() //*****************************************************************************1
+ 104:cc2500.h      **** {
+ 105:cc2500.h      ****  spi_master_init();
+ 106:cc2500.h      ****  cc_reset();
+ 107:cc2500.h      ****  cc_config();
+ 108:cc2500.h      ****  Wait(100);   
+ 109:cc2500.h      ****  cc_strobe(0x34); //receive mode
+ 110:cc2500.h      ****  MCUCR=0x02;
+ 111:cc2500.h      ****  GICR=0x40;
+ 112:cc2500.h      ****  sei();	 
+ 113:cc2500.h      **** }
+ 114:cc2500.h      **** 
+ 115:cc2500.h      **** void rf_transmit(unsigned char CCdata)//***********************************************************
+ 116:cc2500.h      **** {
+ 117:cc2500.h      ****  cli();
+ 118:cc2500.h      ****  flag=1;
+ 119:cc2500.h      ****  cc_writereg(0x3f,CCdata);
+ 120:cc2500.h      ****  cc_strobe(0x35);	 //transmitter mode
+ 121:cc2500.h      ****  while(!gd0);
+ 122:cc2500.h      ****  while(gd0);
+ 123:cc2500.h      ****  cc_strobe(0x3A);  //flux rxfifo
+ 124:cc2500.h      ****  cc_strobe(0x3B);  //flux txfifo
+ 125:cc2500.h      ****  Wait(1);
+ 126:cc2500.h      ****  cc_strobe(0x36); //ideale mode 
+ 127:cc2500.h      ****  cc_strobe(0x34); //receiver mode
+ 128:cc2500.h      ****  Wait(1); 
+ 129:cc2500.h      ****  sei();
+ 130:cc2500.h      **** }
+ 131:cc2500.h      **** 
+ 132:cc2500.h      **** void rf_receive() //**************************************************************************3
+ 133:cc2500.h      **** {
+ 134:cc2500.h      ****  cc_readreg(0x3F);
+ 135:cc2500.h      ****  cc_data=retval;
+ 136:cc2500.h      ****  if(retval==5)
+ 137:cc2500.h      ****  sbi(PORTA,5);
+ 138:cc2500.h      ****  else
+ 139:cc2500.h      ****  cbi(PORTA,5);
+ 140:cc2500.h      ****  Wait(5);
+ 141:cc2500.h      ****  cc_strobe(0x3A);  //flux rxfifo
+ 142:cc2500.h      ****  Wait(1);
+ 143:cc2500.h      ****  cc_strobe(0x36); //ideale mode 
+ 144:cc2500.h      ****  Wait(1);
+ 145:cc2500.h      ****  cc_strobe(0x34);	//receive mode
+ 146:cc2500.h      ****  Wait(1);	
+ 147:cc2500.h      **** }
+ 148:cc2500.h      **** 
+ 149:cc2500.h      **** void spi_master_init(void)//******************************************************************4
+ 150:cc2500.h      **** {
+  74               	ame size = 0 */
+  76               	.LM1:
+  77               		sbi 49-32,1
+ 151:cc2500.h      ****   DDRD|=0x02;				//spi slave select pin configure as output
+  79               	
+  80               		in r24,55-32
+  81 0000 899A      		ori r24,lo8(-16)
+ 152:cc2500.h      ****   DDRB|=0xF0;				//spi pins (mosi, sck, ss) configure as output  important ss must shod be configur
+  82               	ut 55-32,r24
+  84 0002 87B3      	.LM3:
+  85 0004 806F      		ldi r24,lo8(81)
+  86 0006 87BB      		out 45-32,r24
+ 153:cc2500.h      ****   SPCR = 0x51;				//spe=1(spi enable),DDRD=1(MSB first),mstr=1(master)
+  87               	ilogue start */
+  89 0008 81E5      	.LM4:
+  90 000a 8DB9      		ret
+ 154:cc2500.h      **** }
+  92               	pe1:
+  94 000c 0895      	.global	cc_reset
+  96               	cc_reset:
+  98               	.LM5:
+  99               	.LFBB2:
+ 100               	/* prologue: function */
+ 155:cc2500.h      **** 
+ 156:cc2500.h      **** void cc_reset(void)//*************************************************************************5
+ 157:cc2500.h      **** {
+ 101               	size = 0 */
+ 103               	.LM6:
+ 104               		sbi 50-32,1
+ 105               	.LBB68:
+ 158:cc2500.h      **** 	csn1; 
+ 106               	9:
+ 108 000e 919A      	.LM7:
+ 109               	/* #APP */
+ 110               	 ;  265 "cc2500.h" 1
+ 159:cc2500.h      ****     Wait(1); 
+ 160:cc2500.h      ****     csn0; 
+ 161:cc2500.h      ****     Wait(1); 
+ 162:cc2500.h      ****     csn1; 
+ 163:cc2500.h      ****     Wait(41);
+ 164:cc2500.h      **** 	csn0;
+ 165:cc2500.h      ****     while (miso);//((PINB&0x08)); 
+ 166:cc2500.h      ****     SPDR = 0x30; 
+ 167:cc2500.h      ****     while((SPSR&0x80)==0);			 //SPI_WAIT(); 
+ 168:cc2500.h      **** 	while (miso);//((PINB&0x08)); 
+ 169:cc2500.h      ****     csn1; 
+ 170:cc2500.h      **** }
+ 171:cc2500.h      **** 
+ 172:cc2500.h      **** void cc_config(void) //***********************************************************************6
+ 173:cc2500.h      **** {
+ 174:cc2500.h      ****  cc_writereg(0X0B,0x07);
+ 175:cc2500.h      ****  cc_writereg(0x0c,0x00);
+ 176:cc2500.h      ****  cc_writereg(0x0D,0x5D);
+ 177:cc2500.h      ****  cc_writereg(0x0E,0x93);
+ 178:cc2500.h      ****  cc_writereg(0x0F,0xB1);//93
+ 179:cc2500.h      ****  
+ 180:cc2500.h      ****  cc_writereg(0x10,0x2D);
+ 181:cc2500.h      ****  cc_writereg(0x11,0x3B);
+ 182:cc2500.h      ****  cc_writereg(0x12,0x73);
+ 183:cc2500.h      ****  cc_writereg(0x13,0x22);
+ 184:cc2500.h      ****  cc_writereg(0x14,0xF8);
+ 185:cc2500.h      ****  
+ 186:cc2500.h      ****  cc_writereg(0x0A,0x00);//Channel No. 
+ 187:cc2500.h      ****  
+ 188:cc2500.h      ****  cc_writereg(0x15,0x00);//
+ 189:cc2500.h      ****  
+ 190:cc2500.h      ****  cc_writereg(0x21,0xB6);
+ 191:cc2500.h      ****  cc_writereg(0x22,0x10);
+ 192:cc2500.h      ****  
+ 193:cc2500.h      ****  cc_writereg(0x18,0x18);
+ 194:cc2500.h      ****  cc_writereg(0x19,0x1D);
+ 195:cc2500.h      ****  
+ 196:cc2500.h      ****  cc_writereg(0x1A,0x1C);
+ 197:cc2500.h      ****  cc_writereg(0x1B,0xC7);
+ 198:cc2500.h      ****  cc_writereg(0x1C,0x00);
+ 199:cc2500.h      ****  cc_writereg(0x1D,0xB2);//f8
+ 200:cc2500.h      ****  
+ 201:cc2500.h      ****  cc_writereg(0x23,0xEA);
+ 202:cc2500.h      ****  cc_writereg(0x24,0x0A);
+ 203:cc2500.h      ****  cc_writereg(0x25,0x00);
+ 204:cc2500.h      ****  cc_writereg(0x26,0x11);
+ 205:cc2500.h      ****  cc_writereg(0x29,0x59);
+ 206:cc2500.h      ****  
+ 207:cc2500.h      ****  cc_writereg(0x2C,0x88);
+ 208:cc2500.h      ****  cc_writereg(0x2D,0x31);
+ 209:cc2500.h      ****  cc_writereg(0x2E,0x0B);
+ 210:cc2500.h      ****  
+ 211:cc2500.h      ****  cc_writereg(0x00,0x06);  //iocfg2
+ 212:cc2500.h      ****  
+ 213:cc2500.h      ****  cc_writereg(0x02,0x06);  //iocfg0
+ 214:cc2500.h      ****  
+ 215:cc2500.h      ****  cc_writereg(0x07,0x04);
+ 216:cc2500.h      ****  cc_writereg(0x08,0x05);  //pktctrl 0 
+ 217:cc2500.h      ****  cc_writereg(0x09,0x00);//device address
+ 218:cc2500.h      ****  cc_writereg(0x06,0xFF);
+ 219:cc2500.h      ****  
+ 220:cc2500.h      ****  //sync bits
+ 221:cc2500.h      ****  cc_writereg(0x04,0x12);
+ 222:cc2500.h      ****  cc_writereg(0x05,0x34);
+ 223:cc2500.h      ****  
+ 224:cc2500.h      **** }
+ 225:cc2500.h      **** 
+ 226:cc2500.h      **** void cc_readreg(char add)//*******************************************************************7
+ 227:cc2500.h      **** {
+ 228:cc2500.h      ****   csn0;
+ 229:cc2500.h      ****   while(miso);
+ 230:cc2500.h      ****   SPDR=(add|0x80);
+ 231:cc2500.h      ****   Wait(1);	
+ 232:cc2500.h      ****   while((SPSR&0x80)==0);			//pull the ss line to down to activate slave 
+ 233:cc2500.h      ****   SPDR=0;							//place data on spi resistor
+ 234:cc2500.h      ****   while((SPSR&0x80)==0);			//wait foe the spi transmittion complit
+ 235:cc2500.h      ****   csn1;								//pull the ss line to up to deactivate the slave
+ 236:cc2500.h      ****   retval = SPDR;
+ 237:cc2500.h      **** }
+ 238:cc2500.h      **** 
+ 239:cc2500.h      **** void cc_writereg(char add,char data)//********************************************************8
+ 240:cc2500.h      **** {
+ 241:cc2500.h      ****   csn0;
+ 242:cc2500.h      ****   while(miso);
+ 243:cc2500.h      ****   SPDR=add;
+ 244:cc2500.h      ****   while((SPSR&0x80)==0);			//pull the ss line to down to activate slave 
+ 245:cc2500.h      ****   SPDR=data;				//place data on spi resistor
+ 246:cc2500.h      ****   while((SPSR&0x80)==0);	//wait foe the spi transmittion complit
+ 247:cc2500.h      ****   csn1;
+ 248:cc2500.h      ****   Wait(1);
+ 249:cc2500.h      **** }
+ 250:cc2500.h      **** 
+ 251:cc2500.h      **** cc_strobe(char data) //***********************************************************************9
+ 252:cc2500.h      **** {
+ 253:cc2500.h      ****   csn0;								//pull the ss line to down to activate slave 
+ 254:cc2500.h      ****   while(miso);
+ 255:cc2500.h      ****   SPDR=data;						//place data on spi resistor
+ 256:cc2500.h      ****   while((SPSR&0x80)==0);			//wait foe the spi transmittion complit
+ 257:cc2500.h      ****   csn1;								//pull the ss line to up to deactivate the slave
+ 258:cc2500.h      ****   retval = SPDR;
+ 259:cc2500.h      **** }
+ 260:cc2500.h      **** 
+ 261:cc2500.h      **** Wait(char timeout) //*************************************************************************10
+ 262:cc2500.h      **** {
+ 263:cc2500.h      **** 	// This sequence uses exactly 8 clock cycle for each round
+ 264:cc2500.h      ****     do {
+ 265:cc2500.h      ****         asm("nop");
+ 111               	 ;  0 "" 2
+ 113               	.LM8:
+ 114               	 ;  266 "cc2500.h" 1
+ 115 0010 0000      		nop
+ 116               	 ;  0 "" 2
+ 266:cc2500.h      ****         asm("nop");
+ 117               	n	68,0,267,.LM9-.LFBB2
+ 118               	.LM9:
+ 119               	 ;  267 "cc2500.h" 1
+ 120 0012 0000      		nop
+ 121               	 ;  0 "" 2
+ 267:cc2500.h      ****         asm("nop");
+ 122               	bn	68,0,268,.LM10-.LFBB2
+ 123               	.LM10:
+ 124               	 ;  268 "cc2500.h" 1
+ 125 0014 0000      		nop
+ 126               	 ;  0 "" 2
+ 268:cc2500.h      ****         asm("nop");
+ 127               	OAPP */
+ 128               	.LBE69:
+ 129               	.LBE68:
+ 131               	.LM11:
+ 132               		cbi 50-32,1
+ 133               	.LBB70:
+ 134               	.LBB71:
+ 136               	.LM12:
+ 137 0018 9198      	/* #APP */
+ 138               	 ;  265 "cc2500.h" 1
+ 139               		nop
+ 140               	 ;  0 "" 2
+ 142               	.LM13:
+ 143               	 ;  266 "cc2500.h" 1
+ 144 001a 0000      		nop
+ 145               	 ;  0 "" 2
+ 147               	.LM14:
+ 148               	 ;  267 "cc2500.h" 1
+ 149 001c 0000      		nop
+ 150               	 ;  0 "" 2
+ 152               	.LM15:
+ 153               	 ;  268 "cc2500.h" 1
+ 154 001e 0000      		nop
+ 155               	 ;  0 "" 2
+ 156               	/* #NOAPP */
+ 157               	.LBE71:
+ 158               	.LBE70:
+ 160               	.LM16:
+ 161               		sbi 50-32,1
+ 162               		ldi r24,lo8(41)
+ 163               	.L4:
+ 164               	.LBB72:
+ 165               	.LBB73:
+ 167 0024 89E2      	.LM17:
+ 168               	/* #APP */
+ 169               	 ;  265 "cc2500.h" 1
+ 170               		nop
+ 171               	 ;  0 "" 2
+ 173               	.LM18:
+ 174               	 ;  266 "cc2500.h" 1
+ 175 0026 0000      		nop
+ 176               	 ;  0 "" 2
+ 178               	.LM19:
+ 179               	 ;  267 "cc2500.h" 1
+ 180 0028 0000      		nop
+ 181               	 ;  0 "" 2
+ 183               	.LM20:
+ 184               	 ;  268 "cc2500.h" 1
+ 185 002a 0000      		nop
+ 186               	 ;  0 "" 2
+ 188               	.LM21:
+ 189               	/* #NOAPP */
+ 190 002c 0000      		subi r24,lo8(-(-1))
+ 191               		brne .L4
+ 269:cc2500.h      **** 	} while (--timeout);
+ 192               	
+ 193               	.L5:
+ 195 002e 8150      	.LM23:
+ 196 0030 01F4      		sbic 54-32,5
+ 197               		rjmp .L5
+ 199               	.LM24:
+ 200               		ldi r24,lo8(48)
+ 201 0032 9198      		out 47-32,r24
+ 202               	.L6:
+ 204               	.LM25:
+ 205 0034 B599      		sbis 46-32,7
+ 206 0036 00C0      		rjmp .L6
+ 207               	.L9:
+ 209 0038 80E3      	.LM26:
+ 210 003a 8FB9      		sbic 54-32,5
+ 211               		rjmp .L9
+ 213               	.LM27:
+ 214 003c 779B      		sbi 50-32,1
+ 215 003e 00C0      	/* epilogue start */
+ 217               	.LM28:
+ 218               		ret
+ 223 0044 919A      	.Lscope2:
+ 226               	.global	cc_readreg
+ 228               	cc_readreg:
+ 230               	.LM29:
+ 231               	.LFBB3:
+ 232               	/* prologue: function */
+ 233               	/* frame size = 0 */
+ 235               	.LM30:
+ 236               		cbi 50-32,1
+ 237               	.L15:
+ 239               	.LM31:
+ 240               		sbic 54-32,5
+ 241               		rjmp .L15
+ 243               	.LM32:
+ 244               		ori r24,lo8(-128)
+ 245 0048 9198      		out 47-32,r24
+ 246               	.LBB74:
+ 247               	.LBB75:
+ 249 004a B599      	.LM33:
+ 250 004c 00C0      	/* #APP */
+ 251               	 ;  265 "cc2500.h" 1
+ 252               		nop
+ 253 004e 8068      	 ;  0 "" 2
+ 255               	.LM34:
+ 256               	 ;  266 "cc2500.h" 1
+ 257               		nop
+ 258               	 ;  0 "" 2
+ 260               	.LM35:
+ 261 0052 0000      	 ;  267 "cc2500.h" 1
+ 262               		nop
+ 263               	 ;  0 "" 2
+ 265               	.LM36:
+ 266 0054 0000      	 ;  268 "cc2500.h" 1
+ 267               		nop
+ 268               	 ;  0 "" 2
+ 269               	/* #NOAPP */
+ 270               	.L16:
+ 271 0056 0000      	.LBE75:
+ 272               	.LBE74:
+ 274               	.LM37:
+ 275               		sbis 46-32,7
+ 276 0058 0000      		rjmp .L16
+ 278               	.LM38:
+ 279               		out 47-32,__zero_reg__
+ 280               	.L17:
+ 282               	.LM39:
+ 283               		sbis 46-32,7
+ 284 005a 779B      		rjmp .L17
+ 286               	.LM40:
+ 287               		sbi 50-32,1
+ 289               	.LM41:
+ 290               		in r24,47-32
+ 291               		sts retval,r24
+ 292 0060 779B      	/* epilogue start */
+ 294               	.LM42:
+ 295               		ret
+ 297               	.Lscope3:
+ 299 0066 8FB1      	.global	rf_receive
+ 301               	rf_receive:
+ 303               	.LM43:
+ 304 006c 0895      	.LFBB4:
+ 305               	/* prologue: function */
+ 306               	/* frame size = 0 */
+ 308               	.LM44:
+ 309               		ldi r24,lo8(63)
+ 310               		call cc_readreg
+ 312               	.LM45:
+ 313               		lds r24,retval
+ 314               		sts cc_data,r24
+ 316               	.LM46:
+ 317               		cpi r24,lo8(5)
+ 318 006e 8FE3      		brne .L23
+ 320               	.LM47:
+ 321               		sbi 59-32,5
+ 322 0074 8091 0000 		rjmp .L32
+ 323 0078 8093 0000 	.L23:
+ 325               	.LM48:
+ 326 007c 8530      		cbi 59-32,5
+ 327 007e 01F4      		ldi r24,lo8(5)
+ 328               	.L32:
+ 329               	.LBB76:
+ 330 0080 DD9A      	.LBB77:
+ 332               	.LM49:
+ 333               	/* #APP */
+ 334               	 ;  265 "cc2500.h" 1
+ 335 0084 DD98      		nop
+ 336 0086 85E0      	 ;  0 "" 2
+ 338               	.LM50:
+ 339               	 ;  266 "cc2500.h" 1
+ 340               		nop
+ 341               	 ;  0 "" 2
+ 343               	.LM51:
+ 344 0088 0000      	 ;  267 "cc2500.h" 1
+ 345               		nop
+ 346               	 ;  0 "" 2
+ 348               	.LM52:
+ 349 008a 0000      	 ;  268 "cc2500.h" 1
+ 350               		nop
+ 351               	 ;  0 "" 2
+ 353               	.LM53:
+ 354 008c 0000      	/* #NOAPP */
+ 355               		subi r24,lo8(-(-1))
+ 356               		brne .L32
+ 357               	.LBE77:
+ 358               	.LBE76:
+ 359 008e 0000      	.LBB78:
+ 360               	.LBB79:
+ 362               	.LM54:
+ 363               		cbi 50-32,1
+ 364 0090 8150      	.L25:
+ 366               	.LM55:
+ 367               		sbic 54-32,5
+ 368               		rjmp .L25
+ 370               	.LM56:
+ 371               		ldi r24,lo8(58)
+ 372 0094 9198      		out 47-32,r24
+ 373               	.L26:
+ 375               	.LM57:
+ 376 0096 B599      		sbis 46-32,7
+ 377 0098 00C0      		rjmp .L26
+ 379               	.LM58:
+ 380 009a 8AE3      		sbi 50-32,1
+ 382               	.LM59:
+ 383               		in r24,47-32
+ 384               	.LBE79:
+ 385 009e 779B      	.LBE78:
+ 386 00a0 00C0      	.LBB80:
+ 387               	.LBB81:
+ 389 00a2 919A      	.LM60:
+ 390               	/* #APP */
+ 391               	 ;  265 "cc2500.h" 1
+ 392 00a4 8FB1      		nop
+ 393               	 ;  0 "" 2
+ 395               	.LM61:
+ 396               	 ;  266 "cc2500.h" 1
+ 397               		nop
+ 398               	 ;  0 "" 2
+ 400               	.LM62:
+ 401 00a6 0000      	 ;  267 "cc2500.h" 1
+ 402               		nop
+ 403               	 ;  0 "" 2
+ 405               	.LM63:
+ 406 00a8 0000      	 ;  268 "cc2500.h" 1
+ 407               		nop
+ 408               	 ;  0 "" 2
+ 409               	/* #NOAPP */
+ 410               	.LBE81:
+ 411 00aa 0000      	.LBE80:
+ 412               	.LBB82:
+ 413               	.LBB83:
+ 415               	.LM64:
+ 416 00ac 0000      		cbi 50-32,1
+ 417               	.L27:
+ 419               	.LM65:
+ 420               		sbic 54-32,5
+ 421               		rjmp .L27
+ 423               	.LM66:
+ 424               		ldi r24,lo8(54)
+ 425 00ae 9198      		out 47-32,r24
+ 426               	.L28:
+ 428               	.LM67:
+ 429 00b0 B599      		sbis 46-32,7
+ 430 00b2 00C0      		rjmp .L28
+ 432               	.LM68:
+ 433 00b4 86E3      		sbi 50-32,1
+ 435               	.LM69:
+ 436               		in r24,47-32
+ 437               	.LBE83:
+ 438 00b8 779B      	.LBE82:
+ 439 00ba 00C0      	.LBB84:
+ 440               	.LBB85:
+ 442 00bc 919A      	.LM70:
+ 443               	/* #APP */
+ 444               	 ;  265 "cc2500.h" 1
+ 445 00be 8FB1      		nop
+ 446               	 ;  0 "" 2
+ 448               	.LM71:
+ 449               	 ;  266 "cc2500.h" 1
+ 450               		nop
+ 451               	 ;  0 "" 2
+ 453               	.LM72:
+ 454 00c0 0000      	 ;  267 "cc2500.h" 1
+ 455               		nop
+ 456               	 ;  0 "" 2
+ 458               	.LM73:
+ 459 00c2 0000      	 ;  268 "cc2500.h" 1
+ 460               		nop
+ 461               	 ;  0 "" 2
+ 462               	/* #NOAPP */
+ 463               	.LBE85:
+ 464 00c4 0000      	.LBE84:
+ 465               	.LBB86:
+ 466               	.LBB87:
+ 468               	.LM74:
+ 469 00c6 0000      		cbi 50-32,1
+ 470               	.L29:
+ 472               	.LM75:
+ 473               		sbic 54-32,5
+ 474               		rjmp .L29
+ 476               	.LM76:
+ 477               		ldi r24,lo8(52)
+ 478 00c8 9198      		out 47-32,r24
+ 479               	.L30:
+ 481               	.LM77:
+ 482 00ca B599      		sbis 46-32,7
+ 483 00cc 00C0      		rjmp .L30
+ 485               	.LM78:
+ 486 00ce 84E3      		sbi 50-32,1
+ 488               	.LM79:
+ 489               		in r24,47-32
+ 490               		sts retval,r24
+ 491 00d2 779B      	.LBE87:
+ 492 00d4 00C0      	.LBE86:
+ 493               	.LBB88:
+ 494               	.LBB89:
+ 496               	.LM80:
+ 497               	/* #APP */
+ 498 00d8 8FB1      	 ;  265 "cc2500.h" 1
+ 499 00da 8093 0000 		nop
+ 500               	 ;  0 "" 2
+ 502               	.LM81:
+ 503               	 ;  266 "cc2500.h" 1
+ 504               		nop
+ 505               	 ;  0 "" 2
+ 507               	.LM82:
+ 508 00de 0000      	 ;  267 "cc2500.h" 1
+ 509               		nop
+ 510               	 ;  0 "" 2
+ 512               	.LM83:
+ 513 00e0 0000      	 ;  268 "cc2500.h" 1
+ 514               		nop
+ 515               	 ;  0 "" 2
+ 516               	/* epilogue start */
+ 517               	/* #NOAPP */
+ 518 00e2 0000      	.LBE89:
+ 519               	.LBE88:
+ 521               	.LM84:
+ 522               		ret
+ 527               	.Lscope4:
+ 529               	.global	__vector_1
+ 531 00e6 0895      	__vector_1:
+ 533               	.LM85:
+ 534               	.LFBB5:
+ 535               		push __zero_reg__
+ 536               		push r0
+ 537               		in r0,__SREG__
+ 538               		push r0
+ 539               		clr __zero_reg__
+ 540               		push r18
+ 541               		push r19
+ 542               		push r20
+ 543               		push r21
+ 544 00e8 1F92      		push r22
+ 545 00ea 0F92      		push r23
+ 546 00ec 0FB6      		push r24
+ 547 00ee 0F92      		push r25
+ 548 00f0 1124      		push r26
+ 549 00f2 2F93      		push r27
+ 550 00f4 3F93      		push r30
+ 551 00f6 4F93      		push r31
+ 552 00f8 5F93      	/* prologue: Signal */
+ 553 00fa 6F93      	/* frame size = 0 */
+ 555 00fe 8F93      	.LM86:
+ 556 0100 9F93      		lds r24,flag
+ 557 0102 AF93      		tst r24
+ 558 0104 BF93      		brne .L41
+ 560 0108 FF93      	.LM87:
+ 561               		call rf_receive
+ 562               		rjmp .L43
+ 563               	.L41:
+ 565 010a 8091 0000 	.LM88:
+ 566 010e 8823      		sts flag,__zero_reg__
+ 567 0110 01F4      	.L43:
+ 568               	/* epilogue start */
+ 570 0112 0E94 0000 	.LM89:
+ 571 0116 00C0      		pop r31
+ 572               		pop r30
+ 573               		pop r27
+ 574               		pop r26
+ 575 0118 1092 0000 		pop r25
+ 576               		pop r24
+ 577               		pop r23
+ 578               		pop r22
+ 579               		pop r21
+ 580 011c FF91      		pop r20
+ 581 011e EF91      		pop r19
+ 582 0120 BF91      		pop r18
+ 583 0122 AF91      		pop r0
+ 584 0124 9F91      		out __SREG__,r0
+ 585 0126 8F91      		pop r0
+ 586 0128 7F91      		pop __zero_reg__
+ 587 012a 6F91      		reti
+ 589 012e 4F91      	.Lscope5:
+ 593 0136 0FBE      	.global	cc_writereg
+ 595 013a 1F90      	cc_writereg:
+ 597               	.LM90:
+ 598               	.LFBB6:
+ 599               	/* prologue: function */
+ 600               	/* frame size = 0 */
+ 602               	.LM91:
+ 603               		cbi 50-32,1
+ 604               	.L45:
+ 606               	.LM92:
+ 607               		sbic 54-32,5
+ 608               		rjmp .L45
+ 610               	.LM93:
+ 611               		out 47-32,r24
+ 612 013e 9198      	.L46:
+ 614               	.LM94:
+ 615               		sbis 46-32,7
+ 616 0140 B599      		rjmp .L46
+ 618               	.LM95:
+ 619               		out 47-32,r22
+ 620 0144 8FB9      	.L47:
+ 622               	.LM96:
+ 623               		sbis 46-32,7
+ 624 0146 779B      		rjmp .L47
+ 626               	.LM97:
+ 627               		sbi 50-32,1
+ 628 014a 6FB9      	.LBB90:
+ 629               	.LBB91:
+ 631               	.LM98:
+ 632 014c 779B      	/* #APP */
+ 633 014e 00C0      	 ;  265 "cc2500.h" 1
+ 634               		nop
+ 635               	 ;  0 "" 2
+ 637               	.LM99:
+ 638               	 ;  266 "cc2500.h" 1
+ 639               		nop
+ 640               	 ;  0 "" 2
+ 642               	.LM100:
+ 643 0152 0000      	 ;  267 "cc2500.h" 1
+ 644               		nop
+ 645               	 ;  0 "" 2
+ 647               	.LM101:
+ 648 0154 0000      	 ;  268 "cc2500.h" 1
+ 649               		nop
+ 650               	 ;  0 "" 2
+ 651               	/* epilogue start */
+ 652               	/* #NOAPP */
+ 653 0156 0000      	.LBE91:
+ 654               	.LBE90:
+ 656               	.LM102:
+ 657               		ret
+ 659               	.Lscope6:
+ 661               	.global	cc_config
+ 663               	cc_config:
+ 665               	.LM103:
+ 666 015a 0895      	.LFBB7:
+ 667               	/* prologue: function */
+ 668               	/* frame size = 0 */
+ 670               	.LM104:
+ 671               		ldi r24,lo8(11)
+ 672               		ldi r22,lo8(7)
+ 673               		call cc_writereg
+ 675               	.LM105:
+ 676               		ldi r24,lo8(12)
+ 677               		ldi r22,lo8(0)
+ 678               		call cc_writereg
+ 680 015c 8BE0      	.LM106:
+ 681 015e 67E0      		ldi r24,lo8(13)
+ 682 0160 0E94 0000 		ldi r22,lo8(93)
+ 683               		call cc_writereg
+ 685 0164 8CE0      	.LM107:
+ 686 0166 60E0      		ldi r24,lo8(14)
+ 687 0168 0E94 0000 		ldi r22,lo8(-109)
+ 688               		call cc_writereg
+ 690 016c 8DE0      	.LM108:
+ 691 016e 6DE5      		ldi r24,lo8(15)
+ 692 0170 0E94 0000 		ldi r22,lo8(-79)
+ 693               		call cc_writereg
+ 695 0174 8EE0      	.LM109:
+ 696 0176 63E9      		ldi r24,lo8(16)
+ 697 0178 0E94 0000 		ldi r22,lo8(45)
+ 698               		call cc_writereg
+ 700 017c 8FE0      	.LM110:
+ 701 017e 61EB      		ldi r24,lo8(17)
+ 702 0180 0E94 0000 		ldi r22,lo8(59)
+ 703               		call cc_writereg
+ 705 0184 80E1      	.LM111:
+ 706 0186 6DE2      		ldi r24,lo8(18)
+ 707 0188 0E94 0000 		ldi r22,lo8(115)
+ 708               		call cc_writereg
+ 710 018c 81E1      	.LM112:
+ 711 018e 6BE3      		ldi r24,lo8(19)
+ 712 0190 0E94 0000 		ldi r22,lo8(34)
+ 713               		call cc_writereg
+ 715 0194 82E1      	.LM113:
+ 716 0196 63E7      		ldi r24,lo8(20)
+ 717 0198 0E94 0000 		ldi r22,lo8(-8)
+ 718               		call cc_writereg
+ 720 019c 83E1      	.LM114:
+ 721 019e 62E2      		ldi r24,lo8(10)
+ 722 01a0 0E94 0000 		ldi r22,lo8(0)
+ 723               		call cc_writereg
+ 725 01a4 84E1      	.LM115:
+ 726 01a6 68EF      		ldi r24,lo8(21)
+ 727 01a8 0E94 0000 		ldi r22,lo8(0)
+ 728               		call cc_writereg
+ 730 01ac 8AE0      	.LM116:
+ 731 01ae 60E0      		ldi r24,lo8(33)
+ 732 01b0 0E94 0000 		ldi r22,lo8(-74)
+ 733               		call cc_writereg
+ 735 01b4 85E1      	.LM117:
+ 736 01b6 60E0      		ldi r24,lo8(34)
+ 737 01b8 0E94 0000 		ldi r22,lo8(16)
+ 738               		call cc_writereg
+ 740 01bc 81E2      	.LM118:
+ 741 01be 66EB      		ldi r24,lo8(24)
+ 742 01c0 0E94 0000 		ldi r22,lo8(24)
+ 743               		call cc_writereg
+ 745 01c4 82E2      	.LM119:
+ 746 01c6 60E1      		ldi r24,lo8(25)
+ 747 01c8 0E94 0000 		ldi r22,lo8(29)
+ 748               		call cc_writereg
+ 750 01cc 88E1      	.LM120:
+ 751 01ce 68E1      		ldi r24,lo8(26)
+ 752 01d0 0E94 0000 		ldi r22,lo8(28)
+ 753               		call cc_writereg
+ 755 01d4 89E1      	.LM121:
+ 756 01d6 6DE1      		ldi r24,lo8(27)
+ 757 01d8 0E94 0000 		ldi r22,lo8(-57)
+ 758               		call cc_writereg
+ 760 01dc 8AE1      	.LM122:
+ 761 01de 6CE1      		ldi r24,lo8(28)
+ 762 01e0 0E94 0000 		ldi r22,lo8(0)
+ 763               		call cc_writereg
+ 765 01e4 8BE1      	.LM123:
+ 766 01e6 67EC      		ldi r24,lo8(29)
+ 767 01e8 0E94 0000 		ldi r22,lo8(-78)
+ 768               		call cc_writereg
+ 770 01ec 8CE1      	.LM124:
+ 771 01ee 60E0      		ldi r24,lo8(35)
+ 772 01f0 0E94 0000 		ldi r22,lo8(-22)
+ 773               		call cc_writereg
+ 775 01f4 8DE1      	.LM125:
+ 776 01f6 62EB      		ldi r24,lo8(36)
+ 777 01f8 0E94 0000 		ldi r22,lo8(10)
+ 778               		call cc_writereg
+ 780 01fc 83E2      	.LM126:
+ 781 01fe 6AEE      		ldi r24,lo8(37)
+ 782 0200 0E94 0000 		ldi r22,lo8(0)
+ 783               		call cc_writereg
+ 785 0204 84E2      	.LM127:
+ 786 0206 6AE0      		ldi r24,lo8(38)
+ 787 0208 0E94 0000 		ldi r22,lo8(17)
+ 788               		call cc_writereg
+ 790 020c 85E2      	.LM128:
+ 791 020e 60E0      		ldi r24,lo8(41)
+ 792 0210 0E94 0000 		ldi r22,lo8(89)
+ 793               		call cc_writereg
+ 795 0214 86E2      	.LM129:
+ 796 0216 61E1      		ldi r24,lo8(44)
+ 797 0218 0E94 0000 		ldi r22,lo8(-120)
+ 798               		call cc_writereg
+ 800 021c 89E2      	.LM130:
+ 801 021e 69E5      		ldi r24,lo8(45)
+ 802 0220 0E94 0000 		ldi r22,lo8(49)
+ 803               		call cc_writereg
+ 805 0224 8CE2      	.LM131:
+ 806 0226 68E8      		ldi r24,lo8(46)
+ 807 0228 0E94 0000 		ldi r22,lo8(11)
+ 808               		call cc_writereg
+ 810 022c 8DE2      	.LM132:
+ 811 022e 61E3      		ldi r24,lo8(0)
+ 812 0230 0E94 0000 		ldi r22,lo8(6)
+ 813               		call cc_writereg
+ 815 0234 8EE2      	.LM133:
+ 816 0236 6BE0      		ldi r24,lo8(2)
+ 817 0238 0E94 0000 		ldi r22,lo8(6)
+ 818               		call cc_writereg
+ 820 023c 80E0      	.LM134:
+ 821 023e 66E0      		ldi r24,lo8(7)
+ 822 0240 0E94 0000 		ldi r22,lo8(4)
+ 823               		call cc_writereg
+ 825 0244 82E0      	.LM135:
+ 826 0246 66E0      		ldi r24,lo8(8)
+ 827 0248 0E94 0000 		ldi r22,lo8(5)
+ 828               		call cc_writereg
+ 830 024c 87E0      	.LM136:
+ 831 024e 64E0      		ldi r24,lo8(9)
+ 832 0250 0E94 0000 		ldi r22,lo8(0)
+ 833               		call cc_writereg
+ 835 0254 88E0      	.LM137:
+ 836 0256 65E0      		ldi r24,lo8(6)
+ 837 0258 0E94 0000 		ldi r22,lo8(-1)
+ 838               		call cc_writereg
+ 840 025c 89E0      	.LM138:
+ 841 025e 60E0      		ldi r24,lo8(4)
+ 842 0260 0E94 0000 		ldi r22,lo8(18)
+ 843               		call cc_writereg
+ 845 0264 86E0      	.LM139:
+ 846 0266 6FEF      		ldi r24,lo8(5)
+ 847 0268 0E94 0000 		ldi r22,lo8(52)
+ 848               		call cc_writereg
+ 849               	/* epilogue start */
+ 851 026e 62E1      	.LM140:
+ 852 0270 0E94 0000 		ret
+ 854               	.Lscope7:
+ 856 0276 64E3      	.global	rf_init
+ 858               	rf_init:
+ 860               	.LM141:
+ 861 027c 0895      	.LFBB8:
+ 862               	/* prologue: function */
+ 863               	/* frame size = 0 */
+ 864               	.LBB92:
+ 865               	.LBB93:
+ 867               	.LM142:
+ 868               		sbi 49-32,1
+ 870               	.LM143:
+ 871               		in r24,55-32
+ 872               		ori r24,lo8(-16)
+ 873               		out 55-32,r24
+ 875               	.LM144:
+ 876               		ldi r24,lo8(81)
+ 877 027e 899A      		out 45-32,r24
+ 878               	.LBE93:
+ 879               	.LBE92:
+ 881 0282 806F      	.LM145:
+ 882 0284 87BB      		call cc_reset
+ 884               	.LM146:
+ 885 0286 81E5      		call cc_config
+ 886 0288 8DB9      		ldi r24,lo8(100)
+ 887               	.L55:
+ 888               	.LBB94:
+ 889               	.LBB95:
+ 891 028a 0E94 0000 	.LM147:
+ 892               	/* #APP */
+ 893               	 ;  265 "cc2500.h" 1
+ 894 028e 0E94 0000 		nop
+ 895 0292 84E6      	 ;  0 "" 2
+ 897               	.LM148:
+ 898               	 ;  266 "cc2500.h" 1
+ 899               		nop
+ 900               	 ;  0 "" 2
+ 902               	.LM149:
+ 903 0294 0000      	 ;  267 "cc2500.h" 1
+ 904               		nop
+ 905               	 ;  0 "" 2
+ 907               	.LM150:
+ 908 0296 0000      	 ;  268 "cc2500.h" 1
+ 909               		nop
+ 910               	 ;  0 "" 2
+ 912               	.LM151:
+ 913 0298 0000      	/* #NOAPP */
+ 914               		subi r24,lo8(-(-1))
+ 915               		brne .L55
+ 916               	.LBE95:
+ 917               	.LBE94:
+ 918 029a 0000      	.LBB96:
+ 919               	.LBB97:
+ 921               	.LM152:
+ 922               		cbi 50-32,1
+ 923 029c 8150      	.L56:
+ 925               	.LM153:
+ 926               		sbic 54-32,5
+ 927               		rjmp .L56
+ 929               	.LM154:
+ 930               		ldi r24,lo8(52)
+ 931 02a0 9198      		out 47-32,r24
+ 932               	.L57:
+ 934               	.LM155:
+ 935 02a2 B599      		sbis 46-32,7
+ 936 02a4 00C0      		rjmp .L57
+ 938               	.LM156:
+ 939 02a6 84E3      		sbi 50-32,1
+ 941               	.LM157:
+ 942               		in r24,47-32
+ 943               		sts retval,r24
+ 944 02aa 779B      	.LBE97:
+ 945 02ac 00C0      	.LBE96:
+ 947               	.LM158:
+ 948 02ae 919A      		ldi r24,lo8(2)
+ 949               		out 85-32,r24
+ 951 02b0 8FB1      	.LM159:
+ 952 02b2 8093 0000 		ldi r24,lo8(64)
+ 953               		out 91-32,r24
+ 955               	.LM160:
+ 956               	/* #APP */
+ 957 02b6 82E0      	 ;  112 "cc2500.h" 1
+ 958 02b8 85BF      		sei
+ 959               	 ;  0 "" 2
+ 960               	/* epilogue start */
+ 962 02bc 8BBF      	.LM161:
+ 963               	/* #NOAPP */
+ 964               		ret
+ 969               	.Lscope8:
+ 972               	.global	rf_transmit
+ 974               	rf_transmit:
+ 976               	.LM162:
+ 977               	.LFBB9:
+ 978               	/* prologue: function */
+ 979               	/* frame size = 0 */
+ 980               		mov r22,r24
+ 982               	.LM163:
+ 983               	/* #APP */
+ 984               	 ;  117 "cc2500.h" 1
+ 985               		cli
+ 986               	 ;  0 "" 2
+ 988               	.LM164:
+ 989 02c2 682F      	/* #NOAPP */
+ 990               		ldi r24,lo8(1)
+ 991               		sts flag,r24
+ 993               	.LM165:
+ 994 02c4 F894      		ldi r24,lo8(63)
+ 995               		call cc_writereg
+ 996               	.LBB98:
+ 997               	.LBB99:
+ 999 02c6 81E0      	.LM166:
+ 1000 02c8 8093 0000 		cbi 50-32,1
+ 1001               	.L63:
+ 1003 02cc 8FE3      	.LM167:
+ 1004 02ce 0E94 0000 		sbic 54-32,5
+ 1005               		rjmp .L63
+ 1007               	.LM168:
+ 1008               		ldi r24,lo8(53)
+ 1009 02d2 9198      		out 47-32,r24
+ 1010               	.L64:
+ 1012               	.LM169:
+ 1013 02d4 B599      		sbis 46-32,7
+ 1014 02d6 00C0      		rjmp .L64
+ 1016               	.LM170:
+ 1017 02d8 85E3      		sbi 50-32,1
+ 1019               	.LM171:
+ 1020               		in r24,47-32
+ 1021               	.L65:
+ 1022 02dc 779B      	.LBE99:
+ 1023 02de 00C0      	.LBE98:
+ 1025               	.LM172:
+ 1026 02e0 919A      		sbis 48-32,2
+ 1027               		rjmp .L65
+ 1028               	.L76:
+ 1030               	.LM173:
+ 1031               		sbic 48-32,2
+ 1032               		rjmp .L76
+ 1033               	.LBB100:
+ 1034               	.LBB101:
+ 1036 02e6 00C0      	.LM174:
+ 1037               		cbi 50-32,1
+ 1038               	.L67:
+ 1040 02e8 8299      	.LM175:
+ 1041 02ea 00C0      		sbic 54-32,5
+ 1042               		rjmp .L67
+ 1044               	.LM176:
+ 1045               		ldi r24,lo8(58)
+ 1046 02ec 9198      		out 47-32,r24
+ 1047               	.L68:
+ 1049               	.LM177:
+ 1050 02ee B599      		sbis 46-32,7
+ 1051 02f0 00C0      		rjmp .L68
+ 1053               	.LM178:
+ 1054 02f2 8AE3      		sbi 50-32,1
+ 1056               	.LM179:
+ 1057               		in r24,47-32
+ 1058               	.LBE101:
+ 1059 02f6 779B      	.LBE100:
+ 1060 02f8 00C0      	.LBB102:
+ 1061               	.LBB103:
+ 1063 02fa 919A      	.LM180:
+ 1064               		cbi 50-32,1
+ 1065               	.L69:
+ 1067               	.LM181:
+ 1068               		sbic 54-32,5
+ 1069               		rjmp .L69
+ 1071               	.LM182:
+ 1072               		ldi r24,lo8(59)
+ 1073 02fe 9198      		out 47-32,r24
+ 1074               	.L70:
+ 1076               	.LM183:
+ 1077 0300 B599      		sbis 46-32,7
+ 1078 0302 00C0      		rjmp .L70
+ 1080               	.LM184:
+ 1081 0304 8BE3      		sbi 50-32,1
+ 1083               	.LM185:
+ 1084               		in r24,47-32
+ 1085               	.LBE103:
+ 1086 0308 779B      	.LBE102:
+ 1087 030a 00C0      	.LBB104:
+ 1088               	.LBB105:
+ 1090 030c 919A      	.LM186:
+ 1091               	/* #APP */
+ 1092               	 ;  265 "cc2500.h" 1
+ 1093 030e 8FB1      		nop
+ 1094               	 ;  0 "" 2
+ 1096               	.LM187:
+ 1097               	 ;  266 "cc2500.h" 1
+ 1098               		nop
+ 1099               	 ;  0 "" 2
+ 1101               	.LM188:
+ 1102 0310 0000      	 ;  267 "cc2500.h" 1
+ 1103               		nop
+ 1104               	 ;  0 "" 2
+ 1106               	.LM189:
+ 1107 0312 0000      	 ;  268 "cc2500.h" 1
+ 1108               		nop
+ 1109               	 ;  0 "" 2
+ 1110               	/* #NOAPP */
+ 1111               	.LBE105:
+ 1112 0314 0000      	.LBE104:
+ 1113               	.LBB106:
+ 1114               	.LBB107:
+ 1116               	.LM190:
+ 1117 0316 0000      		cbi 50-32,1
+ 1118               	.L71:
+ 1120               	.LM191:
+ 1121               		sbic 54-32,5
+ 1122               		rjmp .L71
+ 1124               	.LM192:
+ 1125               		ldi r24,lo8(54)
+ 1126 0318 9198      		out 47-32,r24
+ 1127               	.L72:
+ 1129               	.LM193:
+ 1130 031a B599      		sbis 46-32,7
+ 1131 031c 00C0      		rjmp .L72
+ 1133               	.LM194:
+ 1134 031e 86E3      		sbi 50-32,1
+ 1136               	.LM195:
+ 1137               		in r24,47-32
+ 1138               	.LBE107:
+ 1139 0322 779B      	.LBE106:
+ 1140 0324 00C0      	.LBB108:
+ 1141               	.LBB109:
+ 1143 0326 919A      	.LM196:
+ 1144               		cbi 50-32,1
+ 1145               	.L73:
+ 1147               	.LM197:
+ 1148               		sbic 54-32,5
+ 1149               		rjmp .L73
+ 1151               	.LM198:
+ 1152               		ldi r24,lo8(52)
+ 1153 032a 9198      		out 47-32,r24
+ 1154               	.L74:
+ 1156               	.LM199:
+ 1157 032c B599      		sbis 46-32,7
+ 1158 032e 00C0      		rjmp .L74
+ 1160               	.LM200:
+ 1161 0330 84E3      		sbi 50-32,1
+ 1163               	.LM201:
+ 1164               		in r24,47-32
+ 1165               		sts retval,r24
+ 1166 0334 779B      	.LBE109:
+ 1167 0336 00C0      	.LBE108:
+ 1168               	.LBB110:
+ 1169               	.LBB111:
+ 1171               	.LM202:
+ 1172               	/* #APP */
+ 1173 033a 8FB1      	 ;  265 "cc2500.h" 1
+ 1174 033c 8093 0000 		nop
+ 1175               	 ;  0 "" 2
+ 1177               	.LM203:
+ 1178               	 ;  266 "cc2500.h" 1
+ 1179               		nop
+ 1180               	 ;  0 "" 2
+ 1182               	.LM204:
+ 1183 0340 0000      	 ;  267 "cc2500.h" 1
+ 1184               		nop
+ 1185               	 ;  0 "" 2
+ 1187               	.LM205:
+ 1188 0342 0000      	 ;  268 "cc2500.h" 1
+ 1189               		nop
+ 1190               	 ;  0 "" 2
+ 1191               	/* #NOAPP */
+ 1192               	.LBE111:
+ 1193 0344 0000      	.LBE110:
+ 1195               	.LM206:
+ 1196               	/* #APP */
+ 1197               	 ;  129 "cc2500.h" 1
+ 1198 0346 0000      		sei
+ 1199               	 ;  0 "" 2
+ 1200               	/* epilogue start */
+ 1202               	.LM207:
+ 1203               	/* #NOAPP */
+ 1204               		ret
+ 1206               	.Lscope9:
+ 1209               	.global	cc_strobe
+ 1211               	cc_strobe:
+ 1213 034a 0895      	.LM208:
+ 1214               	.LFBB10:
+ 1215               	/* prologue: function */
+ 1216               	/* frame size = 0 */
+ 1218               	.LM209:
+ 1219               		cbi 50-32,1
+ 1220               	.L90:
+ 1222               	.LM210:
+ 1223               		sbic 54-32,5
+ 1224               		rjmp .L90
+ 1226               	.LM211:
+ 1227               		out 47-32,r24
+ 1228 034c 9198      	.L91:
+ 1230               	.LM212:
+ 1231               		sbis 46-32,7
+ 1232 034e B599      		rjmp .L91
+ 1234               	.LM213:
+ 1235               		sbi 50-32,1
+ 1237               	.LM214:
+ 1238               		in r24,47-32
+ 1239               		sts retval,r24
+ 1240 0354 779B      	/* epilogue start */
+ 1242               	.LM215:
+ 1243               		ret
+ 1245               	.Lscope10:
+ 1248 035c 8093 0000 	.global	Wait
+ 1250               	Wait:
+ 1252 0360 0895      	.LM216:
+ 1253               	.LFBB11:
+ 1254               	/* prologue: function */
+ 1255               	/* frame size = 0 */
+ 1256               	.L96:
+ 1258               	.LM217:
+ 1259               	/* #APP */
+ 1260               	 ;  265 "cc2500.h" 1
+ 1261               		nop
+ 1262               	 ;  0 "" 2
+ 1264               	.LM218:
+ 1265               	 ;  266 "cc2500.h" 1
+ 1266               		nop
+ 1267               	 ;  0 "" 2
+ 1269               	.LM219:
+ 1270 0362 0000      	 ;  267 "cc2500.h" 1
+ 1271               		nop
+ 1272               	 ;  0 "" 2
+ 1274               	.LM220:
+ 1275 0364 0000      	 ;  268 "cc2500.h" 1
+ 1276               		nop
+ 1277               	 ;  0 "" 2
+ 1279               	.LM221:
+ 1280 0366 0000      	/* #NOAPP */
+ 1281               		subi r24,lo8(-(-1))
+ 1282               		brne .L96
+ 1283               	/* epilogue start */
+ 1285 0368 0000      	.LM222:
+ 1286               		ret
+ 1288               	.Lscope11:
+ 1290 036a 8150      	.global	main
+ 1292               	main:
+ 270:cc2500.h      **** }
+ 1293               	LM223:
+ 1294               	.LFBB12:
+ 1295 036e 0895      		push r28
+ 1296               		push r29
+ 1297               	/* prologue: function */
+ 1298               	/* frame size = 0 */
+ 1300               	.LM224:
+ 1301               		ldi r24,lo8(5000)
+ 1302               		ldi r25,hi8(5000)
+ 1303               	.LBB112:
+   1:main.c        **** /* interfacing CC2500 RF module
+   2:main.c        **** *********************************************************************************
+   3:main.c        **** *	COPYRIGHT(C)2009 Technophilia												*
+   4:main.c        **** *	date:-12 th september 2009													*
+   5:main.c        **** *	Author:																		*
+   6:main.c        **** *	Organization: Technophilia													*
+   7:main.c        **** *	Target system-SWARM devlopment board s/n-98020								*
+   8:main.c        **** *	manufacturer: Technophilia													*
+   9:main.c        **** *	microcontroller: ATmega-8													*
+  10:main.c        **** *	clock: 8mhz internal oscillator												*
+  11:main.c        **** *																				*	
+  12:main.c        **** *	H fuse=0xD9																	*
+  13:main.c        **** *	L fuse=0xE4																	*
+  14:main.c        **** *																				*
+  15:main.c        **** *	compiler win avr															*		
+  16:main.c        **** *																				*
+  17:main.c        **** *	PORTS USED																	*
+  18:main.c        **** *																				*	
+  19:main.c        **** *	CC2500……………….(RF trans receiver module)										*
+  20:main.c        **** *	PB5-MOSI																	*
+  21:main.c        **** *	PB6-MISO																	*
+  22:main.c        **** *	PB7-SCK																		*	
+  23:main.c        **** *	PB4-SS'																		*
+  24:main.c        **** *	PD2-GD0																		*		
+  25:main.c        **** *	PD3-GD2																		*
+  26:main.c        **** *																				*
+  27:main.c        **** *	LCD……………………….(PCD 8544, 48X84 pixel graphics LCD)							*
+  28:main.c        **** *	PB0-SCK																		*
+  29:main.c        **** *	PB1-SDIN																	*
+  30:main.c        **** *	PB2-D/C																		*
+  31:main.c        **** *	PB6-CS																		*		
+  32:main.c        **** *	PB7-RESET																	*
+  33:main.c        **** *																				*
+  34:main.c        **** *	MOTOR………………….																*
+  35:main.c        **** *	D4																			*
+  36:main.c        **** *	D5																			*
+  37:main.c        **** *	D6																			*
+  38:main.c        **** *	D7																			*
+  39:main.c        **** *																				*	
+  40:main.c        **** *	SENSOR……………….																*
+  41:main.c        **** *	PC0																			*		
+  42:main.c        **** *	PC1																			*
+  43:main.c        **** *	PC2																			*
+  44:main.c        **** *	PC3																			*
+  45:main.c        **** *	PC4																			*
+  46:main.c        **** *	PD0																			*	
+  47:main.c        **** *																				*
+  48:main.c        **** *	SWITCHES…………….																*
+  49:main.c        **** *	PC5-4 SWITCHES READ THROUGH ADC	 											*		
+  50:main.c        **** *																				*
+  51:main.c        **** *	LED……………………….																*	
+  52:main.c        **** *	LED1-PB0																	*
+  53:main.c        **** 	LED2-PB1																	*
+  54:main.c        **** *	LED3-PB2																	*
+  55:main.c        **** *	LED4-PB3																	*
+  56:main.c        **** *																				*	
+  57:main.c        **** *																				*
+  58:main.c        **** *********************************************************************************/
+  59:main.c        **** #include<avr/io.h>
+  60:main.c        **** #include<util/delay.h>
+  61:main.c        **** #include<compat/deprecated.h>
+  62:main.c        **** #include "cc2500.h"
+  63:main.c        **** int main(void)
+  64:main.c        **** {
+ 1304               	:
+ 1305               	.LFBB12:
+ 1306               		push r28
+ 1307 0370 CF93      		push r29
+ 1308 0372 DF93      	/* prologue: function */
+ 1309               	/* frame size = 0 */
+ 1311               	.LM224:
+ 1312               		ldi r24,lo8(5000)
+ 1313 0374 88E8      		ldi r25,hi8(5000)
+ 1314 0376 93E1      	.LBB112:
+ 1315               	.LBB113:
+ 1316               	.LBB114:
+ 1317               	.LBB115:
+ 1319               	.Ltext3:
+   1:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    Copyright (c) 2007 Joerg Wunsch
+   3:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    All rights reserved.
+   4:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+   5:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    Redistribution and use in source and binary forms, with or without
+   6:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    modification, are permitted provided that the following conditions are met:
+   7:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+   8:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    * Redistributions of source code must retain the above copyright
+   9:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer.
+  10:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  11:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    * Redistributions in binary form must reproduce the above copyright
+  12:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer in
+  13:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      the documentation and/or other materials provided with the
+  14:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      distribution.
+  15:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  16:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    * Neither the name of the copyright holders nor the names of
+  17:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      contributors may be used to endorse or promote products derived
+  18:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      from this software without specific prior written permission.
+  19:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  20:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  21:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  22:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  23:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  24:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  25:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  26:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  27:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  28:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  29:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  30:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  31:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  32:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /* $Id: delay_basic.h,v 1.1 2007/05/13 21:23:20 joerg_wunsch Exp $ */
+  33:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  34:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #ifndef _UTIL_DELAY_BASIC_H_
+  35:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #define _UTIL_DELAY_BASIC_H_ 1
+  36:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  37:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #include <inttypes.h>
+  38:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  39:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \file */
+  40:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \defgroup util_delay_basic <util/delay_basic.h>: Basic busy-wait delay loops
+  41:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     \code
+  42:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     #include <util/delay_basic.h>
+  43:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     \endcode
+  44:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  45:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     The functions in this header file implement simple delay loops
+  46:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     that perform a busy-waiting.  They are typically used to
+  47:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     facilitate short delays in the program execution.  They are
+  48:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     implemented as count-down loops with a well-known CPU cycle
+  49:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     count per loop iteration.  As such, no other processing can
+  50:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     occur simultaneously.  It should be kept in mind that the
+  51:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     functions described here do not disable interrupts.
+  52:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  53:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     In general, for long delays, the use of hardware timers is
+  54:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     much preferrable, as they free the CPU, and allow for
+  55:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     concurrent processing of other events while the timer is
+  56:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     running.  However, in particular for very short delays, the
+  57:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     overhead of setting up a hardware timer is too much compared
+  58:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     to the overall delay time.
+  59:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  60:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Two inline functions are provided for the actual delay algorithms.
+  61:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  62:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** */
+  63:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  64:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #if !defined(__DOXYGEN__)
+  65:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** static inline void _delay_loop_1(uint8_t __count) __attribute__((always_inline));
+  66:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** static inline void _delay_loop_2(uint16_t __count) __attribute__((always_inline));
+  67:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #endif
+  68:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  69:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  70:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  71:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Delay loop using an 8-bit counter \c __count, so up to 256
+  72:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     iterations are possible.  (The value 256 would have to be passed
+  73:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     as 0.)  The loop executes three CPU cycles per iteration, not
+  74:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     including the overhead the compiler needs to setup the counter
+  75:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     register.
+  76:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  77:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to 768 microseconds
+  78:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     can be achieved.
+  79:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** */
+  80:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** void
+  81:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** _delay_loop_1(uint8_t __count)
+  82:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** {
+  83:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
+  84:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+  85:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		"brne 1b"
+  86:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		: "=r" (__count)
+  87:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		: "0" (__count)
+  88:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 	);
+  89:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** }
+  90:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  91:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  92:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  93:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Delay loop using a 16-bit counter \c __count, so up to 65536
+  94:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     iterations are possible.  (The value 65536 would have to be
+  95:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     passed as 0.)  The loop executes four CPU cycles per iteration,
+  96:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     not including the overhead the compiler requires to setup the
+  97:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     counter register pair.
+  98:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  99:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to about 262.1
+ 100:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     milliseconds can be achieved.
+ 101:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****  */
+ 102:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** void
+ 103:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** _delay_loop_2(uint16_t __count)
+ 104:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** {
+ 105:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
+ 1321               	LBB113:
+ 1322               	.LBB114:
+ 1323 0378 20E9      	.LBB115:
+ 1325               	.Ltext3:
+ 1327               	.LM225:
+ 1328               		ldi r18,lo8(400)
+ 1329 037e 3197      		ldi r19,hi8(400)
+ 1330 0380 01F4      	.L100:
+ 1331               		movw r30,r18
+ 1332               	/* #APP */
+ 1333               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1334               		1: sbiw r30,1
+ 1335               		brne 1b
+ 1336               	 ;  0 "" 2
+   1:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    All rights reserved.
+   5:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+   6:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+   9:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  12:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      distribution.
+  16:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  17:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  21:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  33:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /* $Id: delay.h,v 1.5.2.1 2009/02/25 10:14:03 joerg_wunsch Exp $ */
+  34:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  35:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  38:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #include <inttypes.h>
+  39:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #include <util/delay_basic.h>
+  40:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  41:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /** \file */
+  42:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  43:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \code
+  44:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  45:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  46:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     #include <util/delay.h>
+  47:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \endcode
+  48:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  49:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  50:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  51:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  52:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     used.
+  53:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  54:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  55:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  56:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  57:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  58:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  59:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  60:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  61:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  62:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  63:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  64:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  65:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  66:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  67:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  68:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  69:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  70:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     routines linked into the application.
+  71:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  72:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  73:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  74:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  75:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  76:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** */
+  77:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  78:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  79:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  80:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  81:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #endif
+  82:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  83:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #ifndef F_CPU
+  84:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  85:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  86:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** # define F_CPU 1000000UL
+  87:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #endif
+  88:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  89:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+  90:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+  91:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #endif
+  92:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  93:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /**
+  94:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    \ingroup util_delay
+  95:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  96:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+  97:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  98:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+  99:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 100:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+ 101:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 102:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+ 103:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 104:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 105:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 106:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 107:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 108:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****  */
+ 109:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** void
+ 110:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** _delay_ms(double __ms)
+ 111:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** {
+ 112:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	uint16_t __ticks;
+ 113:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	double __tmp = ((F_CPU) / 4e3) * __ms;
+ 114:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 115:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		__ticks = 1;
+ 116:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 117:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	{
+ 118:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		//	__ticks = requested delay in 1/10 ms
+ 119:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		__ticks = (uint16_t) (__ms * 10.0);
+ 120:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		while(__ticks)
+ 121:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		{
+ 122:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 			// wait 1/10 ms
+ 123:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 			_delay_loop_2(((F_CPU) / 4e3) / 10);
+ 124:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 			__ticks --;
+ 1337               	00)
+ 1338               	.L100:
+ 1339 0382 0197      		movw r30,r18
+ 1340               	/* #APP */
+ 1341               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1342 0384 01F4      		1: sbiw r30,1
+ 1343               		brne 1b
+ 1344               	 ;  0 "" 2
+ 1345               	/* #NOAPP */
+ 1346               	.LBE115:
+  65:main.c        **** int i=5;
+  66:main.c        **** _delay_ms(500);
+  67:main.c        **** DDRA=0xFF;
+ 1347               	
+ 1348               	/* #APP */
+ 1349 0386 8FEF      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1350 0388 8ABB      		1: sbiw r30,1
+  68:main.c        **** rf_init();
+ 1351               	o8(400)
+ 1352               		ldi r19,hi8(400)
+ 1353 038a 0E94 0000 	.L100:
+ 1354               		movw r30,r18
+ 1355               	/* #APP */
+ 1356               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1357               		1: sbiw r30,1
+ 1358               		brne 1b
+ 1359               	 ;  0 "" 2
+ 1360               	/* #NOAPP */
+ 1361               	.LBE115:
+ 1362 038e C0E9      	.LBE114:
+ 1364               	.Ltext4:
+ 1366               	.LM226:
+ 1367               		sbiw r24,1
+ 1369               	.LM227:
+ 1370               		brne .L100
+  69:main.c        **** 
+  70:main.c        ****  while(1)
+  71:main.c        ****   {
+  72:main.c        ****     sbi(PORTA,4); 
+ 1371               	lay.h",132,0,0,.Ltext4
+ 1372               	.Ltext4:
+  73:main.c        ****     rf_transmit(i);
+ 1374               	BE115:
+ 1375               	.LBE114:
+ 1377 0396 0E94 0000 	.Ltext4:
+ 1379 039c 97E2      	.LM226:
+ 1380               		sbiw r24,1
+ 1382               	.LM227:
+ 1383               		brne .L100
+ 1384               	.LBE113:
+ 1385               	.LBE112:
+ 1387               	.Ltext5:
+ 1389 039e FE01      	.LM228:
+ 1390               		ldi r24,lo8(-1)
+ 1391               		out 58-32,r24
+ 1393 03a2 01F4      	.LM229:
+ 1394               		call rf_init
+ 1395               	.LBB116:
+ 1396               	.LBB117:
+ 1397               	.LBB118:
+ 1398               	.LBB119:
+ 1400               	.Ltext6:
+ 1402 03a4 0197      	.LM230:
+ 1403               		ldi r28,lo8(400)
+ 1404               		ldi r29,hi8(400)
+ 1405 03a6 01F4      	.L103:
+ 1406               	.LBE119:
+ 1407               	.LBE118:
+ 1408               	.LBE117:
+ 1409               	.LBE116:
+  74:main.c        **** 	_delay_ms(1000);
+  75:main.c        **** 	cbi(PORTA,4);
+ 1410               	8,0,105,.LM230-.LFBB12
+ 1411               	.LM230:
+ 1412 03a8 DC98      		ldi r28,lo8(400)
+ 1413 03aa 80E1      		ldi r29,hi8(400)
+ 1414 03ac 97E2      	.L103:
+ 1415               	.LBE119:
+ 1416               	.LBE118:
+ 1417               	.LBE117:
+ 1418               	.LBE116:
+ 1420               	.Ltext7:
+ 1422               	.LM231:
+ 1423               		sbi 59-32,4
+ 1425               	.LM232:
+ 1426               		ldi r24,lo8(5)
+ 1427 03b0 3197      		call rf_transmit
+ 1428 03b2 01F4      		ldi r24,lo8(10000)
+ 1429               		ldi r25,hi8(10000)
+ 1430               	.L101:
+ 1431               	.LBB123:
+ 1432               	.LBB122:
+ 1433               	.LBB121:
+ 1434               	.LBB120:
+ 1436               	.Ltext8:
+ 1438               	.LM233:
+ 1439               		movw r30,r28
+ 1440 03b6 01F4      	/* #APP */
+ 1441 03b8 00C0      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1442               		1: sbiw r30,1
+ 1443               		brne 1b
+ 1444               	 ;  0 "" 2
+ 1445               	/* #NOAPP */
+ 1446               	.LBE120:
+ 1447               	.LBE121:
+ 1449               	.Ltext9:
+ 1451               	.LM234:
+ 1452               		sbiw r24,1
+ 1454               	.LM235:
+ 1455               		brne .L101
+ 1456               	.LBE122:
+ 1457               	.LBE123:
+ 1459               	.Ltext10:
+ 1461               	.LM236:
+ 1462               		cbi 59-32,4
+ 1463               		ldi r24,lo8(10000)
+ 1464               		ldi r25,hi8(10000)
+ 1465               	.L102:
+ 1466               	.LBB124:
+ 1467               	.LBB125:
+ 1468               	.LBB126:
+ 1469               	.LBB127:
+ 1471               	.Ltext11:
+ 1473               	.LM237:
+ 1474               		movw r30,r28
+ 1475               	/* #APP */
+ 1476               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1477               		1: sbiw r30,1
+ 1478               		brne 1b
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:71     .text:00000000 spi_master_init
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:100    .text:0000000e cc_reset
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:237    .text:00000048 cc_readreg
+                            *COM*:00000001 retval
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:310    .text:0000006e rf_receive
+                            *COM*:00000001 cc_data
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:540    .text:000000e8 __vector_1
+                            *COM*:00000001 flag
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:604    .text:0000013e cc_writereg
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:672    .text:0000015c cc_config
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:867    .text:0000027e rf_init
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:983    .text:000002c2 rf_transmit
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:1220   .text:0000034c cc_strobe
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:1259   .text:00000362 Wait
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccPIBNXi.s:1301   .text:00000370 main
+
+UNDEFINED SYMBOLS
+__do_clear_bss

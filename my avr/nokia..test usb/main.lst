@@ -1,0 +1,3873 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  88               	.global	spisend
+  90               	spisend:
+  92               	.Ltext1:
+   1:nokialib.h    **** #include<compat/deprecated.h>
+   2:nokialib.h    **** #include<avr/pgmspace.h>
+   3:nokialib.h    **** #define LCDPORT PORTB
+   4:nokialib.h    **** 
+   5:nokialib.h    **** 
+   6:nokialib.h    **** #define SCK_en sbi(LCDPORT,PB4)
+   7:nokialib.h    **** #define SCK_db cbi(LCDPORT,PB4)
+   8:nokialib.h    **** #define DC_en sbi(LCDPORT,PB2)
+   9:nokialib.h    **** #define DC_db cbi(LCDPORT,PB2)
+  10:nokialib.h    **** #define RES_en sbi(LCDPORT,PB0)
+  11:nokialib.h    **** #define RES_db cbi(LCDPORT,PB0)
+  12:nokialib.h    **** #define DAT_en sbi(LCDPORT,PB3)
+  13:nokialib.h    **** #define DAT_db cbi(LCDPORT,PB3)
+  14:nokialib.h    **** #define CE_en sbi(LCDPORT,PB1)
+  15:nokialib.h    **** #define CE_db cbi(LCDPORT,PB1)
+  16:nokialib.h    **** //global variable for remembering where to start writing the next text string on 3310 LCD
+  17:nokialib.h    **** unsigned char char_start;
+  18:nokialib.h    **** 
+  19:nokialib.h    **** void spisend(unsigned char);
+  20:nokialib.h    **** void wrdata(unsigned char);
+  21:nokialib.h    **** void wrcmd(unsigned char);
+  22:nokialib.h    **** void pixelxy(unsigned char, unsigned char);
+  23:nokialib.h    **** void cursorxy(unsigned char, unsigned char);
+  24:nokialib.h    **** void clearram(void);
+  25:nokialib.h    **** void initlcd(void);
+  26:nokialib.h    **** void putchr(unsigned char);
+  27:nokialib.h    **** void putstr (unsigned char*);
+  28:nokialib.h    **** 
+  29:nokialib.h    **** /* Lookup Table for Nokia LCD */
+  30:nokialib.h    **** const unsigned char FontLookup [][5] PROGMEM=
+  31:nokialib.h    **** {
+  32:nokialib.h    **** { 0x00, 0x00, 0x00, 0x00, 0x00 }, // sp
+  33:nokialib.h    **** { 0x00, 0x00, 0x2f, 0x00, 0x00 }, // !
+  34:nokialib.h    **** { 0x00, 0x07, 0x00, 0x07, 0x00 }, // ”
+  35:nokialib.h    **** { 0x14, 0x7f, 0x14, 0x7f, 0x14 }, // #
+  36:nokialib.h    **** { 0x24, 0x2a, 0x7f, 0x2a, 0x12 }, // $
+  37:nokialib.h    **** { 0xc4, 0xc8, 0x10, 0x26, 0x46 }, // %
+  38:nokialib.h    **** { 0x36, 0x49, 0x55, 0x22, 0x50 }, // &
+  39:nokialib.h    **** { 0x00, 0x05, 0x03, 0x00, 0x00 }, // ‘
+  40:nokialib.h    **** { 0x00, 0x1c, 0x22, 0x41, 0x00 }, // (
+  41:nokialib.h    **** { 0x00, 0x41, 0x22, 0x1c, 0x00 }, // )
+  42:nokialib.h    **** { 0x14, 0x08, 0x3E, 0x08, 0x14 }, // *
+  43:nokialib.h    **** { 0x08, 0x08, 0x3E, 0x08, 0x08 }, // +
+  44:nokialib.h    **** { 0x00, 0x00, 0x50, 0x30, 0x00 }, // ,
+  45:nokialib.h    **** { 0x10, 0x10, 0x10, 0x10, 0x10 }, // -
+  46:nokialib.h    **** { 0x00, 0x60, 0x60, 0x00, 0x00 }, // .
+  47:nokialib.h    **** { 0x20, 0x10, 0x08, 0x04, 0x02 }, // /
+  48:nokialib.h    **** { 0x3E, 0x51, 0x49, 0x45, 0x3E }, // 0
+  49:nokialib.h    **** { 0x00, 0x42, 0x7F, 0x40, 0x00 }, // 1
+  50:nokialib.h    **** { 0x42, 0x61, 0x51, 0x49, 0x46 }, // 2
+  51:nokialib.h    **** { 0x21, 0x41, 0x45, 0x4B, 0x31 }, // 3
+  52:nokialib.h    **** { 0x18, 0x14, 0x12, 0x7F, 0x10 }, // 4
+  53:nokialib.h    **** { 0x27, 0x45, 0x45, 0x45, 0x39 }, // 5
+  54:nokialib.h    **** { 0x3C, 0x4A, 0x49, 0x49, 0x30 }, // 6
+  55:nokialib.h    **** { 0x01, 0x71, 0x09, 0x05, 0x03 }, // 7
+  56:nokialib.h    **** { 0x36, 0x49, 0x49, 0x49, 0x36 }, // 8
+  57:nokialib.h    **** { 0x06, 0x49, 0x49, 0x29, 0x1E }, // 9
+  58:nokialib.h    **** { 0x00, 0x36, 0x36, 0x00, 0x00 }, // :
+  59:nokialib.h    **** { 0x00, 0x56, 0x36, 0x00, 0x00 }, // ;
+  60:nokialib.h    **** { 0x08, 0x14, 0x22, 0x41, 0x00 }, // <
+  61:nokialib.h    **** { 0x14, 0x14, 0x14, 0x14, 0x14 }, // =
+  62:nokialib.h    **** { 0x00, 0x41, 0x22, 0x14, 0x08 }, // >
+  63:nokialib.h    **** { 0x02, 0x01, 0x51, 0x09, 0x06 }, // ?
+  64:nokialib.h    **** { 0x32, 0x49, 0x59, 0x51, 0x3E }, // @
+  65:nokialib.h    **** { 0x7E, 0x11, 0x11, 0x11, 0x7E }, // A
+  66:nokialib.h    **** { 0x7F, 0x49, 0x49, 0x49, 0x36 }, // B
+  67:nokialib.h    **** { 0x3E, 0x41, 0x41, 0x41, 0x22 }, // C
+  68:nokialib.h    **** { 0x7F, 0x41, 0x41, 0x22, 0x1C }, // D
+  69:nokialib.h    **** { 0x7F, 0x49, 0x49, 0x49, 0x41 }, // E
+  70:nokialib.h    **** { 0x7F, 0x09, 0x09, 0x09, 0x01 }, // F
+  71:nokialib.h    **** { 0x3E, 0x41, 0x49, 0x49, 0x7A }, // G
+  72:nokialib.h    **** { 0x7F, 0x08, 0x08, 0x08, 0x7F }, // H
+  73:nokialib.h    **** { 0x00, 0x41, 0x7F, 0x41, 0x00 }, // I
+  74:nokialib.h    **** { 0x20, 0x40, 0x41, 0x3F, 0x01 }, // J
+  75:nokialib.h    **** { 0x7F, 0x08, 0x14, 0x22, 0x41 }, // K
+  76:nokialib.h    **** { 0x7F, 0x40, 0x40, 0x40, 0x40 }, // L
+  77:nokialib.h    **** { 0x7F, 0x02, 0x0C, 0x02, 0x7F }, // M
+  78:nokialib.h    **** { 0x7F, 0x04, 0x08, 0x10, 0x7F }, // N
+  79:nokialib.h    **** { 0x3E, 0x41, 0x41, 0x41, 0x3E }, // O
+  80:nokialib.h    **** { 0x7F, 0x09, 0x09, 0x09, 0x06 }, // P
+  81:nokialib.h    **** { 0x3E, 0x41, 0x51, 0x21, 0x5E }, // Q
+  82:nokialib.h    **** { 0x7F, 0x09, 0x19, 0x29, 0x46 }, // R
+  83:nokialib.h    **** { 0x46, 0x49, 0x49, 0x49, 0x31 }, // S
+  84:nokialib.h    **** { 0x01, 0x01, 0x7F, 0x01, 0x01 }, // T
+  85:nokialib.h    **** { 0x3F, 0x40, 0x40, 0x40, 0x3F }, // U
+  86:nokialib.h    **** { 0x1F, 0x20, 0x40, 0x20, 0x1F }, // V
+  87:nokialib.h    **** { 0x3F, 0x40, 0x38, 0x40, 0x3F }, // W
+  88:nokialib.h    **** { 0x63, 0x14, 0x08, 0x14, 0x63 }, // X
+  89:nokialib.h    **** { 0x07, 0x08, 0x70, 0x08, 0x07 }, // Y
+  90:nokialib.h    **** { 0x61, 0x51, 0x49, 0x45, 0x43 }, // Z
+  91:nokialib.h    **** { 0x00, 0x7F, 0x41, 0x41, 0x00 }, // [
+  92:nokialib.h    **** { 0x55, 0x2A, 0x55, 0x2A, 0x55 }, // 55
+  93:nokialib.h    **** { 0x00, 0x41, 0x41, 0x7F, 0x00 }, // ]
+  94:nokialib.h    **** { 0x04, 0x02, 0x01, 0x02, 0x04 }, // ^
+  95:nokialib.h    **** { 0x40, 0x40, 0x40, 0x40, 0x40 }, // _
+  96:nokialib.h    **** { 0x00, 0x01, 0x02, 0x04, 0x00 }, // ‘
+  97:nokialib.h    **** { 0x20, 0x54, 0x54, 0x54, 0x78 }, // a
+  98:nokialib.h    **** { 0x7F, 0x48, 0x44, 0x44, 0x38 }, // b
+  99:nokialib.h    **** { 0x38, 0x44, 0x44, 0x44, 0x20 }, // c
+ 100:nokialib.h    **** { 0x38, 0x44, 0x44, 0x48, 0x7F }, // d
+ 101:nokialib.h    **** { 0x38, 0x54, 0x54, 0x54, 0x18 }, // e
+ 102:nokialib.h    **** { 0x08, 0x7E, 0x09, 0x01, 0x02 }, // f
+ 103:nokialib.h    **** { 0x0C, 0x52, 0x52, 0x52, 0x3E }, // g
+ 104:nokialib.h    **** { 0x7F, 0x08, 0x04, 0x04, 0x78 }, // h
+ 105:nokialib.h    **** { 0x00, 0x44, 0x7D, 0x40, 0x00 }, // i
+ 106:nokialib.h    **** { 0x20, 0x40, 0x44, 0x3D, 0x00 }, // j
+ 107:nokialib.h    **** { 0x7F, 0x10, 0x28, 0x44, 0x00 }, // k
+ 108:nokialib.h    **** { 0x00, 0x41, 0x7F, 0x40, 0x00 }, // l
+ 109:nokialib.h    **** { 0x7C, 0x04, 0x18, 0x04, 0x78 }, // m
+ 110:nokialib.h    **** { 0x7C, 0x08, 0x04, 0x04, 0x78 }, // n
+ 111:nokialib.h    **** { 0x38, 0x44, 0x44, 0x44, 0x38 }, // o
+ 112:nokialib.h    **** { 0x7C, 0x14, 0x14, 0x14, 0x08 }, // p
+ 113:nokialib.h    **** { 0x08, 0x14, 0x14, 0x18, 0x7C }, // q
+ 114:nokialib.h    **** { 0x7C, 0x08, 0x04, 0x04, 0x08 }, // r
+ 115:nokialib.h    **** { 0x48, 0x54, 0x54, 0x54, 0x20 }, // s
+ 116:nokialib.h    **** { 0x04, 0x3F, 0x44, 0x40, 0x20 }, // t
+ 117:nokialib.h    **** { 0x3C, 0x40, 0x40, 0x20, 0x7C }, // u
+ 118:nokialib.h    **** { 0x1C, 0x20, 0x40, 0x20, 0x1C }, // v
+ 119:nokialib.h    **** { 0x3C, 0x40, 0x30, 0x40, 0x3C }, // w
+ 120:nokialib.h    **** { 0x44, 0x28, 0x10, 0x28, 0x44 }, // x
+ 121:nokialib.h    **** { 0x0C, 0x50, 0x50, 0x50, 0x3C }, // y
+ 122:nokialib.h    **** { 0x44, 0x64, 0x54, 0x4C, 0x44 } // z
+ 123:nokialib.h    **** };
+ 124:nokialib.h    **** 
+ 125:nokialib.h    **** //******* VERY LARGE FONTS ********** 
+ 126:nokialib.h    **** //used here for displaying temperature
+ 127:nokialib.h    **** 
+ 128:nokialib.h    **** const unsigned char number[13][3][16] PROGMEM= {
+ 129:nokialib.h    **** 
+ 130:nokialib.h    **** 0,128,192,224,224,96,224,224,  //'0'
+ 131:nokialib.h    **** 192,128,0,0,0,0,0,0
+ 132:nokialib.h    **** ,
+ 133:nokialib.h    **** 112,255,255,1,0,0,0,0,
+ 134:nokialib.h    **** 255,255,254,0,0,0,0,0
+ 135:nokialib.h    **** ,
+ 136:nokialib.h    **** 0,15,31,60,56,48,56,56,
+ 137:nokialib.h    **** 31,15,3,0,0,0,0,0
+ 138:nokialib.h    **** ,
+ 139:nokialib.h    **** 
+ 140:nokialib.h    **** 0,0,0,0,128,224,224,0, 		   //'1'
+ 141:nokialib.h    **** 0,0,0,0,0,0,0,0
+ 142:nokialib.h    **** ,
+ 143:nokialib.h    **** 0,0,3,3,3,255,255,0,
+ 144:nokialib.h    **** 0,0,0,0,0,0,0,0
+ 145:nokialib.h    **** ,
+ 146:nokialib.h    **** 0,0,56,56,56,63,63,56,
+ 147:nokialib.h    **** 56,56,0,0,0,0,0,0
+ 148:nokialib.h    **** ,
+ 149:nokialib.h    **** 
+ 150:nokialib.h    **** 0,192,192,224,96,96,224,224,   //'2'
+ 151:nokialib.h    **** 192,128,0,0,0,0,0,0
+ 152:nokialib.h    **** ,
+ 153:nokialib.h    **** 0,1,0,0,128,192,224,249,
+ 154:nokialib.h    **** 63,31,0,0,0,0,0,0
+ 155:nokialib.h    **** ,
+ 156:nokialib.h    **** 0,60,62,63,63,59,57,56,
+ 157:nokialib.h    **** 56,56,56,0,0,0,0,0
+ 158:nokialib.h    **** ,
+ 159:nokialib.h    **** 
+ 160:nokialib.h    **** 0,192,224,224,96,96,224,224,   //'3'
+ 161:nokialib.h    **** 192,192,0,0,0,0,0,0
+ 162:nokialib.h    **** ,
+ 163:nokialib.h    **** 0,1,0,0,48,48,56,125,
+ 164:nokialib.h    **** 239,207,0,0,0,0,0,0
+ 165:nokialib.h    **** ,
+ 166:nokialib.h    **** 0,28,56,56,48,48,56,60,
+ 167:nokialib.h    **** 31,15,1,0,0,0,0,0
+ 168:nokialib.h    **** ,
+ 169:nokialib.h    **** 
+ 170:nokialib.h    **** 0,0,0,0,0,128,192,224, 		   //'4'
+ 171:nokialib.h    **** 224,0,0,0,0,0,0,0
+ 172:nokialib.h    **** ,
+ 173:nokialib.h    **** 224,240,248,222,207,199,193,255,
+ 174:nokialib.h    **** 255,192,192,0,0,0,0,0
+ 175:nokialib.h    **** ,
+ 176:nokialib.h    **** 0,0,0,0,0,0,0,63,
+ 177:nokialib.h    **** 63,0,0,0,0,0,0,0
+ 178:nokialib.h    **** ,
+ 179:nokialib.h    **** 
+ 180:nokialib.h    **** 0,224,224,224,224,224,224,224,	//'5'
+ 181:nokialib.h    **** 224,224,224,0,0,0,0,0
+ 182:nokialib.h    **** ,
+ 183:nokialib.h    **** 0,63,63,63,56,56,48,112,
+ 184:nokialib.h    **** 240,224,0,0,0,0,0,0
+ 185:nokialib.h    **** ,
+ 186:nokialib.h    **** 0,28,56,56,48,48,56,60,
+ 187:nokialib.h    **** 31,15,1,0,0,0,0,0
+ 188:nokialib.h    **** ,
+ 189:nokialib.h    **** 
+ 190:nokialib.h    **** 0,0,128,192,192,224,96,96,		//'6'
+ 191:nokialib.h    **** 224,224,0,0,0,0,0,0
+ 192:nokialib.h    **** ,
+ 193:nokialib.h    **** 224,254,255,55,57,24,24,56,
+ 194:nokialib.h    **** 240,240,192,0,0,0,0,0
+ 195:nokialib.h    **** ,
+ 196:nokialib.h    **** 0,15,31,28,56,48,48,56,
+ 197:nokialib.h    **** 31,15,7,0,0,0,0,0
+ 198:nokialib.h    **** ,
+ 199:nokialib.h    **** 
+ 200:nokialib.h    **** 0,224,224,224,224,224,224,224,		 //'7'
+ 201:nokialib.h    **** 224,224,224,0,0,0,0,0
+ 202:nokialib.h    **** ,
+ 203:nokialib.h    **** 0,0,0,0,128,224,248,126,
+ 204:nokialib.h    **** 31,7,1,0,0,0,0,0
+ 205:nokialib.h    **** ,
+ 206:nokialib.h    **** 0,0,56,62,31,7,1,0,
+ 207:nokialib.h    **** 0,0,0,0,0,0,0,0
+ 208:nokialib.h    **** ,
+ 209:nokialib.h    **** 
+ 210:nokialib.h    **** 0,128,192,224,224,96,96,224,		 //'8'
+ 211:nokialib.h    **** 192,192,0,0,0,0,0,0
+ 212:nokialib.h    **** ,
+ 213:nokialib.h    **** 0,207,255,127,56,48,112,112,
+ 214:nokialib.h    **** 255,239,199,0,0,0,0,0
+ 215:nokialib.h    **** ,
+ 216:nokialib.h    **** 3,15,31,60,56,48,48,56,
+ 217:nokialib.h    **** 31,31,15,0,0,0,0,0
+ 218:nokialib.h    **** ,
+ 219:nokialib.h    **** 
+ 220:nokialib.h    **** 0,128,192,224,224,96,224,224,		 //'9'
+ 221:nokialib.h    **** 192,128,0,0,0,0,0,0
+ 222:nokialib.h    **** ,
+ 223:nokialib.h    **** 12,63,127,241,224,192,192,225,
+ 224:nokialib.h    **** 255,255,254,0,0,0,0,0
+ 225:nokialib.h    **** ,
+ 226:nokialib.h    **** 0,0,56,48,48,56,56,30,
+ 227:nokialib.h    **** 15,7,0,0,0,0,0,0
+ 228:nokialib.h    **** ,
+ 229:nokialib.h    **** 
+ 230:nokialib.h    **** 
+ 231:nokialib.h    **** 0,0,0,0,0,0,0,0,	  		  		 //'.'
+ 232:nokialib.h    **** 0,0,0,0,0,0,0,0
+ 233:nokialib.h    **** ,
+ 234:nokialib.h    **** 0,0,0,0,0,0,0,0,
+ 235:nokialib.h    **** 0,0,0,0,0,0,0,0
+ 236:nokialib.h    **** ,
+ 237:nokialib.h    **** 60,60,60,0,0,0,0,0,
+ 238:nokialib.h    **** 0,0,0,0,0,0,0,0
+ 239:nokialib.h    **** ,
+ 240:nokialib.h    **** 
+ 241:nokialib.h    **** 0,0,0,0,0,0,0,0,   					 //'+'
+ 242:nokialib.h    **** 0,0,0,0,0,0,0,0
+ 243:nokialib.h    **** ,
+ 244:nokialib.h    **** 0,0,64,64,64,64,64,254,
+ 245:nokialib.h    **** 254,64,64,64,64,64,0,0
+ 246:nokialib.h    **** ,
+ 247:nokialib.h    **** 0,0,0,0,0,0,0,15,
+ 248:nokialib.h    **** 15,0,0,0,0,0,0,0
+ 249:nokialib.h    **** ,
+ 250:nokialib.h    **** 
+ 251:nokialib.h    **** 0,0,0,0,0,0,0,0, 	   				 //'-'
+ 252:nokialib.h    **** 0,0,0,0,0,0,0,0
+ 253:nokialib.h    **** ,
+ 254:nokialib.h    **** 0,64,64,64,64,64,64,0,
+ 255:nokialib.h    **** 0,0,0,0,0,0,0,0
+ 256:nokialib.h    **** ,
+ 257:nokialib.h    **** 0,0,0,0,0,0,0,0,
+ 258:nokialib.h    **** 0,0,0,0,0,0,0,0
+ 259:nokialib.h    **** };
+ 260:nokialib.h    **** 
+ 261:nokialib.h    **** 
+ 262:nokialib.h    **** 
+ 263:nokialib.h    **** static void Delay ()
+ 264:nokialib.h    **** {
+ 265:nokialib.h    ****  _delay_us(10);
+ 266:nokialib.h    **** }
+ 267:nokialib.h    **** 
+ 268:nokialib.h    **** /* Send single byte on SPI Bus (software) */
+ 269:nokialib.h    **** /* Input Arguments: x -> Byte to send */
+ 270:nokialib.h    **** 
+ 271:nokialib.h    **** void spisend(unsigned char x)
+ 272:nokialib.h    **** {
+  93               	tabn	68,0,272,.LM1-.LFBB1
+  94               	.LM1:
+  95               		ldi r18,lo8(0)
+  96               	.LBB64:
+  97               	.LBB65:
+  98               	.LBB66:
+  99               	.LBB67:
+ 101               	.Ltext2:
+ 103               	.LM2:
+ 104               		ldi r19,lo8(53)
+ 105               	.L5:
+ 106               	.LBE67:
+   1:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    Copyright (c) 2007 Joerg Wunsch
+   3:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    All rights reserved.
+   4:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+   5:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    Redistribution and use in source and binary forms, with or without
+   6:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    modification, are permitted provided that the following conditions are met:
+   7:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+   8:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    * Redistributions of source code must retain the above copyright
+   9:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer.
+  10:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  11:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    * Redistributions in binary form must reproduce the above copyright
+  12:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer in
+  13:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      the documentation and/or other materials provided with the
+  14:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      distribution.
+  15:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  16:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    * Neither the name of the copyright holders nor the names of
+  17:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      contributors may be used to endorse or promote products derived
+  18:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      from this software without specific prior written permission.
+  19:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  20:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  21:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  22:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  23:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  24:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  25:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  26:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  27:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  28:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  29:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  30:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  31:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  32:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /* $Id: delay_basic.h,v 1.1 2007/05/13 21:23:20 joerg_wunsch Exp $ */
+  33:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  34:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #ifndef _UTIL_DELAY_BASIC_H_
+  35:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #define _UTIL_DELAY_BASIC_H_ 1
+  36:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  37:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #include <inttypes.h>
+  38:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  39:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \file */
+  40:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \defgroup util_delay_basic <util/delay_basic.h>: Basic busy-wait delay loops
+  41:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     \code
+  42:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     #include <util/delay_basic.h>
+  43:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     \endcode
+  44:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  45:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     The functions in this header file implement simple delay loops
+  46:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     that perform a busy-waiting.  They are typically used to
+  47:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     facilitate short delays in the program execution.  They are
+  48:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     implemented as count-down loops with a well-known CPU cycle
+  49:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     count per loop iteration.  As such, no other processing can
+  50:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     occur simultaneously.  It should be kept in mind that the
+  51:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     functions described here do not disable interrupts.
+  52:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  53:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     In general, for long delays, the use of hardware timers is
+  54:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     much preferrable, as they free the CPU, and allow for
+  55:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     concurrent processing of other events while the timer is
+  56:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     running.  However, in particular for very short delays, the
+  57:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     overhead of setting up a hardware timer is too much compared
+  58:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     to the overall delay time.
+  59:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  60:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Two inline functions are provided for the actual delay algorithms.
+  61:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  62:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** */
+  63:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  64:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #if !defined(__DOXYGEN__)
+  65:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** static inline void _delay_loop_1(uint8_t __count) __attribute__((always_inline));
+  66:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** static inline void _delay_loop_2(uint16_t __count) __attribute__((always_inline));
+  67:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #endif
+  68:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  69:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  70:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  71:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Delay loop using an 8-bit counter \c __count, so up to 256
+  72:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     iterations are possible.  (The value 256 would have to be passed
+  73:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     as 0.)  The loop executes three CPU cycles per iteration, not
+  74:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     including the overhead the compiler needs to setup the counter
+  75:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     register.
+  76:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  77:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to 768 microseconds
+  78:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     can be achieved.
+  79:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** */
+  80:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** void
+  81:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** _delay_loop_1(uint8_t __count)
+  82:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** {
+  83:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
+ 107               	:
+ 108               	.LBE64:
+ 110               	.Ltext3:
+ 112               	.LM3:
+ 113               		cbi 56-32,4
+ 114               	.LBB71:
+ 115               	.LBB70:
+ 116               	.LBB69:
+ 273:nokialib.h    **** unsigned char i;
+ 274:nokialib.h    **** for(i=0;i<8;i++)
+ 275:nokialib.h    **** {
+ 276:nokialib.h    **** SCK_db;
+ 117               	stabs	"c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h",132,0,0,.Ltext4
+ 118               	.Ltext4:
+ 120               	.LM4:
+ 121               		mov r25,r19
+ 122               	/* #APP */
+ 123               	 ;  83 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 124               		1: dec r25
+ 125               		brne 1b
+ 126               	 ;  0 "" 2
+ 127               	/* #NOAPP */
+ 128 0006 932F      	.LBE68:
+ 129               	.LBE69:
+ 130               	.LBE70:
+ 131 0008 9A95      	.LBE71:
+ 133               	.Ltext5:
+ 135               	.LM5:
+ 136               		sbrs r24,7
+ 137               		rjmp .L2
+ 139               	.LM6:
+ 140               		sbi 56-32,3
+ 277:nokialib.h    **** _delay_us(10);
+ 278:nokialib.h    **** if((x&0x80)){
+ 141               	8,0,281,.LM7-.LFBB1
+ 142               	.LM7:
+ 143 000c 87FF      		cbi 56-32,3
+ 144 000e 00C0      	.L3:
+ 279:nokialib.h    **** DAT_en;
+ 145               	abn	68,0,283,.LM8-.LFBB1
+ 146               	.LM8:
+ 147 0010 C39A      		sbi 56-32,4
+ 149               	.LM9:
+ 280:nokialib.h    **** } else {
+ 281:nokialib.h    **** DAT_db;
+ 150               	 r18,lo8(-(1))
+ 151               		cpi r18,lo8(8)
+ 152 0014 C398      		breq .L6
+ 282:nokialib.h    **** }
+ 283:nokialib.h    **** SCK_en;
+ 154               	0:
+ 155               		lsl r24
+ 156 0016 C49A      		rjmp .L5
+ 157               	.L6:
+ 158               		ret
+ 284:nokialib.h    **** x <<= 1;
+ 162               	224,0,0,.Lscope1-.LFBB1
+ 163               	.Lscope1:
+ 166               	.global	wrdata
+ 168               	wrdata:
+ 170               	.LM11:
+ 171               	.LFBB2:
+ 172               	/* prologue: function */
+ 173               	/* frame size = 0 */
+ 175               	.LM12:
+ 176               		sbi 56-32,2
+ 285:nokialib.h    **** }
+ 286:nokialib.h    **** }
+ 287:nokialib.h    **** 
+ 288:nokialib.h    **** /* Write Data Byte to Nokia LCD */
+ 289:nokialib.h    **** /* Input Arguments: x-> Data Byte to be sent */
+ 290:nokialib.h    **** 
+ 291:nokialib.h    **** void wrdata(unsigned char x){
+ 178               	2,1
+ 180               	.LM14:
+ 181               		call spisend
+ 292:nokialib.h    **** DC_en;
+ 183               	:
+ 184               		sbi 56-32,1
+ 185 0024 C29A      	/* epilogue start */
+ 293:nokialib.h    **** CE_db;
+ 186               	tabn	68,0,296,.LM16-.LFBB2
+ 187               	.LM16:
+ 188 0026 C198      		ret
+ 294:nokialib.h    **** spisend(x);
+ 189               	ize	wrdata, .-wrdata
+ 190               	.Lscope2:
+ 295:nokialib.h    **** CE_en;
+ 192               	tabs	"x:P(0,11)",64,0,0,24
+ 193               	.global	wrcmd
+ 195               	wrcmd:
+ 296:nokialib.h    **** }
+ 196               	abn	68,0,300,.LM17-.LFBB3
+ 197               	.LM17:
+ 198 002e 0895      	.LFBB3:
+ 199               	/* prologue: function */
+ 200               	/* frame size = 0 */
+ 202               	.LM18:
+ 203               		cbi 56-32,2
+ 205               	.LM19:
+ 297:nokialib.h    **** 
+ 298:nokialib.h    **** /* Write Command Byte to Nokia LCD */
+ 299:nokialib.h    **** /* Input Arguments: x -> Command Byte to be sent */
+ 300:nokialib.h    **** void wrcmd(unsigned char x){
+ 206               	,1
+ 208               	.LM20:
+ 209               		call spisend
+ 301:nokialib.h    **** DC_db;
+ 211               	:
+ 212               		sbi 56-32,1
+ 213 0030 C298      	/* epilogue start */
+ 302:nokialib.h    **** CE_db;
+ 214               	tabn	68,0,305,.LM22-.LFBB3
+ 215               	.LM22:
+ 216 0032 C198      		ret
+ 303:nokialib.h    **** spisend(x);
+ 217               	ize	wrcmd, .-wrcmd
+ 218               	.Lscope3:
+ 304:nokialib.h    **** CE_en;
+ 220               	tabs	"x:P(0,11)",64,0,0,17
+ 222 0038 C19A      	.global	pixelxy
+ 305:nokialib.h    **** }
+ 224               	lxy:
+ 226 003a 0895      	.LM23:
+ 227               	.LFBB4:
+ 228               		push r17
+ 229               	/* prologue: function */
+ 230               	/* frame size = 0 */
+ 231               		mov r17,r24
+ 232               		mov r24,r22
+ 234               	.LM24:
+ 306:nokialib.h    **** 
+ 307:nokialib.h    **** /* Brings ram pointer to X,Y pixel position */
+ 308:nokialib.h    **** /* Input Arguments: x-> X cordinate range from 0 to 83 */
+ 309:nokialib.h    **** /* Input Arguments: y-> Y cordinate range from 0 to 5 */
+ 310:nokialib.h    **** void pixelxy(unsigned char x, unsigned char y)
+ 311:nokialib.h    **** {
+ 235               	o8(7)
+ 236               		ori r24,lo8(64)
+ 237               		call wrcmd
+ 239               	.LM25:
+ 240               		mov r24,r17
+ 241 003e 182F      		ori r24,lo8(-128)
+ 242 0040 862F      		call wrcmd
+ 312:nokialib.h    **** wrcmd(0x40|(y&0x07)); // Y axis
+ 243               	gue start */
+ 245 0042 8770      	.LM26:
+ 246 0044 8064      		pop r17
+ 247 0046 0E94 0000 		ret
+ 313:nokialib.h    **** wrcmd(0x80|(x&0x7f)); // X axis
+ 248               	e	pixelxy, .-pixelxy
+ 249               	.Lscope4:
+ 251 004c 8068      	.global	clearram
+ 253               	clearram:
+ 314:nokialib.h    **** }
+ 254               	n	68,0,318,.LM27-.LFBB5
+ 255               	.LM27:
+ 256 0052 1F91      	.LFBB5:
+ 257 0054 0895      		push r28
+ 258               		push r29
+ 259               	/* prologue: function */
+ 260               	/* frame size = 0 */
+ 262               	.LM28:
+ 263               		ldi r24,lo8(0)
+ 315:nokialib.h    **** 
+ 316:nokialib.h    **** /* Clears the screen */
+ 317:nokialib.h    **** void clearram(void)
+ 318:nokialib.h    **** {
+ 264               	o8(0)
+ 265               		call pixelxy
+ 266               		ldi r28,lo8(0)
+ 267 0056 CF93      		ldi r29,hi8(0)
+ 268 0058 DF93      	.L14:
+ 270               	.LM29:
+ 319:nokialib.h    **** int ddram;
+ 320:nokialib.h    **** pixelxy(0,0); // Cursor Home.
+ 271               	4,lo8(0)
+ 272               		call wrdata
+ 273 005a 80E0      		adiw r28,1
+ 274 005c 60E0      		ldi r24,hi8(700)
+ 275 005e 0E94 0000 		cpi r28,lo8(700)
+ 276 0062 C0E0      		cpc r29,r24
+ 277 0064 D0E0      		brne .L14
+ 278               	/* epilogue start */
+ 321:nokialib.h    **** for (ddram=0;ddram<700;ddram++) {wrdata(0x00);} // 6*84 = 504 DDRAM addresses.
+ 279               	68,0,322,.LM30-.LFBB5
+ 280               	.LM30:
+ 281 0066 80E0      		pop r29
+ 282 0068 0E94 0000 		pop r28
+ 283 006c 2196      		ret
+ 288               	.Lscope5:
+ 322:nokialib.h    **** }
+ 289               	nitlcd:F(0,15)",36,0,0,initlcd
+ 290               	.global	initlcd
+ 292 0078 CF91      	initlcd:
+ 294               	.LM31:
+ 295               	.LFBB6:
+ 296               	/* prologue: function */
+ 297               	/* frame size = 0 */
+ 299               	.LM32:
+ 300               		sbi 56-32,0
+ 302               	.LM33:
+ 323:nokialib.h    **** 
+ 324:nokialib.h    **** /* Nokia3310 LCD Initialization */
+ 325:nokialib.h    **** void initlcd(void)
+ 326:nokialib.h    **** {
+ 304               	.LM34:
+ 305               		cbi 56-32,0
+ 306               	.LBB72:
+ 307               	.LBB73:
+ 327:nokialib.h    **** RES_en; // Set _RES HIGH.
+ 308               	4:
+ 309               	.LBB75:
+ 310 007c C09A      	.LBB76:
+ 328:nokialib.h    **** CE_en; // Disable Chip.
+ 311               	B77:
+ 313 007e C19A      	.Ltext6:
+ 329:nokialib.h    **** RES_db; // Reset the LCD.
+ 314               	tabn	68,0,83,.LM35-.LFBB6
+ 315               	.LM35:
+ 316 0080 C098      		ldi r24,lo8(53)
+ 317               	/* #APP */
+ 318               	 ;  83 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 319               		1: dec r24
+ 320               		brne 1b
+ 321               	 ;  0 "" 2
+ 322               	/* #NOAPP */
+ 323               	.LBE77:
+ 324               	.LBE76:
+ 325               	.LBE75:
+ 326               	.LBE74:
+ 327 0082 85E3      	.LBE73:
+ 328               	.LBE72:
+ 330 0084 8A95      	.Ltext7:
+ 332               	.LM36:
+ 333               		sbi 56-32,0
+ 335               	.LM37:
+ 336               		ldi r24,lo8(33)
+ 337               		call wrcmd
+ 339               	.LM38:
+ 340               		ldi r24,lo8(-62)
+ 341               		call wrcmd
+ 330:nokialib.h    **** Delay(); // Wait 100ms.
+ 331:nokialib.h    **** RES_en; // Awake LCD from RESET state.
+ 342               	6
+ 343               	.LM39:
+ 344 0088 C09A      		ldi r24,lo8(32)
+ 332:nokialib.h    **** 
+ 333:nokialib.h    **** wrcmd(0x21); // Activate Chip and H=1. Extended instruction set mode.
+ 345               	ll wrcmd
+ 347 008a 81E2      	.LM40:
+ 348 008c 0E94 0000 		call clearram
+ 334:nokialib.h    **** wrcmd(0xc2); // Set LCD Voltage to about 7V. wrcmd(0xc7);
+ 349               	abn	68,0,337,.LM41-.LFBB6
+ 350               	.LM41:
+ 351 0090 82EC      		ldi r24,lo8(12)
+ 352 0092 0E94 0000 		call wrcmd
+ 335:nokialib.h    **** wrcmd(0x20); // Horizontal addressing and H=0.
+ 353               	abn	68,0,338,.LM42-.LFBB6
+ 354               	.LM42:
+ 355 0096 80E2      		ldi r24,lo8(0)
+ 356 0098 0E94 0000 		ldi r22,lo8(0)
+ 336:nokialib.h    **** clearram(); // Erase all pixel on the DDRAM.
+ 357               	l pixelxy
+ 358               	/* epilogue start */
+ 337:nokialib.h    **** wrcmd(0x0C); // Display Normal.
+ 360               	43:
+ 361               		ret
+ 363 00a2 0E94 0000 	.Lscope6:
+ 338:nokialib.h    **** pixelxy(0,0); // Cursor Home.
+ 364               	abs	"cursorxy:F(0,15)",36,0,0,cursorxy
+ 367 00a8 60E0      	.global	cursorxy
+ 369               	cursorxy:
+ 339:nokialib.h    **** }
+ 370               	n	68,0,347,.LM44-.LFBB7
+ 371               	.LM44:
+ 372 00ae 0895      	.LFBB7:
+ 373               	/* prologue: function */
+ 374               	/* frame size = 0 */
+ 376               	.LM45:
+ 377               		mov r18,r24
+ 378               		subi r18,lo8(-(-1))
+ 379               		cpi r18,lo8(6)
+ 380               		brsh .L21
+ 340:nokialib.h    **** 
+ 341:nokialib.h    **** /* Bring cursor to Line and character specified */
+ 342:nokialib.h    **** /* Input Arguments: row -> Line number range from 1 to 6 */
+ 343:nokialib.h    **** /* Input Arguments: Column -> character position range from 1 to 14 */
+ 344:nokialib.h    **** /* You can have maximum of 6 lines of text on LCD and each line
+ 345:nokialib.h    **** containing 14 characters. Address is auto increment */
+ 346:nokialib.h    **** 
+ 347:nokialib.h    **** void cursorxy(unsigned char row, unsigned char col){
+ 381               	req .L21
+ 382               		cpi r22,lo8(15)
+ 383               		brsh .L21
+ 385               	.LM46:
+ 348:nokialib.h    **** if((row>6) || (row<1) || (col<1) || (col>14))
+ 386               	r24,lo8(6)
+ 387               		mul r22,r24
+ 388 00b0 282F      		movw r24,r0
+ 389 00b2 2150      		clr r1
+ 390 00b4 2630      		subi r24,lo8(-(-6))
+ 391 00b6 00F4      		mov r22,r18
+ 392 00b8 6623      		call pixelxy
+ 393 00ba 01F0      	.L21:
+ 394 00bc 6F30      		ret
+ 349:nokialib.h    **** return;
+ 350:nokialib.h    **** pixelxy(((col-1)*6),(row-1));
+ 398 00c0 86E0      	.global	putchr
+ 400 00c4 C001      	putchr:
+ 402 00c8 8650      	.LM47:
+ 403 00ca 622F      	.LFBB8:
+ 404 00cc 0E94 0000 		push r16
+ 405               		push r17
+ 406 00d0 0895      		push r28
+ 407               		push r29
+ 408               	/* prologue: function */
+ 409               	/* frame size = 0 */
+ 410               		mov r25,r24
+ 412               	.LM48:
+ 413               		subi r24,lo8(-(-32))
+ 351:nokialib.h    **** }
+ 352:nokialib.h    **** 
+ 353:nokialib.h    **** /* Writes single character on LCD */
+ 354:nokialib.h    **** /* Input Arguments: ch -> Character to be displayed */
+ 355:nokialib.h    **** void putchr(unsigned char ch){
+ 414               	brlo .L23
+ 415               		ldi r25,lo8(92)
+ 416               	.L23:
+ 417 00d2 0F93      	.LBB78:
+ 419 00d6 CF93      	.LM49:
+ 420 00d8 DF93      		ldi r24,lo8(5)
+ 421               		mul r25,r24
+ 422               		movw r24,r0
+ 423 00da 982F      		clr r1
+ 356:nokialib.h    **** unsigned char i, temp;
+ 357:nokialib.h    **** if ( (ch < 0x20) || (ch > 0x7b) ){
+ 424               	r24
+ 425               		subi r28,lo8(-(FontLookup-160))
+ 426 00dc 8052      		sbci r29,hi8(-(FontLookup-160))
+ 427 00de 8C35      	.LBE78:
+ 429 00e2 9CE5      	.LM50:
+ 430               		movw r16,r24
+ 431               		subi r16,lo8(-(-155))
+ 358:nokialib.h    **** ch = 92;
+ 359:nokialib.h    **** }
+ 360:nokialib.h    **** for(i=0;i<5;i++){
+ 361:nokialib.h    **** temp = pgm_read_byte(&FontLookup[ch - 32][i]) << 1;
+ 432               	7,hi8(-(-155))
+ 433               		subi r16,lo8(-(FontLookup))
+ 434 00e4 85E0      		sbci r17,hi8(-(FontLookup))
+ 435 00e6 989F      	.L24:
+ 436 00e8 C001      	.LBB79:
+ 438 00ec EC01      	.LM51:
+ 439 00ee C050      		movw r30,r28
+ 440 00f0 D040      	/* #APP */
+ 441               	 ;  361 "nokialib.h" 1
+ 442               		lpm r24, Z
+ 443               		
+ 444 00f2 8C01      	 ;  0 "" 2
+ 445 00f4 0B59      	/* #NOAPP */
+ 446 00f6 1040      	.LBE79:
+ 448 00fa 1040      	.LM52:
+ 449               		lsl r24
+ 450               		call wrdata
+ 451               		adiw r28,1
+ 453 00fc FE01      	.LM53:
+ 454               		cp r28,r16
+ 455               		cpc r29,r17
+ 456 00fe 8491      		brne .L24
+ 458               	.LM54:
+ 459               		ldi r24,lo8(0)
+ 460               		call wrdata
+ 362:nokialib.h    **** wrdata(temp);
+ 461               	68,0,365,.LM55-.LFBB8
+ 462               	.LM55:
+ 463 0100 880F      		pop r29
+ 464 0102 0E94 0000 		pop r28
+ 465 0106 2196      		pop r17
+ 466               		pop r16
+ 467               		ret
+ 363:nokialib.h    **** }
+ 364:nokialib.h    **** wrdata(0x00);
+ 471               	4,0,0,.LBE78-.LFBB8
+ 475               	.Lscope8:
+ 365:nokialib.h    **** }
+ 476               	bs	"LCD_writeChar_megaFont:F(0,15)",36,0,0,LCD_writeChar_megaFont
+ 478 0114 DF91      	.global	LCD_writeChar_megaFont
+ 480 0118 1F91      	LCD_writeChar_megaFont:
+ 482 011c 0895      	.LM56:
+ 483               	.LFBB9:
+ 484               		push r14
+ 485               		push r15
+ 486               		push r16
+ 487               		push r17
+ 488               		push r28
+ 489               		push r29
+ 490               	/* prologue: function */
+ 491               	/* frame size = 0 */
+ 493               	.LM57:
+ 494               		cpi r24,lo8(46)
+ 495               		brne .L28
+ 366:nokialib.h    **** 
+ 367:nokialib.h    **** /*-------------------------------------------------------------------------------------------------
+ 368:nokialib.h    ****   Name         :  LCD_writeChar_megaFont
+ 369:nokialib.h    ****   Description  :  Displays a character in large fonts, used here for displatying temperature 
+ 370:nokialib.h    **** 		  (for displaying '.', '+', '-', and '0' to '9', stored 
+ 371:nokialib.h    **** 		  in 3310_routines.h as three dimensional array, number[][][])
+ 372:nokialib.h    ****   Argument(s)  :  ch   -> Character to write.
+ 373:nokialib.h    ****   Return value :  None.
+ 374:nokialib.h    **** --------------------------------------------------------------------------------------------------*
+ 375:nokialib.h    **** void LCD_writeChar_megaFont (unsigned char ch)
+ 376:nokialib.h    **** {
+ 496               	mp .L29
+ 497               	.L28:
+ 499 011e EF92      	.LM58:
+ 500 0120 FF92      		cpi r24,lo8(43)
+ 501 0122 0F93      		brne .L30
+ 502 0124 1F93      		ldi r25,lo8(11)
+ 503 0126 CF93      		rjmp .L29
+ 504 0128 DF93      	.L30:
+ 506               	.LM59:
+ 377:nokialib.h    ****    unsigned char i, j, k;
+ 378:nokialib.h    ****    
+ 379:nokialib.h    ****    if(ch == '.')
+ 507               	8(45)
+ 508               		brne .L31
+ 509 012a 8E32      		ldi r25,lo8(12)
+ 510 012c 01F4      		rjmp .L29
+ 511 012e 9AE0      	.L31:
+ 513               	.LM60:
+ 380:nokialib.h    ****     ch = 10;
+ 381:nokialib.h    ****    else if (ch == '+')
+ 514               	5,r24
+ 515               		andi r25,lo8(15)
+ 516 0132 8B32      	.L29:
+ 517 0134 01F4      		ldi r24,lo8(48)
+ 518 0136 9BE0      		mul r25,r24
+ 519 0138 00C0      		movw r16,r0
+ 520               		clr r1
+ 382:nokialib.h    ****     ch = 11;
+ 383:nokialib.h    ****    else if (ch == '-')
+ 521               	16,lo8(-(number))
+ 522               		sbci r17,hi8(-(number))
+ 523 013a 8D32      		ldi r24,lo8(2)
+ 524 013c 01F4      		mov r14,r24
+ 525 013e 9CE0      	.L33:
+ 527               	.LM61:
+ 384:nokialib.h    ****     ch = 12;
+ 385:nokialib.h    ****    else
+ 386:nokialib.h    ****     ch = ch & 0x0f;
+ 528               	4,char_start
+ 529               		subi r24,lo8(-(4))
+ 530 0142 982F      		mov r22,r14
+ 531 0144 9F70      		call pixelxy
+ 532               		movw r28,r16
+ 533 0146 80E3      		clr r15
+ 534 0148 989F      	.L32:
+ 535 014a 8001      	.LBB80:
+ 537 014e 0050      	.LM62:
+ 538 0150 1040      		movw r30,r28
+ 539 0152 82E0      	/* #APP */
+ 540 0154 E82E      	 ;  394 "nokialib.h" 1
+ 541               		lpm r24, Z
+ 387:nokialib.h    **** 	
+ 388:nokialib.h    ****     
+ 389:nokialib.h    ****    for(i=0;i<3;i++)
+ 390:nokialib.h    ****    {	
+ 391:nokialib.h    **** 	 pixelxy (4 + char_start, i+2);
+ 542               	* #NOAPP */
+ 543               	.LBE80:
+ 544 0156 8091 0000 		call wrdata
+ 546 015c 6E2D      	.LM63:
+ 547 015e 0E94 0000 		inc r15
+ 548 0162 E801      		adiw r28,1
+ 549 0164 FF24      		ldi r31,lo8(16)
+ 550               		cp r15,r31
+ 551               		brne .L32
+ 392:nokialib.h    ****  
+ 393:nokialib.h    ****      for(j=0; j<16; j++)
+ 394:nokialib.h    ****        wrdata( pgm_read_byte(&number[ch][i][j]));
+ 552               	subi r16,lo8(-(16))
+ 553               		sbci r17,hi8(-(16))
+ 555               	.LM64:
+ 556               		ldi r24,lo8(5)
+ 557 0168 8491      		cp r14,r24
+ 558               		brne .L33
+ 560               	.LM65:
+ 561               		lds r24,char_start
+ 562 016a 0E94 0000 		subi r24,lo8(-(12))
+ 563               		sts char_start,r24
+ 564               	/* epilogue start */
+ 566 0170 2196      	.LM66:
+ 567 0172 F0E1      		pop r29
+ 568 0174 FF16      		pop r28
+ 569 0176 01F4      		pop r17
+ 570 0178 E394      		pop r16
+ 571 017a 005F      		pop r15
+ 572 017c 1F4F      		pop r14
+ 573               		ret
+ 395:nokialib.h    ****    } 
+ 396:nokialib.h    ****    
+ 397:nokialib.h    ****    if(ch == '.') 
+ 398:nokialib.h    ****      char_start += 5;
+ 399:nokialib.h    ****    else
+ 400:nokialib.h    ****      char_start += 12;
+ 578               	BB9
+ 581 0188 845F      	.Lscope9:
+ 401:nokialib.h    **** }
+ 584               	l	lcdstr_megaFont
+ 586 018e DF91      	lcdstr_megaFont:
+ 588 0192 1F91      	.LM67:
+ 589 0194 0F91      	.LFBB10:
+ 590 0196 FF90      		push r28
+ 591 0198 EF90      		push r29
+ 592 019a 0895      	/* prologue: function */
+ 593               	/* frame size = 0 */
+ 594               		movw r28,r24
+ 596               	.LM68:
+ 597               		sts char_start,__zero_reg__
+ 598               		rjmp .L38
+ 599               	.L39:
+ 601               	.LM69:
+ 602               		adiw r28,1
+ 603               		call LCD_writeChar_megaFont
+ 604               	.L38:
+ 402:nokialib.h    **** 
+ 403:nokialib.h    **** /*-------------------------------------------------------------------------------------------------
+ 404:nokialib.h    ****   Name         :  LCD_writeString_megaFont
+ 405:nokialib.h    ****   Description  :  Displays a string at current location, in large fonts
+ 406:nokialib.h    ****   Argument(s)  :  string -> Pointer to ASCII string (stored in RAM)
+ 407:nokialib.h    ****   Return value :  None.
+ 408:nokialib.h    **** --------------------------------------------------------------------------------------------------*
+ 409:nokialib.h    **** void lcdstr_megaFont ( unsigned char *string )
+ 410:nokialib.h    **** {
+ 606               	r24
+ 607               		brne .L39
+ 608               	/* epilogue start */
+ 610 019e DF93      	.LM71:
+ 611               		pop r29
+ 612               		pop r28
+ 613 01a0 EC01      		ret
+ 411:nokialib.h    ****     char_start = 0;
+ 614               	cdstr_megaFont, .-lcdstr_megaFont
+ 615               	.Lscope10:
+ 618               	.global	putstr
+ 412:nokialib.h    **** 	
+ 413:nokialib.h    ****     while ( *string )
+ 414:nokialib.h    ****         LCD_writeChar_megaFont( *string++ );
+ 619               	e	putstr, @function
+ 620               	putstr:
+ 622 01aa 0E94 0000 	.LM72:
+ 623               	.LFBB11:
+ 624               		push r28
+ 625               		push r29
+ 626 01ae 8881      	/* prologue: function */
+ 627 01b0 8823      	/* frame size = 0 */
+ 628 01b2 01F4      		movw r28,r24
+ 629               		rjmp .L42
+ 415:nokialib.h    **** 	
+ 416:nokialib.h    **** 	//pixelxy(char_start+6, 3);
+ 417:nokialib.h    **** //	LCD_writeChar('z'+1); 			  //symbol of Degree
+ 418:nokialib.h    **** //	LCD_writeChar('C');
+ 419:nokialib.h    **** }
+ 630               	bn	68,0,428,.LM73-.LFBB11
+ 631               	.LM73:
+ 632 01b4 DF91      		adiw r28,1
+ 633 01b6 CF91      		call putchr
+ 634 01b8 0895      	.L42:
+ 636               	.LM74:
+ 637               		ld r24,Y
+ 638               		tst r24
+ 639               		brne .L43
+ 640               	/* epilogue start */
+ 420:nokialib.h    **** 
+ 421:nokialib.h    **** 
+ 422:nokialib.h    **** 
+ 423:nokialib.h    **** 
+ 424:nokialib.h    **** /* Writes character string on LCD */
+ 425:nokialib.h    **** /* Input Arguments: str -> Pointer to string to be displayed */
+ 426:nokialib.h    **** void putstr (unsigned char *str){
+ 642               	r29
+ 643               		pop r28
+ 644               		ret
+ 646 01bc DF93      	.Lscope11:
+ 648               	.global	lcd_drawborder
+ 650 01c0 00C0      	lcd_drawborder:
+ 427:nokialib.h    **** while(*str)
+ 428:nokialib.h    **** putchr(*str++);
+ 652               	BB12:
+ 653               		push r16
+ 654 01c2 2196      		push r17
+ 655 01c4 0E94 0000 	/* prologue: function */
+ 656               	/* frame size = 0 */
+ 658               	.LM77:
+ 659 01c8 8881      		ldi r16,lo8(0)
+ 660 01ca 8823      	.L52:
+ 662               	.LM78:
+ 429:nokialib.h    **** }
+ 663               	8(0)
+ 664               		mov r22,r16
+ 665 01ce DF91      		call pixelxy
+ 666 01d0 CF91      		ldi r17,lo8(0)
+ 667 01d2 0895      	.L51:
+ 669               	.LM79:
+ 670               		tst r17
+ 671               		breq .L46
+ 672               		cpi r17,lo8(83)
+ 673               		brne .L47
+ 430:nokialib.h    **** /* draw border on LCD */
+ 431:nokialib.h    **** void lcd_drawborder (void )
+ 432:nokialib.h    **** {
+ 674               	bn	68,0,442,.LM80-.LFBB12
+ 675               	.LM80:
+ 676               		ldi r24,lo8(-1)
+ 677 01d4 0F93      		rjmp .L56
+ 678 01d6 1F93      	.L47:
+ 680               	.LM81:
+ 681               		tst r16
+ 682               		brne .L49
+ 684               	.LM82:
+ 433:nokialib.h    ****   unsigned char i, j;  
+ 434:nokialib.h    ****     
+ 435:nokialib.h    ****   for(i=0; i<7; i++)
+ 436:nokialib.h    ****   {
+ 437:nokialib.h    ****     pixelxy (0,i);
+ 685               	8(8)
+ 686               		rjmp .L56
+ 687 01da 80E0      	.L49:
+ 689 01de 0E94 0000 	.LM83:
+ 690 01e2 10E0      		cpi r16,lo8(6)
+ 691               		brne .L50
+ 438:nokialib.h    **** 	
+ 439:nokialib.h    **** 	for(j=0; j<84; j++)
+ 440:nokialib.h    **** 	{
+ 441:nokialib.h    **** 	  if(j == 0 || j == 83)
+ 692               		68,0,446,.LM84-.LFBB12
+ 693               	.LM84:
+ 694 01e4 1123      		ldi r24,lo8(4)
+ 695 01e6 01F0      		rjmp .L56
+ 696 01e8 1335      	.L50:
+ 698               	.LM85:
+ 442:nokialib.h    **** 		wrdata (0xff);		// first and last column solid fill to make line
+ 699               	4,lo8(0)
+ 700               	.L56:
+ 701 01ec 8FEF      		call wrdata
+ 703               	.LM86:
+ 443:nokialib.h    **** 	  else if(i == 0)
+ 704               	 r17,lo8(-(1))
+ 705               		cpi r17,lo8(84)
+ 706 01f0 0023      		brne .L51
+ 444:nokialib.h    **** 	   wrdata (0x08);		// row 0 is having only 5 bits (not 8)
+ 708               	7:
+ 709               		subi r16,lo8(-(1))
+ 710 01f4 88E0      		cpi r16,lo8(7)
+ 711 01f6 00C0      		brne .L52
+ 712               	/* epilogue start */
+ 445:nokialib.h    **** 	  else if(i == 6)
+ 713               	bn	68,0,451,.LM88-.LFBB12
+ 714               	.LM88:
+ 715 01f8 0630      		pop r17
+ 716 01fa 01F4      		pop r16
+ 446:nokialib.h    **** 	    wrdata (0x04);		// row 6 is having only 3 bits (not 8)
+ 717               	
+ 447:nokialib.h    **** 	  else
+ 448:nokialib.h    **** 	    wrdata(0x00);
+ 722               	abn	224,0,0,.Lscope12-.LFBB12
+ 723               	.Lscope12:
+ 725               	.global	lcd_clear
+ 727               	lcd_clear:
+ 729 0206 1F5F      	.LM89:
+ 730 0208 1435      	.LFBB13:
+ 731 020a 01F4      		push r28
+ 732               		push r29
+ 733               	/* prologue: function */
+ 734 020c 0F5F      	/* frame size = 0 */
+ 736 0210 01F4      	.LM90:
+ 737               		ldi r28,lo8(0)
+ 449:nokialib.h    **** 	}
+ 450:nokialib.h    ****   }
+ 451:nokialib.h    **** }	
+ 738               	.L58:
+ 740 0212 1F91      	.LM91:
+ 741 0214 0F91      		movw r24,r28
+ 742 0216 0895      		ldi r22,lo8(84)
+ 743               		ldi r23,hi8(84)
+ 744               		call __divmodhi4
+ 745               		mov r18,r24
+ 746               		subi r18,lo8(-(-1))
+ 747               		movw r24,r28
+ 748               		ldi r22,lo8(84)
+ 749               		ldi r23,hi8(84)
+ 750               		call __divmodhi4
+ 751               		mov r24,r18
+ 752               		call pixelxy
+ 452:nokialib.h    **** void lcd_clear()
+ 453:nokialib.h    **** {int i;
+ 753               	6,.LM92-.LFBB13
+ 754               	.LM92:
+ 755               		ldi r24,lo8(0)
+ 756 0218 CF93      		call wrdata
+ 758               	.LM93:
+ 759               		adiw r28,1
+ 760               		ldi r24,hi8(504)
+ 761               		cpi r28,lo8(504)
+ 762 021c C0E0      		cpc r29,r24
+ 763 021e D0E0      		brne .L58
+ 764               	/* epilogue start */
+ 454:nokialib.h    **** for(i=0;i<504;i++) {
+ 455:nokialib.h    **** pixelxy((i%84)-1,i/84);
+ 765               	,459,.LM94-.LFBB13
+ 766               	.LM94:
+ 767 0220 CE01      		pop r29
+ 768 0222 64E5      		pop r28
+ 769 0224 70E0      		ret
+ 774 0230 64E5      	.Lscope13:
+ 456:nokialib.h    **** wrdata(0x00);
+ 779               	0,11)",64,0,0,18
+ 780               	.global	LcdLine
+ 782 0240 0E94 0000 	LcdLine:
+ 784               	.LM95:
+ 785 0244 2196      	.LFBB14:
+ 786 0246 81E0      		push r12
+ 787 0248 C83F      		push r13
+ 788 024a D807      		push r14
+ 789 024c 01F4      		push r15
+ 790               		push r16
+ 457:nokialib.h    **** }
+ 458:nokialib.h    **** 
+ 459:nokialib.h    **** }
+ 791               	ush r28
+ 792               		push r29
+ 793 024e DF91      	/* prologue: function */
+ 794 0250 CF91      	/* frame size = 0 */
+ 796               	.LM96:
+ 797               		mov r12,r18
+ 798               		clr r13
+ 800               	.LM97:
+ 801               		ldi r21,lo8(0)
+ 802               		sub r20,r24
+ 803               		sbc r21,__zero_reg__
+ 804               		sub r12,r22
+ 805               		sbc r13,__zero_reg__
+ 806               		sbrs r13,7
+ 807               		rjmp .L62
+ 808               		com r13
+ 460:nokialib.h    **** 
+ 461:nokialib.h    **** 
+ 462:nokialib.h    **** void LcdLine ( unsigned char x1, unsigned char y1, unsigned char x2, unsigned char y2 )
+ 463:nokialib.h    **** {
+ 809               	__zero_reg__
+ 810               		inc r13
+ 811               	.L62:
+ 812 0254 CF92      		movw r14,r20
+ 813 0256 DF92      		sbrs r21,7
+ 814 0258 EF92      		rjmp .L63
+ 815 025a FF92      		com r15
+ 816 025c 0F93      		neg r14
+ 817 025e 1F93      		sbc r15,__zero_reg__
+ 818 0260 CF93      		inc r15
+ 819 0262 DF93      	.L63:
+ 820               		ldi r16,lo8(0)
+ 821               		ldi r17,hi8(0)
+ 464:nokialib.h    ****     int dx, dy,i,j;
+ 465:nokialib.h    **** 
+ 466:nokialib.h    ****     dy = y2 - y1;
+ 822               	65:
+ 824 0264 C22E      	.LM98:
+ 825 0266 DD24      		mov r24,r16
+ 467:nokialib.h    ****     dx = x2 - x1;
+ 826               	 r22,r28
+ 827               		call pixelxy
+ 829 026a 481B      	.LM99:
+ 830 026c 5109      		ldi r24,lo8(-128)
+ 831 026e C61A      		call wrdata
+ 833 0272 D7FE      	.LM100:
+ 834 0274 00C0      		adiw r28,1
+ 835 0276 D094      	.L67:
+ 836 0278 C194      		cp r28,r12
+ 837 027a D108      		cpc r29,r13
+ 838 027c D394      		brlt .L65
+ 840 027e 7A01      	.LM101:
+ 841 0280 57FF      		subi r16,lo8(-(1))
+ 842 0282 00C0      		sbci r17,hi8(-(1))
+ 843 0284 F094      	.L64:
+ 844 0286 E194      		cp r16,r14
+ 845 0288 F108      		cpc r17,r15
+ 846 028a F394      		brge .L68
+ 847               		ldi r28,lo8(0)
+ 848 028c 00E0      		ldi r29,hi8(0)
+ 849 028e 10E0      		rjmp .L67
+ 850 0290 00C0      	.L68:
+ 851               	/* epilogue start */
+ 468:nokialib.h    **** 
+ 469:nokialib.h    ****     if ( dy < 0 )
+ 470:nokialib.h    ****     {
+ 471:nokialib.h    ****         dy    = -dy;
+ 472:nokialib.h    ****         
+ 473:nokialib.h    ****     }
+ 474:nokialib.h    ****    
+ 475:nokialib.h    ****     if ( dx < 0 )
+ 476:nokialib.h    ****     {
+ 477:nokialib.h    ****         dx    = -dx;
+ 478:nokialib.h    ****         
+ 479:nokialib.h    ****     }
+ 480:nokialib.h    ****    
+ 481:nokialib.h    ****  for(i=0;i<dx;i++)
+ 482:nokialib.h    ****  {
+ 483:nokialib.h    ****   for(j=0;j<dy;j++)  
+ 484:nokialib.h    ****   {
+ 485:nokialib.h    ****     pixelxy(i,j);
+ 852               	FBB14
+ 853               	.LM102:
+ 854 0292 802F      		pop r29
+ 855 0294 6C2F      		pop r28
+ 856 0296 0E94 0000 		pop r17
+ 486:nokialib.h    **** 	wrdata(0x80);
+ 857               	r16
+ 858               		pop r15
+ 859 029a 80E8      		pop r14
+ 860 029c 0E94 0000 		pop r13
+ 861               		pop r12
+ 862               		ret
+ 869               	.Lscope14:
+ 870 02a8 0F5F      		.data
+ 871 02aa 1F4F      	.LC0:
+ 872               		.string	"123"
+ 873 02ac 0E15      		.text
+ 875 02b0 04F4      	.global	main
+ 877 02b4 D0E0      	main:
+ 879               	.Ltext8:
+ 487:nokialib.h    ****   }
+ 488:nokialib.h    ****  }   
+ 489:nokialib.h    **** }
+ 881               	28
+ 882               		push r29
+ 883 02b8 DF91      	/* prologue: function */
+ 884 02ba CF91      	/* frame size = 0 */
+ 886 02be 0F91      	.LM104:
+ 887 02c0 FF90      		ldi r24,lo8(-1)
+ 888 02c2 EF90      		out 55-32,r24
+ 890 02c6 CF90      	.LM105:
+ 891 02c8 0895      		out 56-32,__zero_reg__
+ 893               	.LM106:
+ 894               		call initlcd
+ 895               		ldi r28,lo8(0)
+ 896               		ldi r29,hi8(0)
+ 897               	.L70:
+ 899               	.LM107:
+ 900               		movw r24,r28
+ 901 0000 3132 3300 		ldi r22,lo8(84)
+ 902               		ldi r23,hi8(84)
+ 903               		call __divmodhi4
+ 904               		mov r18,r24
+ 905               		movw r24,r28
+ 906               		ldi r22,lo8(84)
+ 907               		ldi r23,hi8(84)
+ 908               		call __divmodhi4
+   1:main.c        **** #include<avr/io.h>
+   2:main.c        **** #include<util/delay.h>
+   3:main.c        **** #include "nokialib.h"
+   4:main.c        **** 
+   5:main.c        **** /*const char aims1[] PROGMEM=
+   6:main.c        **** {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+   7:main.c        **** 0x00,0x00,0xE0,0xFC,0xFC,0xFE,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFE,0xFE,
+   8:main.c        **** 0xFC,0xF8,0xE0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+   9:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x80,0x80,0x80,0x80,
+  10:main.c        **** 0x80,0x80,0x80,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  11:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  12:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x0F,0xBF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+  13:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0x7F,0x3F,0x3F,0x1C,0x1C,0x1C,0x1C,0x1C,0x3C,0x7C,0xFC,
+  14:main.c        **** 0xFC,0xFC,0xF8,0x78,0x78,0x78,0x78,0x70,0xF0,0xE0,0xF8,0xFC,0xFE,0xFE,0xFF,0xFF,
+  15:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFE,0xFC,0x00,0x00,0x00,0x00,0x00,0x00,
+  16:main.c        **** 0x00,0x00,0x00,0x80,0x00,0x00,0x00,0x00,0xEE,0xAE,0x2E,0x2E,0x6E,0xFC,0xF8,0xF8,
+  17:main.c        **** 0xF8,0xF8,0xFC,0xFC,0xFF,0xFF,0xFE,0xFC,0xFE,0x3F,0x7F,0x79,0xFC,0xBF,0xBF,0xFF,
+  18:main.c        **** 0x3B,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x07,0x01,0x00,0x00,0x40,0x23,0x21,0x21,0x00,
+  19:main.c        **** 0x00,0x00,0x00,0x00,0x01,0x01,0x00,0x80,0x80,0x80,0x8C,0x08,0x18,0x01,0x03,0xFF,
+  20:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xF3,0xF8,0xF8,
+  21:main.c        **** 0xF8,0xF0,0xF0,0xF0,0xF0,0xFC,0xFF,0xFF,0xFF,0x00,0x00,0x00,0xC0,0xE0,0xF8,0xF8,
+  22:main.c        **** 0xF8,0xF8,0xF9,0xF1,0x81,0x01,0x23,0x03,0x07,0xE7,0x07,0xC7,0xE7,0x07,0x47,0x47,
+  23:main.c        **** 0x07,0x47,0x47,0x07,0x42,0x83,0x01,0x01,0x03,0x03,0x03,0x07,0x00,0x00,0x00,0x00,
+  24:main.c        **** 0x04,0x1F,0xDF,0xFE,0xF0,0xF8,0xB8,0xF0,0xF0,0xC0,0x3C,0x3C,0x1C,0x00,0x01,0x02,
+  25:main.c        **** 0x60,0x78,0x3E,0x3F,0x37,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  26:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x01,0x01,0x01,0x01,0x01,0x03,0x03,0x03,0x00,0x00,0x00,
+  27:main.c        **** 0x00,0x0D,0x0F,0x1F,0xFF,0x3F,0xFF,0xFF,0xFF,0xFF,0xFE,0xFC,0xF8,0xF3,0xF8,0xF8,
+  28:main.c        **** 0xF8,0xF0,0xF9,0xF9,0xF8,0xFC,0xFC,0xFC,0xFC,0xFF,0xFF,0xFE,0x7C,0xDC,0xC0,0x50,
+  29:main.c        **** 0x20,0x04,0x00,0x30,0x70,0xE0,0xE0,0xE1,0xE3,0xC3,0xC3,0xE3,0xA3,0x61,0xD0,0xD0,
+  30:main.c        **** 0xF0,0xE0,0xE0,0xE0,0xF2,0xF0,0xF1,0xF9,0xFE,0xF1,0x98,0x00,0xFE,0x00,0x80,0xE0,
+  31:main.c        **** 0xFE,0x00,0x02,0x60,0xFE,0x02,0x02,0x00,0xFC,0x00,0x00,0x00,0xFC,0x04,0x04,0x04,
+  32:main.c        **** 0x04,0x00,0x00,0x00,0x00,0x1D,0x00,0x00,0x1F,0x00,0x10,0x04,0x00,0x09,0x03,0x03,
+  33:main.c        **** 0x07,0x07,0x07,0x17,0x07,0x07,0x17,0x07,0x07,0x07,0x1F,0x1F,0x1F,0x1F,0x1F,0x1F,
+  34:main.c        **** 0x18,0x18,0x18,0x0C,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x01,0x01,0x01,0x10,0x04,
+  35:main.c        **** 0x05,0x10,0x1C,0x1F,0x1F,0x1F,0x1F,0x1F,0x1F,0x1F,0x1F,0x1F,0x1F,0x13,0x17,0x1F,
+  36:main.c        **** 0x1F,0x1B,0x1B,0x1F,0x1B,0x1C,0x1C,0x1F,0x1F,0x14,0x00,0x10,0x17,0x00,0x00,0x00,
+  37:main.c        **** 0x1F,0x00,0x02,0x12,0x1F,0x00,0x00,0x00};
+  38:main.c        **** */
+  39:main.c        **** const char aims2[] PROGMEM={
+  40:main.c        **** 0xCF,0xCF,0xDF,0xBF,0xBF,0x7F,0xFE,0xF0,0x80,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  41:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  42:main.c        **** 0xC0,0xF0,0xF8,0xFC,0xFE,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFE,0xFE,0xFE,0xFE,0xFE,
+  43:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x92,0xFF,0xF8,0xE0,0xE0,0xD0,0xE0,
+  44:main.c        **** 0xE8,0xF0,0xF0,0xF8,0xF0,0xF0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  45:main.c        **** 0x00,0x00,0x00,0x00,0xFF,0xFE,0xFD,0xF3,0x07,0xFF,0xFE,0xFD,0xFF,0xFE,0xF8,0xE0,
+  46:main.c        **** 0xC0,0x80,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  47:main.c        **** 0x00,0x00,0x80,0x78,0x7F,0x7F,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+  48:main.c        **** 0x8F,0x87,0x07,0x07,0x0F,0x0F,0x07,0x07,0x0F,0xFF,0xFF,0xFF,0xFD,0xFF,0xFD,0xFF,
+  49:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x1F,0x03,0x00,0x00,0x00,0x00,0x00,0x00,
+  50:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xFF,0xFB,0xED,0xA4,0x1F,0x3F,0xBF,
+  51:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xF7,0xFF,0xFF,0xFC,0xF8,0xE0,0xC0,0x00,0x00,0x00,0x00,0x00,
+  52:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x0D,0x7F,0xC8,0xE8,0xFF,0xFF,0xFF,0xFF,0xC5,0x83,
+  53:main.c        **** 0x07,0x07,0x07,0x0F,0x03,0x87,0x0F,0x07,0x00,0x0C,0x0E,0x07,0x07,0xFF,0xF0,0xFF,
+  54:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFD,0xFE,0xFE,0xFC,0xF8,0xF0,
+  55:main.c        **** 0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x79,0x7B,0x7C,0x75,
+  56:main.c        **** 0xFE,0xBF,0xBF,0xDF,0xCF,0xF7,0xFB,0xED,0xFF,0xFF,0xFF,0xFF,0x7F,0x3F,0x1F,0x0F,
+  57:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x0F,0x7F,0xFF,
+  58:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFC,0xFC,0xFC,0xFC,0xBC,0x3B,0xEB,0xEA,0xFE,0xFC,0xFC,0xFC,
+  59:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFB,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+  60:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x78,0x00,0x08,0x00,0x00,0x04,0x00,0x00,0x04,0x14,
+  61:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFB,0xEF,0xFF,0x1F,0x0F,0x0F,0x07,0x03,0x01,0x00,
+  62:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  63:main.c        **** 0x00,0x00,0x00,0x01,0x03,0x07,0x0F,0x0F,0x03,0x03,0x01,0x01,0x01,0x01,0x09,0x0F,
+  64:main.c        **** 0x1F,0x3F,0x7F,0xFF,0xFF,0xFF,0xFF,0xE7,0xB7,0x73,0xF9,0xFD,0xFF,0xFF,0xFF,0xFF,
+  65:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xDF,0x07,0x00,0x00,0x00,0x00,0x00,0x00,
+  66:main.c        **** 0x00,0x00,0x40,0x40,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0x3F,0x07,0x00,0x00,0x00,
+  67:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  68:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x20,0x00,0x00,0x00,0x00,
+  69:main.c        **** 0x60,0x20,0x00,0x40,0x00,0x00,0x00,0x80,0x01,0x03,0x03,0x03,0x05,0x04,0x8F,0x5F,
+  70:main.c        **** 0xBF,0xDF,0x9F,0x9F,0x0F,0x0F,0x0F,0x0F,0x07,0x07,0x07,0x07,0x07,0x03,0x00,0x00,
+  71:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x04};
+  72:main.c        **** /*const char aims[] PROGMEM={
+  73:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  74:main.c        **** 0xC0,0xE0,0x70,0xF8,0xF8,0xF8,0xF8,0xF8,0xF8,0xF0,0xF0,0xE0,0xE0,0xC0,0x80,0x80,
+  75:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x80,0x80,0xC0,0xE0,0xE0,0x90,0x88,0xE0,0xF8,0xFC,
+  76:main.c        **** 0xFE,0xFE,0xFE,0xFC,0xF8,0xF0,0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  77:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  78:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  79:main.c        **** 0x00,0x00,0x00,0xFC,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+  80:main.c        **** 0xFF,0x7F,0xFF,0xFF,0xFF,0xFE,0xFE,0xFE,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+  81:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xE0,0xE0,0xF0,0x80,
+  82:main.c        **** 0xC0,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  83:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  84:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x07,0x3F,0xFF,0x87,0x5F,0x6F,0x9F,0x3F,0xDF,
+  85:main.c        **** 0xFF,0x7F,0xFD,0xFC,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+  86:main.c        **** 0xFF,0xFF,0xFF,0x81,0x01,0x01,0x03,0x07,0x1F,0x7F,0xFF,0xFF,0xFF,0xFF,0xFF,0x07,
+  87:main.c        **** 0x07,0x07,0x1F,0xFF,0xFF,0xF8,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  88:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  89:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x03,0x06,
+  90:main.c        **** 0x19,0x37,0x61,0xD4,0xB1,0x4F,0xAB,0xBB,0x7F,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+  91:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFC,0xE0,0x80,0x7E,0x7E,0x7C,0x7F,0xFF,
+  92:main.c        **** 0xFF,0x7F,0x7F,0xF8,0xFC,0x58,0xC0,0xFF,0xCF,0x80,0xC0,0x40,0x60,0x20,0x20,0x30,
+  93:main.c        **** 0x10,0x10,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  94:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+  95:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x03,0x03,0x06,0x06,0x0D,0x0F,0x0F,
+  96:main.c        **** 0x1F,0x3F,0x7F,0x7F,0xFF,0xFF,0xFF,0x87,0x17,0x07,0x3F,0xFF,0xFF,0xFF,0xFF,0xF8,
+  97:main.c        **** 0xF8,0xF0,0xF0,0x31,0x19,0x1B,0x1B,0x9B,0xF9,0xF8,0xFE,0xFF,0x7F,0x3F,0x1F,0x0F,
+  98:main.c        **** 0x02,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x00,0x00,0x00,0x00,0x00,0x00,
+  99:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 100:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x80,
+ 101:main.c        **** 0xC0,0xE0,0xF0,0xF8,0xFC,0xFE,0xFE,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFE,0xFC,0xFC,
+ 102:main.c        **** 0xFB,0xF3,0xF7,0xF7,0xF7,0xFB,0xFE,0xFE,0xFE,0xFE,0xFF,0xFF,0xFD,0xF9,0xE0,0xC0,
+ 103:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 104:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00};
+ 105:main.c        **** */
+ 106:main.c        **** /*
+ 107:main.c        **** const char aims[] PROGMEM=
+ 108:main.c        **** {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 109:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x80,0xC0,0xC0,0xE0,0xE0,0xF0,
+ 110:main.c        **** 0xF0,0xF0,0xF8,0xF8,0xF8,0xF8,0xF8,0xF8,0xF8,0xFC,0xFC,0xFC,0xFC,0xFC,0xF8,0xF8,
+ 111:main.c        **** 0xF8,0xF0,0xF0,0xF0,0xE0,0xE0,0xC0,0xC0,0xC0,0x80,0x80,0x80,0x00,0x00,0x00,0x00,
+ 112:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 113:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 114:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x1C,0xFE,0xFF,0xFF,
+ 115:main.c        **** 0xFF,0x7F,0x3F,0x3F,0x1F,0x1F,0x0F,0x0F,0x0F,0x0F,0x0F,0x0F,0x0F,0x0F,0x0F,0x0F,
+ 116:main.c        **** 0x1F,0x0F,0x1F,0x1F,0x1F,0x1F,0x1F,0x1F,0x1F,0x3F,0x7F,0x7F,0xFF,0xFF,0xFF,0xFF,
+ 117:main.c        **** 0x1E,0x0C,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 118:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 119:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 120:main.c        **** 0x1C,0x00,0x23,0x3F,0x7F,0x00,0x00,0x00,0x06,0x06,0x07,0x07,0x07,0x0F,0x0F,0x0F,
+ 121:main.c        **** 0x8F,0x84,0x04,0x04,0x8C,0x86,0x8F,0x0F,0x07,0x0F,0x07,0x07,0x04,0x00,0x00,0x00,
+ 122:main.c        **** 0x06,0x7F,0x27,0x06,0x1E,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 123:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 124:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 125:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x80,0xC0,0x40,0x00,0x00,0x00,0x00,
+ 126:main.c        **** 0x00,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x00,0x00,0x00,0x00,
+ 127:main.c        **** 0x00,0x80,0x80,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 128:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 129:main.c        **** 0x80,0x80,0xC0,0xC0,0xC0,0xC0,0xE0,0xE0,0xE0,0xE0,0xE0,0xE0,0xF0,0xF0,0xF0,0xF0,
+ 130:main.c        **** 0xF0,0xF8,0xF8,0xF8,0xF8,0xF8,0xFC,0xFC,0xFC,0xFC,0xFC,0xFE,0xFF,0xFF,0xFF,0xF8,
+ 131:main.c        **** 0xE0,0x80,0x00,0x00,0x00,0x00,0x00,0x00,0x80,0x80,0x00,0x80,0x00,0x00,0x00,0x00,
+ 132:main.c        **** 0x00,0x00,0x80,0xE0,0xF0,0xF8,0xFF,0xFF,0xFE,0xFC,0xFC,0xFC,0xFC,0xF8,0xF8,0xF8,
+ 133:main.c        **** 0xF8,0xF8,0xF0,0xF0,0xF0,0xF0,0xF0,0xE0,0xE0,0xE0,0xE0,0xE0,0xC0,0xC0,0xC0,0xC0,
+ 134:main.c        **** 0xC0,0x80,0x80,0x80,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+ 135:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+ 136:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFC,0xF8,0xF0,0xFC,0x7E,0xFF,0xFF,0xFF,0xFE,0x7F,
+ 137:main.c        **** 0xFF,0xFE,0xFC,0xF8,0xFC,0xFE,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+ 138:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
+ 139:main.c        **** 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF};
+ 140:main.c        **** */
+ 141:main.c        **** const char aims1[] PROGMEM=
+ 142:main.c        **** {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 143:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 144:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 145:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,
+ 146:main.c        **** 0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,0x01,
+ 147:main.c        **** 0xFF,0xFF,0xFF,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 148:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x10,0x10,0x10,0x32,0x64,
+ 149:main.c        **** 0x64,0xCC,0xD8,0xD8,0xF2,0xFE,0xFE,0xF8,0xFF,0xFF,0xF8,0xF0,0xF0,0xFF,0xF0,0xF0,
+ 150:main.c        **** 0xF8,0xF8,0xF8,0xE0,0xF0,0xF0,0xD0,0xC0,0xC0,0xC0,0x00,0x00,0x00,0x00,0x00,0x00,
+ 151:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 152:main.c        **** 0x00,0x00,0x00,0x00,0xFF,0xFF,0xFF,0xFF,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 153:main.c        **** 0x80,0x00,0x00,0x00,0x20,0x20,0x20,0x60,0x60,0xC0,0x80,0x80,0xB0,0x70,0x70,0xE0,
+ 154:main.c        **** 0xC0,0xC0,0x9A,0x32,0x32,0xF2,0xCF,0xCF,0x8F,0x7F,0x7F,0xFF,0xFF,0xFF,0xFF,0xFF,
+ 155:main.c        **** 0xFF,0xFF,0xFB,0xFB,0xF7,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFE,0xFE,0xFE,0xFF,0xFF,
+ 156:main.c        **** 0xFF,0xFC,0xFC,0x7C,0x78,0x78,0x58,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
+ 157:main.c        **** 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xFF,0xFF,0xFF,0x00,0x00,0x00,0x09,
+ 158:main.c        **** 0x09,0x09,0x19,0x19,0x1B,0x1B,0x1B,0x3F,0x36,0x36,0x3E,0x6C,0x6C,0x6C,0xF9,0xF9,
+ 159:main.c        **** 0xF3,0xF3,0xF3,0xE6,0xED,0xED,0xDB,0xDF,0xDF,0xFE,0x7D,0x7D,0x1F,0x1F,0x1F,0x6F,
+ 160:main.c        **** 0x1F,0x1F,0x0F,0x09,0x09,0x07,0x0F,0x0F,0x0F,0x1F,0x1F,0xF9,0x1F,0x1F,0x7E,0xEF,
+ 161:main.c        **** 0xEF,0xF3,0xFB,0xFB,0xFC,0xFD,0xFD,0xDF,0xEE,0xEE,0xEE,0x64,0x64,0x66,0x72,0x72,
+ 162:main.c        **** 0x70,0x30,0x30,0x20,0x20,0x20,0x00,0x00,0x00,0x00,0x00,0x00,0xFF,0xFF,0xFF,0xFF,
+ 163:main.c        **** 0x00,0x00,0x04,0x06,0x06,0x06,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x0E,0x8E,0x9E,
+ 164:main.c        **** 0x9E,0x9E,0xDE,0xDE,0xDE,0xDE,0xDE,0xCE,0xEE,0xEE,0xEF,0xEF,0xEF,0xFF,0xF0,0xF0,
+ 165:main.c        **** 0xF0,0xF0,0xF0,0xE0,0xE0,0xE0,0xC0,0xC0,0xC0,0xC0,0xC0,0xC0,0xC0,0xC0,0xC0,0xE4,
+ 166:main.c        **** 0xE2,0xE2,0xF9,0xDF,0xDF,0xBF,0xBF,0xBF,0x7E,0x76,0x76,0x76,0xF6,0xF6,0xF6,0x96,
+ 167:main.c        **** 0x96,0x97,0xD7,0xD7,0xD7,0x57,0x57,0x16,0x96,0x96,0x36,0x26,0x26,0x24,0x28,0x28,
+ 168:main.c        **** 0xFF,0xFF,0xFF,0xFF,0x00,0x00,0x02,0x03,0x03,0x00,0x00,0x00,0x02,0x03,0x03,0x03,
+ 169:main.c        **** 0x03,0x03,0x01,0x01,0x01,0x01,0x00,0x00,0x04,0x06,0x06,0x07,0x03,0x03,0x83,0x81,
+ 170:main.c        **** 0x81,0x71,0xF8,0xF8,0xFE,0x3F,0x3F,0x0F,0x03,0x03,0xFE,0x7F,0x7F,0x7F,0x1F,0x1F,
+ 171:main.c        **** 0x7F,0x7C,0x7C,0x41,0x07,0x07,0x0F,0x1F,0x1F,0x3F,0x77,0xF7,0xEF,0x9E,0x9E,0xBE,
+ 172:main.c        **** 0xB4,0xB4,0xEC,0x88,0x88,0x99,0x91,0x91,0xB1,0xA1,0xA1,0x83,0x82,0x82,0x84,0x81,
+ 173:main.c        **** 0x81,0x80,0x80,0x80,0xFF,0xFF,0xFF,0xFF};
+ 174:main.c        **** 
+ 175:main.c        **** int main(void)
+ 176:main.c        **** {
+ 909               	LBB81:
+ 911               	.LM108:
+ 912 02ca CF93      		movw r30,r28
+ 913 02cc DF93      		subi r30,lo8(-(aims1))
+ 914               		sbci r31,hi8(-(aims1))
+ 915               	/* #APP */
+ 177:main.c        **** int i;
+ 178:main.c        **** DDRB=0xFF;
+ 916               	 "main.c" 1
+ 917               		lpm r30, Z
+ 918 02ce 8FEF      		
+ 919 02d0 87BB      	 ;  0 "" 2
+ 179:main.c        **** PORTB=0x00;
+ 920               	NOAPP */
+ 921               	.LBE81:
+ 922 02d2 18BA      		mov r24,r30
+ 180:main.c        **** initlcd();
+ 923               	ll wrdata
+ 925 02d4 0E94 0000 	.LM109:
+ 926 02d8 C0E0      		adiw r28,1
+ 927 02da D0E0      		ldi r24,hi8(504)
+ 928               		cpi r28,lo8(504)
+ 181:main.c        ****  for(i=0;i<504;i++) {
+ 182:main.c        **** pixelxy(i%84,i/84);
+ 929               	29,r24
+ 930               		brne .L70
+ 931 02dc CE01      		ldi r24,lo8(-15536)
+ 932 02de 64E5      		ldi r25,hi8(-15536)
+ 933 02e0 70E0      	.LBB82:
+ 934 02e2 0E94 0000 	.LBB83:
+ 935 02e6 282F      	.LBB84:
+ 936 02e8 CE01      	.LBB85:
+ 938 02ec 70E0      	.Ltext9:
+ 940 02f2 822F      	.LM110:
+ 941 02f4 0E94 0000 		ldi r18,lo8(400)
+ 942               		ldi r19,hi8(400)
+ 183:main.c        **** wrdata(pgm_read_byte(&aims1[i]));
+ 943               	0,r18
+ 944               	/* #APP */
+ 945 02f8 FE01      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 946 02fa E050      		1: sbiw r30,1
+ 947 02fc F040      		brne 1b
+ 948               	 ;  0 "" 2
+ 949               	/* #NOAPP */
+ 950 02fe E491      	.LBE85:
+ 951               	.LBE84:
+ 953               	.Ltext10:
+ 955 0300 8E2F      	.LM111:
+ 956 0302 0E94 0000 		sbiw r24,1
+ 958               	.LM112:
+ 959 0306 2196      		brne .L71
+ 960 0308 81E0      		ldi r28,lo8(0)
+ 961 030a C83F      		ldi r29,hi8(0)
+ 962 030c D807      	.L72:
+ 963 030e 01F4      	.LBE83:
+ 964 0310 80E5      	.LBE82:
+ 966               	.Ltext11:
+ 968               	.LM113:
+ 969               		movw r24,r28
+ 970               		ldi r22,lo8(84)
+ 971               		ldi r23,hi8(84)
+  84:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+  85:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		"brne 1b"
+  86:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		: "=r" (__count)
+  87:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		: "0" (__count)
+  88:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 	);
+  89:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** }
+  90:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  91:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  92:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  93:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Delay loop using a 16-bit counter \c __count, so up to 65536
+  94:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     iterations are possible.  (The value 65536 would have to be
+  95:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     passed as 0.)  The loop executes four CPU cycles per iteration,
+  96:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     not including the overhead the compiler requires to setup the
+  97:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     counter register pair.
+  98:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  99:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to about 262.1
+ 100:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     milliseconds can be achieved.
+ 101:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****  */
+ 102:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** void
+ 103:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** _delay_loop_2(uint16_t __count)
+ 104:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** {
+ 105:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
+ 972               	4
+ 973               		movw r24,r28
+ 974 0314 20E9      		ldi r22,lo8(84)
+ 975 0316 31E0      		ldi r23,hi8(84)
+ 976               		call __divmodhi4
+ 977 0318 F901      		mov r24,r18
+ 978               		call pixelxy
+ 979               	.LBB86:
+ 981 031c 01F4      	.LM114:
+ 982               		movw r30,r28
+ 983               		subi r30,lo8(-(aims2))
+ 984               		sbci r31,hi8(-(aims2))
+ 985               	/* #APP */
+ 986               	 ;  188 "main.c" 1
+ 987               		lpm r30, Z
+   1:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    All rights reserved.
+   5:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+   6:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+   9:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  12:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      distribution.
+  16:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  17:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  21:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  33:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /* $Id: delay.h,v 1.5.2.1 2009/02/25 10:14:03 joerg_wunsch Exp $ */
+  34:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  35:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  38:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #include <inttypes.h>
+  39:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #include <util/delay_basic.h>
+  40:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  41:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /** \file */
+  42:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  43:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \code
+  44:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  45:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  46:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     #include <util/delay.h>
+  47:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \endcode
+  48:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  49:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  50:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  51:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  52:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     used.
+  53:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  54:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  55:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  56:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  57:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  58:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  59:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  60:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  61:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  62:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  63:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  64:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  65:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  66:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  67:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  68:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  69:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  70:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     routines linked into the application.
+  71:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  72:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  73:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  74:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  75:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  76:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** */
+  77:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  78:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  79:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  80:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  81:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #endif
+  82:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  83:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #ifndef F_CPU
+  84:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  85:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  86:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** # define F_CPU 1000000UL
+  87:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #endif
+  88:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  89:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+  90:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+  91:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #endif
+  92:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  93:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /**
+  94:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    \ingroup util_delay
+  95:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  96:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+  97:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  98:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+  99:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 100:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+ 101:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 102:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+ 103:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 104:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 105:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 106:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 107:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 108:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****  */
+ 109:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** void
+ 110:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** _delay_ms(double __ms)
+ 111:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** {
+ 112:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	uint16_t __ticks;
+ 113:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	double __tmp = ((F_CPU) / 4e3) * __ms;
+ 114:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 115:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		__ticks = 1;
+ 116:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 117:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	{
+ 118:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		//	__ticks = requested delay in 1/10 ms
+ 119:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		__ticks = (uint16_t) (__ms * 10.0);
+ 120:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		while(__ticks)
+ 121:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		{
+ 122:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 			// wait 1/10 ms
+ 123:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 			_delay_loop_2(((F_CPU) / 4e3) / 10);
+ 124:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 			__ticks --;
+ 988               	#NOAPP */
+ 989               	.LBE86:
+ 990 031e 0197      		mov r24,r30
+ 991               		call wrdata
+ 993 0320 01F4      	.LM115:
+ 994 0322 C0E0      		adiw r28,1
+ 995 0324 D0E0      		ldi r24,hi8(504)
+ 996               		cpi r28,lo8(504)
+ 997               		cpc r29,r24
+ 998               		brne .L72
+ 999               		ldi r24,lo8(-15536)
+ 1000               		ldi r25,hi8(-15536)
+ 184:main.c        **** }
+ 185:main.c        **** _delay_ms(5000);
+ 186:main.c        **** for(i=0;i<504;i++) {
+ 187:main.c        **** pixelxy(i%84,i/84);
+ 1001               	8:
+ 1002               	.LBB89:
+ 1003 0326 CE01      	.LBB90:
+ 1005 032a 70E0      	.Ltext12:
+ 1007 0330 282F      	.LM116:
+ 1008 0332 CE01      		ldi r18,lo8(400)
+ 1009 0334 64E5      		ldi r19,hi8(400)
+ 1010 0336 70E0      	.L73:
+ 1011 0338 0E94 0000 		movw r30,r18
+ 1012 033c 822F      	/* #APP */
+ 1013 033e 0E94 0000 	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1014               		1: sbiw r30,1
+ 188:main.c        **** wrdata(pgm_read_byte(&aims2[i]));
+ 1015               	 "" 2
+ 1016               	/* #NOAPP */
+ 1017 0342 FE01      	.LBE90:
+ 1018 0344 E050      	.LBE89:
+ 1020               	.Ltext13:
+ 1022 0348 E491      	.LM117:
+ 1023               		sbiw r24,1
+ 1025               	.LM118:
+ 1026               		brne .L73
+ 1027 034a 8E2F      	.LBE88:
+ 1028 034c 0E94 0000 	.LBE87:
+ 1030               	.Ltext14:
+ 1032 0352 81E0      	.LM119:
+ 1033 0354 C83F      		call lcd_clear
+ 1035 0358 01F4      	.LM120:
+ 1036 035a 80E5      		ldi r24,lo8(1)
+ 1037 035c 93EC      		ldi r22,lo8(15)
+ 1038               		ldi r20,lo8(40)
+ 1039               		ldi r18,lo8(15)
+ 1040               		call LcdLine
+ 1041               		ldi r24,lo8(-15536)
+ 1042               		ldi r25,hi8(-15536)
+ 1043               	.LBB91:
+ 1044               	.LBB92:
+ 1045               	.LBB93:
+ 1046 035e 20E9      	.LBB94:
+ 1048               	.Ltext15:
+ 1050               	.LM121:
+ 1051               		ldi r18,lo8(400)
+ 1052 0364 3197      		ldi r19,hi8(400)
+ 1053 0366 01F4      	.L74:
+ 1054               		movw r30,r18
+ 1055               	/* #APP */
+ 1056               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1057               		1: sbiw r30,1
+ 1058               		brne 1b
+ 1059               	 ;  0 "" 2
+ 1060               	/* #NOAPP */
+ 1061               	.LBE94:
+ 1062 0368 0197      	.LBE93:
+ 1064               	.Ltext16:
+ 1066               	.LM122:
+ 1067               		sbiw r24,1
+ 1069               	.LM123:
+ 189:main.c        **** }
+ 190:main.c        **** _delay_ms(5000);
+ 191:main.c        **** //wrcmd(0x0d);//invert display mode
+ 192:main.c        **** lcd_clear();
+ 1070               	ext17
+ 1071               	.Ltext17:
+ 193:main.c        **** //lcd_drawborder();
+ 194:main.c        **** LcdLine(1,15,40,15);
+ 1073               	124:
+ 1074               		ldi r24,lo8(12)
+ 1075 0370 81E0      		call wrcmd
+ 1077 0374 48E2      	.LM125:
+ 1078 0376 2FE0      		call lcd_clear
+ 1080 037c 80E5      	.LM126:
+ 1081 037e 93EC      		call lcd_drawborder
+ 1083               	.LM127:
+ 1084               		ldi r24,lo8(.LC0)
+ 1085               		ldi r25,hi8(.LC0)
+ 1086               		call lcdstr_megaFont
+ 1087               	.L75:
+ 1088               		rjmp .L75
+ 195:main.c        **** _delay_ms(5000);
+ 196:main.c        **** wrcmd(0x0c);//normal display mode
+ 1114               	4,0,0,.LBE92-.LFBB15
+ 1116 038e 8CE0      	.Lscope15:
+ 1117 0390 0E94 0000 	.global	FontLookup
+ 197:main.c        **** 
+ 198:main.c        **** lcd_clear();
+ 1118               	ction	.progmem.data,"a",@progbits
+ 199:main.c        **** //wrcmd(0x0d);//invert display mode
+ 200:main.c        **** lcd_drawborder();
+ 1121               	tLookup:
+ 1122               		.byte	0
+ 1123 0398 0E94 0000 		.byte	0
+ 201:main.c        **** lcdstr_megaFont("123");
+ 1124               	yte	0
+ 1125               		.byte	0
+ 1126 039c 80E0      		.byte	0
+ 1127 039e 90E0      		.byte	0
+ 1128 03a0 0E94 0000 		.byte	0
+ 1129               		.byte	47
+ 1130 03a4 00C0      		.byte	0
+ 1131               		.byte	0
+ 1132               		.byte	0
+ 1133               		.byte	7
+ 1134               		.byte	0
+ 1135               		.byte	7
+ 1136               		.byte	0
+ 1137               		.byte	20
+ 1138               		.byte	127
+ 1139               		.byte	20
+ 1140               		.byte	127
+ 1141               		.byte	20
+ 1142               		.byte	36
+ 1143               		.byte	42
+ 1144               		.byte	127
+ 1145               		.byte	42
+ 1146               		.byte	18
+ 1147               		.byte	-60
+ 1148               		.byte	-56
+ 1149               		.byte	16
+ 1150               		.byte	38
+ 1151               		.byte	70
+ 1152               		.byte	54
+ 1153               		.byte	73
+ 1154               		.byte	85
+ 1155               		.byte	34
+ 1156               		.byte	80
+ 1157               		.byte	0
+ 1158               		.byte	5
+ 1159               		.byte	3
+ 1160               		.byte	0
+ 1161               		.byte	0
+ 1162               		.byte	0
+ 1163               		.byte	28
+ 1164               		.byte	34
+ 1165 0000 00        		.byte	65
+ 1166 0001 00        		.byte	0
+ 1167 0002 00        		.byte	0
+ 1168 0003 00        		.byte	65
+ 1169 0004 00        		.byte	34
+ 1170 0005 00        		.byte	28
+ 1171 0006 00        		.byte	0
+ 1172 0007 2F        		.byte	20
+ 1173 0008 00        		.byte	8
+ 1174 0009 00        		.byte	62
+ 1175 000a 00        		.byte	8
+ 1176 000b 07        		.byte	20
+ 1177 000c 00        		.byte	8
+ 1178 000d 07        		.byte	8
+ 1179 000e 00        		.byte	62
+ 1180 000f 14        		.byte	8
+ 1181 0010 7F        		.byte	8
+ 1182 0011 14        		.byte	0
+ 1183 0012 7F        		.byte	0
+ 1184 0013 14        		.byte	80
+ 1185 0014 24        		.byte	48
+ 1186 0015 2A        		.byte	0
+ 1187 0016 7F        		.byte	16
+ 1188 0017 2A        		.byte	16
+ 1189 0018 12        		.byte	16
+ 1190 0019 C4        		.byte	16
+ 1191 001a C8        		.byte	16
+ 1192 001b 10        		.byte	0
+ 1193 001c 26        		.byte	96
+ 1194 001d 46        		.byte	96
+ 1195 001e 36        		.byte	0
+ 1196 001f 49        		.byte	0
+ 1197 0020 55        		.byte	32
+ 1198 0021 22        		.byte	16
+ 1199 0022 50        		.byte	8
+ 1200 0023 00        		.byte	4
+ 1201 0024 05        		.byte	2
+ 1202 0025 03        		.byte	62
+ 1203 0026 00        		.byte	81
+ 1204 0027 00        		.byte	73
+ 1205 0028 00        		.byte	69
+ 1206 0029 1C        		.byte	62
+ 1207 002a 22        		.byte	0
+ 1208 002b 41        		.byte	66
+ 1209 002c 00        		.byte	127
+ 1210 002d 00        		.byte	64
+ 1211 002e 41        		.byte	0
+ 1212 002f 22        		.byte	66
+ 1213 0030 1C        		.byte	97
+ 1214 0031 00        		.byte	81
+ 1215 0032 14        		.byte	73
+ 1216 0033 08        		.byte	70
+ 1217 0034 3E        		.byte	33
+ 1218 0035 08        		.byte	65
+ 1219 0036 14        		.byte	69
+ 1220 0037 08        		.byte	75
+ 1221 0038 08        		.byte	49
+ 1222 0039 3E        		.byte	24
+ 1223 003a 08        		.byte	20
+ 1224 003b 08        		.byte	18
+ 1225 003c 00        		.byte	127
+ 1226 003d 00        		.byte	16
+ 1227 003e 50        		.byte	39
+ 1228 003f 30        		.byte	69
+ 1229 0040 00        		.byte	69
+ 1230 0041 10        		.byte	69
+ 1231 0042 10        		.byte	57
+ 1232 0043 10        		.byte	60
+ 1233 0044 10        		.byte	74
+ 1234 0045 10        		.byte	73
+ 1235 0046 00        		.byte	73
+ 1236 0047 60        		.byte	48
+ 1237 0048 60        		.byte	1
+ 1238 0049 00        		.byte	113
+ 1239 004a 00        		.byte	9
+ 1240 004b 20        		.byte	5
+ 1241 004c 10        		.byte	3
+ 1242 004d 08        		.byte	54
+ 1243 004e 04        		.byte	73
+ 1244 004f 02        		.byte	73
+ 1245 0050 3E        		.byte	73
+ 1246 0051 51        		.byte	54
+ 1247 0052 49        		.byte	6
+ 1248 0053 45        		.byte	73
+ 1249 0054 3E        		.byte	73
+ 1250 0055 00        		.byte	41
+ 1251 0056 42        		.byte	30
+ 1252 0057 7F        		.byte	0
+ 1253 0058 40        		.byte	54
+ 1254 0059 00        		.byte	54
+ 1255 005a 42        		.byte	0
+ 1256 005b 61        		.byte	0
+ 1257 005c 51        		.byte	0
+ 1258 005d 49        		.byte	86
+ 1259 005e 46        		.byte	54
+ 1260 005f 21        		.byte	0
+ 1261 0060 41        		.byte	0
+ 1262 0061 45        		.byte	8
+ 1263 0062 4B        		.byte	20
+ 1264 0063 31        		.byte	34
+ 1265 0064 18        		.byte	65
+ 1266 0065 14        		.byte	0
+ 1267 0066 12        		.byte	20
+ 1268 0067 7F        		.byte	20
+ 1269 0068 10        		.byte	20
+ 1270 0069 27        		.byte	20
+ 1271 006a 45        		.byte	20
+ 1272 006b 45        		.byte	0
+ 1273 006c 45        		.byte	65
+ 1274 006d 39        		.byte	34
+ 1275 006e 3C        		.byte	20
+ 1276 006f 4A        		.byte	8
+ 1277 0070 49        		.byte	2
+ 1278 0071 49        		.byte	1
+ 1279 0072 30        		.byte	81
+ 1280 0073 01        		.byte	9
+ 1281 0074 71        		.byte	6
+ 1282 0075 09        		.byte	50
+ 1283 0076 05        		.byte	73
+ 1284 0077 03        		.byte	89
+ 1285 0078 36        		.byte	81
+ 1286 0079 49        		.byte	62
+ 1287 007a 49        		.byte	126
+ 1288 007b 49        		.byte	17
+ 1289 007c 36        		.byte	17
+ 1290 007d 06        		.byte	17
+ 1291 007e 49        		.byte	126
+ 1292 007f 49        		.byte	127
+ 1293 0080 29        		.byte	73
+ 1294 0081 1E        		.byte	73
+ 1295 0082 00        		.byte	73
+ 1296 0083 36        		.byte	54
+ 1297 0084 36        		.byte	62
+ 1298 0085 00        		.byte	65
+ 1299 0086 00        		.byte	65
+ 1300 0087 00        		.byte	65
+ 1301 0088 56        		.byte	34
+ 1302 0089 36        		.byte	127
+ 1303 008a 00        		.byte	65
+ 1304 008b 00        		.byte	65
+ 1305 008c 08        		.byte	34
+ 1306 008d 14        		.byte	28
+ 1307 008e 22        		.byte	127
+ 1308 008f 41        		.byte	73
+ 1309 0090 00        		.byte	73
+ 1310 0091 14        		.byte	73
+ 1311 0092 14        		.byte	65
+ 1312 0093 14        		.byte	127
+ 1313 0094 14        		.byte	9
+ 1314 0095 14        		.byte	9
+ 1315 0096 00        		.byte	9
+ 1316 0097 41        		.byte	1
+ 1317 0098 22        		.byte	62
+ 1318 0099 14        		.byte	65
+ 1319 009a 08        		.byte	73
+ 1320 009b 02        		.byte	73
+ 1321 009c 01        		.byte	122
+ 1322 009d 51        		.byte	127
+ 1323 009e 09        		.byte	8
+ 1324 009f 06        		.byte	8
+ 1325 00a0 32        		.byte	8
+ 1326 00a1 49        		.byte	127
+ 1327 00a2 59        		.byte	0
+ 1328 00a3 51        		.byte	65
+ 1329 00a4 3E        		.byte	127
+ 1330 00a5 7E        		.byte	65
+ 1331 00a6 11        		.byte	0
+ 1332 00a7 11        		.byte	32
+ 1333 00a8 11        		.byte	64
+ 1334 00a9 7E        		.byte	65
+ 1335 00aa 7F        		.byte	63
+ 1336 00ab 49        		.byte	1
+ 1337 00ac 49        		.byte	127
+ 1338 00ad 49        		.byte	8
+ 1339 00ae 36        		.byte	20
+ 1340 00af 3E        		.byte	34
+ 1341 00b0 41        		.byte	65
+ 1342 00b1 41        		.byte	127
+ 1343 00b2 41        		.byte	64
+ 1344 00b3 22        		.byte	64
+ 1345 00b4 7F        		.byte	64
+ 1346 00b5 41        		.byte	64
+ 1347 00b6 41        		.byte	127
+ 1348 00b7 22        		.byte	2
+ 1349 00b8 1C        		.byte	12
+ 1350 00b9 7F        		.byte	2
+ 1351 00ba 49        		.byte	127
+ 1352 00bb 49        		.byte	127
+ 1353 00bc 49        		.byte	4
+ 1354 00bd 41        		.byte	8
+ 1355 00be 7F        		.byte	16
+ 1356 00bf 09        		.byte	127
+ 1357 00c0 09        		.byte	62
+ 1358 00c1 09        		.byte	65
+ 1359 00c2 01        		.byte	65
+ 1360 00c3 3E        		.byte	65
+ 1361 00c4 41        		.byte	62
+ 1362 00c5 49        		.byte	127
+ 1363 00c6 49        		.byte	9
+ 1364 00c7 7A        		.byte	9
+ 1365 00c8 7F        		.byte	9
+ 1366 00c9 08        		.byte	6
+ 1367 00ca 08        		.byte	62
+ 1368 00cb 08        		.byte	65
+ 1369 00cc 7F        		.byte	81
+ 1370 00cd 00        		.byte	33
+ 1371 00ce 41        		.byte	94
+ 1372 00cf 7F        		.byte	127
+ 1373 00d0 41        		.byte	9
+ 1374 00d1 00        		.byte	25
+ 1375 00d2 20        		.byte	41
+ 1376 00d3 40        		.byte	70
+ 1377 00d4 41        		.byte	70
+ 1378 00d5 3F        		.byte	73
+ 1379 00d6 01        		.byte	73
+ 1380 00d7 7F        		.byte	73
+ 1381 00d8 08        		.byte	49
+ 1382 00d9 14        		.byte	1
+ 1383 00da 22        		.byte	1
+ 1384 00db 41        		.byte	127
+ 1385 00dc 7F        		.byte	1
+ 1386 00dd 40        		.byte	1
+ 1387 00de 40        		.byte	63
+ 1388 00df 40        		.byte	64
+ 1389 00e0 40        		.byte	64
+ 1390 00e1 7F        		.byte	64
+ 1391 00e2 02        		.byte	63
+ 1392 00e3 0C        		.byte	31
+ 1393 00e4 02        		.byte	32
+ 1394 00e5 7F        		.byte	64
+ 1395 00e6 7F        		.byte	32
+ 1396 00e7 04        		.byte	31
+ 1397 00e8 08        		.byte	63
+ 1398 00e9 10        		.byte	64
+ 1399 00ea 7F        		.byte	56
+ 1400 00eb 3E        		.byte	64
+ 1401 00ec 41        		.byte	63
+ 1402 00ed 41        		.byte	99
+ 1403 00ee 41        		.byte	20
+ 1404 00ef 3E        		.byte	8
+ 1405 00f0 7F        		.byte	20
+ 1406 00f1 09        		.byte	99
+ 1407 00f2 09        		.byte	7
+ 1408 00f3 09        		.byte	8
+ 1409 00f4 06        		.byte	112
+ 1410 00f5 3E        		.byte	8
+ 1411 00f6 41        		.byte	7
+ 1412 00f7 51        		.byte	97
+ 1413 00f8 21        		.byte	81
+ 1414 00f9 5E        		.byte	73
+ 1415 00fa 7F        		.byte	69
+ 1416 00fb 09        		.byte	67
+ 1417 00fc 19        		.byte	0
+ 1418 00fd 29        		.byte	127
+ 1419 00fe 46        		.byte	65
+ 1420 00ff 46        		.byte	65
+ 1421 0100 49        		.byte	0
+ 1422 0101 49        		.byte	85
+ 1423 0102 49        		.byte	42
+ 1424 0103 31        		.byte	85
+ 1425 0104 01        		.byte	42
+ 1426 0105 01        		.byte	85
+ 1427 0106 7F        		.byte	0
+ 1428 0107 01        		.byte	65
+ 1429 0108 01        		.byte	65
+ 1430 0109 3F        		.byte	127
+ 1431 010a 40        		.byte	0
+ 1432 010b 40        		.byte	4
+ 1433 010c 40        		.byte	2
+ 1434 010d 3F        		.byte	1
+ 1435 010e 1F        		.byte	2
+ 1436 010f 20        		.byte	4
+ 1437 0110 40        		.byte	64
+ 1438 0111 20        		.byte	64
+ 1439 0112 1F        		.byte	64
+ 1440 0113 3F        		.byte	64
+ 1441 0114 40        		.byte	64
+ 1442 0115 38        		.byte	0
+ 1443 0116 40        		.byte	1
+ 1444 0117 3F        		.byte	2
+ 1445 0118 63        		.byte	4
+ 1446 0119 14        		.byte	0
+ 1447 011a 08        		.byte	32
+ 1448 011b 14        		.byte	84
+ 1449 011c 63        		.byte	84
+ 1450 011d 07        		.byte	84
+ 1451 011e 08        		.byte	120
+ 1452 011f 70        		.byte	127
+ 1453 0120 08        		.byte	72
+ 1454 0121 07        		.byte	68
+ 1455 0122 61        		.byte	68
+ 1456 0123 51        		.byte	56
+ 1457 0124 49        		.byte	56
+ 1458 0125 45        		.byte	68
+ 1459 0126 43        		.byte	68
+ 1460 0127 00        		.byte	68
+ 1461 0128 7F        		.byte	32
+ 1462 0129 41        		.byte	56
+ 1463 012a 41        		.byte	68
+ 1464 012b 00        		.byte	68
+ 1465 012c 55        		.byte	72
+ 1466 012d 2A        		.byte	127
+ 1467 012e 55        		.byte	56
+ 1468 012f 2A        		.byte	84
+ 1469 0130 55        		.byte	84
+ 1470 0131 00        		.byte	84
+ 1471 0132 41        		.byte	24
+ 1472 0133 41        		.byte	8
+ 1473 0134 7F        		.byte	126
+ 1474 0135 00        		.byte	9
+ 1475 0136 04        		.byte	1
+ 1476 0137 02        		.byte	2
+ 1477 0138 01        		.byte	12
+ 1478 0139 02        		.byte	82
+ 1479 013a 04        		.byte	82
+ 1480 013b 40        		.byte	82
+ 1481 013c 40        		.byte	62
+ 1482 013d 40        		.byte	127
+ 1483 013e 40        		.byte	8
+ 1484 013f 40        		.byte	4
+ 1485 0140 00        		.byte	4
+ 1486 0141 01        		.byte	120
+ 1487 0142 02        		.byte	0
+ 1488 0143 04        		.byte	68
+ 1489 0144 00        		.byte	125
+ 1490 0145 20        		.byte	64
+ 1491 0146 54        		.byte	0
+ 1492 0147 54        		.byte	32
+ 1493 0148 54        		.byte	64
+ 1494 0149 78        		.byte	68
+ 1495 014a 7F        		.byte	61
+ 1496 014b 48        		.byte	0
+ 1497 014c 44        		.byte	127
+ 1498 014d 44        		.byte	16
+ 1499 014e 38        		.byte	40
+ 1500 014f 38        		.byte	68
+ 1501 0150 44        		.byte	0
+ 1502 0151 44        		.byte	0
+ 1503 0152 44        		.byte	65
+ 1504 0153 20        		.byte	127
+ 1505 0154 38        		.byte	64
+ 1506 0155 44        		.byte	0
+ 1507 0156 44        		.byte	124
+ 1508 0157 48        		.byte	4
+ 1509 0158 7F        		.byte	24
+ 1510 0159 38        		.byte	4
+ 1511 015a 54        		.byte	120
+ 1512 015b 54        		.byte	124
+ 1513 015c 54        		.byte	8
+ 1514 015d 18        		.byte	4
+ 1515 015e 08        		.byte	4
+ 1516 015f 7E        		.byte	120
+ 1517 0160 09        		.byte	56
+ 1518 0161 01        		.byte	68
+ 1519 0162 02        		.byte	68
+ 1520 0163 0C        		.byte	68
+ 1521 0164 52        		.byte	56
+ 1522 0165 52        		.byte	124
+ 1523 0166 52        		.byte	20
+ 1524 0167 3E        		.byte	20
+ 1525 0168 7F        		.byte	20
+ 1526 0169 08        		.byte	8
+ 1527 016a 04        		.byte	8
+ 1528 016b 04        		.byte	20
+ 1529 016c 78        		.byte	20
+ 1530 016d 00        		.byte	24
+ 1531 016e 44        		.byte	124
+ 1532 016f 7D        		.byte	124
+ 1533 0170 40        		.byte	8
+ 1534 0171 00        		.byte	4
+ 1535 0172 20        		.byte	4
+ 1536 0173 40        		.byte	8
+ 1537 0174 44        		.byte	72
+ 1538 0175 3D        		.byte	84
+ 1539 0176 00        		.byte	84
+ 1540 0177 7F        		.byte	84
+ 1541 0178 10        		.byte	32
+ 1542 0179 28        		.byte	4
+ 1543 017a 44        		.byte	63
+ 1544 017b 00        		.byte	68
+ 1545 017c 00        		.byte	64
+ 1546 017d 41        		.byte	32
+ 1547 017e 7F        		.byte	60
+ 1548 017f 40        		.byte	64
+ 1549 0180 00        		.byte	64
+ 1550 0181 7C        		.byte	32
+ 1551 0182 04        		.byte	124
+ 1552 0183 18        		.byte	28
+ 1553 0184 04        		.byte	32
+ 1554 0185 78        		.byte	64
+ 1555 0186 7C        		.byte	32
+ 1556 0187 08        		.byte	28
+ 1557 0188 04        		.byte	60
+ 1558 0189 04        		.byte	64
+ 1559 018a 78        		.byte	48
+ 1560 018b 38        		.byte	64
+ 1561 018c 44        		.byte	60
+ 1562 018d 44        		.byte	68
+ 1563 018e 44        		.byte	40
+ 1564 018f 38        		.byte	16
+ 1565 0190 7C        		.byte	40
+ 1566 0191 14        		.byte	68
+ 1567 0192 14        		.byte	12
+ 1568 0193 14        		.byte	80
+ 1569 0194 08        		.byte	80
+ 1570 0195 08        		.byte	80
+ 1571 0196 14        		.byte	60
+ 1572 0197 14        		.byte	68
+ 1573 0198 18        		.byte	100
+ 1574 0199 7C        		.byte	84
+ 1575 019a 7C        		.byte	76
+ 1576 019b 08        		.byte	68
+ 1577 019c 04        	.global	number
+ 1580 019f 48        	number:
+ 1581 01a0 54        		.byte	0
+ 1582 01a1 54        		.byte	-128
+ 1583 01a2 54        		.byte	-64
+ 1584 01a3 20        		.byte	-32
+ 1585 01a4 04        		.byte	-32
+ 1586 01a5 3F        		.byte	96
+ 1587 01a6 44        		.byte	-32
+ 1588 01a7 40        		.byte	-32
+ 1589 01a8 20        		.byte	-64
+ 1590 01a9 3C        		.byte	-128
+ 1591 01aa 40        		.byte	0
+ 1592 01ab 40        		.byte	0
+ 1593 01ac 20        		.byte	0
+ 1594 01ad 7C        		.byte	0
+ 1595 01ae 1C        		.byte	0
+ 1596 01af 20        		.byte	0
+ 1597 01b0 40        		.byte	112
+ 1598 01b1 20        		.byte	-1
+ 1599 01b2 1C        		.byte	-1
+ 1600 01b3 3C        		.byte	1
+ 1601 01b4 40        		.byte	0
+ 1602 01b5 30        		.byte	0
+ 1603 01b6 40        		.byte	0
+ 1604 01b7 3C        		.byte	0
+ 1605 01b8 44        		.byte	-1
+ 1606 01b9 28        		.byte	-1
+ 1607 01ba 10        		.byte	-2
+ 1608 01bb 28        		.byte	0
+ 1609 01bc 44        		.byte	0
+ 1610 01bd 0C        		.byte	0
+ 1611 01be 50        		.byte	0
+ 1612 01bf 50        		.byte	0
+ 1613 01c0 50        		.byte	0
+ 1614 01c1 3C        		.byte	15
+ 1615 01c2 44        		.byte	31
+ 1616 01c3 64        		.byte	60
+ 1617 01c4 54        		.byte	56
+ 1618 01c5 4C        		.byte	48
+ 1619 01c6 44        		.byte	56
+ 1620               		.byte	56
+ 1621               		.byte	31
+ 1622               		.byte	15
+ 1623               		.byte	3
+ 1624 01c7 00        		.byte	0
+ 1625 01c8 80        		.byte	0
+ 1626 01c9 C0        		.byte	0
+ 1627 01ca E0        		.byte	0
+ 1628 01cb E0        		.byte	0
+ 1629 01cc 60        		.byte	0
+ 1630 01cd E0        		.byte	0
+ 1631 01ce E0        		.byte	0
+ 1632 01cf C0        		.byte	0
+ 1633 01d0 80        		.byte	-128
+ 1634 01d1 00        		.byte	-32
+ 1635 01d2 00        		.byte	-32
+ 1636 01d3 00        		.byte	0
+ 1637 01d4 00        		.byte	0
+ 1638 01d5 00        		.byte	0
+ 1639 01d6 00        		.byte	0
+ 1640 01d7 70        		.byte	0
+ 1641 01d8 FF        		.byte	0
+ 1642 01d9 FF        		.byte	0
+ 1643 01da 01        		.byte	0
+ 1644 01db 00        		.byte	0
+ 1645 01dc 00        		.byte	0
+ 1646 01dd 00        		.byte	0
+ 1647 01de 00        		.byte	3
+ 1648 01df FF        		.byte	3
+ 1649 01e0 FF        		.byte	3
+ 1650 01e1 FE        		.byte	-1
+ 1651 01e2 00        		.byte	-1
+ 1652 01e3 00        		.byte	0
+ 1653 01e4 00        		.byte	0
+ 1654 01e5 00        		.byte	0
+ 1655 01e6 00        		.byte	0
+ 1656 01e7 00        		.byte	0
+ 1657 01e8 0F        		.byte	0
+ 1658 01e9 1F        		.byte	0
+ 1659 01ea 3C        		.byte	0
+ 1660 01eb 38        		.byte	0
+ 1661 01ec 30        		.byte	0
+ 1662 01ed 38        		.byte	0
+ 1663 01ee 38        		.byte	56
+ 1664 01ef 1F        		.byte	56
+ 1665 01f0 0F        		.byte	56
+ 1666 01f1 03        		.byte	63
+ 1667 01f2 00        		.byte	63
+ 1668 01f3 00        		.byte	56
+ 1669 01f4 00        		.byte	56
+ 1670 01f5 00        		.byte	56
+ 1671 01f6 00        		.byte	0
+ 1672 01f7 00        		.byte	0
+ 1673 01f8 00        		.byte	0
+ 1674 01f9 00        		.byte	0
+ 1675 01fa 00        		.byte	0
+ 1676 01fb 80        		.byte	0
+ 1677 01fc E0        		.byte	0
+ 1678 01fd E0        		.byte	-64
+ 1679 01fe 00        		.byte	-64
+ 1680 01ff 00        		.byte	-32
+ 1681 0200 00        		.byte	96
+ 1682 0201 00        		.byte	96
+ 1683 0202 00        		.byte	-32
+ 1684 0203 00        		.byte	-32
+ 1685 0204 00        		.byte	-64
+ 1686 0205 00        		.byte	-128
+ 1687 0206 00        		.byte	0
+ 1688 0207 00        		.byte	0
+ 1689 0208 00        		.byte	0
+ 1690 0209 03        		.byte	0
+ 1691 020a 03        		.byte	0
+ 1692 020b 03        		.byte	0
+ 1693 020c FF        		.byte	0
+ 1694 020d FF        		.byte	1
+ 1695 020e 00        		.byte	0
+ 1696 020f 00        		.byte	0
+ 1697 0210 00        		.byte	-128
+ 1698 0211 00        		.byte	-64
+ 1699 0212 00        		.byte	-32
+ 1700 0213 00        		.byte	-7
+ 1701 0214 00        		.byte	63
+ 1702 0215 00        		.byte	31
+ 1703 0216 00        		.byte	0
+ 1704 0217 00        		.byte	0
+ 1705 0218 00        		.byte	0
+ 1706 0219 38        		.byte	0
+ 1707 021a 38        		.byte	0
+ 1708 021b 38        		.byte	0
+ 1709 021c 3F        		.byte	0
+ 1710 021d 3F        		.byte	60
+ 1711 021e 38        		.byte	62
+ 1712 021f 38        		.byte	63
+ 1713 0220 38        		.byte	63
+ 1714 0221 00        		.byte	59
+ 1715 0222 00        		.byte	57
+ 1716 0223 00        		.byte	56
+ 1717 0224 00        		.byte	56
+ 1718 0225 00        		.byte	56
+ 1719 0226 00        		.byte	56
+ 1720 0227 00        		.byte	0
+ 1721 0228 C0        		.byte	0
+ 1722 0229 C0        		.byte	0
+ 1723 022a E0        		.byte	0
+ 1724 022b 60        		.byte	0
+ 1725 022c 60        		.byte	0
+ 1726 022d E0        		.byte	-64
+ 1727 022e E0        		.byte	-32
+ 1728 022f C0        		.byte	-32
+ 1729 0230 80        		.byte	96
+ 1730 0231 00        		.byte	96
+ 1731 0232 00        		.byte	-32
+ 1732 0233 00        		.byte	-32
+ 1733 0234 00        		.byte	-64
+ 1734 0235 00        		.byte	-64
+ 1735 0236 00        		.byte	0
+ 1736 0237 00        		.byte	0
+ 1737 0238 01        		.byte	0
+ 1738 0239 00        		.byte	0
+ 1739 023a 00        		.byte	0
+ 1740 023b 80        		.byte	0
+ 1741 023c C0        		.byte	0
+ 1742 023d E0        		.byte	1
+ 1743 023e F9        		.byte	0
+ 1744 023f 3F        		.byte	0
+ 1745 0240 1F        		.byte	48
+ 1746 0241 00        		.byte	48
+ 1747 0242 00        		.byte	56
+ 1748 0243 00        		.byte	125
+ 1749 0244 00        		.byte	-17
+ 1750 0245 00        		.byte	-49
+ 1751 0246 00        		.byte	0
+ 1752 0247 00        		.byte	0
+ 1753 0248 3C        		.byte	0
+ 1754 0249 3E        		.byte	0
+ 1755 024a 3F        		.byte	0
+ 1756 024b 3F        		.byte	0
+ 1757 024c 3B        		.byte	0
+ 1758 024d 39        		.byte	28
+ 1759 024e 38        		.byte	56
+ 1760 024f 38        		.byte	56
+ 1761 0250 38        		.byte	48
+ 1762 0251 38        		.byte	48
+ 1763 0252 00        		.byte	56
+ 1764 0253 00        		.byte	60
+ 1765 0254 00        		.byte	31
+ 1766 0255 00        		.byte	15
+ 1767 0256 00        		.byte	1
+ 1768 0257 00        		.byte	0
+ 1769 0258 C0        		.byte	0
+ 1770 0259 E0        		.byte	0
+ 1771 025a E0        		.byte	0
+ 1772 025b 60        		.byte	0
+ 1773 025c 60        		.byte	0
+ 1774 025d E0        		.byte	0
+ 1775 025e E0        		.byte	0
+ 1776 025f C0        		.byte	0
+ 1777 0260 C0        		.byte	0
+ 1778 0261 00        		.byte	-128
+ 1779 0262 00        		.byte	-64
+ 1780 0263 00        		.byte	-32
+ 1781 0264 00        		.byte	-32
+ 1782 0265 00        		.byte	0
+ 1783 0266 00        		.byte	0
+ 1784 0267 00        		.byte	0
+ 1785 0268 01        		.byte	0
+ 1786 0269 00        		.byte	0
+ 1787 026a 00        		.byte	0
+ 1788 026b 30        		.byte	0
+ 1789 026c 30        		.byte	-32
+ 1790 026d 38        		.byte	-16
+ 1791 026e 7D        		.byte	-8
+ 1792 026f EF        		.byte	-34
+ 1793 0270 CF        		.byte	-49
+ 1794 0271 00        		.byte	-57
+ 1795 0272 00        		.byte	-63
+ 1796 0273 00        		.byte	-1
+ 1797 0274 00        		.byte	-1
+ 1798 0275 00        		.byte	-64
+ 1799 0276 00        		.byte	-64
+ 1800 0277 00        		.byte	0
+ 1801 0278 1C        		.byte	0
+ 1802 0279 38        		.byte	0
+ 1803 027a 38        		.byte	0
+ 1804 027b 30        		.byte	0
+ 1805 027c 30        		.byte	0
+ 1806 027d 38        		.byte	0
+ 1807 027e 3C        		.byte	0
+ 1808 027f 1F        		.byte	0
+ 1809 0280 0F        		.byte	0
+ 1810 0281 01        		.byte	0
+ 1811 0282 00        		.byte	0
+ 1812 0283 00        		.byte	63
+ 1813 0284 00        		.byte	63
+ 1814 0285 00        		.byte	0
+ 1815 0286 00        		.byte	0
+ 1816 0287 00        		.byte	0
+ 1817 0288 00        		.byte	0
+ 1818 0289 00        		.byte	0
+ 1819 028a 00        		.byte	0
+ 1820 028b 00        		.byte	0
+ 1821 028c 80        		.byte	0
+ 1822 028d C0        		.byte	-32
+ 1823 028e E0        		.byte	-32
+ 1824 028f E0        		.byte	-32
+ 1825 0290 00        		.byte	-32
+ 1826 0291 00        		.byte	-32
+ 1827 0292 00        		.byte	-32
+ 1828 0293 00        		.byte	-32
+ 1829 0294 00        		.byte	-32
+ 1830 0295 00        		.byte	-32
+ 1831 0296 00        		.byte	-32
+ 1832 0297 E0        		.byte	0
+ 1833 0298 F0        		.byte	0
+ 1834 0299 F8        		.byte	0
+ 1835 029a DE        		.byte	0
+ 1836 029b CF        		.byte	0
+ 1837 029c C7        		.byte	0
+ 1838 029d C1        		.byte	63
+ 1839 029e FF        		.byte	63
+ 1840 029f FF        		.byte	63
+ 1841 02a0 C0        		.byte	56
+ 1842 02a1 C0        		.byte	56
+ 1843 02a2 00        		.byte	48
+ 1844 02a3 00        		.byte	112
+ 1845 02a4 00        		.byte	-16
+ 1846 02a5 00        		.byte	-32
+ 1847 02a6 00        		.byte	0
+ 1848 02a7 00        		.byte	0
+ 1849 02a8 00        		.byte	0
+ 1850 02a9 00        		.byte	0
+ 1851 02aa 00        		.byte	0
+ 1852 02ab 00        		.byte	0
+ 1853 02ac 00        		.byte	0
+ 1854 02ad 00        		.byte	28
+ 1855 02ae 3F        		.byte	56
+ 1856 02af 3F        		.byte	56
+ 1857 02b0 00        		.byte	48
+ 1858 02b1 00        		.byte	48
+ 1859 02b2 00        		.byte	56
+ 1860 02b3 00        		.byte	60
+ 1861 02b4 00        		.byte	31
+ 1862 02b5 00        		.byte	15
+ 1863 02b6 00        		.byte	1
+ 1864 02b7 00        		.byte	0
+ 1865 02b8 E0        		.byte	0
+ 1866 02b9 E0        		.byte	0
+ 1867 02ba E0        		.byte	0
+ 1868 02bb E0        		.byte	0
+ 1869 02bc E0        		.byte	0
+ 1870 02bd E0        		.byte	0
+ 1871 02be E0        		.byte	-128
+ 1872 02bf E0        		.byte	-64
+ 1873 02c0 E0        		.byte	-64
+ 1874 02c1 E0        		.byte	-32
+ 1875 02c2 00        		.byte	96
+ 1876 02c3 00        		.byte	96
+ 1877 02c4 00        		.byte	-32
+ 1878 02c5 00        		.byte	-32
+ 1879 02c6 00        		.byte	0
+ 1880 02c7 00        		.byte	0
+ 1881 02c8 3F        		.byte	0
+ 1882 02c9 3F        		.byte	0
+ 1883 02ca 3F        		.byte	0
+ 1884 02cb 38        		.byte	0
+ 1885 02cc 38        		.byte	-32
+ 1886 02cd 30        		.byte	-2
+ 1887 02ce 70        		.byte	-1
+ 1888 02cf F0        		.byte	55
+ 1889 02d0 E0        		.byte	57
+ 1890 02d1 00        		.byte	24
+ 1891 02d2 00        		.byte	24
+ 1892 02d3 00        		.byte	56
+ 1893 02d4 00        		.byte	-16
+ 1894 02d5 00        		.byte	-16
+ 1895 02d6 00        		.byte	-64
+ 1896 02d7 00        		.byte	0
+ 1897 02d8 1C        		.byte	0
+ 1898 02d9 38        		.byte	0
+ 1899 02da 38        		.byte	0
+ 1900 02db 30        		.byte	0
+ 1901 02dc 30        		.byte	0
+ 1902 02dd 38        		.byte	15
+ 1903 02de 3C        		.byte	31
+ 1904 02df 1F        		.byte	28
+ 1905 02e0 0F        		.byte	56
+ 1906 02e1 01        		.byte	48
+ 1907 02e2 00        		.byte	48
+ 1908 02e3 00        		.byte	56
+ 1909 02e4 00        		.byte	31
+ 1910 02e5 00        		.byte	15
+ 1911 02e6 00        		.byte	7
+ 1912 02e7 00        		.byte	0
+ 1913 02e8 00        		.byte	0
+ 1914 02e9 80        		.byte	0
+ 1915 02ea C0        		.byte	0
+ 1916 02eb C0        		.byte	0
+ 1917 02ec E0        		.byte	0
+ 1918 02ed 60        		.byte	-32
+ 1919 02ee 60        		.byte	-32
+ 1920 02ef E0        		.byte	-32
+ 1921 02f0 E0        		.byte	-32
+ 1922 02f1 00        		.byte	-32
+ 1923 02f2 00        		.byte	-32
+ 1924 02f3 00        		.byte	-32
+ 1925 02f4 00        		.byte	-32
+ 1926 02f5 00        		.byte	-32
+ 1927 02f6 00        		.byte	-32
+ 1928 02f7 E0        		.byte	0
+ 1929 02f8 FE        		.byte	0
+ 1930 02f9 FF        		.byte	0
+ 1931 02fa 37        		.byte	0
+ 1932 02fb 39        		.byte	0
+ 1933 02fc 18        		.byte	0
+ 1934 02fd 18        		.byte	0
+ 1935 02fe 38        		.byte	0
+ 1936 02ff F0        		.byte	0
+ 1937 0300 F0        		.byte	-128
+ 1938 0301 C0        		.byte	-32
+ 1939 0302 00        		.byte	-8
+ 1940 0303 00        		.byte	126
+ 1941 0304 00        		.byte	31
+ 1942 0305 00        		.byte	7
+ 1943 0306 00        		.byte	1
+ 1944 0307 00        		.byte	0
+ 1945 0308 0F        		.byte	0
+ 1946 0309 1F        		.byte	0
+ 1947 030a 1C        		.byte	0
+ 1948 030b 38        		.byte	0
+ 1949 030c 30        		.byte	0
+ 1950 030d 30        		.byte	0
+ 1951 030e 38        		.byte	56
+ 1952 030f 1F        		.byte	62
+ 1953 0310 0F        		.byte	31
+ 1954 0311 07        		.byte	7
+ 1955 0312 00        		.byte	1
+ 1956 0313 00        		.byte	0
+ 1957 0314 00        		.byte	0
+ 1958 0315 00        		.byte	0
+ 1959 0316 00        		.byte	0
+ 1960 0317 00        		.byte	0
+ 1961 0318 E0        		.byte	0
+ 1962 0319 E0        		.byte	0
+ 1963 031a E0        		.byte	0
+ 1964 031b E0        		.byte	0
+ 1965 031c E0        		.byte	0
+ 1966 031d E0        		.byte	-128
+ 1967 031e E0        		.byte	-64
+ 1968 031f E0        		.byte	-32
+ 1969 0320 E0        		.byte	-32
+ 1970 0321 E0        		.byte	96
+ 1971 0322 00        		.byte	96
+ 1972 0323 00        		.byte	-32
+ 1973 0324 00        		.byte	-64
+ 1974 0325 00        		.byte	-64
+ 1975 0326 00        		.byte	0
+ 1976 0327 00        		.byte	0
+ 1977 0328 00        		.byte	0
+ 1978 0329 00        		.byte	0
+ 1979 032a 00        		.byte	0
+ 1980 032b 80        		.byte	0
+ 1981 032c E0        		.byte	0
+ 1982 032d F8        		.byte	-49
+ 1983 032e 7E        		.byte	-1
+ 1984 032f 1F        		.byte	127
+ 1985 0330 07        		.byte	56
+ 1986 0331 01        		.byte	48
+ 1987 0332 00        		.byte	112
+ 1988 0333 00        		.byte	112
+ 1989 0334 00        		.byte	-1
+ 1990 0335 00        		.byte	-17
+ 1991 0336 00        		.byte	-57
+ 1992 0337 00        		.byte	0
+ 1993 0338 00        		.byte	0
+ 1994 0339 38        		.byte	0
+ 1995 033a 3E        		.byte	0
+ 1996 033b 1F        		.byte	0
+ 1997 033c 07        		.byte	3
+ 1998 033d 01        		.byte	15
+ 1999 033e 00        		.byte	31
+ 2000 033f 00        		.byte	60
+ 2001 0340 00        		.byte	56
+ 2002 0341 00        		.byte	48
+ 2003 0342 00        		.byte	48
+ 2004 0343 00        		.byte	56
+ 2005 0344 00        		.byte	31
+ 2006 0345 00        		.byte	31
+ 2007 0346 00        		.byte	15
+ 2008 0347 00        		.byte	0
+ 2009 0348 80        		.byte	0
+ 2010 0349 C0        		.byte	0
+ 2011 034a E0        		.byte	0
+ 2012 034b E0        		.byte	0
+ 2013 034c 60        		.byte	0
+ 2014 034d 60        		.byte	-128
+ 2015 034e E0        		.byte	-64
+ 2016 034f C0        		.byte	-32
+ 2017 0350 C0        		.byte	-32
+ 2018 0351 00        		.byte	96
+ 2019 0352 00        		.byte	-32
+ 2020 0353 00        		.byte	-32
+ 2021 0354 00        		.byte	-64
+ 2022 0355 00        		.byte	-128
+ 2023 0356 00        		.byte	0
+ 2024 0357 00        		.byte	0
+ 2025 0358 CF        		.byte	0
+ 2026 0359 FF        		.byte	0
+ 2027 035a 7F        		.byte	0
+ 2028 035b 38        		.byte	0
+ 2029 035c 30        		.byte	12
+ 2030 035d 70        		.byte	63
+ 2031 035e 70        		.byte	127
+ 2032 035f FF        		.byte	-15
+ 2033 0360 EF        		.byte	-32
+ 2034 0361 C7        		.byte	-64
+ 2035 0362 00        		.byte	-64
+ 2036 0363 00        		.byte	-31
+ 2037 0364 00        		.byte	-1
+ 2038 0365 00        		.byte	-1
+ 2039 0366 00        		.byte	-2
+ 2040 0367 03        		.byte	0
+ 2041 0368 0F        		.byte	0
+ 2042 0369 1F        		.byte	0
+ 2043 036a 3C        		.byte	0
+ 2044 036b 38        		.byte	0
+ 2045 036c 30        		.byte	0
+ 2046 036d 30        		.byte	0
+ 2047 036e 38        		.byte	56
+ 2048 036f 1F        		.byte	48
+ 2049 0370 1F        		.byte	48
+ 2050 0371 0F        		.byte	56
+ 2051 0372 00        		.byte	56
+ 2052 0373 00        		.byte	30
+ 2053 0374 00        		.byte	15
+ 2054 0375 00        		.byte	7
+ 2055 0376 00        		.byte	0
+ 2056 0377 00        		.byte	0
+ 2057 0378 80        		.byte	0
+ 2058 0379 C0        		.byte	0
+ 2059 037a E0        		.byte	0
+ 2060 037b E0        		.byte	0
+ 2061 037c 60        		.byte	0
+ 2062 037d E0        		.byte	0
+ 2063 037e E0        		.byte	0
+ 2064 037f C0        		.byte	0
+ 2065 0380 80        		.byte	0
+ 2066 0381 00        		.byte	0
+ 2067 0382 00        		.byte	0
+ 2068 0383 00        		.byte	0
+ 2069 0384 00        		.byte	0
+ 2070 0385 00        		.byte	0
+ 2071 0386 00        		.byte	0
+ 2072 0387 0C        		.byte	0
+ 2073 0388 3F        		.byte	0
+ 2074 0389 7F        		.byte	0
+ 2075 038a F1        		.byte	0
+ 2076 038b E0        		.byte	0
+ 2077 038c C0        		.byte	0
+ 2078 038d C0        		.byte	0
+ 2079 038e E1        		.byte	0
+ 2080 038f FF        		.byte	0
+ 2081 0390 FF        		.byte	0
+ 2082 0391 FE        		.byte	0
+ 2083 0392 00        		.byte	0
+ 2084 0393 00        		.byte	0
+ 2085 0394 00        		.byte	0
+ 2086 0395 00        		.byte	0
+ 2087 0396 00        		.byte	0
+ 2088 0397 00        		.byte	0
+ 2089 0398 00        		.byte	0
+ 2090 0399 38        		.byte	0
+ 2091 039a 30        		.byte	0
+ 2092 039b 30        		.byte	0
+ 2093 039c 38        		.byte	60
+ 2094 039d 38        		.byte	60
+ 2095 039e 1E        		.byte	60
+ 2096 039f 0F        		.byte	0
+ 2097 03a0 07        		.byte	0
+ 2098 03a1 00        		.byte	0
+ 2099 03a2 00        		.byte	0
+ 2100 03a3 00        		.byte	0
+ 2101 03a4 00        		.byte	0
+ 2102 03a5 00        		.byte	0
+ 2103 03a6 00        		.byte	0
+ 2104 03a7 00        		.byte	0
+ 2105 03a8 00        		.byte	0
+ 2106 03a9 00        		.byte	0
+ 2107 03aa 00        		.byte	0
+ 2108 03ab 00        		.byte	0
+ 2109 03ac 00        		.byte	0
+ 2110 03ad 00        		.byte	0
+ 2111 03ae 00        		.byte	0
+ 2112 03af 00        		.byte	0
+ 2113 03b0 00        		.byte	0
+ 2114 03b1 00        		.byte	0
+ 2115 03b2 00        		.byte	0
+ 2116 03b3 00        		.byte	0
+ 2117 03b4 00        		.byte	0
+ 2118 03b5 00        		.byte	0
+ 2119 03b6 00        		.byte	0
+ 2120 03b7 00        		.byte	0
+ 2121 03b8 00        		.byte	0
+ 2122 03b9 00        		.byte	0
+ 2123 03ba 00        		.byte	0
+ 2124 03bb 00        		.byte	0
+ 2125 03bc 00        		.byte	0
+ 2126 03bd 00        		.byte	0
+ 2127 03be 00        		.byte	64
+ 2128 03bf 00        		.byte	64
+ 2129 03c0 00        		.byte	64
+ 2130 03c1 00        		.byte	64
+ 2131 03c2 00        		.byte	64
+ 2132 03c3 00        		.byte	-2
+ 2133 03c4 00        		.byte	-2
+ 2134 03c5 00        		.byte	64
+ 2135 03c6 00        		.byte	64
+ 2136 03c7 3C        		.byte	64
+ 2137 03c8 3C        		.byte	64
+ 2138 03c9 3C        		.byte	64
+ 2139 03ca 00        		.byte	0
+ 2140 03cb 00        		.byte	0
+ 2141 03cc 00        		.byte	0
+ 2142 03cd 00        		.byte	0
+ 2143 03ce 00        		.byte	0
+ 2144 03cf 00        		.byte	0
+ 2145 03d0 00        		.byte	0
+ 2146 03d1 00        		.byte	0
+ 2147 03d2 00        		.byte	0
+ 2148 03d3 00        		.byte	15
+ 2149 03d4 00        		.byte	15
+ 2150 03d5 00        		.byte	0
+ 2151 03d6 00        		.byte	0
+ 2152 03d7 00        		.byte	0
+ 2153 03d8 00        		.byte	0
+ 2154 03d9 00        		.byte	0
+ 2155 03da 00        		.byte	0
+ 2156 03db 00        		.byte	0
+ 2157 03dc 00        		.byte	0
+ 2158 03dd 00        		.byte	0
+ 2159 03de 00        		.byte	0
+ 2160 03df 00        		.byte	0
+ 2161 03e0 00        		.byte	0
+ 2162 03e1 00        		.byte	0
+ 2163 03e2 00        		.byte	0
+ 2164 03e3 00        		.byte	0
+ 2165 03e4 00        		.byte	0
+ 2166 03e5 00        		.byte	0
+ 2167 03e6 00        		.byte	0
+ 2168 03e7 00        		.byte	0
+ 2169 03e8 00        		.byte	0
+ 2170 03e9 40        		.byte	0
+ 2171 03ea 40        		.byte	0
+ 2172 03eb 40        		.byte	0
+ 2173 03ec 40        		.byte	0
+ 2174 03ed 40        		.byte	64
+ 2175 03ee FE        		.byte	64
+ 2176 03ef FE        		.byte	64
+ 2177 03f0 40        		.byte	64
+ 2178 03f1 40        		.byte	64
+ 2179 03f2 40        		.byte	64
+ 2180 03f3 40        		.byte	0
+ 2181 03f4 40        		.byte	0
+ 2182 03f5 00        		.byte	0
+ 2183 03f6 00        		.byte	0
+ 2184 03f7 00        		.byte	0
+ 2185 03f8 00        		.byte	0
+ 2186 03f9 00        		.byte	0
+ 2187 03fa 00        		.byte	0
+ 2188 03fb 00        		.byte	0
+ 2189 03fc 00        		.byte	0
+ 2190 03fd 00        		.byte	0
+ 2191 03fe 0F        		.byte	0
+ 2192 03ff 0F        		.byte	0
+ 2193 0400 00        		.byte	0
+ 2194 0401 00        		.byte	0
+ 2195 0402 00        		.byte	0
+ 2196 0403 00        		.byte	0
+ 2197 0404 00        		.byte	0
+ 2198 0405 00        		.byte	0
+ 2199 0406 00        		.byte	0
+ 2200 0407 00        		.byte	0
+ 2201 0408 00        		.byte	0
+ 2202 0409 00        		.byte	0
+ 2203 040a 00        		.byte	0
+ 2204 040b 00        		.byte	0
+ 2205 040c 00        	.global	aims2
+ 2208 040f 00        	aims2:
+ 2209 0410 00        		.byte	-49
+ 2210 0411 00        		.byte	-49
+ 2211 0412 00        		.byte	-33
+ 2212 0413 00        		.byte	-65
+ 2213 0414 00        		.byte	-65
+ 2214 0415 00        		.byte	127
+ 2215 0416 00        		.byte	-2
+ 2216 0417 00        		.byte	-16
+ 2217 0418 40        		.byte	-128
+ 2218 0419 40        		.byte	0
+ 2219 041a 40        		.byte	0
+ 2220 041b 40        		.byte	0
+ 2221 041c 40        		.byte	0
+ 2222 041d 40        		.byte	0
+ 2223 041e 00        		.byte	0
+ 2224 041f 00        		.byte	0
+ 2225 0420 00        		.byte	0
+ 2226 0421 00        		.byte	0
+ 2227 0422 00        		.byte	0
+ 2228 0423 00        		.byte	0
+ 2229 0424 00        		.byte	0
+ 2230 0425 00        		.byte	0
+ 2231 0426 00        		.byte	0
+ 2232 0427 00        		.byte	0
+ 2233 0428 00        		.byte	0
+ 2234 0429 00        		.byte	0
+ 2235 042a 00        		.byte	0
+ 2236 042b 00        		.byte	0
+ 2237 042c 00        		.byte	0
+ 2238 042d 00        		.byte	0
+ 2239 042e 00        		.byte	0
+ 2240 042f 00        		.byte	0
+ 2241 0430 00        		.byte	-64
+ 2242 0431 00        		.byte	-16
+ 2243 0432 00        		.byte	-8
+ 2244 0433 00        		.byte	-4
+ 2245 0434 00        		.byte	-2
+ 2246 0435 00        		.byte	-1
+ 2247 0436 00        		.byte	-1
+ 2248               		.byte	-1
+ 2249               		.byte	-1
+ 2250               		.byte	-1
+ 2251               		.byte	-1
+ 2252 0437 CF        		.byte	-2
+ 2253 0438 CF        		.byte	-2
+ 2254 0439 DF        		.byte	-2
+ 2255 043a BF        		.byte	-2
+ 2256 043b BF        		.byte	-2
+ 2257 043c 7F        		.byte	-1
+ 2258 043d FE        		.byte	-1
+ 2259 043e F0        		.byte	-1
+ 2260 043f 80        		.byte	-1
+ 2261 0440 00        		.byte	-1
+ 2262 0441 00        		.byte	-1
+ 2263 0442 00        		.byte	-1
+ 2264 0443 00        		.byte	-1
+ 2265 0444 00        		.byte	-1
+ 2266 0445 00        		.byte	-110
+ 2267 0446 00        		.byte	-1
+ 2268 0447 00        		.byte	-8
+ 2269 0448 00        		.byte	-32
+ 2270 0449 00        		.byte	-32
+ 2271 044a 00        		.byte	-48
+ 2272 044b 00        		.byte	-32
+ 2273 044c 00        		.byte	-24
+ 2274 044d 00        		.byte	-16
+ 2275 044e 00        		.byte	-16
+ 2276 044f 00        		.byte	-8
+ 2277 0450 00        		.byte	-16
+ 2278 0451 00        		.byte	-16
+ 2279 0452 00        		.byte	0
+ 2280 0453 00        		.byte	0
+ 2281 0454 00        		.byte	0
+ 2282 0455 00        		.byte	0
+ 2283 0456 00        		.byte	0
+ 2284 0457 C0        		.byte	0
+ 2285 0458 F0        		.byte	0
+ 2286 0459 F8        		.byte	0
+ 2287 045a FC        		.byte	0
+ 2288 045b FE        		.byte	0
+ 2289 045c FF        		.byte	0
+ 2290 045d FF        		.byte	0
+ 2291 045e FF        		.byte	0
+ 2292 045f FF        		.byte	0
+ 2293 0460 FF        		.byte	-1
+ 2294 0461 FF        		.byte	-2
+ 2295 0462 FE        		.byte	-3
+ 2296 0463 FE        		.byte	-13
+ 2297 0464 FE        		.byte	7
+ 2298 0465 FE        		.byte	-1
+ 2299 0466 FE        		.byte	-2
+ 2300 0467 FF        		.byte	-3
+ 2301 0468 FF        		.byte	-1
+ 2302 0469 FF        		.byte	-2
+ 2303 046a FF        		.byte	-8
+ 2304 046b FF        		.byte	-32
+ 2305 046c FF        		.byte	-64
+ 2306 046d FF        		.byte	-128
+ 2307 046e FF        		.byte	0
+ 2308 046f FF        		.byte	0
+ 2309 0470 92        		.byte	0
+ 2310 0471 FF        		.byte	0
+ 2311 0472 F8        		.byte	0
+ 2312 0473 E0        		.byte	0
+ 2313 0474 E0        		.byte	0
+ 2314 0475 D0        		.byte	0
+ 2315 0476 E0        		.byte	0
+ 2316 0477 E8        		.byte	0
+ 2317 0478 F0        		.byte	0
+ 2318 0479 F0        		.byte	0
+ 2319 047a F8        		.byte	0
+ 2320 047b F0        		.byte	0
+ 2321 047c F0        		.byte	0
+ 2322 047d 00        		.byte	0
+ 2323 047e 00        		.byte	-128
+ 2324 047f 00        		.byte	120
+ 2325 0480 00        		.byte	127
+ 2326 0481 00        		.byte	127
+ 2327 0482 00        		.byte	-1
+ 2328 0483 00        		.byte	-1
+ 2329 0484 00        		.byte	-1
+ 2330 0485 00        		.byte	-1
+ 2331 0486 00        		.byte	-1
+ 2332 0487 00        		.byte	-1
+ 2333 0488 00        		.byte	-1
+ 2334 0489 00        		.byte	-1
+ 2335 048a 00        		.byte	-1
+ 2336 048b FF        		.byte	-1
+ 2337 048c FE        		.byte	-113
+ 2338 048d FD        		.byte	-121
+ 2339 048e F3        		.byte	7
+ 2340 048f 07        		.byte	7
+ 2341 0490 FF        		.byte	15
+ 2342 0491 FE        		.byte	15
+ 2343 0492 FD        		.byte	7
+ 2344 0493 FF        		.byte	7
+ 2345 0494 FE        		.byte	15
+ 2346 0495 F8        		.byte	-1
+ 2347 0496 E0        		.byte	-1
+ 2348 0497 C0        		.byte	-1
+ 2349 0498 80        		.byte	-3
+ 2350 0499 00        		.byte	-1
+ 2351 049a 00        		.byte	-3
+ 2352 049b 00        		.byte	-1
+ 2353 049c 00        		.byte	-1
+ 2354 049d 00        		.byte	-1
+ 2355 049e 00        		.byte	-1
+ 2356 049f 00        		.byte	-1
+ 2357 04a0 00        		.byte	-1
+ 2358 04a1 00        		.byte	-1
+ 2359 04a2 00        		.byte	-1
+ 2360 04a3 00        		.byte	-1
+ 2361 04a4 00        		.byte	31
+ 2362 04a5 00        		.byte	3
+ 2363 04a6 00        		.byte	0
+ 2364 04a7 00        		.byte	0
+ 2365 04a8 00        		.byte	0
+ 2366 04a9 80        		.byte	0
+ 2367 04aa 78        		.byte	0
+ 2368 04ab 7F        		.byte	0
+ 2369 04ac 7F        		.byte	0
+ 2370 04ad FF        		.byte	0
+ 2371 04ae FF        		.byte	0
+ 2372 04af FF        		.byte	0
+ 2373 04b0 FF        		.byte	0
+ 2374 04b1 FF        		.byte	0
+ 2375 04b2 FF        		.byte	0
+ 2376 04b3 FF        		.byte	0
+ 2377 04b4 FF        		.byte	-1
+ 2378 04b5 FF        		.byte	-1
+ 2379 04b6 FF        		.byte	-5
+ 2380 04b7 8F        		.byte	-19
+ 2381 04b8 87        		.byte	-92
+ 2382 04b9 07        		.byte	31
+ 2383 04ba 07        		.byte	63
+ 2384 04bb 0F        		.byte	-65
+ 2385 04bc 0F        		.byte	-1
+ 2386 04bd 07        		.byte	-1
+ 2387 04be 07        		.byte	-1
+ 2388 04bf 0F        		.byte	-1
+ 2389 04c0 FF        		.byte	-9
+ 2390 04c1 FF        		.byte	-1
+ 2391 04c2 FF        		.byte	-1
+ 2392 04c3 FD        		.byte	-4
+ 2393 04c4 FF        		.byte	-8
+ 2394 04c5 FD        		.byte	-32
+ 2395 04c6 FF        		.byte	-64
+ 2396 04c7 FF        		.byte	0
+ 2397 04c8 FF        		.byte	0
+ 2398 04c9 FF        		.byte	0
+ 2399 04ca FF        		.byte	0
+ 2400 04cb FF        		.byte	0
+ 2401 04cc FF        		.byte	0
+ 2402 04cd FF        		.byte	0
+ 2403 04ce FF        		.byte	0
+ 2404 04cf 1F        		.byte	0
+ 2405 04d0 03        		.byte	0
+ 2406 04d1 00        		.byte	0
+ 2407 04d2 00        		.byte	13
+ 2408 04d3 00        		.byte	127
+ 2409 04d4 00        		.byte	-56
+ 2410 04d5 00        		.byte	-24
+ 2411 04d6 00        		.byte	-1
+ 2412 04d7 00        		.byte	-1
+ 2413 04d8 00        		.byte	-1
+ 2414 04d9 00        		.byte	-1
+ 2415 04da 00        		.byte	-59
+ 2416 04db 00        		.byte	-125
+ 2417 04dc 00        		.byte	7
+ 2418 04dd 00        		.byte	7
+ 2419 04de 00        		.byte	7
+ 2420 04df FF        		.byte	15
+ 2421 04e0 FF        		.byte	3
+ 2422 04e1 FB        		.byte	-121
+ 2423 04e2 ED        		.byte	15
+ 2424 04e3 A4        		.byte	7
+ 2425 04e4 1F        		.byte	0
+ 2426 04e5 3F        		.byte	12
+ 2427 04e6 BF        		.byte	14
+ 2428 04e7 FF        		.byte	7
+ 2429 04e8 FF        		.byte	7
+ 2430 04e9 FF        		.byte	-1
+ 2431 04ea FF        		.byte	-16
+ 2432 04eb F7        		.byte	-1
+ 2433 04ec FF        		.byte	-1
+ 2434 04ed FF        		.byte	-1
+ 2435 04ee FC        		.byte	-1
+ 2436 04ef F8        		.byte	-1
+ 2437 04f0 E0        		.byte	-1
+ 2438 04f1 C0        		.byte	-1
+ 2439 04f2 00        		.byte	-1
+ 2440 04f3 00        		.byte	-1
+ 2441 04f4 00        		.byte	-1
+ 2442 04f5 00        		.byte	-1
+ 2443 04f6 00        		.byte	-3
+ 2444 04f7 00        		.byte	-2
+ 2445 04f8 00        		.byte	-2
+ 2446 04f9 00        		.byte	-4
+ 2447 04fa 00        		.byte	-8
+ 2448 04fb 00        		.byte	-16
+ 2449 04fc 00        		.byte	-64
+ 2450 04fd 0D        		.byte	0
+ 2451 04fe 7F        		.byte	0
+ 2452 04ff C8        		.byte	0
+ 2453 0500 E8        		.byte	0
+ 2454 0501 FF        		.byte	0
+ 2455 0502 FF        		.byte	0
+ 2456 0503 FF        		.byte	0
+ 2457 0504 FF        		.byte	0
+ 2458 0505 C5        		.byte	0
+ 2459 0506 83        		.byte	0
+ 2460 0507 07        		.byte	0
+ 2461 0508 07        		.byte	121
+ 2462 0509 07        		.byte	123
+ 2463 050a 0F        		.byte	124
+ 2464 050b 03        		.byte	117
+ 2465 050c 87        		.byte	-2
+ 2466 050d 0F        		.byte	-65
+ 2467 050e 07        		.byte	-65
+ 2468 050f 00        		.byte	-33
+ 2469 0510 0C        		.byte	-49
+ 2470 0511 0E        		.byte	-9
+ 2471 0512 07        		.byte	-5
+ 2472 0513 07        		.byte	-19
+ 2473 0514 FF        		.byte	-1
+ 2474 0515 F0        		.byte	-1
+ 2475 0516 FF        		.byte	-1
+ 2476 0517 FF        		.byte	-1
+ 2477 0518 FF        		.byte	127
+ 2478 0519 FF        		.byte	63
+ 2479 051a FF        		.byte	31
+ 2480 051b FF        		.byte	15
+ 2481 051c FF        		.byte	0
+ 2482 051d FF        		.byte	0
+ 2483 051e FF        		.byte	0
+ 2484 051f FF        		.byte	0
+ 2485 0520 FF        		.byte	0
+ 2486 0521 FD        		.byte	0
+ 2487 0522 FE        		.byte	0
+ 2488 0523 FE        		.byte	0
+ 2489 0524 FC        		.byte	0
+ 2490 0525 F8        		.byte	0
+ 2491 0526 F0        		.byte	0
+ 2492 0527 C0        		.byte	0
+ 2493 0528 00        		.byte	1
+ 2494 0529 00        		.byte	15
+ 2495 052a 00        		.byte	127
+ 2496 052b 00        		.byte	-1
+ 2497 052c 00        		.byte	-1
+ 2498 052d 00        		.byte	-1
+ 2499 052e 00        		.byte	-1
+ 2500 052f 00        		.byte	-1
+ 2501 0530 00        		.byte	-4
+ 2502 0531 00        		.byte	-4
+ 2503 0532 00        		.byte	-4
+ 2504 0533 79        		.byte	-4
+ 2505 0534 7B        		.byte	-68
+ 2506 0535 7C        		.byte	59
+ 2507 0536 75        		.byte	-21
+ 2508 0537 FE        		.byte	-22
+ 2509 0538 BF        		.byte	-2
+ 2510 0539 BF        		.byte	-4
+ 2511 053a DF        		.byte	-4
+ 2512 053b CF        		.byte	-4
+ 2513 053c F7        		.byte	-1
+ 2514 053d FB        		.byte	-1
+ 2515 053e ED        		.byte	-1
+ 2516 053f FF        		.byte	-1
+ 2517 0540 FF        		.byte	-1
+ 2518 0541 FF        		.byte	-1
+ 2519 0542 FF        		.byte	-1
+ 2520 0543 7F        		.byte	-5
+ 2521 0544 3F        		.byte	-1
+ 2522 0545 1F        		.byte	-1
+ 2523 0546 0F        		.byte	-1
+ 2524 0547 00        		.byte	-1
+ 2525 0548 00        		.byte	-1
+ 2526 0549 00        		.byte	-1
+ 2527 054a 00        		.byte	-1
+ 2528 054b 00        		.byte	-1
+ 2529 054c 00        		.byte	-1
+ 2530 054d 00        		.byte	-1
+ 2531 054e 00        		.byte	-1
+ 2532 054f 00        		.byte	-1
+ 2533 0550 00        		.byte	-1
+ 2534 0551 00        		.byte	-1
+ 2535 0552 00        		.byte	120
+ 2536 0553 01        		.byte	0
+ 2537 0554 0F        		.byte	8
+ 2538 0555 7F        		.byte	0
+ 2539 0556 FF        		.byte	0
+ 2540 0557 FF        		.byte	4
+ 2541 0558 FF        		.byte	0
+ 2542 0559 FF        		.byte	0
+ 2543 055a FF        		.byte	4
+ 2544 055b FC        		.byte	20
+ 2545 055c FC        		.byte	-1
+ 2546 055d FC        		.byte	-1
+ 2547 055e FC        		.byte	-1
+ 2548 055f BC        		.byte	-1
+ 2549 0560 3B        		.byte	-1
+ 2550 0561 EB        		.byte	-1
+ 2551 0562 EA        		.byte	-5
+ 2552 0563 FE        		.byte	-17
+ 2553 0564 FC        		.byte	-1
+ 2554 0565 FC        		.byte	31
+ 2555 0566 FC        		.byte	15
+ 2556 0567 FF        		.byte	15
+ 2557 0568 FF        		.byte	7
+ 2558 0569 FF        		.byte	3
+ 2559 056a FF        		.byte	1
+ 2560 056b FF        		.byte	0
+ 2561 056c FF        		.byte	0
+ 2562 056d FF        		.byte	0
+ 2563 056e FB        		.byte	0
+ 2564 056f FF        		.byte	0
+ 2565 0570 FF        		.byte	0
+ 2566 0571 FF        		.byte	0
+ 2567 0572 FF        		.byte	0
+ 2568 0573 FF        		.byte	0
+ 2569 0574 FF        		.byte	0
+ 2570 0575 FF        		.byte	0
+ 2571 0576 FF        		.byte	0
+ 2572 0577 FF        		.byte	0
+ 2573 0578 FF        		.byte	0
+ 2574 0579 FF        		.byte	0
+ 2575 057a FF        		.byte	0
+ 2576 057b FF        		.byte	0
+ 2577 057c FF        		.byte	0
+ 2578 057d 78        		.byte	0
+ 2579 057e 00        		.byte	0
+ 2580 057f 08        		.byte	1
+ 2581 0580 00        		.byte	3
+ 2582 0581 00        		.byte	7
+ 2583 0582 04        		.byte	15
+ 2584 0583 00        		.byte	15
+ 2585 0584 00        		.byte	3
+ 2586 0585 04        		.byte	3
+ 2587 0586 14        		.byte	1
+ 2588 0587 FF        		.byte	1
+ 2589 0588 FF        		.byte	1
+ 2590 0589 FF        		.byte	1
+ 2591 058a FF        		.byte	9
+ 2592 058b FF        		.byte	15
+ 2593 058c FF        		.byte	31
+ 2594 058d FB        		.byte	63
+ 2595 058e EF        		.byte	127
+ 2596 058f FF        		.byte	-1
+ 2597 0590 1F        		.byte	-1
+ 2598 0591 0F        		.byte	-1
+ 2599 0592 0F        		.byte	-1
+ 2600 0593 07        		.byte	-25
+ 2601 0594 03        		.byte	-73
+ 2602 0595 01        		.byte	115
+ 2603 0596 00        		.byte	-7
+ 2604 0597 00        		.byte	-3
+ 2605 0598 00        		.byte	-1
+ 2606 0599 00        		.byte	-1
+ 2607 059a 00        		.byte	-1
+ 2608 059b 00        		.byte	-1
+ 2609 059c 00        		.byte	-1
+ 2610 059d 00        		.byte	-1
+ 2611 059e 00        		.byte	-1
+ 2612 059f 00        		.byte	-1
+ 2613 05a0 00        		.byte	-1
+ 2614 05a1 00        		.byte	-1
+ 2615 05a2 00        		.byte	-1
+ 2616 05a3 00        		.byte	-1
+ 2617 05a4 00        		.byte	-33
+ 2618 05a5 00        		.byte	7
+ 2619 05a6 00        		.byte	0
+ 2620 05a7 00        		.byte	0
+ 2621 05a8 00        		.byte	0
+ 2622 05a9 00        		.byte	0
+ 2623 05aa 01        		.byte	0
+ 2624 05ab 03        		.byte	0
+ 2625 05ac 07        		.byte	0
+ 2626 05ad 0F        		.byte	0
+ 2627 05ae 0F        		.byte	64
+ 2628 05af 03        		.byte	64
+ 2629 05b0 03        		.byte	-1
+ 2630 05b1 01        		.byte	-1
+ 2631 05b2 01        		.byte	-1
+ 2632 05b3 01        		.byte	-1
+ 2633 05b4 01        		.byte	-1
+ 2634 05b5 09        		.byte	-1
+ 2635 05b6 0F        		.byte	-1
+ 2636 05b7 1F        		.byte	63
+ 2637 05b8 3F        		.byte	7
+ 2638 05b9 7F        		.byte	0
+ 2639 05ba FF        		.byte	0
+ 2640 05bb FF        		.byte	0
+ 2641 05bc FF        		.byte	0
+ 2642 05bd FF        		.byte	0
+ 2643 05be E7        		.byte	0
+ 2644 05bf B7        		.byte	0
+ 2645 05c0 73        		.byte	0
+ 2646 05c1 F9        		.byte	0
+ 2647 05c2 FD        		.byte	0
+ 2648 05c3 FF        		.byte	0
+ 2649 05c4 FF        		.byte	0
+ 2650 05c5 FF        		.byte	0
+ 2651 05c6 FF        		.byte	0
+ 2652 05c7 FF        		.byte	0
+ 2653 05c8 FF        		.byte	0
+ 2654 05c9 FF        		.byte	0
+ 2655 05ca FF        		.byte	0
+ 2656 05cb FF        		.byte	0
+ 2657 05cc FF        		.byte	0
+ 2658 05cd FF        		.byte	0
+ 2659 05ce FF        		.byte	0
+ 2660 05cf DF        		.byte	0
+ 2661 05d0 07        		.byte	0
+ 2662 05d1 00        		.byte	0
+ 2663 05d2 00        		.byte	0
+ 2664 05d3 00        		.byte	0
+ 2665 05d4 00        		.byte	0
+ 2666 05d5 00        		.byte	0
+ 2667 05d6 00        		.byte	0
+ 2668 05d7 00        		.byte	32
+ 2669 05d8 00        		.byte	0
+ 2670 05d9 40        		.byte	0
+ 2671 05da 40        		.byte	0
+ 2672 05db FF        		.byte	0
+ 2673 05dc FF        		.byte	96
+ 2674 05dd FF        		.byte	32
+ 2675 05de FF        		.byte	0
+ 2676 05df FF        		.byte	64
+ 2677 05e0 FF        		.byte	0
+ 2678 05e1 FF        		.byte	0
+ 2679 05e2 3F        		.byte	0
+ 2680 05e3 07        		.byte	-128
+ 2681 05e4 00        		.byte	1
+ 2682 05e5 00        		.byte	3
+ 2683 05e6 00        		.byte	3
+ 2684 05e7 00        		.byte	3
+ 2685 05e8 00        		.byte	5
+ 2686 05e9 00        		.byte	4
+ 2687 05ea 00        		.byte	-113
+ 2688 05eb 00        		.byte	95
+ 2689 05ec 00        		.byte	-65
+ 2690 05ed 00        		.byte	-33
+ 2691 05ee 00        		.byte	-97
+ 2692 05ef 00        		.byte	-97
+ 2693 05f0 00        		.byte	15
+ 2694 05f1 00        		.byte	15
+ 2695 05f2 00        		.byte	15
+ 2696 05f3 00        		.byte	15
+ 2697 05f4 00        		.byte	7
+ 2698 05f5 00        		.byte	7
+ 2699 05f6 00        		.byte	7
+ 2700 05f7 00        		.byte	7
+ 2701 05f8 00        		.byte	7
+ 2702 05f9 00        		.byte	3
+ 2703 05fa 00        		.byte	0
+ 2704 05fb 00        		.byte	0
+ 2705 05fc 00        		.byte	0
+ 2706 05fd 00        		.byte	0
+ 2707 05fe 00        		.byte	0
+ 2708 05ff 00        		.byte	0
+ 2709 0600 00        		.byte	0
+ 2710 0601 00        		.byte	0
+ 2711 0602 20        		.byte	0
+ 2712 0603 00        		.byte	4
+ 2713 0604 00        	.global	aims1
+ 2716 0607 60        	aims1:
+ 2717 0608 20        		.byte	0
+ 2718 0609 00        		.byte	0
+ 2719 060a 40        		.byte	0
+ 2720 060b 00        		.byte	0
+ 2721 060c 00        		.byte	0
+ 2722 060d 00        		.byte	0
+ 2723 060e 80        		.byte	0
+ 2724 060f 01        		.byte	0
+ 2725 0610 03        		.byte	0
+ 2726 0611 03        		.byte	0
+ 2727 0612 03        		.byte	0
+ 2728 0613 05        		.byte	0
+ 2729 0614 04        		.byte	0
+ 2730 0615 8F        		.byte	0
+ 2731 0616 5F        		.byte	0
+ 2732 0617 BF        		.byte	0
+ 2733 0618 DF        		.byte	0
+ 2734 0619 9F        		.byte	0
+ 2735 061a 9F        		.byte	0
+ 2736 061b 0F        		.byte	0
+ 2737 061c 0F        		.byte	0
+ 2738 061d 0F        		.byte	0
+ 2739 061e 0F        		.byte	0
+ 2740 061f 07        		.byte	0
+ 2741 0620 07        		.byte	0
+ 2742 0621 07        		.byte	0
+ 2743 0622 07        		.byte	0
+ 2744 0623 07        		.byte	0
+ 2745 0624 03        		.byte	0
+ 2746 0625 00        		.byte	0
+ 2747 0626 00        		.byte	0
+ 2748 0627 00        		.byte	0
+ 2749 0628 00        		.byte	0
+ 2750 0629 00        		.byte	0
+ 2751 062a 00        		.byte	0
+ 2752 062b 00        		.byte	0
+ 2753 062c 00        		.byte	0
+ 2754 062d 00        		.byte	0
+ 2755 062e 04        		.byte	0
+ 2756               		.byte	0
+ 2757               		.byte	0
+ 2758               		.byte	0
+ 2759               		.byte	0
+ 2760 062f 00        		.byte	0
+ 2761 0630 00        		.byte	0
+ 2762 0631 00        		.byte	0
+ 2763 0632 00        		.byte	0
+ 2764 0633 00        		.byte	0
+ 2765 0634 00        		.byte	0
+ 2766 0635 00        		.byte	0
+ 2767 0636 00        		.byte	0
+ 2768 0637 00        		.byte	0
+ 2769 0638 00        		.byte	0
+ 2770 0639 00        		.byte	0
+ 2771 063a 00        		.byte	0
+ 2772 063b 00        		.byte	1
+ 2773 063c 00        		.byte	1
+ 2774 063d 00        		.byte	1
+ 2775 063e 00        		.byte	1
+ 2776 063f 00        		.byte	1
+ 2777 0640 00        		.byte	1
+ 2778 0641 00        		.byte	1
+ 2779 0642 00        		.byte	1
+ 2780 0643 00        		.byte	1
+ 2781 0644 00        		.byte	1
+ 2782 0645 00        		.byte	1
+ 2783 0646 00        		.byte	1
+ 2784 0647 00        		.byte	1
+ 2785 0648 00        		.byte	1
+ 2786 0649 00        		.byte	1
+ 2787 064a 00        		.byte	1
+ 2788 064b 00        		.byte	1
+ 2789 064c 00        		.byte	1
+ 2790 064d 00        		.byte	1
+ 2791 064e 00        		.byte	1
+ 2792 064f 00        		.byte	1
+ 2793 0650 00        		.byte	1
+ 2794 0651 00        		.byte	1
+ 2795 0652 00        		.byte	1
+ 2796 0653 00        		.byte	1
+ 2797 0654 00        		.byte	-1
+ 2798 0655 00        		.byte	-1
+ 2799 0656 00        		.byte	-1
+ 2800 0657 00        		.byte	-1
+ 2801 0658 00        		.byte	0
+ 2802 0659 00        		.byte	0
+ 2803 065a 00        		.byte	0
+ 2804 065b 00        		.byte	0
+ 2805 065c 00        		.byte	0
+ 2806 065d 00        		.byte	0
+ 2807 065e 00        		.byte	0
+ 2808 065f 00        		.byte	0
+ 2809 0660 00        		.byte	0
+ 2810 0661 00        		.byte	0
+ 2811 0662 00        		.byte	0
+ 2812 0663 00        		.byte	0
+ 2813 0664 00        		.byte	0
+ 2814 0665 00        		.byte	0
+ 2815 0666 01        		.byte	0
+ 2816 0667 01        		.byte	0
+ 2817 0668 01        		.byte	0
+ 2818 0669 01        		.byte	0
+ 2819 066a 01        		.byte	0
+ 2820 066b 01        		.byte	0
+ 2821 066c 01        		.byte	0
+ 2822 066d 01        		.byte	0
+ 2823 066e 01        		.byte	0
+ 2824 066f 01        		.byte	16
+ 2825 0670 01        		.byte	16
+ 2826 0671 01        		.byte	16
+ 2827 0672 01        		.byte	50
+ 2828 0673 01        		.byte	100
+ 2829 0674 01        		.byte	100
+ 2830 0675 01        		.byte	-52
+ 2831 0676 01        		.byte	-40
+ 2832 0677 01        		.byte	-40
+ 2833 0678 01        		.byte	-14
+ 2834 0679 01        		.byte	-2
+ 2835 067a 01        		.byte	-2
+ 2836 067b 01        		.byte	-8
+ 2837 067c 01        		.byte	-1
+ 2838 067d 01        		.byte	-1
+ 2839 067e 01        		.byte	-8
+ 2840 067f FF        		.byte	-16
+ 2841 0680 FF        		.byte	-16
+ 2842 0681 FF        		.byte	-1
+ 2843 0682 FF        		.byte	-16
+ 2844 0683 00        		.byte	-16
+ 2845 0684 00        		.byte	-8
+ 2846 0685 00        		.byte	-8
+ 2847 0686 00        		.byte	-8
+ 2848 0687 00        		.byte	-32
+ 2849 0688 00        		.byte	-16
+ 2850 0689 00        		.byte	-16
+ 2851 068a 00        		.byte	-48
+ 2852 068b 00        		.byte	-64
+ 2853 068c 00        		.byte	-64
+ 2854 068d 00        		.byte	-64
+ 2855 068e 00        		.byte	0
+ 2856 068f 00        		.byte	0
+ 2857 0690 00        		.byte	0
+ 2858 0691 00        		.byte	0
+ 2859 0692 00        		.byte	0
+ 2860 0693 00        		.byte	0
+ 2861 0694 00        		.byte	0
+ 2862 0695 00        		.byte	0
+ 2863 0696 00        		.byte	0
+ 2864 0697 00        		.byte	0
+ 2865 0698 00        		.byte	0
+ 2866 0699 00        		.byte	0
+ 2867 069a 10        		.byte	0
+ 2868 069b 10        		.byte	0
+ 2869 069c 10        		.byte	0
+ 2870 069d 32        		.byte	0
+ 2871 069e 64        		.byte	0
+ 2872 069f 64        		.byte	0
+ 2873 06a0 CC        		.byte	0
+ 2874 06a1 D8        		.byte	0
+ 2875 06a2 D8        		.byte	0
+ 2876 06a3 F2        		.byte	0
+ 2877 06a4 FE        		.byte	0
+ 2878 06a5 FE        		.byte	0
+ 2879 06a6 F8        		.byte	0
+ 2880 06a7 FF        		.byte	0
+ 2881 06a8 FF        		.byte	-1
+ 2882 06a9 F8        		.byte	-1
+ 2883 06aa F0        		.byte	-1
+ 2884 06ab F0        		.byte	-1
+ 2885 06ac FF        		.byte	0
+ 2886 06ad F0        		.byte	0
+ 2887 06ae F0        		.byte	0
+ 2888 06af F8        		.byte	0
+ 2889 06b0 F8        		.byte	0
+ 2890 06b1 F8        		.byte	0
+ 2891 06b2 E0        		.byte	0
+ 2892 06b3 F0        		.byte	0
+ 2893 06b4 F0        		.byte	-128
+ 2894 06b5 D0        		.byte	0
+ 2895 06b6 C0        		.byte	0
+ 2896 06b7 C0        		.byte	0
+ 2897 06b8 C0        		.byte	32
+ 2898 06b9 00        		.byte	32
+ 2899 06ba 00        		.byte	32
+ 2900 06bb 00        		.byte	96
+ 2901 06bc 00        		.byte	96
+ 2902 06bd 00        		.byte	-64
+ 2903 06be 00        		.byte	-128
+ 2904 06bf 00        		.byte	-128
+ 2905 06c0 00        		.byte	-80
+ 2906 06c1 00        		.byte	112
+ 2907 06c2 00        		.byte	112
+ 2908 06c3 00        		.byte	-32
+ 2909 06c4 00        		.byte	-64
+ 2910 06c5 00        		.byte	-64
+ 2911 06c6 00        		.byte	-102
+ 2912 06c7 00        		.byte	50
+ 2913 06c8 00        		.byte	50
+ 2914 06c9 00        		.byte	-14
+ 2915 06ca 00        		.byte	-49
+ 2916 06cb 00        		.byte	-49
+ 2917 06cc 00        		.byte	-113
+ 2918 06cd 00        		.byte	127
+ 2919 06ce 00        		.byte	127
+ 2920 06cf 00        		.byte	-1
+ 2921 06d0 00        		.byte	-1
+ 2922 06d1 00        		.byte	-1
+ 2923 06d2 00        		.byte	-1
+ 2924 06d3 FF        		.byte	-1
+ 2925 06d4 FF        		.byte	-1
+ 2926 06d5 FF        		.byte	-1
+ 2927 06d6 FF        		.byte	-5
+ 2928 06d7 00        		.byte	-5
+ 2929 06d8 00        		.byte	-9
+ 2930 06d9 00        		.byte	-1
+ 2931 06da 00        		.byte	-1
+ 2932 06db 00        		.byte	-1
+ 2933 06dc 00        		.byte	-1
+ 2934 06dd 00        		.byte	-1
+ 2935 06de 00        		.byte	-1
+ 2936 06df 80        		.byte	-2
+ 2937 06e0 00        		.byte	-2
+ 2938 06e1 00        		.byte	-2
+ 2939 06e2 00        		.byte	-1
+ 2940 06e3 20        		.byte	-1
+ 2941 06e4 20        		.byte	-1
+ 2942 06e5 20        		.byte	-4
+ 2943 06e6 60        		.byte	-4
+ 2944 06e7 60        		.byte	124
+ 2945 06e8 C0        		.byte	120
+ 2946 06e9 80        		.byte	120
+ 2947 06ea 80        		.byte	88
+ 2948 06eb B0        		.byte	0
+ 2949 06ec 70        		.byte	0
+ 2950 06ed 70        		.byte	0
+ 2951 06ee E0        		.byte	0
+ 2952 06ef C0        		.byte	0
+ 2953 06f0 C0        		.byte	0
+ 2954 06f1 9A        		.byte	0
+ 2955 06f2 32        		.byte	0
+ 2956 06f3 32        		.byte	0
+ 2957 06f4 F2        		.byte	0
+ 2958 06f5 CF        		.byte	0
+ 2959 06f6 CF        		.byte	0
+ 2960 06f7 8F        		.byte	0
+ 2961 06f8 7F        		.byte	0
+ 2962 06f9 7F        		.byte	0
+ 2963 06fa FF        		.byte	0
+ 2964 06fb FF        		.byte	0
+ 2965 06fc FF        		.byte	-1
+ 2966 06fd FF        		.byte	-1
+ 2967 06fe FF        		.byte	-1
+ 2968 06ff FF        		.byte	-1
+ 2969 0700 FF        		.byte	0
+ 2970 0701 FB        		.byte	0
+ 2971 0702 FB        		.byte	0
+ 2972 0703 F7        		.byte	9
+ 2973 0704 FF        		.byte	9
+ 2974 0705 FF        		.byte	9
+ 2975 0706 FF        		.byte	25
+ 2976 0707 FF        		.byte	25
+ 2977 0708 FF        		.byte	27
+ 2978 0709 FF        		.byte	27
+ 2979 070a FE        		.byte	27
+ 2980 070b FE        		.byte	63
+ 2981 070c FE        		.byte	54
+ 2982 070d FF        		.byte	54
+ 2983 070e FF        		.byte	62
+ 2984 070f FF        		.byte	108
+ 2985 0710 FC        		.byte	108
+ 2986 0711 FC        		.byte	108
+ 2987 0712 7C        		.byte	-7
+ 2988 0713 78        		.byte	-7
+ 2989 0714 78        		.byte	-13
+ 2990 0715 58        		.byte	-13
+ 2991 0716 00        		.byte	-13
+ 2992 0717 00        		.byte	-26
+ 2993 0718 00        		.byte	-19
+ 2994 0719 00        		.byte	-19
+ 2995 071a 00        		.byte	-37
+ 2996 071b 00        		.byte	-33
+ 2997 071c 00        		.byte	-33
+ 2998 071d 00        		.byte	-2
+ 2999 071e 00        		.byte	125
+ 3000 071f 00        		.byte	125
+ 3001 0720 00        		.byte	31
+ 3002 0721 00        		.byte	31
+ 3003 0722 00        		.byte	31
+ 3004 0723 00        		.byte	111
+ 3005 0724 00        		.byte	31
+ 3006 0725 00        		.byte	31
+ 3007 0726 00        		.byte	15
+ 3008 0727 FF        		.byte	9
+ 3009 0728 FF        		.byte	9
+ 3010 0729 FF        		.byte	7
+ 3011 072a FF        		.byte	15
+ 3012 072b 00        		.byte	15
+ 3013 072c 00        		.byte	15
+ 3014 072d 00        		.byte	31
+ 3015 072e 09        		.byte	31
+ 3016 072f 09        		.byte	-7
+ 3017 0730 09        		.byte	31
+ 3018 0731 19        		.byte	31
+ 3019 0732 19        		.byte	126
+ 3020 0733 1B        		.byte	-17
+ 3021 0734 1B        		.byte	-17
+ 3022 0735 1B        		.byte	-13
+ 3023 0736 3F        		.byte	-5
+ 3024 0737 36        		.byte	-5
+ 3025 0738 36        		.byte	-4
+ 3026 0739 3E        		.byte	-3
+ 3027 073a 6C        		.byte	-3
+ 3028 073b 6C        		.byte	-33
+ 3029 073c 6C        		.byte	-18
+ 3030 073d F9        		.byte	-18
+ 3031 073e F9        		.byte	-18
+ 3032 073f F3        		.byte	100
+ 3033 0740 F3        		.byte	100
+ 3034 0741 F3        		.byte	102
+ 3035 0742 E6        		.byte	114
+ 3036 0743 ED        		.byte	114
+ 3037 0744 ED        		.byte	112
+ 3038 0745 DB        		.byte	48
+ 3039 0746 DF        		.byte	48
+ 3040 0747 DF        		.byte	32
+ 3041 0748 FE        		.byte	32
+ 3042 0749 7D        		.byte	32
+ 3043 074a 7D        		.byte	0
+ 3044 074b 1F        		.byte	0
+ 3045 074c 1F        		.byte	0
+ 3046 074d 1F        		.byte	0
+ 3047 074e 6F        		.byte	0
+ 3048 074f 1F        		.byte	0
+ 3049 0750 1F        		.byte	-1
+ 3050 0751 0F        		.byte	-1
+ 3051 0752 09        		.byte	-1
+ 3052 0753 09        		.byte	-1
+ 3053 0754 07        		.byte	0
+ 3054 0755 0F        		.byte	0
+ 3055 0756 0F        		.byte	4
+ 3056 0757 0F        		.byte	6
+ 3057 0758 1F        		.byte	6
+ 3058 0759 1F        		.byte	6
+ 3059 075a F9        		.byte	14
+ 3060 075b 1F        		.byte	14
+ 3061 075c 1F        		.byte	14
+ 3062 075d 7E        		.byte	14
+ 3063 075e EF        		.byte	14
+ 3064 075f EF        		.byte	14
+ 3065 0760 F3        		.byte	14
+ 3066 0761 FB        		.byte	14
+ 3067 0762 FB        		.byte	-114
+ 3068 0763 FC        		.byte	-98
+ 3069 0764 FD        		.byte	-98
+ 3070 0765 FD        		.byte	-98
+ 3071 0766 DF        		.byte	-34
+ 3072 0767 EE        		.byte	-34
+ 3073 0768 EE        		.byte	-34
+ 3074 0769 EE        		.byte	-34
+ 3075 076a 64        		.byte	-34
+ 3076 076b 64        		.byte	-50
+ 3077 076c 66        		.byte	-18
+ 3078 076d 72        		.byte	-18
+ 3079 076e 72        		.byte	-17
+ 3080 076f 70        		.byte	-17
+ 3081 0770 30        		.byte	-17
+ 3082 0771 30        		.byte	-1
+ 3083 0772 20        		.byte	-16
+ 3084 0773 20        		.byte	-16
+ 3085 0774 20        		.byte	-16
+ 3086 0775 00        		.byte	-16
+ 3087 0776 00        		.byte	-16
+ 3088 0777 00        		.byte	-32
+ 3089 0778 00        		.byte	-32
+ 3090 0779 00        		.byte	-32
+ 3091 077a 00        		.byte	-64
+ 3092 077b FF        		.byte	-64
+ 3093 077c FF        		.byte	-64
+ 3094 077d FF        		.byte	-64
+ 3095 077e FF        		.byte	-64
+ 3096 077f 00        		.byte	-64
+ 3097 0780 00        		.byte	-64
+ 3098 0781 04        		.byte	-64
+ 3099 0782 06        		.byte	-64
+ 3100 0783 06        		.byte	-28
+ 3101 0784 06        		.byte	-30
+ 3102 0785 0E        		.byte	-30
+ 3103 0786 0E        		.byte	-7
+ 3104 0787 0E        		.byte	-33
+ 3105 0788 0E        		.byte	-33
+ 3106 0789 0E        		.byte	-65
+ 3107 078a 0E        		.byte	-65
+ 3108 078b 0E        		.byte	-65
+ 3109 078c 0E        		.byte	126
+ 3110 078d 8E        		.byte	118
+ 3111 078e 9E        		.byte	118
+ 3112 078f 9E        		.byte	118
+ 3113 0790 9E        		.byte	-10
+ 3114 0791 DE        		.byte	-10
+ 3115 0792 DE        		.byte	-10
+ 3116 0793 DE        		.byte	-106
+ 3117 0794 DE        		.byte	-106
+ 3118 0795 DE        		.byte	-105
+ 3119 0796 CE        		.byte	-41
+ 3120 0797 EE        		.byte	-41
+ 3121 0798 EE        		.byte	-41
+ 3122 0799 EF        		.byte	87
+ 3123 079a EF        		.byte	87
+ 3124 079b EF        		.byte	22
+ 3125 079c FF        		.byte	-106
+ 3126 079d F0        		.byte	-106
+ 3127 079e F0        		.byte	54
+ 3128 079f F0        		.byte	38
+ 3129 07a0 F0        		.byte	38
+ 3130 07a1 F0        		.byte	36
+ 3131 07a2 E0        		.byte	40
+ 3132 07a3 E0        		.byte	40
+ 3133 07a4 E0        		.byte	-1
+ 3134 07a5 C0        		.byte	-1
+ 3135 07a6 C0        		.byte	-1
+ 3136 07a7 C0        		.byte	-1
+ 3137 07a8 C0        		.byte	0
+ 3138 07a9 C0        		.byte	0
+ 3139 07aa C0        		.byte	2
+ 3140 07ab C0        		.byte	3
+ 3141 07ac C0        		.byte	3
+ 3142 07ad C0        		.byte	0
+ 3143 07ae E4        		.byte	0
+ 3144 07af E2        		.byte	0
+ 3145 07b0 E2        		.byte	2
+ 3146 07b1 F9        		.byte	3
+ 3147 07b2 DF        		.byte	3
+ 3148 07b3 DF        		.byte	3
+ 3149 07b4 BF        		.byte	3
+ 3150 07b5 BF        		.byte	3
+ 3151 07b6 BF        		.byte	1
+ 3152 07b7 7E        		.byte	1
+ 3153 07b8 76        		.byte	1
+ 3154 07b9 76        		.byte	1
+ 3155 07ba 76        		.byte	0
+ 3156 07bb F6        		.byte	0
+ 3157 07bc F6        		.byte	4
+ 3158 07bd F6        		.byte	6
+ 3159 07be 96        		.byte	6
+ 3160 07bf 96        		.byte	7
+ 3161 07c0 97        		.byte	3
+ 3162 07c1 D7        		.byte	3
+ 3163 07c2 D7        		.byte	-125
+ 3164 07c3 D7        		.byte	-127
+ 3165 07c4 57        		.byte	-127
+ 3166 07c5 57        		.byte	113
+ 3167 07c6 16        		.byte	-8
+ 3168 07c7 96        		.byte	-8
+ 3169 07c8 96        		.byte	-2
+ 3170 07c9 36        		.byte	63
+ 3171 07ca 26        		.byte	63
+ 3172 07cb 26        		.byte	15
+ 3173 07cc 24        		.byte	3
+ 3174 07cd 28        		.byte	3
+ 3175 07ce 28        		.byte	-2
+ 3176 07cf FF        		.byte	127
+ 3177 07d0 FF        		.byte	127
+ 3178 07d1 FF        		.byte	127
+ 3179 07d2 FF        		.byte	31
+ 3180 07d3 00        		.byte	31
+ 3181 07d4 00        		.byte	127
+ 3182 07d5 02        		.byte	124
+ 3183 07d6 03        		.byte	124
+ 3184 07d7 03        		.byte	65
+ 3185 07d8 00        		.byte	7
+ 3186 07d9 00        		.byte	7
+ 3187 07da 00        		.byte	15
+ 3188 07db 02        		.byte	31
+ 3189 07dc 03        		.byte	31
+ 3190 07dd 03        		.byte	63
+ 3191 07de 03        		.byte	119
+ 3192 07df 03        		.byte	-9
+ 3193 07e0 03        		.byte	-17
+ 3194 07e1 01        		.byte	-98
+ 3195 07e2 01        		.byte	-98
+ 3196 07e3 01        		.byte	-66
+ 3197 07e4 01        		.byte	-76
+ 3198 07e5 00        		.byte	-76
+ 3199 07e6 00        		.byte	-20
+ 3200 07e7 04        		.byte	-120
+ 3201 07e8 06        		.byte	-120
+ 3202 07e9 06        		.byte	-103
+ 3203 07ea 07        		.byte	-111
+ 3204 07eb 03        		.byte	-111
+ 3205 07ec 03        		.byte	-79
+ 3206 07ed 83        		.byte	-95
+ 3207 07ee 81        		.byte	-95
+ 3208 07ef 81        		.byte	-125
+ 3209 07f0 71        		.byte	-126
+ 3210 07f1 F8        		.byte	-126
+ 3211 07f2 F8        		.byte	-124
+ 3212 07f3 FE        		.byte	-127
+ 3213 07f4 3F        		.byte	-127
+ 3214 07f5 3F        		.byte	-128
+ 3215 07f6 0F        		.byte	-128
+ 3216 07f7 03        		.byte	-128
+ 3217 07f8 03        		.byte	-1
+ 3218 07f9 FE        		.byte	-1
+ 3219 07fa 7F        		.byte	-1
+ 3220 07fb 7F        		.byte	-1
+ 3221 07fc 7F        		.comm char_start,1,1
+ 3227 0802 41        		.text
+ 3229 0804 07        	.Letext0:
+ 3230 0805 0F        	.global __do_copy_data
+ 3231 0806 1F        	.global __do_clear_bss
+ 3232 0807 1F        	...
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:90     .text:00000000 spisend
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:177    .text:00000024 wrdata
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:205    .text:00000030 wrcmd
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:234    .text:0000003c pixelxy
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:263    .text:00000056 clearram
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:302    .text:0000007c initlcd
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:380    .text:000000b0 cursorxy
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:413    .text:000000d2 putchr
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:1164   .progmem.data:00000000 FontLookup
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:495    .text:0000011e LCD_writeChar_megaFont
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:1623   .progmem.data:000001c7 number
+                            *COM*:00000001 char_start
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:605    .text:0000019c lcdstr_megaFont
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:641    .text:000001ba putstr
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:673    .text:000001d4 lcd_drawborder
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:752    .text:00000218 lcd_clear
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:808    .text:00000254 LcdLine
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:906    .text:000002ca main
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:2759   .progmem.data:0000062f aims1
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccFFpaZI.s:2251   .progmem.data:00000437 aims2
+
+UNDEFINED SYMBOLS
+__divmodhi4
+__do_copy_data
+__do_clear_bss

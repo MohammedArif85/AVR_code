@@ -1,0 +1,85 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	main
+  18               	main:
+  19               	.LFB7:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 80EF      		ldi r24,lo8(-16)
+  25 0002 8ABB      		out 58-32,r24
+  26               	.LM3:
+  27 0004 11BA      		out 49-32,__zero_reg__
+  28               	.LM4:
+  29 0006 8FE0      		ldi r24,lo8(15)
+  30 0008 82BB      		out 50-32,r24
+  31               	.LBB12:
+  32               	.LBB13:
+  33               	.LBB14:
+  34               	.LBB15:
+  35               	.LM5:
+  36 000a 20E9      		ldi r18,lo8(400)
+  37 000c 31E0      		ldi r19,hi8(400)
+  38               	.LVL0:
+  39               	.L11:
+  40               	.LBE15:
+  41               	.LBE14:
+  42               	.LBE13:
+  43               	.LBE12:
+  44               	.LM6:
+  45 000e 8199      		sbic 48-32,1
+  46 0010 00C0      		rjmp .L11
+  47 0012 88EB      		ldi r24,lo8(3000)
+  48 0014 9BE0      		ldi r25,hi8(3000)
+  49               	.LVL1:
+  50               	.L3:
+  51               	.LBB19:
+  52               	.LBB18:
+  53               	.LBB17:
+  54               	.LBB16:
+  55               	.LM7:
+  56 0016 F901      		movw r30,r18
+  57               	/* #APP */
+  58               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  59 0018 3197      		1: sbiw r30,1
+  60 001a 01F4      		brne 1b
+  61               	 ;  0 "" 2
+  62               	/* #NOAPP */
+  63               	.LBE16:
+  64               	.LBE17:
+  65               	.LM8:
+  66 001c 0197      		sbiw r24,1
+  67               	.LM9:
+  68 001e 01F4      		brne .L3
+  69               	.L7:
+  70               	.LBE18:
+  71               	.LBE19:
+  72               	.LM10:
+  73 0020 819B      		sbis 48-32,1
+  74 0022 00C0      		rjmp .L7
+  75               	.LM11:
+  76 0024 8BB3      		in r24,59-32
+  77               	.LVL2:
+  78 0026 8095      		com r24
+  79 0028 8BBB      		out 59-32,r24
+  80 002a 00C0      		rjmp .L11
+  81               	.LFE7:
+ 107               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccQ7TQtf.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccQ7TQtf.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccQ7TQtf.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccQ7TQtf.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccQ7TQtf.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccQ7TQtf.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccQ7TQtf.s:18     .text:00000000 main
+
+NO UNDEFINED SYMBOLS

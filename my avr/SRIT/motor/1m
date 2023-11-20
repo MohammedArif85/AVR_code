@@ -1,0 +1,26 @@
+#include<avr/io.h>
+
+
+int main(void)
+{
+  DDRC=0xFF;
+  DDRD=0x00;
+  PORTD=0xFF;
+  PORTC=0x00;
+  while(1)
+  {
+    if(!(PIND & 0x01))
+	PORTC=0x80;
+	else if (!(PIND & 0x02))
+	PORTC=0x40;
+	else
+	PORTC=0x00;
+	
+  }
+   return 0;
+
+
+
+
+}
+

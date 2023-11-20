@@ -1,0 +1,217 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	__vector_9
+  18               	__vector_9:
+  19               	.LFB6:
+  20               	.LM1:
+  21 0000 1F92      		push __zero_reg__
+  22 0002 0F92      		push r0
+  23 0004 0FB6      		in r0,__SREG__
+  24 0006 0F92      		push r0
+  25 0008 1124      		clr __zero_reg__
+  26 000a 2F93      		push r18
+  27 000c 8F93      		push r24
+  28 000e 9F93      		push r25
+  29 0010 EF93      		push r30
+  30 0012 FF93      		push r31
+  31               	/* prologue: Signal */
+  32               	/* frame size = 0 */
+  33               	.LM2:
+  34 0014 E091 0000 		lds r30,count
+  35 0018 F0E0      		ldi r31,lo8(0)
+  36 001a E050      		subi r30,lo8(-(d1))
+  37 001c F040      		sbci r31,hi8(-(d1))
+  38 001e 8081      		ld r24,Z
+  39 0020 8093 0000 		sts temp,r24
+  40               	.LM3:
+  41 0024 2091 0000 		lds r18,count
+  42 0028 81E0      		ldi r24,lo8(1)
+  43 002a 90E0      		ldi r25,hi8(1)
+  44 002c 00C0      		rjmp 2f
+  45 002e 880F      	1:	lsl r24
+  46 0030 991F      		rol r25
+  47 0032 2A95      	2:	dec r18
+  48 0034 02F4      		brpl 1b
+  49 0036 88BB      		out 56-32,r24
+  50               	.LM4:
+  51 0038 E091 0000 		lds r30,temp
+  52 003c F0E0      		ldi r31,lo8(0)
+  53 003e E050      		subi r30,lo8(-(segdisp))
+  54 0040 F040      		sbci r31,hi8(-(segdisp))
+  55 0042 8081      		ld r24,Z
+  56 0044 82BB      		out 50-32,r24
+  57               	.LM5:
+  58 0046 8091 0000 		lds r24,count
+  59 004a 8F5F      		subi r24,lo8(-(1))
+  60 004c 8093 0000 		sts count,r24
+  61               	.LM6:
+  62 0050 8091 0000 		lds r24,count
+  63 0054 8430      		cpi r24,lo8(4)
+  64 0056 00F0      		brlo .L2
+  65               	.LM7:
+  66 0058 1092 0000 		sts count,__zero_reg__
+  67               	.L2:
+  68               	.LM8:
+  69 005c 8091 0000 		lds r24,turnon
+  70 0060 8823      		tst r24
+  71 0062 01F0      		breq .L3
+  72               	.LM9:
+  73 0064 8091 0000 		lds r24,d1
+  74 0068 8F5F      		subi r24,lo8(-(1))
+  75 006a 8093 0000 		sts d1,r24
+  76               	.LM10:
+  77 006e 8091 0000 		lds r24,d1
+  78 0072 8A30      		cpi r24,lo8(10)
+  79 0074 00F0      		brlo .L4
+  80               	.LM11:
+  81 0076 1092 0000 		sts d1,__zero_reg__
+  82               	.LM12:
+  83 007a 8091 0000 		lds r24,d1+1
+  84 007e 8F5F      		subi r24,lo8(-(1))
+  85 0080 8093 0000 		sts d1+1,r24
+  86               	.L4:
+  87               	.LM13:
+  88 0084 8091 0000 		lds r24,d1+1
+  89 0088 8A30      		cpi r24,lo8(10)
+  90 008a 00F0      		brlo .L5
+  91               	.LM14:
+  92 008c 1092 0000 		sts d1+1,__zero_reg__
+  93               	.LM15:
+  94 0090 8091 0000 		lds r24,d1+2
+  95 0094 8F5F      		subi r24,lo8(-(1))
+  96 0096 8093 0000 		sts d1+2,r24
+  97               	.L5:
+  98               	.LM16:
+  99 009a 8091 0000 		lds r24,d1+2
+ 100 009e 8A30      		cpi r24,lo8(10)
+ 101 00a0 00F0      		brlo .L6
+ 102               	.LM17:
+ 103 00a2 1092 0000 		sts d1+2,__zero_reg__
+ 104               	.LM18:
+ 105 00a6 8091 0000 		lds r24,d1+3
+ 106 00aa 8F5F      		subi r24,lo8(-(1))
+ 107 00ac 8093 0000 		sts d1+3,r24
+ 108               	.L6:
+ 109               	.LM19:
+ 110 00b0 8091 0000 		lds r24,d1+3
+ 111 00b4 8A30      		cpi r24,lo8(10)
+ 112 00b6 00F0      		brlo .L3
+ 113               	.LM20:
+ 114 00b8 1092 0000 		sts d1+3,__zero_reg__
+ 115               	.L3:
+ 116               	.LM21:
+ 117 00bc 86E0      		ldi r24,lo8(6)
+ 118 00be 82BF      		out 82-32,r24
+ 119               	/* epilogue start */
+ 120               	.LM22:
+ 121 00c0 FF91      		pop r31
+ 122 00c2 EF91      		pop r30
+ 123 00c4 9F91      		pop r25
+ 124 00c6 8F91      		pop r24
+ 125 00c8 2F91      		pop r18
+ 126 00ca 0F90      		pop r0
+ 127 00cc 0FBE      		out __SREG__,r0
+ 128 00ce 0F90      		pop r0
+ 129 00d0 1F90      		pop __zero_reg__
+ 130 00d2 1895      		reti
+ 131               	.LFE6:
+ 133               	.global	main
+ 135               	main:
+ 136               	.LFB7:
+ 137               	.LM23:
+ 138               	/* prologue: function */
+ 139               	/* frame size = 0 */
+ 140               	.LM24:
+ 141 00d4 1092 0000 		sts turnon,__zero_reg__
+ 142               	.LM25:
+ 143 00d8 8FEF      		ldi r24,lo8(-1)
+ 144 00da 81BB      		out 49-32,r24
+ 145               	.LM26:
+ 146 00dc 12BA      		out 50-32,__zero_reg__
+ 147               	.LM27:
+ 148 00de 87BB      		out 55-32,r24
+ 149               	.LM28:
+ 150 00e0 1ABA      		out 58-32,__zero_reg__
+ 151               	.LM29:
+ 152 00e2 8BBB      		out 59-32,r24
+ 153               	.LM30:
+ 154 00e4 18BA      		out 56-32,__zero_reg__
+ 155               	.LM31:
+ 156 00e6 86E0      		ldi r24,lo8(6)
+ 157 00e8 82BF      		out 82-32,r24
+ 158               	.LM32:
+ 159 00ea 83E0      		ldi r24,lo8(3)
+ 160 00ec 83BF      		out 83-32,r24
+ 161               	.LM33:
+ 162 00ee 81E0      		ldi r24,lo8(1)
+ 163 00f0 89BF      		out 89-32,r24
+ 164               	.LM34:
+ 165               	/* #APP */
+ 166               	 ;  85 "main.c" 1
+ 167 00f2 7894      		sei
+ 168               	 ;  0 "" 2
+ 169               	/* #NOAPP */
+ 170               	.L14:
+ 171               	.LM35:
+ 172 00f4 C899      		sbic 57-32,0
+ 173 00f6 00C0      		rjmp .L9
+ 174               	.LM36:
+ 175 00f8 8093 0000 		sts turnon,r24
+ 176 00fc 00C0      		rjmp .L14
+ 177               	.L9:
+ 178               	.LM37:
+ 179 00fe CB99      		sbic 57-32,3
+ 180 0100 00C0      		rjmp .L14
+ 181               	.LM38:
+ 182 0102 1092 0000 		sts turnon,__zero_reg__
+ 183 0106 00C0      		rjmp .L14
+ 184               	.LFE7:
+ 186               	.global	count
+ 187               	.global	count
+ 188               		.section .bss
+ 191               	count:
+ 192 0000 00        		.skip 1,0
+ 193               	.global	temp
+ 194               	.global	temp
+ 197               	temp:
+ 198 0001 00        		.skip 1,0
+ 199               		.data
+ 202               	segdisp:
+ 203 0000 77        		.byte	119
+ 204 0001 11        		.byte	17
+ 205 0002 6B        		.byte	107
+ 206 0003 5B        		.byte	91
+ 207 0004 1D        		.byte	29
+ 208 0005 5E        		.byte	94
+ 209 0006 7E        		.byte	126
+ 210 0007 13        		.byte	19
+ 211 0008 7F        		.byte	127
+ 212 0009 1F        		.byte	31
+ 213               		.comm d1,4,1
+ 214               		.comm turnon,1,1
+ 247               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:18     .text:00000000 __vector_9
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:191    .bss:00000000 count
+                            *COM*:00000004 d1
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:197    .bss:00000001 temp
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:202    .data:00000000 segdisp
+                            *COM*:00000001 turnon
+C:\DOCUME~1\aims\LOCALS~1\Temp/cc2dYOd5.s:135    .text:000000d4 main
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

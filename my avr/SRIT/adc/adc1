@@ -1,0 +1,16 @@
+   #include<avr/io.h>
+   #include<util/delay.h>
+   #include "lcd.h"
+   int main (void)
+   {
+     lcd_init();
+	 lcd_puts("ADC TEST");
+	 while(1)
+	 {
+	  ADMUX=(1<<REFS0);
+	  ADCSRA=(1<<ADEN)|(1<<ADSC)|(1<<ADPS0);
+	  loop_until_bit_is_set(ADCSRA,ADIF);
+	  lcd_cmd (0xc2);
+	  itoa(ADCW);
+	 }
+   }

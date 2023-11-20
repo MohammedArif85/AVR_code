@@ -1,0 +1,4932 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00001a0c  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000048  00800060  00001a0c  00001aa0  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000247  008000a8  008000a8  00001ae8  2**0
+                  ALLOC
+  3 .debug_aranges 00000020  00000000  00000000  00001ae8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_pubnames 00000374  00000000  00000000  00001b08  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   0000212d  00000000  00000000  00001e7c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000036d  00000000  00000000  00003fa9  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00001954  00000000  00000000  00004316  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000290  00000000  00000000  00005c6c  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000004c3  00000000  00000000  00005efc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000019be  00000000  00000000  000063bf  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000078  00000000  00000000  00007d7d  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+       0:	0c 94 90 02 	jmp	0x520	; 0x520 <__ctors_end>
+       4:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+       8:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+       c:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      10:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      14:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      18:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      1c:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      20:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      24:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      28:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      2c:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      30:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      34:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      38:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      3c:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      40:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      44:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      48:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      4c:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+      50:	0c 94 ad 02 	jmp	0x55a	; 0x55a <__bad_interrupt>
+
+00000054 <__c.2456>:
+      54:	48 54 54 50 2f 31 2e 30 20 34 30 31 20 55 6e 61     HTTP/1.0 401 Una
+      64:	75 74 68 6f 72 69 7a 65 64 0d 0a 43 6f 6e 74 65     uthorized..Conte
+      74:	6e 74 2d 54 79 70 65 3a 20 74 65 78 74 2f 68 74     nt-Type: text/ht
+      84:	6d 6c 0d 0a 0d 0a 3c 68 31 3e 34 30 31 20 55 6e     ml....<h1>401 Un
+      94:	61 75 74 68 6f 72 69 7a 65 64 3c 2f 68 31 3e 00     authorized</h1>.
+
+000000a4 <__c.2454>:
+      a4:	3c 70 3e 55 73 61 67 65 3a 20 68 74 74 70 3a 2f     <p>Usage: http:/
+      b4:	2f 68 6f 73 74 5f 6f 72 5f 69 70 2f 70 61 73 73     /host_or_ip/pass
+      c4:	77 6f 72 64 3c 2f 70 3e 0a 00                       word</p>..
+
+000000ce <__c.2452>:
+      ce:	48 54 54 50 2f 31 2e 30 20 32 30 30 20 4f 4b 0d     HTTP/1.0 200 OK.
+      de:	0a 43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a 20 74     .Content-Type: t
+      ee:	65 78 74 2f 68 74 6d 6c 0d 0a 0d 0a 00              ext/html.....
+
+000000fb <__c.2449>:
+      fb:	48 54 54 50 2f 31 2e 30 20 32 30 30 20 4f 4b 0d     HTTP/1.0 200 OK.
+     10b:	0a 43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a 20 74     .Content-Type: t
+     11b:	65 78 74 2f 68 74 6d 6c 0d 0a 0d 0a 3c 68 31 3e     ext/html....<h1>
+     12b:	32 30 30 20 4f 4b 3c 2f 68 31 3e 00                 200 OK</h1>.
+
+00000137 <__c.2395>:
+     137:	3c 68 72 3e 3c 62 72 3e 76 65 72 73 69 6f 6e 20     <hr><br>version 
+     147:	31 2e 30 2c 20 0a 00                                1.0, ..
+
+0000014e <__c.2393>:
+     14e:	2f 37 22 3e 20 53 77 69 74 63 68 20 6f 6e 3c 2f     /7"> Switch on</
+     15e:	61 3e 3c 2f 70 3e 3c 2f 63 65 6e 74 65 72 3e 00     a></p></center>.
+
+0000016e <__c.2391>:
+     16e:	2f 36 22 3e 20 53 77 69 74 63 68 20 6f 66 66 3c     /6"> Switch off<
+     17e:	2f 61 3e 3c 2f 70 3e 3c 2f 63 65 6e 74 65 72 3e     /a></p></center>
+     18e:	00                                                  .
+
+0000018f <__c.2389>:
+     18f:	3c 61 20 68 72 65 66 3d 22 2e 00                    <a href="..
+
+0000019a <__c.2387>:
+     19a:	4f 46 46 20 00                                      OFF .
+
+0000019f <__c.2385>:
+     19f:	3c 66 6f 6e 74 20 63 6f 6c 6f 72 3d 22 23 30 30     <font color="#00
+     1af:	46 46 30 30 22 3e 20 4f 4e 20 3c 2f 66 6f 6e 74     FF00"> ON </font
+     1bf:	3e 00                                               >.
+
+000001c1 <__c.2383>:
+     1c1:	3c 63 65 6e 74 65 72 3e 3c 70 3e 4c 6f 61 64 20     <center><p>Load 
+     1d1:	34 20 4f 75 74 70 75 74 20 69 73 3a 20 00           4 Output is: .
+
+000001df <__c.2381>:
+     1df:	2f 35 22 3e 20 53 77 69 74 63 68 20 6f 6e 3c 2f     /5"> Switch on</
+     1ef:	61 3e 3c 2f 70 3e 3c 2f 63 65 6e 74 65 72 3e 00     a></p></center>.
+
+000001ff <__c.2379>:
+     1ff:	2f 34 22 3e 20 53 77 69 74 63 68 20 6f 66 66 3c     /4"> Switch off<
+     20f:	2f 61 3e 3c 2f 70 3e 3c 2f 63 65 6e 74 65 72 3e     /a></p></center>
+     21f:	00                                                  .
+
+00000220 <__c.2377>:
+     220:	3c 61 20 68 72 65 66 3d 22 2e 00                    <a href="..
+
+0000022b <__c.2375>:
+     22b:	4f 46 46 20 00                                      OFF .
+
+00000230 <__c.2373>:
+     230:	3c 66 6f 6e 74 20 63 6f 6c 6f 72 3d 22 23 30 30     <font color="#00
+     240:	46 46 30 30 22 3e 20 4f 4e 20 3c 2f 66 6f 6e 74     FF00"> ON </font
+     250:	3e 00                                               >.
+
+00000252 <__c.2371>:
+     252:	3c 63 65 6e 74 65 72 3e 3c 70 3e 4c 6f 61 64 20     <center><p>Load 
+     262:	33 20 4f 75 74 70 75 74 20 69 73 3a 20 00           3 Output is: .
+
+00000270 <__c.2369>:
+     270:	2f 33 22 3e 20 53 77 69 74 63 68 20 6f 6e 3c 2f     /3"> Switch on</
+     280:	61 3e 3c 2f 70 3e 3c 2f 63 65 6e 74 65 72 3e 00     a></p></center>.
+
+00000290 <__c.2367>:
+     290:	2f 32 22 3e 20 53 77 69 74 63 68 20 6f 66 66 3c     /2"> Switch off<
+     2a0:	2f 61 3e 3c 2f 70 3e 3c 2f 63 65 6e 74 65 72 3e     /a></p></center>
+     2b0:	00                                                  .
+
+000002b1 <__c.2365>:
+     2b1:	3c 61 20 68 72 65 66 3d 22 2e 00                    <a href="..
+
+000002bc <__c.2363>:
+     2bc:	4f 46 46 20 00                                      OFF .
+
+000002c1 <__c.2361>:
+     2c1:	3c 66 6f 6e 74 20 63 6f 6c 6f 72 3d 22 23 30 30     <font color="#00
+     2d1:	46 46 30 30 22 3e 20 4f 4e 20 3c 2f 66 6f 6e 74     FF00"> ON </font
+     2e1:	3e 00                                               >.
+
+000002e3 <__c.2359>:
+     2e3:	3c 63 65 6e 74 65 72 3e 3c 70 3e 4c 6f 61 64 20     <center><p>Load 
+     2f3:	32 20 4f 75 74 70 75 74 20 69 73 3a 20 00           2 Output is: .
+
+00000301 <__c.2357>:
+     301:	2f 31 22 3e 20 53 77 69 74 63 68 20 6f 6e 3c 2f     /1"> Switch on</
+     311:	61 3e 3c 2f 70 3e 3c 2f 63 65 6e 74 65 72 3e 00     a></p></center>.
+
+00000321 <__c.2355>:
+     321:	2f 30 22 3e 20 53 77 69 74 63 68 20 6f 66 66 3c     /0"> Switch off<
+     331:	2f 61 3e 3c 2f 70 3e 3c 2f 63 65 6e 74 65 72 3e     /a></p></center>
+     341:	00                                                  .
+
+00000342 <__c.2353>:
+     342:	3c 61 20 68 72 65 66 3d 22 2e 00                    <a href="..
+
+0000034d <__c.2351>:
+     34d:	4f 46 46 20 00                                      OFF .
+
+00000352 <__c.2349>:
+     352:	3c 66 6f 6e 74 20 63 6f 6c 6f 72 3d 22 23 30 30     <font color="#00
+     362:	46 46 30 30 22 3e 20 4f 4e 20 3c 2f 66 6f 6e 74     FF00"> ON </font
+     372:	3e 00                                               >.
+
+00000374 <__c.2347>:
+     374:	3c 63 65 6e 74 65 72 3e 3c 70 3e 4c 6f 61 64 20     <center><p>Load 
+     384:	31 20 4f 75 74 70 75 74 20 69 73 3a 20 00           1 Output is: .
+
+00000392 <__c.2345>:
+     392:	3c 63 65 6e 74 65 72 3e 3c 70 3e 49 6e 74 65 6e     <center><p>Inten
+     3a2:	73 69 74 79 20 69 73 3a 20 00                       sity is: .
+
+000003ac <__c.2343>:
+     3ac:	3c 63 65 6e 74 65 72 3e 3c 48 33 3e 4c 69 67 68     <center><H3>Ligh
+     3bc:	74 20 49 6e 74 65 6e 73 69 74 79 20 4d 65 74 65     t Intensity Mete
+     3cc:	72 3c 2f 48 33 3e 3c 2f 63 65 6e 74 65 72 3e 00     r</H3></center>.
+
+000003dc <__c.2341>:
+     3dc:	3c 63 65 6e 74 65 72 3e 3c 48 31 3e 41 75 74 6f     <center><H1>Auto
+     3ec:	6d 61 74 69 6f 6e 20 43 6f 6e 74 72 6f 6c 20 50     mation Control P
+     3fc:	61 6e 65 6c 3c 2f 48 31 3e 20 3c 73 6d 61 6c 6c     anel</H1> <small
+     40c:	3e 3c 61 20 68 72 65 66 3d 22 2e 22 3e 5b 72 65     ><a href=".">[re
+     41c:	66 72 65 73 68 20 73 74 61 74 75 73 5d 3c 2f 61     fresh status]</a
+     42c:	3e 3c 2f 73 6d 61 6c 6c 3e 3c 62 72 3e 3c 2f 63     ></small><br></c
+     43c:	65 6e 74 65 72 3e 00                                enter>.
+
+00000443 <__c.2339>:
+     443:	48 54 54 50 2f 31 2e 30 20 32 30 30 20 4f 4b 0d     HTTP/1.0 200 OK.
+     453:	0a 43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a 20 74     .Content-Type: t
+     463:	65 78 74 2f 68 74 6d 6c 0d 0a 50 72 61 67 6d 61     ext/html..Pragma
+     473:	3a 20 6e 6f 2d 63 61 63 68 65 0d 0a 0d 0a 00        : no-cache.....
+
+00000482 <__c.2326>:
+     482:	61 64 64 20 61 20 74 72 61 69 6c 69 6e 67 20 73     add a trailing s
+     492:	6c 61 73 68 20 74 6f 20 74 68 65 20 75 72 6c 0a     lash to the url.
+     4a2:	00                                                  .
+
+000004a3 <__c.2324>:
+     4a3:	3c 68 31 3e 33 30 31 20 4d 6f 76 65 64 20 50 65     <h1>301 Moved Pe
+     4b3:	72 6d 61 6e 65 6e 74 6c 79 3c 2f 68 31 3e 0a 00     rmanently</h1>..
+
+000004c3 <__c.2322>:
+     4c3:	2f 0d 0a 43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a     /..Content-Type:
+     4d3:	20 74 65 78 74 2f 68 74 6d 6c 0d 0a 50 72 61 67      text/html..Prag
+     4e3:	6d 61 3a 20 6e 6f 2d 63 61 63 68 65 0d 0a 0d 0a     ma: no-cache....
+     4f3:	00                                                  .
+
+000004f4 <__c.2320>:
+     4f4:	48 54 54 50 2f 31 2e 30 20 33 30 31 20 4d 6f 76     HTTP/1.0 301 Mov
+     504:	65 64 20 50 65 72 6d 61 6e 65 6e 74 6c 79 0d 0a     ed Permanently..
+     514:	4c 6f 63 61 74 69 6f 6e 3a 20 00 00                 Location: ..
+
+00000520 <__ctors_end>:
+     520:	11 24       	eor	r1, r1
+     522:	1f be       	out	0x3f, r1	; 63
+     524:	cf e5       	ldi	r28, 0x5F	; 95
+     526:	d4 e0       	ldi	r29, 0x04	; 4
+     528:	de bf       	out	0x3e, r29	; 62
+     52a:	cd bf       	out	0x3d, r28	; 61
+
+0000052c <__do_copy_data>:
+     52c:	10 e0       	ldi	r17, 0x00	; 0
+     52e:	a0 e6       	ldi	r26, 0x60	; 96
+     530:	b0 e0       	ldi	r27, 0x00	; 0
+     532:	ec e0       	ldi	r30, 0x0C	; 12
+     534:	fa e1       	ldi	r31, 0x1A	; 26
+     536:	02 c0       	rjmp	.+4      	; 0x53c <.do_copy_data_start>
+
+00000538 <.do_copy_data_loop>:
+     538:	05 90       	lpm	r0, Z+
+     53a:	0d 92       	st	X+, r0
+
+0000053c <.do_copy_data_start>:
+     53c:	a8 3a       	cpi	r26, 0xA8	; 168
+     53e:	b1 07       	cpc	r27, r17
+     540:	d9 f7       	brne	.-10     	; 0x538 <.do_copy_data_loop>
+
+00000542 <__do_clear_bss>:
+     542:	12 e0       	ldi	r17, 0x02	; 2
+     544:	a8 ea       	ldi	r26, 0xA8	; 168
+     546:	b0 e0       	ldi	r27, 0x00	; 0
+     548:	01 c0       	rjmp	.+2      	; 0x54c <.do_clear_bss_start>
+
+0000054a <.do_clear_bss_loop>:
+     54a:	1d 92       	st	X+, r1
+
+0000054c <.do_clear_bss_start>:
+     54c:	af 3e       	cpi	r26, 0xEF	; 239
+     54e:	b1 07       	cpc	r27, r17
+     550:	e1 f7       	brne	.-8      	; 0x54a <.do_clear_bss_loop>
+     552:	0e 94 b6 0a 	call	0x156c	; 0x156c <main>
+     556:	0c 94 04 0d 	jmp	0x1a08	; 0x1a08 <_exit>
+
+0000055a <__bad_interrupt>:
+     55a:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000055e <enc28j60ReadOp>:
+//
+#define waitspi() while(!(SPSR&(1<<SPIF)))
+
+uint8_t enc28j60ReadOp(uint8_t op, uint8_t address)
+{
+        CSACTIVE;
+     55e:	c4 98       	cbi	0x18, 4	; 24
+        // issue read command
+        SPDR = op | (address & ADDR_MASK);
+     560:	96 2f       	mov	r25, r22
+     562:	9f 71       	andi	r25, 0x1F	; 31
+     564:	98 2b       	or	r25, r24
+     566:	9f b9       	out	0x0f, r25	; 15
+        waitspi();
+     568:	77 9b       	sbis	0x0e, 7	; 14
+     56a:	fe cf       	rjmp	.-4      	; 0x568 <enc28j60ReadOp+0xa>
+        // read data
+        SPDR = 0x00;
+     56c:	1f b8       	out	0x0f, r1	; 15
+        waitspi();
+     56e:	77 9b       	sbis	0x0e, 7	; 14
+     570:	fe cf       	rjmp	.-4      	; 0x56e <enc28j60ReadOp+0x10>
+        // do dummy read if needed (for mac and mii, see datasheet page 29)
+        if(address & 0x80)
+     572:	67 ff       	sbrs	r22, 7
+     574:	03 c0       	rjmp	.+6      	; 0x57c <enc28j60ReadOp+0x1e>
+        {
+                SPDR = 0x00;
+     576:	1f b8       	out	0x0f, r1	; 15
+                waitspi();
+     578:	77 9b       	sbis	0x0e, 7	; 14
+     57a:	fe cf       	rjmp	.-4      	; 0x578 <enc28j60ReadOp+0x1a>
+        }
+        // release CS
+        CSPASSIVE;
+     57c:	c4 9a       	sbi	0x18, 4	; 24
+        return(SPDR);
+     57e:	8f b1       	in	r24, 0x0f	; 15
+}
+     580:	08 95       	ret
+
+00000582 <enc28j60WriteOp>:
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     582:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     584:	6f 71       	andi	r22, 0x1F	; 31
+     586:	68 2b       	or	r22, r24
+     588:	6f b9       	out	0x0f, r22	; 15
+        waitspi();
+     58a:	77 9b       	sbis	0x0e, 7	; 14
+     58c:	fe cf       	rjmp	.-4      	; 0x58a <enc28j60WriteOp+0x8>
+        // write data
+        SPDR = data;
+     58e:	4f b9       	out	0x0f, r20	; 15
+        waitspi();
+     590:	77 9b       	sbis	0x0e, 7	; 14
+     592:	fe cf       	rjmp	.-4      	; 0x590 <enc28j60WriteOp+0xe>
+        CSPASSIVE;
+     594:	c4 9a       	sbi	0x18, 4	; 24
+}
+     596:	08 95       	ret
+
+00000598 <enc28j60ReadBuffer>:
+
+void enc28j60ReadBuffer(uint16_t len, uint8_t* data)
+{
+     598:	ac 01       	movw	r20, r24
+     59a:	fb 01       	movw	r30, r22
+        CSACTIVE;
+     59c:	c4 98       	cbi	0x18, 4	; 24
+        // issue read command
+        SPDR = ENC28J60_READ_BUF_MEM;
+     59e:	8a e3       	ldi	r24, 0x3A	; 58
+     5a0:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     5a2:	77 9b       	sbis	0x0e, 7	; 14
+     5a4:	fe cf       	rjmp	.-4      	; 0x5a2 <enc28j60ReadBuffer+0xa>
+     5a6:	9a 01       	movw	r18, r20
+     5a8:	df 01       	movw	r26, r30
+     5aa:	07 c0       	rjmp	.+14     	; 0x5ba <enc28j60ReadBuffer+0x22>
+        while(len)
+        {
+                len--;
+                // read data
+                SPDR = 0x00;
+     5ac:	1f b8       	out	0x0f, r1	; 15
+                waitspi();
+     5ae:	77 9b       	sbis	0x0e, 7	; 14
+     5b0:	fe cf       	rjmp	.-4      	; 0x5ae <enc28j60ReadBuffer+0x16>
+        // issue read command
+        SPDR = ENC28J60_READ_BUF_MEM;
+        waitspi();
+        while(len)
+        {
+                len--;
+     5b2:	21 50       	subi	r18, 0x01	; 1
+     5b4:	30 40       	sbci	r19, 0x00	; 0
+                // read data
+                SPDR = 0x00;
+                waitspi();
+                *data = SPDR;
+     5b6:	8f b1       	in	r24, 0x0f	; 15
+     5b8:	8d 93       	st	X+, r24
+{
+        CSACTIVE;
+        // issue read command
+        SPDR = ENC28J60_READ_BUF_MEM;
+        waitspi();
+        while(len)
+     5ba:	21 15       	cp	r18, r1
+     5bc:	31 05       	cpc	r19, r1
+     5be:	b1 f7       	brne	.-20     	; 0x5ac <enc28j60ReadBuffer+0x14>
+                SPDR = 0x00;
+                waitspi();
+                *data = SPDR;
+                data++;
+        }
+        *data='\0';
+     5c0:	e4 0f       	add	r30, r20
+     5c2:	f5 1f       	adc	r31, r21
+     5c4:	10 82       	st	Z, r1
+        CSPASSIVE;
+     5c6:	c4 9a       	sbi	0x18, 4	; 24
+}
+     5c8:	08 95       	ret
+
+000005ca <enc28j60WriteBuffer>:
+
+void enc28j60WriteBuffer(uint16_t len, uint8_t* data)
+{
+     5ca:	9c 01       	movw	r18, r24
+     5cc:	fb 01       	movw	r30, r22
+        CSACTIVE;
+     5ce:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+     5d0:	8a e7       	ldi	r24, 0x7A	; 122
+     5d2:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     5d4:	77 9b       	sbis	0x0e, 7	; 14
+     5d6:	fe cf       	rjmp	.-4      	; 0x5d4 <enc28j60WriteBuffer+0xa>
+     5d8:	07 c0       	rjmp	.+14     	; 0x5e8 <enc28j60WriteBuffer+0x1e>
+        while(len)
+        {
+                len--;
+                // write data
+                SPDR = *data;
+     5da:	80 81       	ld	r24, Z
+     5dc:	8f b9       	out	0x0f, r24	; 15
+                data++;
+                waitspi();
+     5de:	77 9b       	sbis	0x0e, 7	; 14
+     5e0:	fe cf       	rjmp	.-4      	; 0x5de <enc28j60WriteBuffer+0x14>
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+        waitspi();
+        while(len)
+        {
+                len--;
+     5e2:	21 50       	subi	r18, 0x01	; 1
+     5e4:	30 40       	sbci	r19, 0x00	; 0
+                // write data
+                SPDR = *data;
+                data++;
+     5e6:	31 96       	adiw	r30, 0x01	; 1
+{
+        CSACTIVE;
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+        waitspi();
+        while(len)
+     5e8:	21 15       	cp	r18, r1
+     5ea:	31 05       	cpc	r19, r1
+     5ec:	b1 f7       	brne	.-20     	; 0x5da <enc28j60WriteBuffer+0x10>
+                // write data
+                SPDR = *data;
+                data++;
+                waitspi();
+        }
+        CSPASSIVE;
+     5ee:	c4 9a       	sbi	0x18, 4	; 24
+}
+     5f0:	08 95       	ret
+
+000005f2 <enc28j60SetBank>:
+
+void enc28j60SetBank(uint8_t address)
+{
+     5f2:	48 2f       	mov	r20, r24
+        // set the bank (if needed)
+        if((address & BANK_MASK) != Enc28j60Bank)
+     5f4:	28 2f       	mov	r18, r24
+     5f6:	30 e0       	ldi	r19, 0x00	; 0
+     5f8:	20 76       	andi	r18, 0x60	; 96
+     5fa:	30 70       	andi	r19, 0x00	; 0
+     5fc:	80 91 ac 00 	lds	r24, 0x00AC
+     600:	90 e0       	ldi	r25, 0x00	; 0
+     602:	28 17       	cp	r18, r24
+     604:	39 07       	cpc	r19, r25
+     606:	d9 f0       	breq	.+54     	; 0x63e <enc28j60SetBank+0x4c>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     608:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     60a:	8f eb       	ldi	r24, 0xBF	; 191
+     60c:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     60e:	77 9b       	sbis	0x0e, 7	; 14
+     610:	fe cf       	rjmp	.-4      	; 0x60e <enc28j60SetBank+0x1c>
+        // write data
+        SPDR = data;
+     612:	83 e0       	ldi	r24, 0x03	; 3
+     614:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     616:	77 9b       	sbis	0x0e, 7	; 14
+     618:	fe cf       	rjmp	.-4      	; 0x616 <enc28j60SetBank+0x24>
+        CSPASSIVE;
+     61a:	c4 9a       	sbi	0x18, 4	; 24
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     61c:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     61e:	8f e9       	ldi	r24, 0x9F	; 159
+     620:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     622:	77 9b       	sbis	0x0e, 7	; 14
+     624:	fe cf       	rjmp	.-4      	; 0x622 <enc28j60SetBank+0x30>
+        // set the bank (if needed)
+        if((address & BANK_MASK) != Enc28j60Bank)
+        {
+                // set the bank
+                enc28j60WriteOp(ENC28J60_BIT_FIELD_CLR, ECON1, (ECON1_BSEL1|ECON1_BSEL0));
+                enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, (address & BANK_MASK)>>5);
+     626:	85 e0       	ldi	r24, 0x05	; 5
+     628:	35 95       	asr	r19
+     62a:	27 95       	ror	r18
+     62c:	8a 95       	dec	r24
+     62e:	e1 f7       	brne	.-8      	; 0x628 <enc28j60SetBank+0x36>
+        CSACTIVE;
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+        waitspi();
+        // write data
+        SPDR = data;
+     630:	2f b9       	out	0x0f, r18	; 15
+        waitspi();
+     632:	77 9b       	sbis	0x0e, 7	; 14
+     634:	fe cf       	rjmp	.-4      	; 0x632 <enc28j60SetBank+0x40>
+        CSPASSIVE;
+     636:	c4 9a       	sbi	0x18, 4	; 24
+        if((address & BANK_MASK) != Enc28j60Bank)
+        {
+                // set the bank
+                enc28j60WriteOp(ENC28J60_BIT_FIELD_CLR, ECON1, (ECON1_BSEL1|ECON1_BSEL0));
+                enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, (address & BANK_MASK)>>5);
+                Enc28j60Bank = (address & BANK_MASK);
+     638:	40 76       	andi	r20, 0x60	; 96
+     63a:	40 93 ac 00 	sts	0x00AC, r20
+     63e:	08 95       	ret
+
+00000640 <enc28j60Read>:
+        }
+}
+
+uint8_t enc28j60Read(uint8_t address)
+{
+     640:	1f 93       	push	r17
+     642:	18 2f       	mov	r17, r24
+        // set the bank
+        enc28j60SetBank(address);
+     644:	0e 94 f9 02 	call	0x5f2	; 0x5f2 <enc28j60SetBank>
+        // do the read
+        return enc28j60ReadOp(ENC28J60_READ_CTRL_REG, address);
+     648:	80 e0       	ldi	r24, 0x00	; 0
+     64a:	61 2f       	mov	r22, r17
+     64c:	0e 94 af 02 	call	0x55e	; 0x55e <enc28j60ReadOp>
+}
+     650:	1f 91       	pop	r17
+     652:	08 95       	ret
+
+00000654 <enc28j60Write>:
+	
+	return (enc28j60Read(MIRDH));
+}
+
+void enc28j60Write(uint8_t address, uint8_t data)
+{
+     654:	0f 93       	push	r16
+     656:	1f 93       	push	r17
+     658:	18 2f       	mov	r17, r24
+     65a:	06 2f       	mov	r16, r22
+        // set the bank
+        enc28j60SetBank(address);
+     65c:	0e 94 f9 02 	call	0x5f2	; 0x5f2 <enc28j60SetBank>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     660:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     662:	1f 71       	andi	r17, 0x1F	; 31
+     664:	10 64       	ori	r17, 0x40	; 64
+     666:	1f b9       	out	0x0f, r17	; 15
+        waitspi();
+     668:	77 9b       	sbis	0x0e, 7	; 14
+     66a:	fe cf       	rjmp	.-4      	; 0x668 <enc28j60Write+0x14>
+        // write data
+        SPDR = data;
+     66c:	0f b9       	out	0x0f, r16	; 15
+        waitspi();
+     66e:	77 9b       	sbis	0x0e, 7	; 14
+     670:	fe cf       	rjmp	.-4      	; 0x66e <enc28j60Write+0x1a>
+        CSPASSIVE;
+     672:	c4 9a       	sbi	0x18, 4	; 24
+{
+        // set the bank
+        enc28j60SetBank(address);
+        // do the write
+        enc28j60WriteOp(ENC28J60_WRITE_CTRL_REG, address, data);
+}
+     674:	1f 91       	pop	r17
+     676:	0f 91       	pop	r16
+     678:	08 95       	ret
+
+0000067a <enc28j60PhyReadH>:
+        return enc28j60ReadOp(ENC28J60_READ_CTRL_REG, address);
+}
+
+// read upper 8 bits
+uint16_t enc28j60PhyReadH(uint8_t address)
+{
+     67a:	68 2f       	mov	r22, r24
+
+	// Set the right address and start the register read operation
+	enc28j60Write(MIREGADR, address);
+     67c:	84 ed       	ldi	r24, 0xD4	; 212
+     67e:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(MICMD, MICMD_MIIRD);
+     682:	82 ed       	ldi	r24, 0xD2	; 210
+     684:	61 e0       	ldi	r22, 0x01	; 1
+     686:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+    can be achieved.
+*/
+void
+_delay_loop_1(uint8_t __count)
+{
+	__asm__ volatile (
+     68a:	80 e5       	ldi	r24, 0x50	; 80
+     68c:	8a 95       	dec	r24
+     68e:	f1 f7       	brne	.-4      	; 0x68c <enc28j60PhyReadH+0x12>
+        _delay_us(15);
+
+	// wait until the PHY read completes
+	while(enc28j60Read(MISTAT) & MISTAT_BUSY);
+     690:	8a ee       	ldi	r24, 0xEA	; 234
+     692:	0e 94 20 03 	call	0x640	; 0x640 <enc28j60Read>
+     696:	80 fd       	sbrc	r24, 0
+     698:	fb cf       	rjmp	.-10     	; 0x690 <enc28j60PhyReadH+0x16>
+
+	// reset reading bit
+	enc28j60Write(MICMD, 0x00);
+     69a:	82 ed       	ldi	r24, 0xD2	; 210
+     69c:	60 e0       	ldi	r22, 0x00	; 0
+     69e:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	
+	return (enc28j60Read(MIRDH));
+     6a2:	89 ed       	ldi	r24, 0xD9	; 217
+     6a4:	0e 94 20 03 	call	0x640	; 0x640 <enc28j60Read>
+}
+     6a8:	90 e0       	ldi	r25, 0x00	; 0
+     6aa:	08 95       	ret
+
+000006ac <enc28j60PhyWrite>:
+        // do the write
+        enc28j60WriteOp(ENC28J60_WRITE_CTRL_REG, address, data);
+}
+
+void enc28j60PhyWrite(uint8_t address, uint16_t data)
+{
+     6ac:	0f 93       	push	r16
+     6ae:	1f 93       	push	r17
+     6b0:	98 2f       	mov	r25, r24
+     6b2:	16 2f       	mov	r17, r22
+     6b4:	07 2f       	mov	r16, r23
+        // set the PHY register address
+        enc28j60Write(MIREGADR, address);
+     6b6:	84 ed       	ldi	r24, 0xD4	; 212
+     6b8:	69 2f       	mov	r22, r25
+     6ba:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        // write the PHY data
+        enc28j60Write(MIWRL, data);
+     6be:	86 ed       	ldi	r24, 0xD6	; 214
+     6c0:	61 2f       	mov	r22, r17
+     6c2:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        enc28j60Write(MIWRH, data>>8);
+     6c6:	87 ed       	ldi	r24, 0xD7	; 215
+     6c8:	60 2f       	mov	r22, r16
+     6ca:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+     6ce:	10 e5       	ldi	r17, 0x50	; 80
+     6d0:	03 c0       	rjmp	.+6      	; 0x6d8 <enc28j60PhyWrite+0x2c>
+     6d2:	81 2f       	mov	r24, r17
+     6d4:	8a 95       	dec	r24
+     6d6:	f1 f7       	brne	.-4      	; 0x6d4 <enc28j60PhyWrite+0x28>
+        // wait until the PHY write completes
+        while(enc28j60Read(MISTAT) & MISTAT_BUSY){
+     6d8:	8a ee       	ldi	r24, 0xEA	; 234
+     6da:	0e 94 20 03 	call	0x640	; 0x640 <enc28j60Read>
+     6de:	80 fd       	sbrc	r24, 0
+     6e0:	f8 cf       	rjmp	.-16     	; 0x6d2 <enc28j60PhyWrite+0x26>
+                _delay_us(15);
+        }
+}
+     6e2:	1f 91       	pop	r17
+     6e4:	0f 91       	pop	r16
+     6e6:	08 95       	ret
+
+000006e8 <enc28j60clkout>:
+
+void enc28j60clkout(uint8_t clk)
+{
+        //setup clkout: 2 is 12.5MHz:
+	enc28j60Write(ECOCON, clk & 0x7);
+     6e8:	68 2f       	mov	r22, r24
+     6ea:	67 70       	andi	r22, 0x07	; 7
+     6ec:	85 e7       	ldi	r24, 0x75	; 117
+     6ee:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+}
+     6f2:	08 95       	ret
+
+000006f4 <enc28j60Init>:
+
+void enc28j60Init(uint8_t* macaddr)
+{
+     6f4:	cf 93       	push	r28
+     6f6:	df 93       	push	r29
+     6f8:	ec 01       	movw	r28, r24
+	// initialize I/O
+        // ss as output:
+	ENC28J60_CONTROL_DDR |= 1<<ENC28J60_CONTROL_CS;
+     6fa:	bc 9a       	sbi	0x17, 4	; 23
+	CSPASSIVE; // ss=0
+     6fc:	c4 9a       	sbi	0x18, 4	; 24
+        //	
+	ENC28J60_CONTROL_DDR  |= 1<<ENC28J60_CONTROL_SI | 1<<ENC28J60_CONTROL_SCK; // mosi, sck output
+     6fe:	87 b3       	in	r24, 0x17	; 23
+     700:	80 6a       	ori	r24, 0xA0	; 160
+     702:	87 bb       	out	0x17, r24	; 23
+	cbi(ENC28J60_CONTROL_DDR,ENC28J60_CONTROL_SO); // MISO is input
+     704:	be 98       	cbi	0x17, 6	; 23
+        //
+        cbi(ENC28J60_CONTROL_PORT,ENC28J60_CONTROL_SI); // MOSI low
+     706:	c5 98       	cbi	0x18, 5	; 24
+        cbi(ENC28J60_CONTROL_PORT,ENC28J60_CONTROL_SCK); // SCK low
+     708:	c7 98       	cbi	0x18, 7	; 24
+	//
+	// initialize SPI interface
+	// master mode and Fosc/2 clock:
+        SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0);//SPCR = (1<<SPE)|(1<<MSTR);
+     70a:	81 e5       	ldi	r24, 0x51	; 81
+     70c:	8d b9       	out	0x0d, r24	; 13
+        SPSR |= (1<<SPI2X);
+     70e:	70 9a       	sbi	0x0e, 0	; 14
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     710:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     712:	8f ef       	ldi	r24, 0xFF	; 255
+     714:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     716:	77 9b       	sbis	0x0e, 7	; 14
+     718:	fe cf       	rjmp	.-4      	; 0x716 <enc28j60Init+0x22>
+        // write data
+        SPDR = data;
+     71a:	8f ef       	ldi	r24, 0xFF	; 255
+     71c:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     71e:	77 9b       	sbis	0x0e, 7	; 14
+     720:	fe cf       	rjmp	.-4      	; 0x71e <enc28j60Init+0x2a>
+        CSPASSIVE;
+     722:	c4 9a       	sbi	0x18, 4	; 24
+     724:	8d ec       	ldi	r24, 0xCD	; 205
+     726:	8a 95       	dec	r24
+     728:	f1 f7       	brne	.-4      	; 0x726 <enc28j60Init+0x32>
+	//while(!(enc28j60Read(ESTAT) & ESTAT_CLKRDY));
+	// do bank 0 stuff
+	// initialize receive buffer
+	// 16-bit transfers, must write low byte first
+	// set receive buffer start address
+	gNextPacketPtr = RXSTART_INIT;
+     72a:	10 92 ae 00 	sts	0x00AE, r1
+     72e:	10 92 ad 00 	sts	0x00AD, r1
+        // Rx start
+	enc28j60Write(ERXSTL, RXSTART_INIT&0xFF);
+     732:	88 e0       	ldi	r24, 0x08	; 8
+     734:	60 e0       	ldi	r22, 0x00	; 0
+     736:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(ERXSTH, RXSTART_INIT>>8);
+     73a:	89 e0       	ldi	r24, 0x09	; 9
+     73c:	60 e0       	ldi	r22, 0x00	; 0
+     73e:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// set receive pointer address
+	enc28j60Write(ERXRDPTL, RXSTART_INIT&0xFF);
+     742:	8c e0       	ldi	r24, 0x0C	; 12
+     744:	60 e0       	ldi	r22, 0x00	; 0
+     746:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(ERXRDPTH, RXSTART_INIT>>8);
+     74a:	8d e0       	ldi	r24, 0x0D	; 13
+     74c:	60 e0       	ldi	r22, 0x00	; 0
+     74e:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// RX end
+	enc28j60Write(ERXNDL, RXSTOP_INIT&0xFF);
+     752:	8a e0       	ldi	r24, 0x0A	; 10
+     754:	6e ef       	ldi	r22, 0xFE	; 254
+     756:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(ERXNDH, RXSTOP_INIT>>8);
+     75a:	8b e0       	ldi	r24, 0x0B	; 11
+     75c:	69 e1       	ldi	r22, 0x19	; 25
+     75e:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// TX start
+	enc28j60Write(ETXSTL, TXSTART_INIT&0xFF);
+     762:	84 e0       	ldi	r24, 0x04	; 4
+     764:	6f ef       	ldi	r22, 0xFF	; 255
+     766:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(ETXSTH, TXSTART_INIT>>8);
+     76a:	85 e0       	ldi	r24, 0x05	; 5
+     76c:	69 e1       	ldi	r22, 0x19	; 25
+     76e:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// TX end
+	enc28j60Write(ETXNDL, TXSTOP_INIT&0xFF);
+     772:	86 e0       	ldi	r24, 0x06	; 6
+     774:	6f ef       	ldi	r22, 0xFF	; 255
+     776:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(ETXNDH, TXSTOP_INIT>>8);
+     77a:	87 e0       	ldi	r24, 0x07	; 7
+     77c:	6f e1       	ldi	r22, 0x1F	; 31
+     77e:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        // Type     ETH.DST
+        // ARP      BROADCAST
+        // 06 08 -- ff ff ff ff ff ff -> ip checksum for theses bytes=f7f9
+        // in binary these poitions are:11 0000 0011 1111
+        // This is hex 303F->EPMM0=0x3f,EPMM1=0x30
+	enc28j60Write(ERXFCON, ERXFCON_UCEN|ERXFCON_CRCEN|ERXFCON_PMEN);
+     782:	88 e3       	ldi	r24, 0x38	; 56
+     784:	60 eb       	ldi	r22, 0xB0	; 176
+     786:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(EPMM0, 0x3f);
+     78a:	88 e2       	ldi	r24, 0x28	; 40
+     78c:	6f e3       	ldi	r22, 0x3F	; 63
+     78e:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(EPMM1, 0x30);
+     792:	89 e2       	ldi	r24, 0x29	; 41
+     794:	60 e3       	ldi	r22, 0x30	; 48
+     796:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(EPMCSL, 0xf9);
+     79a:	80 e3       	ldi	r24, 0x30	; 48
+     79c:	69 ef       	ldi	r22, 0xF9	; 249
+     79e:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(EPMCSH, 0xf7);
+     7a2:	81 e3       	ldi	r24, 0x31	; 49
+     7a4:	67 ef       	ldi	r22, 0xF7	; 247
+     7a6:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        //
+        //
+	// do bank 2 stuff
+	// enable MAC receive
+	enc28j60Write(MACON1, MACON1_MARXEN|MACON1_TXPAUS|MACON1_RXPAUS);
+     7aa:	80 ec       	ldi	r24, 0xC0	; 192
+     7ac:	6d e0       	ldi	r22, 0x0D	; 13
+     7ae:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// bring MAC out of reset
+	enc28j60Write(MACON2, 0x00);
+     7b2:	81 ec       	ldi	r24, 0xC1	; 193
+     7b4:	60 e0       	ldi	r22, 0x00	; 0
+     7b6:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     7ba:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     7bc:	82 e8       	ldi	r24, 0x82	; 130
+     7be:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     7c0:	77 9b       	sbis	0x0e, 7	; 14
+     7c2:	fe cf       	rjmp	.-4      	; 0x7c0 <enc28j60Init+0xcc>
+        // write data
+        SPDR = data;
+     7c4:	82 e3       	ldi	r24, 0x32	; 50
+     7c6:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     7c8:	77 9b       	sbis	0x0e, 7	; 14
+     7ca:	fe cf       	rjmp	.-4      	; 0x7c8 <enc28j60Init+0xd4>
+        CSPASSIVE;
+     7cc:	c4 9a       	sbi	0x18, 4	; 24
+	// bring MAC out of reset
+	enc28j60Write(MACON2, 0x00);
+	// enable automatic padding to 60bytes and CRC operations
+	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, MACON3, MACON3_PADCFG0|MACON3_TXCRCEN|MACON3_FRMLNEN);
+	// set inter-frame gap (non-back-to-back)
+	enc28j60Write(MAIPGL, 0x12);
+     7ce:	86 ec       	ldi	r24, 0xC6	; 198
+     7d0:	62 e1       	ldi	r22, 0x12	; 18
+     7d2:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(MAIPGH, 0x0C);
+     7d6:	87 ec       	ldi	r24, 0xC7	; 199
+     7d8:	6c e0       	ldi	r22, 0x0C	; 12
+     7da:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// set inter-frame gap (back-to-back)
+	enc28j60Write(MABBIPG, 0x12);
+     7de:	84 ec       	ldi	r24, 0xC4	; 196
+     7e0:	62 e1       	ldi	r22, 0x12	; 18
+     7e2:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// Set the maximum packet size which the controller will accept
+        // Do not send packets longer than MAX_FRAMELEN:
+	enc28j60Write(MAMXFLL, MAX_FRAMELEN&0xFF);	
+     7e6:	8a ec       	ldi	r24, 0xCA	; 202
+     7e8:	6c ed       	ldi	r22, 0xDC	; 220
+     7ea:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(MAMXFLH, MAX_FRAMELEN>>8);
+     7ee:	8b ec       	ldi	r24, 0xCB	; 203
+     7f0:	65 e0       	ldi	r22, 0x05	; 5
+     7f2:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// do bank 3 stuff
+        // write MAC address
+        // NOTE: MAC address in ENC28J60 is byte-backward
+        enc28j60Write(MAADR5, macaddr[0]);
+     7f6:	84 ee       	ldi	r24, 0xE4	; 228
+     7f8:	68 81       	ld	r22, Y
+     7fa:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        enc28j60Write(MAADR4, macaddr[1]);
+     7fe:	85 ee       	ldi	r24, 0xE5	; 229
+     800:	69 81       	ldd	r22, Y+1	; 0x01
+     802:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        enc28j60Write(MAADR3, macaddr[2]);
+     806:	82 ee       	ldi	r24, 0xE2	; 226
+     808:	6a 81       	ldd	r22, Y+2	; 0x02
+     80a:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        enc28j60Write(MAADR2, macaddr[3]);
+     80e:	83 ee       	ldi	r24, 0xE3	; 227
+     810:	6b 81       	ldd	r22, Y+3	; 0x03
+     812:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        enc28j60Write(MAADR1, macaddr[4]);
+     816:	80 ee       	ldi	r24, 0xE0	; 224
+     818:	6c 81       	ldd	r22, Y+4	; 0x04
+     81a:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        enc28j60Write(MAADR0, macaddr[5]);
+     81e:	81 ee       	ldi	r24, 0xE1	; 225
+     820:	6d 81       	ldd	r22, Y+5	; 0x05
+     822:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// no loopback of transmitted frames
+	enc28j60PhyWrite(PHCON2, PHCON2_HDLDIS);
+     826:	80 e1       	ldi	r24, 0x10	; 16
+     828:	60 e0       	ldi	r22, 0x00	; 0
+     82a:	71 e0       	ldi	r23, 0x01	; 1
+     82c:	0e 94 56 03 	call	0x6ac	; 0x6ac <enc28j60PhyWrite>
+	// switch to bank 0
+	enc28j60SetBank(ECON1);
+     830:	8f e1       	ldi	r24, 0x1F	; 31
+     832:	0e 94 f9 02 	call	0x5f2	; 0x5f2 <enc28j60SetBank>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     836:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     838:	8b e9       	ldi	r24, 0x9B	; 155
+     83a:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     83c:	77 9b       	sbis	0x0e, 7	; 14
+     83e:	fe cf       	rjmp	.-4      	; 0x83c <enc28j60Init+0x148>
+        // write data
+        SPDR = data;
+     840:	80 ec       	ldi	r24, 0xC0	; 192
+     842:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     844:	77 9b       	sbis	0x0e, 7	; 14
+     846:	fe cf       	rjmp	.-4      	; 0x844 <enc28j60Init+0x150>
+        CSPASSIVE;
+     848:	c4 9a       	sbi	0x18, 4	; 24
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     84a:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     84c:	8f e9       	ldi	r24, 0x9F	; 159
+     84e:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     850:	77 9b       	sbis	0x0e, 7	; 14
+     852:	fe cf       	rjmp	.-4      	; 0x850 <enc28j60Init+0x15c>
+        // write data
+        SPDR = data;
+     854:	84 e0       	ldi	r24, 0x04	; 4
+     856:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     858:	77 9b       	sbis	0x0e, 7	; 14
+     85a:	fe cf       	rjmp	.-4      	; 0x858 <enc28j60Init+0x164>
+        CSPASSIVE;
+     85c:	c4 9a       	sbi	0x18, 4	; 24
+	enc28j60SetBank(ECON1);
+	// enable interrutps
+	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, EIE, EIE_INTIE|EIE_PKTIE);
+	// enable packet reception
+	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_RXEN);
+}
+     85e:	df 91       	pop	r29
+     860:	cf 91       	pop	r28
+     862:	08 95       	ret
+
+00000864 <enc28j60getrev>:
+
+// read the revision of the chip:
+uint8_t enc28j60getrev(void)
+{
+	return(enc28j60Read(EREVID));
+     864:	82 e7       	ldi	r24, 0x72	; 114
+     866:	0e 94 20 03 	call	0x640	; 0x640 <enc28j60Read>
+}
+     86a:	08 95       	ret
+
+0000086c <enc28j60linkup>:
+
+// link status
+uint8_t enc28j60linkup(void)
+{
+        // bit 10 (= bit 3 in upper reg)
+	return(enc28j60PhyReadH(PHSTAT2) && 4);
+     86c:	81 e1       	ldi	r24, 0x11	; 17
+     86e:	0e 94 3d 03 	call	0x67a	; 0x67a <enc28j60PhyReadH>
+     872:	20 e0       	ldi	r18, 0x00	; 0
+     874:	89 2b       	or	r24, r25
+     876:	09 f0       	breq	.+2      	; 0x87a <enc28j60linkup+0xe>
+     878:	21 e0       	ldi	r18, 0x01	; 1
+}
+     87a:	82 2f       	mov	r24, r18
+     87c:	08 95       	ret
+
+0000087e <enc28j60PacketSend>:
+
+void enc28j60PacketSend(uint16_t len, uint8_t* packet)
+{
+     87e:	df 92       	push	r13
+     880:	ef 92       	push	r14
+     882:	ff 92       	push	r15
+     884:	0f 93       	push	r16
+     886:	1f 93       	push	r17
+     888:	cf 93       	push	r28
+     88a:	df 93       	push	r29
+     88c:	ec 01       	movw	r28, r24
+     88e:	8b 01       	movw	r16, r22
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     890:	3f e9       	ldi	r19, 0x9F	; 159
+     892:	d3 2e       	mov	r13, r19
+        waitspi();
+        // write data
+        SPDR = data;
+     894:	20 e8       	ldi	r18, 0x80	; 128
+     896:	f2 2e       	mov	r15, r18
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     898:	9f eb       	ldi	r25, 0xBF	; 191
+     89a:	e9 2e       	mov	r14, r25
+     89c:	15 c0       	rjmp	.+42     	; 0x8c8 <enc28j60PacketSend+0x4a>
+{
+        // Check no transmit in progress
+        while (enc28j60ReadOp(ENC28J60_READ_CTRL_REG, ECON1) & ECON1_TXRTS)
+        {
+                // Reset the transmit logic problem. See Rev. B4 Silicon Errata point 12.
+                if( (enc28j60Read(EIR) & EIR_TXERIF) ) {
+     89e:	8c e1       	ldi	r24, 0x1C	; 28
+     8a0:	0e 94 20 03 	call	0x640	; 0x640 <enc28j60Read>
+     8a4:	81 ff       	sbrs	r24, 1
+     8a6:	10 c0       	rjmp	.+32     	; 0x8c8 <enc28j60PacketSend+0x4a>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     8a8:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     8aa:	df b8       	out	0x0f, r13	; 15
+        waitspi();
+     8ac:	77 9b       	sbis	0x0e, 7	; 14
+     8ae:	fe cf       	rjmp	.-4      	; 0x8ac <enc28j60PacketSend+0x2e>
+        // write data
+        SPDR = data;
+     8b0:	ff b8       	out	0x0f, r15	; 15
+        waitspi();
+     8b2:	77 9b       	sbis	0x0e, 7	; 14
+     8b4:	fe cf       	rjmp	.-4      	; 0x8b2 <enc28j60PacketSend+0x34>
+        CSPASSIVE;
+     8b6:	c4 9a       	sbi	0x18, 4	; 24
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     8b8:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     8ba:	ef b8       	out	0x0f, r14	; 15
+        waitspi();
+     8bc:	77 9b       	sbis	0x0e, 7	; 14
+     8be:	fe cf       	rjmp	.-4      	; 0x8bc <enc28j60PacketSend+0x3e>
+        // write data
+        SPDR = data;
+     8c0:	ff b8       	out	0x0f, r15	; 15
+        waitspi();
+     8c2:	77 9b       	sbis	0x0e, 7	; 14
+     8c4:	fe cf       	rjmp	.-4      	; 0x8c2 <enc28j60PacketSend+0x44>
+        CSPASSIVE;
+     8c6:	c4 9a       	sbi	0x18, 4	; 24
+}
+
+void enc28j60PacketSend(uint16_t len, uint8_t* packet)
+{
+        // Check no transmit in progress
+        while (enc28j60ReadOp(ENC28J60_READ_CTRL_REG, ECON1) & ECON1_TXRTS)
+     8c8:	80 e0       	ldi	r24, 0x00	; 0
+     8ca:	6f e1       	ldi	r22, 0x1F	; 31
+     8cc:	0e 94 af 02 	call	0x55e	; 0x55e <enc28j60ReadOp>
+     8d0:	83 fd       	sbrc	r24, 3
+     8d2:	e5 cf       	rjmp	.-54     	; 0x89e <enc28j60PacketSend+0x20>
+                        enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_TXRST);
+                        enc28j60WriteOp(ENC28J60_BIT_FIELD_CLR, ECON1, ECON1_TXRST);
+                }
+        }
+	// Set the write pointer to start of transmit buffer area
+	enc28j60Write(EWRPTL, TXSTART_INIT&0xFF);
+     8d4:	82 e0       	ldi	r24, 0x02	; 2
+     8d6:	6f ef       	ldi	r22, 0xFF	; 255
+     8d8:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(EWRPTH, TXSTART_INIT>>8);
+     8dc:	83 e0       	ldi	r24, 0x03	; 3
+     8de:	69 e1       	ldi	r22, 0x19	; 25
+     8e0:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// Set the TXND pointer to correspond to the packet size given
+	enc28j60Write(ETXNDL, (TXSTART_INIT+len)&0xFF);
+     8e4:	ce 01       	movw	r24, r28
+     8e6:	81 50       	subi	r24, 0x01	; 1
+     8e8:	68 2f       	mov	r22, r24
+     8ea:	86 e0       	ldi	r24, 0x06	; 6
+     8ec:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(ETXNDH, (TXSTART_INIT+len)>>8);
+     8f0:	9e 01       	movw	r18, r28
+     8f2:	21 50       	subi	r18, 0x01	; 1
+     8f4:	36 4e       	sbci	r19, 0xE6	; 230
+     8f6:	87 e0       	ldi	r24, 0x07	; 7
+     8f8:	63 2f       	mov	r22, r19
+     8fa:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     8fe:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     900:	8a e7       	ldi	r24, 0x7A	; 122
+     902:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     904:	77 9b       	sbis	0x0e, 7	; 14
+     906:	fe cf       	rjmp	.-4      	; 0x904 <enc28j60PacketSend+0x86>
+        // write data
+        SPDR = data;
+     908:	1f b8       	out	0x0f, r1	; 15
+        waitspi();
+     90a:	77 9b       	sbis	0x0e, 7	; 14
+     90c:	fe cf       	rjmp	.-4      	; 0x90a <enc28j60PacketSend+0x8c>
+        CSPASSIVE;
+     90e:	c4 9a       	sbi	0x18, 4	; 24
+        CSPASSIVE;
+}
+
+void enc28j60WriteBuffer(uint16_t len, uint8_t* data)
+{
+        CSACTIVE;
+     910:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+     912:	8a e7       	ldi	r24, 0x7A	; 122
+     914:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     916:	77 9b       	sbis	0x0e, 7	; 14
+     918:	fe cf       	rjmp	.-4      	; 0x916 <enc28j60PacketSend+0x98>
+     91a:	08 c0       	rjmp	.+16     	; 0x92c <enc28j60PacketSend+0xae>
+        while(len)
+        {
+                len--;
+                // write data
+                SPDR = *data;
+     91c:	f8 01       	movw	r30, r16
+     91e:	80 81       	ld	r24, Z
+     920:	8f b9       	out	0x0f, r24	; 15
+                data++;
+                waitspi();
+     922:	77 9b       	sbis	0x0e, 7	; 14
+     924:	fe cf       	rjmp	.-4      	; 0x922 <enc28j60PacketSend+0xa4>
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+        waitspi();
+        while(len)
+        {
+                len--;
+     926:	21 97       	sbiw	r28, 0x01	; 1
+                // write data
+                SPDR = *data;
+                data++;
+     928:	0f 5f       	subi	r16, 0xFF	; 255
+     92a:	1f 4f       	sbci	r17, 0xFF	; 255
+{
+        CSACTIVE;
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+        waitspi();
+        while(len)
+     92c:	20 97       	sbiw	r28, 0x00	; 0
+     92e:	b1 f7       	brne	.-20     	; 0x91c <enc28j60PacketSend+0x9e>
+                // write data
+                SPDR = *data;
+                data++;
+                waitspi();
+        }
+        CSPASSIVE;
+     930:	c4 9a       	sbi	0x18, 4	; 24
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     932:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     934:	8f e9       	ldi	r24, 0x9F	; 159
+     936:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     938:	77 9b       	sbis	0x0e, 7	; 14
+     93a:	fe cf       	rjmp	.-4      	; 0x938 <enc28j60PacketSend+0xba>
+        // write data
+        SPDR = data;
+     93c:	88 e0       	ldi	r24, 0x08	; 8
+     93e:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     940:	77 9b       	sbis	0x0e, 7	; 14
+     942:	fe cf       	rjmp	.-4      	; 0x940 <enc28j60PacketSend+0xc2>
+        CSPASSIVE;
+     944:	c4 9a       	sbi	0x18, 4	; 24
+	enc28j60WriteOp(ENC28J60_WRITE_BUF_MEM, 0, 0x00);
+	// copy the packet into the transmit buffer
+	enc28j60WriteBuffer(len, packet);
+	// send the contents of the transmit buffer onto the network
+	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_TXRTS);
+}
+     946:	df 91       	pop	r29
+     948:	cf 91       	pop	r28
+     94a:	1f 91       	pop	r17
+     94c:	0f 91       	pop	r16
+     94e:	ff 90       	pop	r15
+     950:	ef 90       	pop	r14
+     952:	df 90       	pop	r13
+     954:	08 95       	ret
+
+00000956 <enc28j60hasRxPkt>:
+
+// just probe if there might be a packet
+uint8_t enc28j60hasRxPkt(void)
+{
+	if( enc28j60Read(EPKTCNT) ==0 ){
+     956:	89 e3       	ldi	r24, 0x39	; 57
+     958:	0e 94 20 03 	call	0x640	; 0x640 <enc28j60Read>
+     95c:	81 11       	cpse	r24, r1
+     95e:	81 e0       	ldi	r24, 0x01	; 1
+		return(0);
+        }
+        return(1);
+}
+     960:	08 95       	ret
+
+00000962 <enc28j60PacketReceive>:
+// The packet will by headed by an ethernet header.
+//      maxlen  The maximum acceptable length of a retrieved packet.
+//      packet  Pointer where packet data should be stored.
+// Returns: Packet length in bytes if a packet was retrieved, zero otherwise.
+uint16_t enc28j60PacketReceive(uint16_t maxlen, uint8_t* packet)
+{
+     962:	8f 92       	push	r8
+     964:	9f 92       	push	r9
+     966:	af 92       	push	r10
+     968:	bf 92       	push	r11
+     96a:	cf 92       	push	r12
+     96c:	df 92       	push	r13
+     96e:	ef 92       	push	r14
+     970:	ff 92       	push	r15
+     972:	0f 93       	push	r16
+     974:	1f 93       	push	r17
+     976:	cf 93       	push	r28
+     978:	df 93       	push	r29
+     97a:	5c 01       	movw	r10, r24
+     97c:	4b 01       	movw	r8, r22
+	uint16_t rxstat;
+	uint16_t len;
+	// check if a packet has been received and buffered
+	//if( !(enc28j60Read(EIR) & EIR_PKTIF) ){
+        // The above does not work. See Rev. B4 Silicon Errata point 6.
+	if( enc28j60Read(EPKTCNT) ==0 ){
+     97e:	89 e3       	ldi	r24, 0x39	; 57
+     980:	0e 94 20 03 	call	0x640	; 0x640 <enc28j60Read>
+     984:	88 23       	and	r24, r24
+     986:	19 f4       	brne	.+6      	; 0x98e <enc28j60PacketReceive+0x2c>
+     988:	c0 e0       	ldi	r28, 0x00	; 0
+     98a:	d0 e0       	ldi	r29, 0x00	; 0
+     98c:	76 c0       	rjmp	.+236    	; 0xa7a <enc28j60PacketReceive+0x118>
+		return(0);
+        }
+
+	// Set the read pointer to the start of the received packet
+	enc28j60Write(ERDPTL, (gNextPacketPtr &0xFF));
+     98e:	60 91 ad 00 	lds	r22, 0x00AD
+     992:	10 91 ae 00 	lds	r17, 0x00AE
+     996:	80 e0       	ldi	r24, 0x00	; 0
+     998:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(ERDPTH, (gNextPacketPtr)>>8);
+     99c:	81 e0       	ldi	r24, 0x01	; 1
+     99e:	61 2f       	mov	r22, r17
+     9a0:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	// read the next packet pointer
+	gNextPacketPtr  = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
+     9a4:	8a e3       	ldi	r24, 0x3A	; 58
+     9a6:	60 e0       	ldi	r22, 0x00	; 0
+     9a8:	0e 94 af 02 	call	0x55e	; 0x55e <enc28j60ReadOp>
+     9ac:	18 2f       	mov	r17, r24
+	gNextPacketPtr |= enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0)<<8;
+     9ae:	8a e3       	ldi	r24, 0x3A	; 58
+     9b0:	60 e0       	ldi	r22, 0x00	; 0
+     9b2:	0e 94 af 02 	call	0x55e	; 0x55e <enc28j60ReadOp>
+     9b6:	38 2f       	mov	r19, r24
+     9b8:	20 e0       	ldi	r18, 0x00	; 0
+     9ba:	e1 2e       	mov	r14, r17
+     9bc:	ff 24       	eor	r15, r15
+     9be:	e2 2a       	or	r14, r18
+     9c0:	f3 2a       	or	r15, r19
+     9c2:	f0 92 ae 00 	sts	0x00AE, r15
+     9c6:	e0 92 ad 00 	sts	0x00AD, r14
+	// read the packet length (see datasheet page 43)
+	len  = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
+     9ca:	8a e3       	ldi	r24, 0x3A	; 58
+     9cc:	60 e0       	ldi	r22, 0x00	; 0
+     9ce:	0e 94 af 02 	call	0x55e	; 0x55e <enc28j60ReadOp>
+     9d2:	c8 2e       	mov	r12, r24
+	len |= enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0)<<8;
+     9d4:	8a e3       	ldi	r24, 0x3A	; 58
+     9d6:	60 e0       	ldi	r22, 0x00	; 0
+     9d8:	0e 94 af 02 	call	0x55e	; 0x55e <enc28j60ReadOp>
+     9dc:	d8 2e       	mov	r13, r24
+        len-=4; //remove the CRC count
+	// read the receive status (see datasheet page 43)
+	rxstat  = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
+     9de:	8a e3       	ldi	r24, 0x3A	; 58
+     9e0:	60 e0       	ldi	r22, 0x00	; 0
+     9e2:	0e 94 af 02 	call	0x55e	; 0x55e <enc28j60ReadOp>
+     9e6:	08 2f       	mov	r16, r24
+     9e8:	10 e0       	ldi	r17, 0x00	; 0
+	rxstat |= ((uint16_t)enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0))<<8;
+     9ea:	8a e3       	ldi	r24, 0x3A	; 58
+     9ec:	60 e0       	ldi	r22, 0x00	; 0
+     9ee:	0e 94 af 02 	call	0x55e	; 0x55e <enc28j60ReadOp>
+                len=maxlen-1;
+        }
+        // check CRC and symbol errors (see datasheet page 44, table 7-3):
+        // The ERXFCON.CRCEN is set by default. Normally we should not
+        // need to check this.
+        if ((rxstat & 0x80)==0){
+     9f2:	38 2f       	mov	r19, r24
+     9f4:	20 e0       	ldi	r18, 0x00	; 0
+     9f6:	20 2b       	or	r18, r16
+     9f8:	31 2b       	or	r19, r17
+     9fa:	27 fd       	sbrc	r18, 7
+     9fc:	03 c0       	rjmp	.+6      	; 0xa04 <enc28j60PacketReceive+0xa2>
+     9fe:	c0 e0       	ldi	r28, 0x00	; 0
+     a00:	d0 e0       	ldi	r29, 0x00	; 0
+     a02:	11 c0       	rjmp	.+34     	; 0xa26 <enc28j60PacketReceive+0xc4>
+	enc28j60Write(ERDPTH, (gNextPacketPtr)>>8);
+	// read the next packet pointer
+	gNextPacketPtr  = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
+	gNextPacketPtr |= enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0)<<8;
+	// read the packet length (see datasheet page 43)
+	len  = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
+     a04:	cc 2d       	mov	r28, r12
+     a06:	d0 e0       	ldi	r29, 0x00	; 0
+	len |= enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0)<<8;
+     a08:	9d 2d       	mov	r25, r13
+     a0a:	80 e0       	ldi	r24, 0x00	; 0
+     a0c:	c8 2b       	or	r28, r24
+     a0e:	d9 2b       	or	r29, r25
+        len-=4; //remove the CRC count
+     a10:	c5 01       	movw	r24, r10
+     a12:	01 97       	sbiw	r24, 0x01	; 1
+     a14:	24 97       	sbiw	r28, 0x04	; 4
+     a16:	8c 17       	cp	r24, r28
+     a18:	9d 07       	cpc	r25, r29
+     a1a:	08 f4       	brcc	.+2      	; 0xa1e <enc28j60PacketReceive+0xbc>
+     a1c:	ec 01       	movw	r28, r24
+        if ((rxstat & 0x80)==0){
+                // invalid
+                len=0;
+        }else{
+                // copy the packet from the receive buffer
+                enc28j60ReadBuffer(len, packet);
+     a1e:	ce 01       	movw	r24, r28
+     a20:	b4 01       	movw	r22, r8
+     a22:	0e 94 cc 02 	call	0x598	; 0x598 <enc28j60ReadBuffer>
+        }
+	// Move the RX read pointer to the start of the next received packet
+	// This frees the memory we just read out
+	enc28j60Write(ERXRDPTL, (gNextPacketPtr &0xFF));
+     a26:	de 2c       	mov	r13, r14
+     a28:	8c e0       	ldi	r24, 0x0C	; 12
+     a2a:	6e 2d       	mov	r22, r14
+     a2c:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+	enc28j60Write(ERXRDPTH, (gNextPacketPtr)>>8);
+     a30:	8d e0       	ldi	r24, 0x0D	; 13
+     a32:	6f 2d       	mov	r22, r15
+     a34:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        // Move the RX read pointer to the start of the next received packet
+        // This frees the memory we just read out.
+        // However, compensate for the errata point 13, rev B4: enver write an even address!
+        if ((gNextPacketPtr - 1 < RXSTART_INIT)
+     a38:	87 01       	movw	r16, r14
+     a3a:	01 50       	subi	r16, 0x01	; 1
+     a3c:	10 40       	sbci	r17, 0x00	; 0
+     a3e:	89 e1       	ldi	r24, 0x19	; 25
+     a40:	0f 3f       	cpi	r16, 0xFF	; 255
+     a42:	18 07       	cpc	r17, r24
+     a44:	38 f0       	brcs	.+14     	; 0xa54 <enc28j60PacketReceive+0xf2>
+                || (gNextPacketPtr -1 > RXSTOP_INIT)) {
+                enc28j60Write(ERXRDPTL, (RXSTOP_INIT)&0xFF);
+     a46:	8c e0       	ldi	r24, 0x0C	; 12
+     a48:	6e ef       	ldi	r22, 0xFE	; 254
+     a4a:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+                enc28j60Write(ERXRDPTH, (RXSTOP_INIT)>>8);
+     a4e:	8d e0       	ldi	r24, 0x0D	; 13
+     a50:	69 e1       	ldi	r22, 0x19	; 25
+     a52:	07 c0       	rjmp	.+14     	; 0xa62 <enc28j60PacketReceive+0x100>
+        } else {
+                enc28j60Write(ERXRDPTL, (gNextPacketPtr-1)&0xFF);
+     a54:	da 94       	dec	r13
+     a56:	8c e0       	ldi	r24, 0x0C	; 12
+     a58:	6d 2d       	mov	r22, r13
+     a5a:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+                enc28j60Write(ERXRDPTH, (gNextPacketPtr-1)>>8);
+     a5e:	8d e0       	ldi	r24, 0x0D	; 13
+     a60:	61 2f       	mov	r22, r17
+     a62:	0e 94 2a 03 	call	0x654	; 0x654 <enc28j60Write>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+     a66:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+     a68:	8e e9       	ldi	r24, 0x9E	; 158
+     a6a:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     a6c:	77 9b       	sbis	0x0e, 7	; 14
+     a6e:	fe cf       	rjmp	.-4      	; 0xa6c <enc28j60PacketReceive+0x10a>
+        // write data
+        SPDR = data;
+     a70:	80 e4       	ldi	r24, 0x40	; 64
+     a72:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+     a74:	77 9b       	sbis	0x0e, 7	; 14
+     a76:	fe cf       	rjmp	.-4      	; 0xa74 <enc28j60PacketReceive+0x112>
+        CSPASSIVE;
+     a78:	c4 9a       	sbi	0x18, 4	; 24
+                enc28j60Write(ERXRDPTH, (gNextPacketPtr-1)>>8);
+        }
+	// decrement the packet counter indicate we are done with this packet
+	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON2, ECON2_PKTDEC);
+	return(len);
+}
+     a7a:	ce 01       	movw	r24, r28
+     a7c:	df 91       	pop	r29
+     a7e:	cf 91       	pop	r28
+     a80:	1f 91       	pop	r17
+     a82:	0f 91       	pop	r16
+     a84:	ff 90       	pop	r15
+     a86:	ef 90       	pop	r14
+     a88:	df 90       	pop	r13
+     a8a:	cf 90       	pop	r12
+     a8c:	bf 90       	pop	r11
+     a8e:	af 90       	pop	r10
+     a90:	9f 90       	pop	r9
+     a92:	8f 90       	pop	r8
+     a94:	08 95       	ret
+
+00000a96 <checksum>:
+//
+// For more information on how this algorithm works see:
+// http://www.netfor2.com/checksum.html
+// http://www.msc.uky.edu/ken/cs471/notes/chap3.htm
+// The RFC has also a C code example: http://www.faqs.org/rfcs/rfc1071.html
+uint16_t checksum(uint8_t *buf, uint16_t len,uint8_t type){
+     a96:	cf 92       	push	r12
+     a98:	df 92       	push	r13
+     a9a:	ef 92       	push	r14
+     a9c:	ff 92       	push	r15
+     a9e:	0f 93       	push	r16
+     aa0:	1f 93       	push	r17
+     aa2:	cf 93       	push	r28
+     aa4:	df 93       	push	r29
+     aa6:	6c 01       	movw	r12, r24
+        uint32_t sum = 0;
+
+        //if(type==0){
+        //        // do not add anything
+        //}
+        if(type==1){
+     aa8:	41 30       	cpi	r20, 0x01	; 1
+     aaa:	81 f4       	brne	.+32     	; 0xacc <checksum+0x36>
+                sum+=IP_PROTO_UDP_V; // protocol udp
+                // the length here is the length of udp (data+header len)
+                // =length given to this function - (IP.scr+IP.dst length)
+                sum+=len-8; // = real tcp len
+     aac:	68 50       	subi	r22, 0x08	; 8
+     aae:	70 40       	sbci	r23, 0x00	; 0
+     ab0:	7b 01       	movw	r14, r22
+     ab2:	00 e0       	ldi	r16, 0x00	; 0
+     ab4:	10 e0       	ldi	r17, 0x00	; 0
+     ab6:	68 5f       	subi	r22, 0xF8	; 248
+     ab8:	7f 4f       	sbci	r23, 0xFF	; 255
+     aba:	21 e1       	ldi	r18, 0x11	; 17
+     abc:	30 e0       	ldi	r19, 0x00	; 0
+     abe:	40 e0       	ldi	r20, 0x00	; 0
+     ac0:	50 e0       	ldi	r21, 0x00	; 0
+     ac2:	e2 0e       	add	r14, r18
+     ac4:	f3 1e       	adc	r15, r19
+     ac6:	04 1f       	adc	r16, r20
+     ac8:	15 1f       	adc	r17, r21
+     aca:	15 c0       	rjmp	.+42     	; 0xaf6 <checksum+0x60>
+        }
+        if(type==2){
+     acc:	42 30       	cpi	r20, 0x02	; 2
+     ace:	21 f0       	breq	.+8      	; 0xad8 <checksum+0x42>
+     ad0:	ee 24       	eor	r14, r14
+     ad2:	ff 24       	eor	r15, r15
+     ad4:	87 01       	movw	r16, r14
+     ad6:	0f c0       	rjmp	.+30     	; 0xaf6 <checksum+0x60>
+                sum+=IP_PROTO_TCP_V; 
+                // the length here is the length of tcp (data+header len)
+                // =length given to this function - (IP.scr+IP.dst length)
+                sum+=len-8; // = real tcp len
+     ad8:	68 50       	subi	r22, 0x08	; 8
+     ada:	70 40       	sbci	r23, 0x00	; 0
+     adc:	7b 01       	movw	r14, r22
+     ade:	00 e0       	ldi	r16, 0x00	; 0
+     ae0:	10 e0       	ldi	r17, 0x00	; 0
+     ae2:	68 5f       	subi	r22, 0xF8	; 248
+     ae4:	7f 4f       	sbci	r23, 0xFF	; 255
+     ae6:	86 e0       	ldi	r24, 0x06	; 6
+     ae8:	90 e0       	ldi	r25, 0x00	; 0
+     aea:	a0 e0       	ldi	r26, 0x00	; 0
+     aec:	b0 e0       	ldi	r27, 0x00	; 0
+     aee:	e8 0e       	add	r14, r24
+     af0:	f9 1e       	adc	r15, r25
+     af2:	0a 1f       	adc	r16, r26
+     af4:	1b 1f       	adc	r17, r27
+     af6:	f6 01       	movw	r30, r12
+     af8:	eb 01       	movw	r28, r22
+     afa:	16 c0       	rjmp	.+44     	; 0xb28 <checksum+0x92>
+        }
+        // build the sum of 16bit words
+        while(len >1){
+                sum += 0xFFFF & (((uint32_t)*buf<<8)|*(buf+1));
+     afc:	80 81       	ld	r24, Z
+     afe:	90 e0       	ldi	r25, 0x00	; 0
+     b00:	a0 e0       	ldi	r26, 0x00	; 0
+     b02:	b0 e0       	ldi	r27, 0x00	; 0
+     b04:	ba 2f       	mov	r27, r26
+     b06:	a9 2f       	mov	r26, r25
+     b08:	98 2f       	mov	r25, r24
+     b0a:	88 27       	eor	r24, r24
+     b0c:	21 81       	ldd	r18, Z+1	; 0x01
+     b0e:	30 e0       	ldi	r19, 0x00	; 0
+     b10:	40 e0       	ldi	r20, 0x00	; 0
+     b12:	50 e0       	ldi	r21, 0x00	; 0
+     b14:	82 2b       	or	r24, r18
+     b16:	93 2b       	or	r25, r19
+     b18:	a4 2b       	or	r26, r20
+     b1a:	b5 2b       	or	r27, r21
+     b1c:	e8 0e       	add	r14, r24
+     b1e:	f9 1e       	adc	r15, r25
+     b20:	0a 1f       	adc	r16, r26
+     b22:	1b 1f       	adc	r17, r27
+                buf+=2;
+     b24:	32 96       	adiw	r30, 0x02	; 2
+                len-=2;
+     b26:	22 97       	sbiw	r28, 0x02	; 2
+                // the length here is the length of tcp (data+header len)
+                // =length given to this function - (IP.scr+IP.dst length)
+                sum+=len-8; // = real tcp len
+        }
+        // build the sum of 16bit words
+        while(len >1){
+     b28:	c2 30       	cpi	r28, 0x02	; 2
+     b2a:	d1 05       	cpc	r29, r1
+     b2c:	38 f7       	brcc	.-50     	; 0xafc <checksum+0x66>
+     b2e:	fb 01       	movw	r30, r22
+     b30:	ee 7f       	andi	r30, 0xFE	; 254
+     b32:	ec 0d       	add	r30, r12
+     b34:	fd 1d       	adc	r31, r13
+                sum += 0xFFFF & (((uint32_t)*buf<<8)|*(buf+1));
+                buf+=2;
+                len-=2;
+        }
+        // if there is a byte left then add it (padded with zero)
+        if (len){
+     b36:	60 ff       	sbrs	r22, 0
+     b38:	15 c0       	rjmp	.+42     	; 0xb64 <checksum+0xce>
+                sum += ((uint32_t)(0xFF & *buf))<<8;
+     b3a:	80 81       	ld	r24, Z
+     b3c:	90 e0       	ldi	r25, 0x00	; 0
+     b3e:	a0 e0       	ldi	r26, 0x00	; 0
+     b40:	b0 e0       	ldi	r27, 0x00	; 0
+     b42:	ba 2f       	mov	r27, r26
+     b44:	a9 2f       	mov	r26, r25
+     b46:	98 2f       	mov	r25, r24
+     b48:	88 27       	eor	r24, r24
+     b4a:	08 c0       	rjmp	.+16     	; 0xb5c <checksum+0xc6>
+        }
+        // now calculate the sum over the bytes in the sum
+        // until the result is only 16bit long
+        while (sum>>16){
+                sum = (sum & 0xFFFF)+(sum >> 16);
+     b4c:	2f ef       	ldi	r18, 0xFF	; 255
+     b4e:	3f ef       	ldi	r19, 0xFF	; 255
+     b50:	40 e0       	ldi	r20, 0x00	; 0
+     b52:	50 e0       	ldi	r21, 0x00	; 0
+     b54:	e2 22       	and	r14, r18
+     b56:	f3 22       	and	r15, r19
+     b58:	04 23       	and	r16, r20
+     b5a:	15 23       	and	r17, r21
+     b5c:	e8 0e       	add	r14, r24
+     b5e:	f9 1e       	adc	r15, r25
+     b60:	0a 1f       	adc	r16, r26
+     b62:	1b 1f       	adc	r17, r27
+        if (len){
+                sum += ((uint32_t)(0xFF & *buf))<<8;
+        }
+        // now calculate the sum over the bytes in the sum
+        // until the result is only 16bit long
+        while (sum>>16){
+     b64:	c8 01       	movw	r24, r16
+     b66:	aa 27       	eor	r26, r26
+     b68:	bb 27       	eor	r27, r27
+     b6a:	00 97       	sbiw	r24, 0x00	; 0
+     b6c:	a1 05       	cpc	r26, r1
+     b6e:	b1 05       	cpc	r27, r1
+     b70:	69 f7       	brne	.-38     	; 0xb4c <checksum+0xb6>
+     b72:	97 01       	movw	r18, r14
+     b74:	20 95       	com	r18
+     b76:	30 95       	com	r19
+                sum = (sum & 0xFFFF)+(sum >> 16);
+        }
+        // build 1's complement:
+        return( (uint16_t) sum ^ 0xFFFF);
+}
+     b78:	c9 01       	movw	r24, r18
+     b7a:	df 91       	pop	r29
+     b7c:	cf 91       	pop	r28
+     b7e:	1f 91       	pop	r17
+     b80:	0f 91       	pop	r16
+     b82:	ff 90       	pop	r15
+     b84:	ef 90       	pop	r14
+     b86:	df 90       	pop	r13
+     b88:	cf 90       	pop	r12
+     b8a:	08 95       	ret
+
+00000b8c <init_ip_arp_udp_tcp>:
+
+// you must call this function once before you use any of the other functions:
+void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint8_t wwwp){
+     b8c:	cf 93       	push	r28
+     b8e:	df 93       	push	r29
+     b90:	ec 01       	movw	r28, r24
+        uint8_t i=0;
+        wwwport=wwwp;
+     b92:	40 93 a6 00 	sts	0x00A6, r20
+     b96:	20 e0       	ldi	r18, 0x00	; 0
+     b98:	30 e0       	ldi	r19, 0x00	; 0
+        while(i<4){
+                ipaddr[i]=myip[i];
+     b9a:	f9 01       	movw	r30, r18
+     b9c:	eb 54       	subi	r30, 0x4B	; 75
+     b9e:	ff 4f       	sbci	r31, 0xFF	; 255
+     ba0:	db 01       	movw	r26, r22
+     ba2:	a2 0f       	add	r26, r18
+     ba4:	b3 1f       	adc	r27, r19
+     ba6:	8c 91       	ld	r24, X
+     ba8:	80 83       	st	Z, r24
+     baa:	2f 5f       	subi	r18, 0xFF	; 255
+     bac:	3f 4f       	sbci	r19, 0xFF	; 255
+
+// you must call this function once before you use any of the other functions:
+void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint8_t wwwp){
+        uint8_t i=0;
+        wwwport=wwwp;
+        while(i<4){
+     bae:	24 30       	cpi	r18, 0x04	; 4
+     bb0:	31 05       	cpc	r19, r1
+     bb2:	99 f7       	brne	.-26     	; 0xb9a <init_ip_arp_udp_tcp+0xe>
+     bb4:	20 e0       	ldi	r18, 0x00	; 0
+     bb6:	30 e0       	ldi	r19, 0x00	; 0
+                ipaddr[i]=myip[i];
+                i++;
+        }
+        i=0;
+        while(i<6){
+                macaddr[i]=mymac[i];
+     bb8:	f9 01       	movw	r30, r18
+     bba:	e1 55       	subi	r30, 0x51	; 81
+     bbc:	ff 4f       	sbci	r31, 0xFF	; 255
+     bbe:	de 01       	movw	r26, r28
+     bc0:	a2 0f       	add	r26, r18
+     bc2:	b3 1f       	adc	r27, r19
+     bc4:	8c 91       	ld	r24, X
+     bc6:	80 83       	st	Z, r24
+     bc8:	2f 5f       	subi	r18, 0xFF	; 255
+     bca:	3f 4f       	sbci	r19, 0xFF	; 255
+        while(i<4){
+                ipaddr[i]=myip[i];
+                i++;
+        }
+        i=0;
+        while(i<6){
+     bcc:	26 30       	cpi	r18, 0x06	; 6
+     bce:	31 05       	cpc	r19, r1
+     bd0:	99 f7       	brne	.-26     	; 0xbb8 <init_ip_arp_udp_tcp+0x2c>
+                macaddr[i]=mymac[i];
+                i++;
+        }
+}
+     bd2:	df 91       	pop	r29
+     bd4:	cf 91       	pop	r28
+     bd6:	08 95       	ret
+
+00000bd8 <eth_type_is_arp_and_my_ip>:
+
+uint8_t eth_type_is_arp_and_my_ip(uint8_t *buf,uint16_t len){
+     bd8:	fc 01       	movw	r30, r24
+        uint8_t i=0;
+        //  
+        if (len<41){
+     bda:	69 32       	cpi	r22, 0x29	; 41
+     bdc:	71 05       	cpc	r23, r1
+     bde:	b0 f0       	brcs	.+44     	; 0xc0c <eth_type_is_arp_and_my_ip+0x34>
+                return(0);
+        }
+        if(buf[ETH_TYPE_H_P] != ETHTYPE_ARP_H_V || 
+     be0:	84 85       	ldd	r24, Z+12	; 0x0c
+     be2:	88 30       	cpi	r24, 0x08	; 8
+     be4:	99 f4       	brne	.+38     	; 0xc0c <eth_type_is_arp_and_my_ip+0x34>
+     be6:	85 85       	ldd	r24, Z+13	; 0x0d
+     be8:	86 30       	cpi	r24, 0x06	; 6
+     bea:	81 f4       	brne	.+32     	; 0xc0c <eth_type_is_arp_and_my_ip+0x34>
+     bec:	df 01       	movw	r26, r30
+     bee:	96 96       	adiw	r26, 0x26	; 38
+     bf0:	e5 eb       	ldi	r30, 0xB5	; 181
+     bf2:	f0 e0       	ldi	r31, 0x00	; 0
+           buf[ETH_TYPE_L_P] != ETHTYPE_ARP_L_V){
+                return(0);
+        }
+        while(i<4){
+                if(buf[ETH_ARP_DST_IP_P+i] != ipaddr[i]){
+     bf4:	9c 91       	ld	r25, X
+     bf6:	80 81       	ld	r24, Z
+     bf8:	98 17       	cp	r25, r24
+     bfa:	41 f4       	brne	.+16     	; 0xc0c <eth_type_is_arp_and_my_ip+0x34>
+     bfc:	11 96       	adiw	r26, 0x01	; 1
+     bfe:	31 96       	adiw	r30, 0x01	; 1
+        }
+        if(buf[ETH_TYPE_H_P] != ETHTYPE_ARP_H_V || 
+           buf[ETH_TYPE_L_P] != ETHTYPE_ARP_L_V){
+                return(0);
+        }
+        while(i<4){
+     c00:	80 e0       	ldi	r24, 0x00	; 0
+     c02:	e9 3b       	cpi	r30, 0xB9	; 185
+     c04:	f8 07       	cpc	r31, r24
+     c06:	b1 f7       	brne	.-20     	; 0xbf4 <eth_type_is_arp_and_my_ip+0x1c>
+     c08:	81 e0       	ldi	r24, 0x01	; 1
+     c0a:	08 95       	ret
+     c0c:	80 e0       	ldi	r24, 0x00	; 0
+                        return(0);
+                }
+                i++;
+        }
+        return(1);
+}
+     c0e:	08 95       	ret
+
+00000c10 <eth_type_is_ip_and_my_ip>:
+
+uint8_t eth_type_is_ip_and_my_ip(uint8_t *buf,uint16_t len){
+     c10:	fc 01       	movw	r30, r24
+        uint8_t i=0;
+        //eth+ip+udp header is 42
+        if (len<42){
+     c12:	6a 32       	cpi	r22, 0x2A	; 42
+     c14:	71 05       	cpc	r23, r1
+     c16:	d0 f0       	brcs	.+52     	; 0xc4c <eth_type_is_ip_and_my_ip+0x3c>
+                return(0);
+        }
+        if(buf[ETH_TYPE_H_P]!=ETHTYPE_IP_H_V || 
+     c18:	84 85       	ldd	r24, Z+12	; 0x0c
+     c1a:	88 30       	cpi	r24, 0x08	; 8
+     c1c:	b9 f4       	brne	.+46     	; 0xc4c <eth_type_is_ip_and_my_ip+0x3c>
+     c1e:	85 85       	ldd	r24, Z+13	; 0x0d
+     c20:	88 23       	and	r24, r24
+     c22:	a1 f4       	brne	.+40     	; 0xc4c <eth_type_is_ip_and_my_ip+0x3c>
+           buf[ETH_TYPE_L_P]!=ETHTYPE_IP_L_V){
+                return(0);
+        }
+        if (buf[IP_HEADER_LEN_VER_P]!=0x45){
+     c24:	86 85       	ldd	r24, Z+14	; 0x0e
+     c26:	85 34       	cpi	r24, 0x45	; 69
+     c28:	89 f4       	brne	.+34     	; 0xc4c <eth_type_is_ip_and_my_ip+0x3c>
+     c2a:	df 01       	movw	r26, r30
+     c2c:	e5 eb       	ldi	r30, 0xB5	; 181
+     c2e:	f0 e0       	ldi	r31, 0x00	; 0
+                // must be IP V4 and 20 byte header
+                return(0);
+        }
+        while(i<4){
+                if(buf[IP_DST_P+i]!=ipaddr[i]){
+     c30:	5e 96       	adiw	r26, 0x1e	; 30
+     c32:	9c 91       	ld	r25, X
+     c34:	5e 97       	sbiw	r26, 0x1e	; 30
+     c36:	80 81       	ld	r24, Z
+     c38:	98 17       	cp	r25, r24
+     c3a:	41 f4       	brne	.+16     	; 0xc4c <eth_type_is_ip_and_my_ip+0x3c>
+     c3c:	11 96       	adiw	r26, 0x01	; 1
+     c3e:	31 96       	adiw	r30, 0x01	; 1
+        }
+        if (buf[IP_HEADER_LEN_VER_P]!=0x45){
+                // must be IP V4 and 20 byte header
+                return(0);
+        }
+        while(i<4){
+     c40:	80 e0       	ldi	r24, 0x00	; 0
+     c42:	e9 3b       	cpi	r30, 0xB9	; 185
+     c44:	f8 07       	cpc	r31, r24
+     c46:	a1 f7       	brne	.-24     	; 0xc30 <eth_type_is_ip_and_my_ip+0x20>
+     c48:	81 e0       	ldi	r24, 0x01	; 1
+     c4a:	08 95       	ret
+     c4c:	80 e0       	ldi	r24, 0x00	; 0
+                        return(0);
+                }
+                i++;
+        }
+        return(1);
+}
+     c4e:	08 95       	ret
+
+00000c50 <make_eth>:
+// make a return eth header from a received eth packet
+void make_eth(uint8_t *buf)
+{
+     c50:	fc 01       	movw	r30, r24
+     c52:	af ea       	ldi	r26, 0xAF	; 175
+     c54:	b0 e0       	ldi	r27, 0x00	; 0
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+     c56:	86 81       	ldd	r24, Z+6	; 0x06
+     c58:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+     c5a:	8d 91       	ld	r24, X+
+     c5c:	86 83       	std	Z+6, r24	; 0x06
+     c5e:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+     c60:	80 e0       	ldi	r24, 0x00	; 0
+     c62:	a5 3b       	cpi	r26, 0xB5	; 181
+     c64:	b8 07       	cpc	r27, r24
+     c66:	b9 f7       	brne	.-18     	; 0xc56 <make_eth+0x6>
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+                i++;
+        }
+}
+     c68:	08 95       	ret
+
+00000c6a <fill_ip_hdr_checksum>:
+void fill_ip_hdr_checksum(uint8_t *buf)
+{
+     c6a:	0f 93       	push	r16
+     c6c:	1f 93       	push	r17
+     c6e:	8c 01       	movw	r16, r24
+        uint16_t ck;
+        // clear the 2 byte checksum
+        buf[IP_CHECKSUM_P]=0;
+     c70:	fc 01       	movw	r30, r24
+     c72:	10 8e       	std	Z+24, r1	; 0x18
+        buf[IP_CHECKSUM_P+1]=0;
+     c74:	11 8e       	std	Z+25, r1	; 0x19
+        buf[IP_FLAGS_P]=0x40; // don't fragment
+     c76:	80 e4       	ldi	r24, 0x40	; 64
+     c78:	84 8b       	std	Z+20, r24	; 0x14
+        buf[IP_FLAGS_P+1]=0;  // fragement offset
+     c7a:	15 8a       	std	Z+21, r1	; 0x15
+        buf[IP_TTL_P]=64; // ttl
+     c7c:	86 8b       	std	Z+22, r24	; 0x16
+        // calculate the checksum:
+        ck=checksum(&buf[IP_P], IP_HEADER_LEN,0);
+     c7e:	c8 01       	movw	r24, r16
+     c80:	0e 96       	adiw	r24, 0x0e	; 14
+     c82:	64 e1       	ldi	r22, 0x14	; 20
+     c84:	70 e0       	ldi	r23, 0x00	; 0
+     c86:	40 e0       	ldi	r20, 0x00	; 0
+     c88:	0e 94 4b 05 	call	0xa96	; 0xa96 <checksum>
+        buf[IP_CHECKSUM_P]=ck>>8;
+     c8c:	f8 01       	movw	r30, r16
+     c8e:	90 8f       	std	Z+24, r25	; 0x18
+        buf[IP_CHECKSUM_P+1]=ck& 0xff;
+     c90:	81 8f       	std	Z+25, r24	; 0x19
+}
+     c92:	1f 91       	pop	r17
+     c94:	0f 91       	pop	r16
+     c96:	08 95       	ret
+
+00000c98 <make_ip>:
+
+// make a return ip header from a received ip packet
+void make_ip(uint8_t *buf)
+{
+     c98:	ac 01       	movw	r20, r24
+     c9a:	fc 01       	movw	r30, r24
+     c9c:	a5 eb       	ldi	r26, 0xB5	; 181
+     c9e:	b0 e0       	ldi	r27, 0x00	; 0
+        uint8_t i=0;
+        while(i<4){
+                buf[IP_DST_P+i]=buf[IP_SRC_P+i];
+     ca0:	82 8d       	ldd	r24, Z+26	; 0x1a
+     ca2:	86 8f       	std	Z+30, r24	; 0x1e
+                buf[IP_SRC_P+i]=ipaddr[i];
+     ca4:	8d 91       	ld	r24, X+
+     ca6:	82 8f       	std	Z+26, r24	; 0x1a
+     ca8:	31 96       	adiw	r30, 0x01	; 1
+
+// make a return ip header from a received ip packet
+void make_ip(uint8_t *buf)
+{
+        uint8_t i=0;
+        while(i<4){
+     caa:	80 e0       	ldi	r24, 0x00	; 0
+     cac:	a9 3b       	cpi	r26, 0xB9	; 185
+     cae:	b8 07       	cpc	r27, r24
+     cb0:	b9 f7       	brne	.-18     	; 0xca0 <make_ip+0x8>
+                buf[IP_DST_P+i]=buf[IP_SRC_P+i];
+                buf[IP_SRC_P+i]=ipaddr[i];
+                i++;
+        }
+        fill_ip_hdr_checksum(buf);
+     cb2:	ca 01       	movw	r24, r20
+     cb4:	0e 94 35 06 	call	0xc6a	; 0xc6a <fill_ip_hdr_checksum>
+}
+     cb8:	08 95       	ret
+
+00000cba <make_tcphead>:
+//
+// After calling this function you can fill in the first data byte at TCP_OPTIONS_P+4
+// If cp_seq=0 then an initial sequence number is used (should be use in synack)
+// otherwise it is copied from the packet we received
+void make_tcphead(uint8_t *buf,uint16_t rel_ack_num,uint8_t mss,uint8_t cp_seq)
+{
+     cba:	fc 01       	movw	r30, r24
+        uint8_t i=0;
+        uint8_t tseq;
+        while(i<2){
+                buf[TCP_DST_PORT_H_P+i]=buf[TCP_SRC_PORT_H_P+i];
+     cbc:	82 a1       	ldd	r24, Z+34	; 0x22
+     cbe:	84 a3       	std	Z+36, r24	; 0x24
+                buf[TCP_SRC_PORT_H_P+i]=0; // clear source port
+     cc0:	12 a2       	std	Z+34, r1	; 0x22
+void make_tcphead(uint8_t *buf,uint16_t rel_ack_num,uint8_t mss,uint8_t cp_seq)
+{
+        uint8_t i=0;
+        uint8_t tseq;
+        while(i<2){
+                buf[TCP_DST_PORT_H_P+i]=buf[TCP_SRC_PORT_H_P+i];
+     cc2:	83 a1       	ldd	r24, Z+35	; 0x23
+     cc4:	85 a3       	std	Z+37, r24	; 0x25
+                buf[TCP_SRC_PORT_H_P+i]=0; // clear source port
+     cc6:	13 a2       	std	Z+35, r1	; 0x23
+                i++;
+        }
+        // set source port  (http):
+        buf[TCP_SRC_PORT_L_P]=wwwport;
+     cc8:	80 91 a6 00 	lds	r24, 0x00A6
+     ccc:	83 a3       	std	Z+35, r24	; 0x23
+//
+// After calling this function you can fill in the first data byte at TCP_OPTIONS_P+4
+// If cp_seq=0 then an initial sequence number is used (should be use in synack)
+// otherwise it is copied from the packet we received
+void make_tcphead(uint8_t *buf,uint16_t rel_ack_num,uint8_t mss,uint8_t cp_seq)
+{
+     cce:	df 01       	movw	r26, r30
+     cd0:	99 96       	adiw	r26, 0x29	; 41
+     cd2:	94 e0       	ldi	r25, 0x04	; 4
+        buf[TCP_SRC_PORT_L_P]=wwwport;
+        i=4;
+        // sequence numbers:
+        // add the rel ack num to SEQACK
+        while(i>0){
+                rel_ack_num=buf[TCP_SEQ_H_P+i-1]+rel_ack_num;
+     cd4:	8c 91       	ld	r24, X
+     cd6:	68 0f       	add	r22, r24
+     cd8:	71 1d       	adc	r23, r1
+                tseq=buf[TCP_SEQACK_H_P+i-1];
+     cda:	14 96       	adiw	r26, 0x04	; 4
+     cdc:	8c 91       	ld	r24, X
+     cde:	14 97       	sbiw	r26, 0x04	; 4
+                buf[TCP_SEQACK_H_P+i-1]=0xff&rel_ack_num;
+     ce0:	14 96       	adiw	r26, 0x04	; 4
+     ce2:	6c 93       	st	X, r22
+     ce4:	14 97       	sbiw	r26, 0x04	; 4
+                if (cp_seq){
+     ce6:	22 23       	and	r18, r18
+     ce8:	11 f0       	breq	.+4      	; 0xcee <make_tcphead+0x34>
+                        // copy the acknum sent to us into the sequence number
+                        buf[TCP_SEQ_H_P+i-1]=tseq;
+     cea:	8c 93       	st	X, r24
+     cec:	01 c0       	rjmp	.+2      	; 0xcf0 <make_tcphead+0x36>
+                }else{
+                        buf[TCP_SEQ_H_P+i-1]= 0; // some preset vallue
+     cee:	1c 92       	st	X, r1
+                }
+                rel_ack_num=rel_ack_num>>8;
+                i--;
+     cf0:	91 50       	subi	r25, 0x01	; 1
+     cf2:	11 97       	sbiw	r26, 0x01	; 1
+        // set source port  (http):
+        buf[TCP_SRC_PORT_L_P]=wwwport;
+        i=4;
+        // sequence numbers:
+        // add the rel ack num to SEQACK
+        while(i>0){
+     cf4:	99 23       	and	r25, r25
+     cf6:	19 f0       	breq	.+6      	; 0xcfe <make_tcphead+0x44>
+                        // copy the acknum sent to us into the sequence number
+                        buf[TCP_SEQ_H_P+i-1]=tseq;
+                }else{
+                        buf[TCP_SEQ_H_P+i-1]= 0; // some preset vallue
+                }
+                rel_ack_num=rel_ack_num>>8;
+     cf8:	67 2f       	mov	r22, r23
+     cfa:	77 27       	eor	r23, r23
+     cfc:	eb cf       	rjmp	.-42     	; 0xcd4 <make_tcphead+0x1a>
+                i--;
+        }
+        if (cp_seq==0){
+     cfe:	22 23       	and	r18, r18
+     d00:	49 f4       	brne	.+18     	; 0xd14 <make_tcphead+0x5a>
+                // put inital seq number
+                buf[TCP_SEQ_H_P+0]= 0;
+     d02:	16 a2       	std	Z+38, r1	; 0x26
+                buf[TCP_SEQ_H_P+1]= 0;
+     d04:	17 a2       	std	Z+39, r1	; 0x27
+                // we step only the second byte, this allows us to send packts 
+                // with 255 bytes or 512 (if we step the initial seqnum by 2)
+                buf[TCP_SEQ_H_P+2]= seqnum; 
+     d06:	80 91 a7 00 	lds	r24, 0x00A7
+     d0a:	80 a7       	std	Z+40, r24	; 0x28
+                buf[TCP_SEQ_H_P+3]= 0;
+     d0c:	11 a6       	std	Z+41, r1	; 0x29
+                // step the inititial seq num by something we will not use
+                // during this tcp session:
+                seqnum+=2;
+     d0e:	8e 5f       	subi	r24, 0xFE	; 254
+     d10:	80 93 a7 00 	sts	0x00A7, r24
+        }
+        // zero the checksum
+        buf[TCP_CHECKSUM_H_P]=0;
+     d14:	12 aa       	std	Z+50, r1	; 0x32
+        buf[TCP_CHECKSUM_L_P]=0;
+     d16:	13 aa       	std	Z+51, r1	; 0x33
+
+        // The tcp header length is only a 4 bit field (the upper 4 bits).
+        // It is calculated in units of 4 bytes. 
+        // E.g 24 bytes: 24/4=6 => 0x60=header len field
+        //buf[TCP_HEADER_LEN_P]=(((TCP_HEADER_LEN_PLAIN+4)/4)) <<4; // 0x60
+        if (mss){
+     d18:	44 23       	and	r20, r20
+     d1a:	51 f0       	breq	.+20     	; 0xd30 <make_tcphead+0x76>
+                // the only option we set is MSS to 1408:
+                // 1408 in hex is 0x580
+                buf[TCP_OPTIONS_P]=2;
+     d1c:	82 e0       	ldi	r24, 0x02	; 2
+     d1e:	86 ab       	std	Z+54, r24	; 0x36
+                buf[TCP_OPTIONS_P+1]=4;
+     d20:	84 e0       	ldi	r24, 0x04	; 4
+     d22:	87 ab       	std	Z+55, r24	; 0x37
+                buf[TCP_OPTIONS_P+2]=0x05; 
+     d24:	85 e0       	ldi	r24, 0x05	; 5
+     d26:	80 af       	std	Z+56, r24	; 0x38
+                buf[TCP_OPTIONS_P+3]=0x80;
+     d28:	80 e8       	ldi	r24, 0x80	; 128
+     d2a:	81 af       	std	Z+57, r24	; 0x39
+                // 24 bytes:
+                buf[TCP_HEADER_LEN_P]=0x60;
+     d2c:	80 e6       	ldi	r24, 0x60	; 96
+     d2e:	01 c0       	rjmp	.+2      	; 0xd32 <make_tcphead+0x78>
+        }else{
+                // no options:
+                // 20 bytes:
+                buf[TCP_HEADER_LEN_P]=0x50;
+     d30:	80 e5       	ldi	r24, 0x50	; 80
+     d32:	86 a7       	std	Z+46, r24	; 0x2e
+     d34:	08 95       	ret
+
+00000d36 <make_arp_answer_from_request>:
+        }
+}
+
+void make_arp_answer_from_request(uint8_t *buf)
+{
+     d36:	cf 93       	push	r28
+     d38:	df 93       	push	r29
+     d3a:	ac 01       	movw	r20, r24
+     d3c:	ec 01       	movw	r28, r24
+     d3e:	2f ea       	ldi	r18, 0xAF	; 175
+     d40:	30 e0       	ldi	r19, 0x00	; 0
+     d42:	fc 01       	movw	r30, r24
+     d44:	d9 01       	movw	r26, r18
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+     d46:	86 81       	ldd	r24, Z+6	; 0x06
+     d48:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+     d4a:	8d 91       	ld	r24, X+
+     d4c:	86 83       	std	Z+6, r24	; 0x06
+     d4e:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+     d50:	80 e0       	ldi	r24, 0x00	; 0
+     d52:	a5 3b       	cpi	r26, 0xB5	; 181
+     d54:	b8 07       	cpc	r27, r24
+     d56:	b9 f7       	brne	.-18     	; 0xd46 <make_arp_answer_from_request+0x10>
+void make_arp_answer_from_request(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        make_eth(buf);
+        buf[ETH_ARP_OPCODE_H_P]=ETH_ARP_OPCODE_REPLY_H_V;
+     d58:	fa 01       	movw	r30, r20
+     d5a:	14 8a       	std	Z+20, r1	; 0x14
+        buf[ETH_ARP_OPCODE_L_P]=ETH_ARP_OPCODE_REPLY_L_V;
+     d5c:	82 e0       	ldi	r24, 0x02	; 2
+     d5e:	85 8b       	std	Z+21, r24	; 0x15
+        // fill the mac addresses:
+        while(i<6){
+                buf[ETH_ARP_DST_MAC_P+i]=buf[ETH_ARP_SRC_MAC_P+i];
+     d60:	8e 89       	ldd	r24, Y+22	; 0x16
+     d62:	88 a3       	std	Y+32, r24	; 0x20
+                buf[ETH_ARP_SRC_MAC_P+i]=macaddr[i];
+     d64:	f9 01       	movw	r30, r18
+     d66:	81 91       	ld	r24, Z+
+     d68:	9f 01       	movw	r18, r30
+     d6a:	8e 8b       	std	Y+22, r24	; 0x16
+     d6c:	21 96       	adiw	r28, 0x01	; 1
+        //
+        make_eth(buf);
+        buf[ETH_ARP_OPCODE_H_P]=ETH_ARP_OPCODE_REPLY_H_V;
+        buf[ETH_ARP_OPCODE_L_P]=ETH_ARP_OPCODE_REPLY_L_V;
+        // fill the mac addresses:
+        while(i<6){
+     d6e:	f0 e0       	ldi	r31, 0x00	; 0
+     d70:	25 3b       	cpi	r18, 0xB5	; 181
+     d72:	3f 07       	cpc	r19, r31
+     d74:	a9 f7       	brne	.-22     	; 0xd60 <make_arp_answer_from_request+0x2a>
+     d76:	fa 01       	movw	r30, r20
+     d78:	7c 96       	adiw	r30, 0x1c	; 28
+     d7a:	a5 eb       	ldi	r26, 0xB5	; 181
+     d7c:	b0 e0       	ldi	r27, 0x00	; 0
+                buf[ETH_ARP_SRC_MAC_P+i]=macaddr[i];
+                i++;
+        }
+        i=0;
+        while(i<4){
+                buf[ETH_ARP_DST_IP_P+i]=buf[ETH_ARP_SRC_IP_P+i];
+     d7e:	80 81       	ld	r24, Z
+     d80:	82 87       	std	Z+10, r24	; 0x0a
+                buf[ETH_ARP_SRC_IP_P+i]=ipaddr[i];
+     d82:	8d 91       	ld	r24, X+
+     d84:	81 93       	st	Z+, r24
+                buf[ETH_ARP_DST_MAC_P+i]=buf[ETH_ARP_SRC_MAC_P+i];
+                buf[ETH_ARP_SRC_MAC_P+i]=macaddr[i];
+                i++;
+        }
+        i=0;
+        while(i<4){
+     d86:	80 e0       	ldi	r24, 0x00	; 0
+     d88:	a9 3b       	cpi	r26, 0xB9	; 185
+     d8a:	b8 07       	cpc	r27, r24
+     d8c:	c1 f7       	brne	.-16     	; 0xd7e <make_arp_answer_from_request+0x48>
+                buf[ETH_ARP_DST_IP_P+i]=buf[ETH_ARP_SRC_IP_P+i];
+                buf[ETH_ARP_SRC_IP_P+i]=ipaddr[i];
+                i++;
+        }
+        // eth+arp is 42 bytes:
+        enc28j60PacketSend(42,buf); 
+     d8e:	8a e2       	ldi	r24, 0x2A	; 42
+     d90:	90 e0       	ldi	r25, 0x00	; 0
+     d92:	ba 01       	movw	r22, r20
+     d94:	0e 94 3f 04 	call	0x87e	; 0x87e <enc28j60PacketSend>
+}
+     d98:	df 91       	pop	r29
+     d9a:	cf 91       	pop	r28
+     d9c:	08 95       	ret
+
+00000d9e <make_echo_reply_from_request>:
+
+void make_echo_reply_from_request(uint8_t *buf,uint16_t len)
+{
+     d9e:	0f 93       	push	r16
+     da0:	1f 93       	push	r17
+     da2:	cf 93       	push	r28
+     da4:	df 93       	push	r29
+     da6:	ec 01       	movw	r28, r24
+     da8:	8b 01       	movw	r16, r22
+     daa:	fc 01       	movw	r30, r24
+     dac:	af ea       	ldi	r26, 0xAF	; 175
+     dae:	b0 e0       	ldi	r27, 0x00	; 0
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+     db0:	86 81       	ldd	r24, Z+6	; 0x06
+     db2:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+     db4:	8d 91       	ld	r24, X+
+     db6:	86 83       	std	Z+6, r24	; 0x06
+     db8:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+     dba:	80 e0       	ldi	r24, 0x00	; 0
+     dbc:	a5 3b       	cpi	r26, 0xB5	; 181
+     dbe:	b8 07       	cpc	r27, r24
+     dc0:	b9 f7       	brne	.-18     	; 0xdb0 <make_echo_reply_from_request+0x12>
+}
+
+void make_echo_reply_from_request(uint8_t *buf,uint16_t len)
+{
+        make_eth(buf);
+        make_ip(buf);
+     dc2:	ce 01       	movw	r24, r28
+     dc4:	0e 94 4c 06 	call	0xc98	; 0xc98 <make_ip>
+        buf[ICMP_TYPE_P]=ICMP_TYPE_ECHOREPLY_V;
+     dc8:	1a a2       	std	Y+34, r1	; 0x22
+        // we changed only the icmp.type field from request(=8) to reply(=0).
+        // we can therefore easily correct the checksum:
+        if (buf[ICMP_CHECKSUM_P] > (0xff-0x08)){
+     dca:	8c a1       	ldd	r24, Y+36	; 0x24
+     dcc:	88 3f       	cpi	r24, 0xF8	; 248
+     dce:	18 f0       	brcs	.+6      	; 0xdd6 <make_echo_reply_from_request+0x38>
+                buf[ICMP_CHECKSUM_P+1]++;
+     dd0:	8d a1       	ldd	r24, Y+37	; 0x25
+     dd2:	8f 5f       	subi	r24, 0xFF	; 255
+     dd4:	8d a3       	std	Y+37, r24	; 0x25
+        }
+        buf[ICMP_CHECKSUM_P]+=0x08;
+     dd6:	8c a1       	ldd	r24, Y+36	; 0x24
+     dd8:	88 5f       	subi	r24, 0xF8	; 248
+     dda:	8c a3       	std	Y+36, r24	; 0x24
+        //
+        enc28j60PacketSend(len,buf);
+     ddc:	c8 01       	movw	r24, r16
+     dde:	be 01       	movw	r22, r28
+     de0:	0e 94 3f 04 	call	0x87e	; 0x87e <enc28j60PacketSend>
+}
+     de4:	df 91       	pop	r29
+     de6:	cf 91       	pop	r28
+     de8:	1f 91       	pop	r17
+     dea:	0f 91       	pop	r16
+     dec:	08 95       	ret
+
+00000dee <make_udp_reply_from_request>:
+
+// you can send a max of 220 bytes of data
+void make_udp_reply_from_request(uint8_t *buf,char *data,uint8_t datalen,uint16_t port)
+{
+     dee:	df 92       	push	r13
+     df0:	ef 92       	push	r14
+     df2:	ff 92       	push	r15
+     df4:	0f 93       	push	r16
+     df6:	1f 93       	push	r17
+     df8:	cf 93       	push	r28
+     dfa:	df 93       	push	r29
+     dfc:	ec 01       	movw	r28, r24
+     dfe:	7b 01       	movw	r14, r22
+     e00:	d2 2e       	mov	r13, r18
+     e02:	13 2f       	mov	r17, r19
+     e04:	fc 01       	movw	r30, r24
+     e06:	af ea       	ldi	r26, 0xAF	; 175
+     e08:	b0 e0       	ldi	r27, 0x00	; 0
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+     e0a:	86 81       	ldd	r24, Z+6	; 0x06
+     e0c:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+     e0e:	8d 91       	ld	r24, X+
+     e10:	86 83       	std	Z+6, r24	; 0x06
+     e12:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+     e14:	80 e0       	ldi	r24, 0x00	; 0
+     e16:	a5 3b       	cpi	r26, 0xB5	; 181
+     e18:	b8 07       	cpc	r27, r24
+     e1a:	b9 f7       	brne	.-18     	; 0xe0a <make_udp_reply_from_request+0x1c>
+     e1c:	04 2f       	mov	r16, r20
+     e1e:	4d 3d       	cpi	r20, 0xDD	; 221
+     e20:	08 f0       	brcs	.+2      	; 0xe24 <make_udp_reply_from_request+0x36>
+     e22:	0c ed       	ldi	r16, 0xDC	; 220
+        make_eth(buf);
+        if (datalen>220){
+                datalen=220;
+        }
+        // total length field in the IP header must be set:
+        buf[IP_TOTLEN_H_P]=0;
+     e24:	18 8a       	std	Y+16, r1	; 0x10
+        buf[IP_TOTLEN_L_P]=IP_HEADER_LEN+UDP_HEADER_LEN+datalen;
+     e26:	04 5e       	subi	r16, 0xE4	; 228
+     e28:	09 8b       	std	Y+17, r16	; 0x11
+        make_ip(buf);
+     e2a:	ce 01       	movw	r24, r28
+     e2c:	0e 94 4c 06 	call	0xc98	; 0xc98 <make_ip>
+        // send to port:
+        //buf[UDP_DST_PORT_H_P]=port>>8;
+        //buf[UDP_DST_PORT_L_P]=port & 0xff;
+        // sent to port of sender and use "port" as own source:
+        buf[UDP_DST_PORT_H_P]=buf[UDP_SRC_PORT_H_P];
+     e30:	8a a1       	ldd	r24, Y+34	; 0x22
+     e32:	8c a3       	std	Y+36, r24	; 0x24
+        buf[UDP_DST_PORT_L_P]= buf[UDP_SRC_PORT_L_P];
+     e34:	8b a1       	ldd	r24, Y+35	; 0x23
+     e36:	8d a3       	std	Y+37, r24	; 0x25
+        buf[UDP_SRC_PORT_H_P]=port>>8;
+     e38:	1a a3       	std	Y+34, r17	; 0x22
+        buf[UDP_SRC_PORT_L_P]=port & 0xff;
+     e3a:	db a2       	std	Y+35, r13	; 0x23
+        // calculte the udp length:
+        buf[UDP_LEN_H_P]=0;
+     e3c:	1e a2       	std	Y+38, r1	; 0x26
+        buf[UDP_LEN_L_P]=UDP_HEADER_LEN+datalen;
+     e3e:	04 51       	subi	r16, 0x14	; 20
+     e40:	0f a3       	std	Y+39, r16	; 0x27
+     e42:	08 50       	subi	r16, 0x08	; 8
+        // zero the checksum
+        buf[UDP_CHECKSUM_H_P]=0;
+     e44:	18 a6       	std	Y+40, r1	; 0x28
+        buf[UDP_CHECKSUM_L_P]=0;
+     e46:	19 a6       	std	Y+41, r1	; 0x29
+     e48:	de 01       	movw	r26, r28
+     e4a:	9a 96       	adiw	r26, 0x2a	; 42
+     e4c:	20 e0       	ldi	r18, 0x00	; 0
+     e4e:	30 e0       	ldi	r19, 0x00	; 0
+     e50:	07 c0       	rjmp	.+14     	; 0xe60 <make_udp_reply_from_request+0x72>
+        // copy the data:
+        while(i<datalen){
+                buf[UDP_DATA_P+i]=data[i];
+     e52:	f7 01       	movw	r30, r14
+     e54:	e2 0f       	add	r30, r18
+     e56:	f3 1f       	adc	r31, r19
+     e58:	80 81       	ld	r24, Z
+     e5a:	8d 93       	st	X+, r24
+     e5c:	2f 5f       	subi	r18, 0xFF	; 255
+     e5e:	3f 4f       	sbci	r19, 0xFF	; 255
+        buf[UDP_LEN_L_P]=UDP_HEADER_LEN+datalen;
+        // zero the checksum
+        buf[UDP_CHECKSUM_H_P]=0;
+        buf[UDP_CHECKSUM_L_P]=0;
+        // copy the data:
+        while(i<datalen){
+     e60:	20 17       	cp	r18, r16
+     e62:	b8 f3       	brcs	.-18     	; 0xe52 <make_udp_reply_from_request+0x64>
+                buf[UDP_DATA_P+i]=data[i];
+                i++;
+        }
+        ck=checksum(&buf[IP_SRC_P], 16 + datalen,1);
+     e64:	10 e0       	ldi	r17, 0x00	; 0
+     e66:	00 5f       	subi	r16, 0xF0	; 240
+     e68:	1f 4f       	sbci	r17, 0xFF	; 255
+     e6a:	ce 01       	movw	r24, r28
+     e6c:	4a 96       	adiw	r24, 0x1a	; 26
+     e6e:	b8 01       	movw	r22, r16
+     e70:	41 e0       	ldi	r20, 0x01	; 1
+     e72:	0e 94 4b 05 	call	0xa96	; 0xa96 <checksum>
+        buf[UDP_CHECKSUM_H_P]=ck>>8;
+     e76:	98 a7       	std	Y+40, r25	; 0x28
+        buf[UDP_CHECKSUM_L_P]=ck& 0xff;
+     e78:	89 a7       	std	Y+41, r24	; 0x29
+        enc28j60PacketSend(UDP_HEADER_LEN+IP_HEADER_LEN+ETH_HEADER_LEN+datalen,buf);
+     e7a:	c8 01       	movw	r24, r16
+     e7c:	4a 96       	adiw	r24, 0x1a	; 26
+     e7e:	be 01       	movw	r22, r28
+     e80:	0e 94 3f 04 	call	0x87e	; 0x87e <enc28j60PacketSend>
+}
+     e84:	df 91       	pop	r29
+     e86:	cf 91       	pop	r28
+     e88:	1f 91       	pop	r17
+     e8a:	0f 91       	pop	r16
+     e8c:	ff 90       	pop	r15
+     e8e:	ef 90       	pop	r14
+     e90:	df 90       	pop	r13
+     e92:	08 95       	ret
+
+00000e94 <make_tcp_synack_from_syn>:
+
+void make_tcp_synack_from_syn(uint8_t *buf)
+{
+     e94:	cf 93       	push	r28
+     e96:	df 93       	push	r29
+     e98:	ec 01       	movw	r28, r24
+     e9a:	fc 01       	movw	r30, r24
+     e9c:	af ea       	ldi	r26, 0xAF	; 175
+     e9e:	b0 e0       	ldi	r27, 0x00	; 0
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+     ea0:	86 81       	ldd	r24, Z+6	; 0x06
+     ea2:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+     ea4:	8d 91       	ld	r24, X+
+     ea6:	86 83       	std	Z+6, r24	; 0x06
+     ea8:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+     eaa:	80 e0       	ldi	r24, 0x00	; 0
+     eac:	a5 3b       	cpi	r26, 0xB5	; 181
+     eae:	b8 07       	cpc	r27, r24
+     eb0:	b9 f7       	brne	.-18     	; 0xea0 <make_tcp_synack_from_syn+0xc>
+{
+        uint16_t ck;
+        make_eth(buf);
+        // total length field in the IP header must be set:
+        // 20 bytes IP + 24 bytes (20tcp+4tcp options)
+        buf[IP_TOTLEN_H_P]=0;
+     eb2:	18 8a       	std	Y+16, r1	; 0x10
+        buf[IP_TOTLEN_L_P]=IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+4;
+     eb4:	8c e2       	ldi	r24, 0x2C	; 44
+     eb6:	89 8b       	std	Y+17, r24	; 0x11
+        make_ip(buf);
+     eb8:	ce 01       	movw	r24, r28
+     eba:	0e 94 4c 06 	call	0xc98	; 0xc98 <make_ip>
+        buf[TCP_FLAGS_P]=TCP_FLAGS_SYNACK_V;
+     ebe:	82 e1       	ldi	r24, 0x12	; 18
+     ec0:	8f a7       	std	Y+47, r24	; 0x2f
+        make_tcphead(buf,1,1,0);
+     ec2:	ce 01       	movw	r24, r28
+     ec4:	61 e0       	ldi	r22, 0x01	; 1
+     ec6:	70 e0       	ldi	r23, 0x00	; 0
+     ec8:	41 e0       	ldi	r20, 0x01	; 1
+     eca:	20 e0       	ldi	r18, 0x00	; 0
+     ecc:	0e 94 5d 06 	call	0xcba	; 0xcba <make_tcphead>
+        // calculate the checksum, len=8 (start from ip.src) + TCP_HEADER_LEN_PLAIN + 4 (one option: mss)
+        ck=checksum(&buf[IP_SRC_P], 8+TCP_HEADER_LEN_PLAIN+4,2);
+     ed0:	ce 01       	movw	r24, r28
+     ed2:	4a 96       	adiw	r24, 0x1a	; 26
+     ed4:	60 e2       	ldi	r22, 0x20	; 32
+     ed6:	70 e0       	ldi	r23, 0x00	; 0
+     ed8:	42 e0       	ldi	r20, 0x02	; 2
+     eda:	0e 94 4b 05 	call	0xa96	; 0xa96 <checksum>
+        buf[TCP_CHECKSUM_H_P]=ck>>8;
+     ede:	9a ab       	std	Y+50, r25	; 0x32
+        buf[TCP_CHECKSUM_L_P]=ck& 0xff;
+     ee0:	8b ab       	std	Y+51, r24	; 0x33
+        // add 4 for option mss:
+        enc28j60PacketSend(IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+4+ETH_HEADER_LEN,buf);
+     ee2:	8a e3       	ldi	r24, 0x3A	; 58
+     ee4:	90 e0       	ldi	r25, 0x00	; 0
+     ee6:	be 01       	movw	r22, r28
+     ee8:	0e 94 3f 04 	call	0x87e	; 0x87e <enc28j60PacketSend>
+}
+     eec:	df 91       	pop	r29
+     eee:	cf 91       	pop	r28
+     ef0:	08 95       	ret
+
+00000ef2 <get_tcp_data_pointer>:
+// get a pointer to the start of tcp data in buf
+// Returns 0 if there is no data
+// You must call init_len_info once before calling this function
+uint16_t get_tcp_data_pointer(void)
+{
+        if (info_data_len){
+     ef2:	80 91 a8 00 	lds	r24, 0x00A8
+     ef6:	90 91 a9 00 	lds	r25, 0x00A9
+     efa:	89 2b       	or	r24, r25
+     efc:	19 f4       	brne	.+6      	; 0xf04 <get_tcp_data_pointer+0x12>
+     efe:	20 e0       	ldi	r18, 0x00	; 0
+     f00:	30 e0       	ldi	r19, 0x00	; 0
+     f02:	06 c0       	rjmp	.+12     	; 0xf10 <get_tcp_data_pointer+0x1e>
+                return((uint16_t)TCP_SRC_PORT_H_P+info_hdr_len);
+     f04:	20 91 aa 00 	lds	r18, 0x00AA
+     f08:	30 91 ab 00 	lds	r19, 0x00AB
+     f0c:	2e 5d       	subi	r18, 0xDE	; 222
+     f0e:	3f 4f       	sbci	r19, 0xFF	; 255
+        }else{
+                return(0);
+        }
+}
+     f10:	c9 01       	movw	r24, r18
+     f12:	08 95       	ret
+
+00000f14 <init_len_info>:
+
+// do some basic length calculations and store the result in static varibales
+void init_len_info(uint8_t *buf)
+{
+     f14:	fc 01       	movw	r30, r24
+        info_data_len=(((int16_t)buf[IP_TOTLEN_H_P])<<8)|(buf[IP_TOTLEN_L_P]&0xff);
+     f16:	90 89       	ldd	r25, Z+16	; 0x10
+     f18:	80 e0       	ldi	r24, 0x00	; 0
+     f1a:	21 89       	ldd	r18, Z+17	; 0x11
+     f1c:	30 e0       	ldi	r19, 0x00	; 0
+     f1e:	28 2b       	or	r18, r24
+     f20:	39 2b       	or	r19, r25
+        info_data_len-=IP_HEADER_LEN;
+        info_hdr_len=(buf[TCP_HEADER_LEN_P]>>4)*4; // generate len in bytes;
+     f22:	86 a5       	ldd	r24, Z+46	; 0x2e
+     f24:	82 95       	swap	r24
+     f26:	8f 70       	andi	r24, 0x0F	; 15
+     f28:	90 e0       	ldi	r25, 0x00	; 0
+     f2a:	88 0f       	add	r24, r24
+     f2c:	99 1f       	adc	r25, r25
+     f2e:	88 0f       	add	r24, r24
+     f30:	99 1f       	adc	r25, r25
+     f32:	90 93 ab 00 	sts	0x00AB, r25
+     f36:	80 93 aa 00 	sts	0x00AA, r24
+        info_data_len-=info_hdr_len;
+     f3a:	24 51       	subi	r18, 0x14	; 20
+     f3c:	30 40       	sbci	r19, 0x00	; 0
+     f3e:	28 1b       	sub	r18, r24
+     f40:	39 0b       	sbc	r19, r25
+     f42:	30 93 a9 00 	sts	0x00A9, r19
+     f46:	20 93 a8 00 	sts	0x00A8, r18
+        if (info_data_len<=0){
+     f4a:	12 16       	cp	r1, r18
+     f4c:	13 06       	cpc	r1, r19
+     f4e:	24 f0       	brlt	.+8      	; 0xf58 <init_len_info+0x44>
+                info_data_len=0;
+     f50:	10 92 a9 00 	sts	0x00A9, r1
+     f54:	10 92 a8 00 	sts	0x00A8, r1
+     f58:	08 95       	ret
+
+00000f5a <fill_tcp_data_p>:
+
+// fill in tcp data at position pos. pos=0 means start of
+// tcp data. Returns the position at which the string after
+// this string could be filled.
+uint16_t fill_tcp_data_p(uint8_t *buf,uint16_t pos, const prog_char *progmem_s)
+{
+     f5a:	6a 5c       	subi	r22, 0xCA	; 202
+     f5c:	7f 4f       	sbci	r23, 0xFF	; 255
+     f5e:	dc 01       	movw	r26, r24
+     f60:	a6 0f       	add	r26, r22
+     f62:	b7 1f       	adc	r27, r23
+     f64:	66 53       	subi	r22, 0x36	; 54
+     f66:	70 40       	sbci	r23, 0x00	; 0
+     f68:	03 c0       	rjmp	.+6      	; 0xf70 <fill_tcp_data_p+0x16>
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+     f6a:	8d 93       	st	X+, r24
+                pos++;
+     f6c:	6f 5f       	subi	r22, 0xFF	; 255
+     f6e:	7f 4f       	sbci	r23, 0xFF	; 255
+     f70:	fa 01       	movw	r30, r20
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+     f72:	4f 5f       	subi	r20, 0xFF	; 255
+     f74:	5f 4f       	sbci	r21, 0xFF	; 255
+     f76:	84 91       	lpm	r24, Z+
+     f78:	88 23       	and	r24, r24
+     f7a:	b9 f7       	brne	.-18     	; 0xf6a <fill_tcp_data_p+0x10>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+                pos++;
+        }
+        return(pos);
+}
+     f7c:	cb 01       	movw	r24, r22
+     f7e:	08 95       	ret
+
+00000f80 <fill_tcp_data>:
+
+// fill in tcp data at position pos. pos=0 means start of
+// tcp data. Returns the position at which the string after
+// this string could be filled.
+uint16_t fill_tcp_data(uint8_t *buf,uint16_t pos, const char *s)
+{
+     f80:	fa 01       	movw	r30, r20
+     f82:	6a 5c       	subi	r22, 0xCA	; 202
+     f84:	7f 4f       	sbci	r23, 0xFF	; 255
+     f86:	dc 01       	movw	r26, r24
+     f88:	a6 0f       	add	r26, r22
+     f8a:	b7 1f       	adc	r27, r23
+     f8c:	66 53       	subi	r22, 0x36	; 54
+     f8e:	70 40       	sbci	r23, 0x00	; 0
+     f90:	04 c0       	rjmp	.+8      	; 0xf9a <fill_tcp_data+0x1a>
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while (*s) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=*s;
+     f92:	8d 93       	st	X+, r24
+                pos++;
+     f94:	6f 5f       	subi	r22, 0xFF	; 255
+     f96:	7f 4f       	sbci	r23, 0xFF	; 255
+                s++;
+     f98:	31 96       	adiw	r30, 0x01	; 1
+uint16_t fill_tcp_data(uint8_t *buf,uint16_t pos, const char *s)
+{
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while (*s) {
+     f9a:	80 81       	ld	r24, Z
+     f9c:	88 23       	and	r24, r24
+     f9e:	c9 f7       	brne	.-14     	; 0xf92 <fill_tcp_data+0x12>
+                buf[TCP_CHECKSUM_L_P+3+pos]=*s;
+                pos++;
+                s++;
+        }
+        return(pos);
+}
+     fa0:	cb 01       	movw	r24, r22
+     fa2:	08 95       	ret
+
+00000fa4 <make_tcp_ack_from_any>:
+
+// Make just an ack packet with no tcp data inside
+// This will modify the eth/ip/tcp header 
+void make_tcp_ack_from_any(uint8_t *buf)
+{
+     fa4:	cf 93       	push	r28
+     fa6:	df 93       	push	r29
+     fa8:	ec 01       	movw	r28, r24
+     faa:	fc 01       	movw	r30, r24
+     fac:	af ea       	ldi	r26, 0xAF	; 175
+     fae:	b0 e0       	ldi	r27, 0x00	; 0
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+     fb0:	86 81       	ldd	r24, Z+6	; 0x06
+     fb2:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+     fb4:	8d 91       	ld	r24, X+
+     fb6:	86 83       	std	Z+6, r24	; 0x06
+     fb8:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+     fba:	80 e0       	ldi	r24, 0x00	; 0
+     fbc:	a5 3b       	cpi	r26, 0xB5	; 181
+     fbe:	b8 07       	cpc	r27, r24
+     fc0:	b9 f7       	brne	.-18     	; 0xfb0 <make_tcp_ack_from_any+0xc>
+void make_tcp_ack_from_any(uint8_t *buf)
+{
+        uint16_t j;
+        make_eth(buf);
+        // fill the header:
+        buf[TCP_FLAGS_P]=TCP_FLAGS_ACK_V;
+     fc2:	80 e1       	ldi	r24, 0x10	; 16
+     fc4:	8f a7       	std	Y+47, r24	; 0x2f
+        if (info_data_len==0){
+     fc6:	60 91 a8 00 	lds	r22, 0x00A8
+     fca:	70 91 a9 00 	lds	r23, 0x00A9
+     fce:	61 15       	cp	r22, r1
+     fd0:	71 05       	cpc	r23, r1
+     fd2:	21 f4       	brne	.+8      	; 0xfdc <make_tcp_ack_from_any+0x38>
+                // if there is no data then we must still acknoledge one packet
+                make_tcphead(buf,1,0,1); // no options
+     fd4:	ce 01       	movw	r24, r28
+     fd6:	61 e0       	ldi	r22, 0x01	; 1
+     fd8:	70 e0       	ldi	r23, 0x00	; 0
+     fda:	01 c0       	rjmp	.+2      	; 0xfde <make_tcp_ack_from_any+0x3a>
+        }else{
+                make_tcphead(buf,info_data_len,0,1); // no options
+     fdc:	ce 01       	movw	r24, r28
+     fde:	40 e0       	ldi	r20, 0x00	; 0
+     fe0:	21 e0       	ldi	r18, 0x01	; 1
+     fe2:	0e 94 5d 06 	call	0xcba	; 0xcba <make_tcphead>
+        }
+
+        // total length field in the IP header must be set:
+        // 20 bytes IP + 20 bytes tcp (when no options) 
+        j=IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN;
+        buf[IP_TOTLEN_H_P]=j>>8;
+     fe6:	18 8a       	std	Y+16, r1	; 0x10
+        buf[IP_TOTLEN_L_P]=j& 0xff;
+     fe8:	88 e2       	ldi	r24, 0x28	; 40
+     fea:	89 8b       	std	Y+17, r24	; 0x11
+        make_ip(buf);
+     fec:	ce 01       	movw	r24, r28
+     fee:	0e 94 4c 06 	call	0xc98	; 0xc98 <make_ip>
+        // calculate the checksum, len=8 (start from ip.src) + TCP_HEADER_LEN_PLAIN + data len
+        j=checksum(&buf[IP_SRC_P], 8+TCP_HEADER_LEN_PLAIN,2);
+     ff2:	ce 01       	movw	r24, r28
+     ff4:	4a 96       	adiw	r24, 0x1a	; 26
+     ff6:	6c e1       	ldi	r22, 0x1C	; 28
+     ff8:	70 e0       	ldi	r23, 0x00	; 0
+     ffa:	42 e0       	ldi	r20, 0x02	; 2
+     ffc:	0e 94 4b 05 	call	0xa96	; 0xa96 <checksum>
+        buf[TCP_CHECKSUM_H_P]=j>>8;
+    1000:	9a ab       	std	Y+50, r25	; 0x32
+        buf[TCP_CHECKSUM_L_P]=j& 0xff;
+    1002:	8b ab       	std	Y+51, r24	; 0x33
+        enc28j60PacketSend(IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+ETH_HEADER_LEN,buf);
+    1004:	86 e3       	ldi	r24, 0x36	; 54
+    1006:	90 e0       	ldi	r25, 0x00	; 0
+    1008:	be 01       	movw	r22, r28
+    100a:	0e 94 3f 04 	call	0x87e	; 0x87e <enc28j60PacketSend>
+}
+    100e:	df 91       	pop	r29
+    1010:	cf 91       	pop	r28
+    1012:	08 95       	ret
+
+00001014 <make_tcp_ack_with_data>:
+// dlen is the amount of tcp data (http data) we send in this packet
+// You can use this function only immediately after make_tcp_ack_from_any
+// This is because this function will NOT modify the eth/ip/tcp header except for
+// length and checksum
+void make_tcp_ack_with_data(uint8_t *buf,uint16_t dlen)
+{
+    1014:	ef 92       	push	r14
+    1016:	ff 92       	push	r15
+    1018:	0f 93       	push	r16
+    101a:	1f 93       	push	r17
+    101c:	8c 01       	movw	r16, r24
+    101e:	7b 01       	movw	r14, r22
+        uint16_t j;
+        // fill the header:
+        // This code requires that we send only one data packet
+        // because we keep no state information. We must therefore set
+        // the fin here:
+        buf[TCP_FLAGS_P]=TCP_FLAGS_ACK_V|TCP_FLAGS_PUSH_V|TCP_FLAGS_FIN_V;
+    1020:	89 e1       	ldi	r24, 0x19	; 25
+    1022:	f8 01       	movw	r30, r16
+    1024:	87 a7       	std	Z+47, r24	; 0x2f
+
+        // total length field in the IP header must be set:
+        // 20 bytes IP + 20 bytes tcp (when no options) + len of data
+        j=IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+dlen;
+    1026:	cb 01       	movw	r24, r22
+    1028:	88 96       	adiw	r24, 0x28	; 40
+        buf[IP_TOTLEN_H_P]=j>>8;
+    102a:	90 8b       	std	Z+16, r25	; 0x10
+        buf[IP_TOTLEN_L_P]=j& 0xff;
+    102c:	81 8b       	std	Z+17, r24	; 0x11
+        fill_ip_hdr_checksum(buf);
+    102e:	c8 01       	movw	r24, r16
+    1030:	0e 94 35 06 	call	0xc6a	; 0xc6a <fill_ip_hdr_checksum>
+        // zero the checksum
+        buf[TCP_CHECKSUM_H_P]=0;
+    1034:	f8 01       	movw	r30, r16
+    1036:	12 aa       	std	Z+50, r1	; 0x32
+        buf[TCP_CHECKSUM_L_P]=0;
+    1038:	13 aa       	std	Z+51, r1	; 0x33
+        // calculate the checksum, len=8 (start from ip.src) + TCP_HEADER_LEN_PLAIN + data len
+        j=checksum(&buf[IP_SRC_P], 8+TCP_HEADER_LEN_PLAIN+dlen,2);
+    103a:	8c e1       	ldi	r24, 0x1C	; 28
+    103c:	90 e0       	ldi	r25, 0x00	; 0
+    103e:	e8 0e       	add	r14, r24
+    1040:	f9 1e       	adc	r15, r25
+    1042:	c8 01       	movw	r24, r16
+    1044:	4a 96       	adiw	r24, 0x1a	; 26
+    1046:	b7 01       	movw	r22, r14
+    1048:	42 e0       	ldi	r20, 0x02	; 2
+    104a:	0e 94 4b 05 	call	0xa96	; 0xa96 <checksum>
+        buf[TCP_CHECKSUM_H_P]=j>>8;
+    104e:	f8 01       	movw	r30, r16
+    1050:	92 ab       	std	Z+50, r25	; 0x32
+        buf[TCP_CHECKSUM_L_P]=j& 0xff;
+    1052:	83 ab       	std	Z+51, r24	; 0x33
+        enc28j60PacketSend(IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+dlen+ETH_HEADER_LEN,buf);
+    1054:	c7 01       	movw	r24, r14
+    1056:	4a 96       	adiw	r24, 0x1a	; 26
+    1058:	b8 01       	movw	r22, r16
+    105a:	0e 94 3f 04 	call	0x87e	; 0x87e <enc28j60PacketSend>
+}
+    105e:	1f 91       	pop	r17
+    1060:	0f 91       	pop	r16
+    1062:	ff 90       	pop	r15
+    1064:	ef 90       	pop	r14
+    1066:	08 95       	ret
+
+00001068 <analyse_get_url>:
+// takes a string of the form password/commandNumber and analyse it
+// return values: -1 invalid password, otherwise command number
+//                -2 no command given but password valid
+//                -3 valid password, no command and no trailing "/"
+int8_t analyse_get_url(char *str)
+{
+    1068:	58 2f       	mov	r21, r24
+    106a:	28 2f       	mov	r18, r24
+    106c:	39 2f       	mov	r19, r25
+    106e:	d9 01       	movw	r26, r18
+    1070:	05 c0       	rjmp	.+10     	; 0x107c <analyse_get_url+0x14>
+        uint8_t loop=1;
+        uint8_t i=0;
+        while(loop){
+                if(password[i]){
+                        if(*str==password[i]){
+    1072:	8e 17       	cp	r24, r30
+    1074:	11 f0       	breq	.+4      	; 0x107a <analyse_get_url+0x12>
+    1076:	8f ef       	ldi	r24, 0xFF	; 255
+    1078:	08 95       	ret
+                                str++;
+    107a:	11 96       	adiw	r26, 0x01	; 1
+int8_t analyse_get_url(char *str)
+{
+        uint8_t loop=1;
+        uint8_t i=0;
+        while(loop){
+                if(password[i]){
+    107c:	ea 2f       	mov	r30, r26
+    107e:	e5 1b       	sub	r30, r21
+    1080:	f0 e0       	ldi	r31, 0x00	; 0
+    1082:	e2 56       	subi	r30, 0x62	; 98
+    1084:	ff 4f       	sbci	r31, 0xFF	; 255
+    1086:	e0 81       	ld	r30, Z
+    1088:	8c 91       	ld	r24, X
+    108a:	ee 23       	and	r30, r30
+    108c:	91 f7       	brne	.-28     	; 0x1072 <analyse_get_url+0xa>
+                        // end of password
+                        loop=0;
+                }
+        }
+        // is is now one char after the password
+        if (*str == '/'){
+    108e:	8f 32       	cpi	r24, 0x2F	; 47
+    1090:	11 f0       	breq	.+4      	; 0x1096 <analyse_get_url+0x2e>
+    1092:	8d ef       	ldi	r24, 0xFD	; 253
+    1094:	08 95       	ret
+                str++;
+        }else{
+                return(-3);
+        }
+        // check the first char, garbage after this is ignored (including a slash)
+        if (*str < 0x3a && *str > 0x2f){
+    1096:	11 96       	adiw	r26, 0x01	; 1
+    1098:	8c 91       	ld	r24, X
+    109a:	80 53       	subi	r24, 0x30	; 48
+    109c:	8a 30       	cpi	r24, 0x0A	; 10
+    109e:	08 f0       	brcs	.+2      	; 0x10a2 <analyse_get_url+0x3a>
+    10a0:	8e ef       	ldi	r24, 0xFE	; 254
+                // is a ASCII number, return it
+                return(*str-0x30);
+        }
+        return(-2);
+}
+    10a2:	08 95       	ret
+
+000010a4 <adc>:
+unsigned int adc(unsigned char channel)
+{  unsigned int val;
+   ADMUX=0x40+channel;
+    10a4:	80 5c       	subi	r24, 0xC0	; 192
+    10a6:	87 b9       	out	0x07, r24	; 7
+   ADCSRA=(1<<ADEN);
+    10a8:	80 e8       	ldi	r24, 0x80	; 128
+    10aa:	86 b9       	out	0x06, r24	; 6
+   ADCSRA|=(1<<ADSC);
+    10ac:	36 9a       	sbi	0x06, 6	; 6
+    ADCSRA|=0x07;
+    10ae:	86 b1       	in	r24, 0x06	; 6
+    10b0:	87 60       	ori	r24, 0x07	; 7
+    10b2:	86 b9       	out	0x06, r24	; 6
+   while(bit_is_clear(ADCSRA,ADIF));
+    10b4:	34 9b       	sbis	0x06, 4	; 6
+    10b6:	fe cf       	rjmp	.-4      	; 0x10b4 <adc+0x10>
+   val=ADCW; 
+    10b8:	24 b1       	in	r18, 0x04	; 4
+    10ba:	35 b1       	in	r19, 0x05	; 5
+   return val;
+}
+    10bc:	c9 01       	movw	r24, r18
+    10be:	08 95       	ret
+
+000010c0 <moved_perm>:
+// answer HTTP/1.0 301 Moved Permanently\r\nLocation: password/\r\n\r\n
+// to redirect to the url ending in a slash
+uint16_t moved_perm(uint8_t *buf)
+{
+    10c0:	dc 01       	movw	r26, r24
+    10c2:	d6 96       	adiw	r26, 0x36	; 54
+    10c4:	20 e0       	ldi	r18, 0x00	; 0
+    10c6:	30 e0       	ldi	r19, 0x00	; 0
+    10c8:	03 c0       	rjmp	.+6      	; 0x10d0 <moved_perm+0x10>
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    10ca:	4d 93       	st	X+, r20
+                pos++;
+    10cc:	2f 5f       	subi	r18, 0xFF	; 255
+    10ce:	3f 4f       	sbci	r19, 0xFF	; 255
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    10d0:	f9 01       	movw	r30, r18
+    10d2:	ec 50       	subi	r30, 0x0C	; 12
+    10d4:	fb 4f       	sbci	r31, 0xFB	; 251
+    10d6:	44 91       	lpm	r20, Z+
+    10d8:	44 23       	and	r20, r20
+    10da:	b9 f7       	brne	.-18     	; 0x10ca <moved_perm+0xa>
+    10dc:	2a 5c       	subi	r18, 0xCA	; 202
+    10de:	3f 4f       	sbci	r19, 0xFF	; 255
+    10e0:	dc 01       	movw	r26, r24
+    10e2:	a2 0f       	add	r26, r18
+    10e4:	b3 1f       	adc	r27, r19
+    10e6:	26 53       	subi	r18, 0x36	; 54
+    10e8:	30 40       	sbci	r19, 0x00	; 0
+    10ea:	ee e9       	ldi	r30, 0x9E	; 158
+    10ec:	f0 e0       	ldi	r31, 0x00	; 0
+    10ee:	04 c0       	rjmp	.+8      	; 0x10f8 <moved_perm+0x38>
+{
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while (*s) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=*s;
+    10f0:	4d 93       	st	X+, r20
+                pos++;
+    10f2:	2f 5f       	subi	r18, 0xFF	; 255
+    10f4:	3f 4f       	sbci	r19, 0xFF	; 255
+                s++;
+    10f6:	31 96       	adiw	r30, 0x01	; 1
+uint16_t fill_tcp_data(uint8_t *buf,uint16_t pos, const char *s)
+{
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while (*s) {
+    10f8:	40 81       	ld	r20, Z
+    10fa:	44 23       	and	r20, r20
+    10fc:	c9 f7       	brne	.-14     	; 0x10f0 <moved_perm+0x30>
+    10fe:	2a 5c       	subi	r18, 0xCA	; 202
+    1100:	3f 4f       	sbci	r19, 0xFF	; 255
+    1102:	dc 01       	movw	r26, r24
+    1104:	a2 0f       	add	r26, r18
+    1106:	b3 1f       	adc	r27, r19
+    1108:	26 53       	subi	r18, 0x36	; 54
+    110a:	30 40       	sbci	r19, 0x00	; 0
+        uint16_t plen;
+        plen=fill_tcp_data_p(buf,0,PSTR("HTTP/1.0 301 Moved Permanently\r\nLocation: "));
+        plen=fill_tcp_data(buf,plen,password);
+        plen=fill_tcp_data_p(buf,plen,PSTR("/\r\nContent-Type: text/html\r\nPragma: no-cache\r\n\r\n"));
+    110c:	43 ec       	ldi	r20, 0xC3	; 195
+    110e:	54 e0       	ldi	r21, 0x04	; 4
+    1110:	03 c0       	rjmp	.+6      	; 0x1118 <moved_perm+0x58>
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1112:	6d 93       	st	X+, r22
+                pos++;
+    1114:	2f 5f       	subi	r18, 0xFF	; 255
+    1116:	3f 4f       	sbci	r19, 0xFF	; 255
+    1118:	fa 01       	movw	r30, r20
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    111a:	4f 5f       	subi	r20, 0xFF	; 255
+    111c:	5f 4f       	sbci	r21, 0xFF	; 255
+    111e:	64 91       	lpm	r22, Z+
+    1120:	66 23       	and	r22, r22
+    1122:	b9 f7       	brne	.-18     	; 0x1112 <moved_perm+0x52>
+    1124:	2a 5c       	subi	r18, 0xCA	; 202
+    1126:	3f 4f       	sbci	r19, 0xFF	; 255
+    1128:	dc 01       	movw	r26, r24
+    112a:	a2 0f       	add	r26, r18
+    112c:	b3 1f       	adc	r27, r19
+    112e:	26 53       	subi	r18, 0x36	; 54
+    1130:	30 40       	sbci	r19, 0x00	; 0
+        plen=fill_tcp_data_p(buf,plen,PSTR("<h1>301 Moved Permanently</h1>\n"));
+    1132:	43 ea       	ldi	r20, 0xA3	; 163
+    1134:	54 e0       	ldi	r21, 0x04	; 4
+    1136:	03 c0       	rjmp	.+6      	; 0x113e <moved_perm+0x7e>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1138:	6d 93       	st	X+, r22
+                pos++;
+    113a:	2f 5f       	subi	r18, 0xFF	; 255
+    113c:	3f 4f       	sbci	r19, 0xFF	; 255
+    113e:	fa 01       	movw	r30, r20
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1140:	4f 5f       	subi	r20, 0xFF	; 255
+    1142:	5f 4f       	sbci	r21, 0xFF	; 255
+    1144:	64 91       	lpm	r22, Z+
+    1146:	66 23       	and	r22, r22
+    1148:	b9 f7       	brne	.-18     	; 0x1138 <moved_perm+0x78>
+    114a:	2a 5c       	subi	r18, 0xCA	; 202
+    114c:	3f 4f       	sbci	r19, 0xFF	; 255
+    114e:	dc 01       	movw	r26, r24
+    1150:	a2 0f       	add	r26, r18
+    1152:	b3 1f       	adc	r27, r19
+    1154:	26 53       	subi	r18, 0x36	; 54
+    1156:	30 40       	sbci	r19, 0x00	; 0
+        plen=fill_tcp_data_p(buf,plen,PSTR("add a trailing slash to the url\n"));
+    1158:	82 e8       	ldi	r24, 0x82	; 130
+    115a:	94 e0       	ldi	r25, 0x04	; 4
+    115c:	03 c0       	rjmp	.+6      	; 0x1164 <moved_perm+0xa4>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    115e:	4d 93       	st	X+, r20
+                pos++;
+    1160:	2f 5f       	subi	r18, 0xFF	; 255
+    1162:	3f 4f       	sbci	r19, 0xFF	; 255
+    1164:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1166:	01 96       	adiw	r24, 0x01	; 1
+    1168:	44 91       	lpm	r20, Z+
+    116a:	44 23       	and	r20, r20
+    116c:	c1 f7       	brne	.-16     	; 0x115e <moved_perm+0x9e>
+        return(plen);
+}
+    116e:	c9 01       	movw	r24, r18
+    1170:	08 95       	ret
+
+00001172 <verify_password>:
+unsigned int radiance;
+#define STR_BUFFER_SIZE 12
+volatile char gStrbuf[STR_BUFFER_SIZE+1];
+// 
+uint8_t verify_password(char *str)
+{
+    1172:	bc 01       	movw	r22, r24
+        // the first characters of the received string are
+        // a simple password/cookie:
+        if (strncmp(password,str,5)==0){
+    1174:	8e e9       	ldi	r24, 0x9E	; 158
+    1176:	90 e0       	ldi	r25, 0x00	; 0
+    1178:	45 e0       	ldi	r20, 0x05	; 5
+    117a:	50 e0       	ldi	r21, 0x00	; 0
+    117c:	0e 94 b1 0c 	call	0x1962	; 0x1962 <strncmp>
+    1180:	9c 01       	movw	r18, r24
+    1182:	80 e0       	ldi	r24, 0x00	; 0
+    1184:	23 2b       	or	r18, r19
+    1186:	09 f4       	brne	.+2      	; 0x118a <verify_password+0x18>
+    1188:	81 e0       	ldi	r24, 0x01	; 1
+                return(1);
+        }
+        return(0);
+}
+    118a:	08 95       	ret
+
+0000118c <print_webpage>:
+}
+
+
+// prepare the webpage by writing the data to the tcp send buffer
+uint16_t print_webpage(uint8_t *buf,uint8_t on_off)
+{
+    118c:	ff 92       	push	r15
+    118e:	0f 93       	push	r16
+    1190:	1f 93       	push	r17
+    1192:	cf 93       	push	r28
+    1194:	df 93       	push	r29
+    1196:	8c 01       	movw	r16, r24
+    1198:	f6 2e       	mov	r15, r22
+    119a:	dc 01       	movw	r26, r24
+    119c:	d6 96       	adiw	r26, 0x36	; 54
+    119e:	c0 e0       	ldi	r28, 0x00	; 0
+    11a0:	d0 e0       	ldi	r29, 0x00	; 0
+    11a2:	02 c0       	rjmp	.+4      	; 0x11a8 <print_webpage+0x1c>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    11a4:	8d 93       	st	X+, r24
+                pos++;
+    11a6:	21 96       	adiw	r28, 0x01	; 1
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    11a8:	fe 01       	movw	r30, r28
+    11aa:	ed 5b       	subi	r30, 0xBD	; 189
+    11ac:	fb 4f       	sbci	r31, 0xFB	; 251
+    11ae:	84 91       	lpm	r24, Z+
+    11b0:	88 23       	and	r24, r24
+    11b2:	c1 f7       	brne	.-16     	; 0x11a4 <print_webpage+0x18>
+    11b4:	e6 96       	adiw	r28, 0x36	; 54
+    11b6:	d8 01       	movw	r26, r16
+    11b8:	ac 0f       	add	r26, r28
+    11ba:	bd 1f       	adc	r27, r29
+    11bc:	e6 97       	sbiw	r28, 0x36	; 54
+        uint16_t plen;
+        plen=fill_tcp_data_p(buf,0,PSTR("HTTP/1.0 200 OK\r\nContent-Type: text/html\r\nPragma: no-cache\r\n\r\n"));
+		plen=fill_tcp_data_p(buf,plen,PSTR("<center><H1>Automation Control Panel</H1> <small><a href=\".\">[refresh status]</a></small><br></center>"));
+    11be:	8c ed       	ldi	r24, 0xDC	; 220
+    11c0:	93 e0       	ldi	r25, 0x03	; 3
+    11c2:	02 c0       	rjmp	.+4      	; 0x11c8 <print_webpage+0x3c>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    11c4:	2d 93       	st	X+, r18
+                pos++;
+    11c6:	21 96       	adiw	r28, 0x01	; 1
+    11c8:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    11ca:	01 96       	adiw	r24, 0x01	; 1
+    11cc:	24 91       	lpm	r18, Z+
+    11ce:	22 23       	and	r18, r18
+    11d0:	c9 f7       	brne	.-14     	; 0x11c4 <print_webpage+0x38>
+    11d2:	e6 96       	adiw	r28, 0x36	; 54
+    11d4:	d8 01       	movw	r26, r16
+    11d6:	ac 0f       	add	r26, r28
+    11d8:	bd 1f       	adc	r27, r29
+    11da:	e6 97       	sbiw	r28, 0x36	; 54
+        plen=fill_tcp_data_p(buf,plen,PSTR("<center><H3>Light Intensity Meter</H3></center>"));
+    11dc:	8c ea       	ldi	r24, 0xAC	; 172
+    11de:	93 e0       	ldi	r25, 0x03	; 3
+    11e0:	02 c0       	rjmp	.+4      	; 0x11e6 <print_webpage+0x5a>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    11e2:	2d 93       	st	X+, r18
+                pos++;
+    11e4:	21 96       	adiw	r28, 0x01	; 1
+    11e6:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    11e8:	01 96       	adiw	r24, 0x01	; 1
+    11ea:	24 91       	lpm	r18, Z+
+    11ec:	22 23       	and	r18, r18
+    11ee:	c9 f7       	brne	.-14     	; 0x11e2 <print_webpage+0x56>
+    11f0:	e6 96       	adiw	r28, 0x36	; 54
+    11f2:	d8 01       	movw	r26, r16
+    11f4:	ac 0f       	add	r26, r28
+    11f6:	bd 1f       	adc	r27, r29
+    11f8:	e6 97       	sbiw	r28, 0x36	; 54
+        plen=fill_tcp_data_p(buf,plen,PSTR("<center><p>Intensity is: "));
+    11fa:	82 e9       	ldi	r24, 0x92	; 146
+    11fc:	93 e0       	ldi	r25, 0x03	; 3
+    11fe:	02 c0       	rjmp	.+4      	; 0x1204 <print_webpage+0x78>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1200:	2d 93       	st	X+, r18
+                pos++;
+    1202:	21 96       	adiw	r28, 0x01	; 1
+    1204:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1206:	01 96       	adiw	r24, 0x01	; 1
+    1208:	24 91       	lpm	r18, Z+
+    120a:	22 23       	and	r18, r18
+    120c:	c9 f7       	brne	.-14     	; 0x1200 <print_webpage+0x74>
+		itoa(radiance,gStrbuf,10); // convert integer to string
+    120e:	80 91 e0 02 	lds	r24, 0x02E0
+    1212:	90 91 e1 02 	lds	r25, 0x02E1
+    1216:	62 ee       	ldi	r22, 0xE2	; 226
+    1218:	72 e0       	ldi	r23, 0x02	; 2
+    121a:	4a e0       	ldi	r20, 0x0A	; 10
+    121c:	50 e0       	ldi	r21, 0x00	; 0
+    121e:	0e 94 bf 0c 	call	0x197e	; 0x197e <itoa>
+    1222:	e6 96       	adiw	r28, 0x36	; 54
+    1224:	d8 01       	movw	r26, r16
+    1226:	ac 0f       	add	r26, r28
+    1228:	bd 1f       	adc	r27, r29
+    122a:	e6 97       	sbiw	r28, 0x36	; 54
+    122c:	80 e0       	ldi	r24, 0x00	; 0
+    122e:	90 e0       	ldi	r25, 0x00	; 0
+    1230:	02 c0       	rjmp	.+4      	; 0x1236 <print_webpage+0xaa>
+{
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while (*s) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=*s;
+    1232:	ed 93       	st	X+, r30
+                pos++;
+    1234:	21 96       	adiw	r28, 0x01	; 1
+uint16_t fill_tcp_data(uint8_t *buf,uint16_t pos, const char *s)
+{
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while (*s) {
+    1236:	fc 01       	movw	r30, r24
+    1238:	ee 51       	subi	r30, 0x1E	; 30
+    123a:	fd 4f       	sbci	r31, 0xFD	; 253
+    123c:	e0 81       	ld	r30, Z
+    123e:	01 96       	adiw	r24, 0x01	; 1
+    1240:	ee 23       	and	r30, r30
+    1242:	b9 f7       	brne	.-18     	; 0x1232 <print_webpage+0xa6>
+    1244:	e6 96       	adiw	r28, 0x36	; 54
+    1246:	d8 01       	movw	r26, r16
+    1248:	ac 0f       	add	r26, r28
+    124a:	bd 1f       	adc	r27, r29
+    124c:	e6 97       	sbiw	r28, 0x36	; 54
+		
+		plen=fill_tcp_data(buf,plen,gStrbuf);
+		plen=fill_tcp_data_p(buf,plen,PSTR("<center><p>Load 1 Output is: "));
+    124e:	84 e7       	ldi	r24, 0x74	; 116
+    1250:	93 e0       	ldi	r25, 0x03	; 3
+    1252:	02 c0       	rjmp	.+4      	; 0x1258 <print_webpage+0xcc>
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1254:	2d 93       	st	X+, r18
+                pos++;
+    1256:	21 96       	adiw	r28, 0x01	; 1
+    1258:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    125a:	01 96       	adiw	r24, 0x01	; 1
+    125c:	24 91       	lpm	r18, Z+
+    125e:	22 23       	and	r18, r18
+    1260:	c9 f7       	brne	.-14     	; 0x1254 <print_webpage+0xc8>
+        if ((on_off&0x01)==1)
+    1262:	6f 2d       	mov	r22, r15
+    1264:	70 e0       	ldi	r23, 0x00	; 0
+    1266:	ce 01       	movw	r24, r28
+    1268:	c6 96       	adiw	r24, 0x36	; 54
+    126a:	ab 01       	movw	r20, r22
+    126c:	41 70       	andi	r20, 0x01	; 1
+    126e:	50 70       	andi	r21, 0x00	; 0
+    1270:	f0 fc       	sbrc	r15, 0
+    1272:	06 c0       	rjmp	.+12     	; 0x1280 <print_webpage+0xf4>
+    1274:	d8 01       	movw	r26, r16
+    1276:	a8 0f       	add	r26, r24
+    1278:	b9 1f       	adc	r27, r25
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("<font color=\"#00FF00\"> ON </font>"));
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+    127a:	8d e4       	ldi	r24, 0x4D	; 77
+    127c:	93 e0       	ldi	r25, 0x03	; 3
+    127e:	17 c0       	rjmp	.+46     	; 0x12ae <print_webpage+0x122>
+    1280:	d8 01       	movw	r26, r16
+    1282:	a8 0f       	add	r26, r24
+    1284:	b9 1f       	adc	r27, r25
+		
+		plen=fill_tcp_data(buf,plen,gStrbuf);
+		plen=fill_tcp_data_p(buf,plen,PSTR("<center><p>Load 1 Output is: "));
+        if ((on_off&0x01)==1)
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("<font color=\"#00FF00\"> ON </font>"));
+    1286:	82 e5       	ldi	r24, 0x52	; 82
+    1288:	93 e0       	ldi	r25, 0x03	; 3
+    128a:	02 c0       	rjmp	.+4      	; 0x1290 <print_webpage+0x104>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    128c:	2d 93       	st	X+, r18
+                pos++;
+    128e:	21 96       	adiw	r28, 0x01	; 1
+    1290:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1292:	01 96       	adiw	r24, 0x01	; 1
+    1294:	24 91       	lpm	r18, Z+
+    1296:	22 23       	and	r18, r18
+    1298:	c9 f7       	brne	.-14     	; 0x128c <print_webpage+0x100>
+    129a:	e6 96       	adiw	r28, 0x36	; 54
+    129c:	d8 01       	movw	r26, r16
+    129e:	ac 0f       	add	r26, r28
+    12a0:	bd 1f       	adc	r27, r29
+    12a2:	e6 97       	sbiw	r28, 0x36	; 54
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+        }
+        plen=fill_tcp_data_p(buf,plen,PSTR("<a href=\"."));
+    12a4:	82 e4       	ldi	r24, 0x42	; 66
+    12a6:	93 e0       	ldi	r25, 0x03	; 3
+    12a8:	0a c0       	rjmp	.+20     	; 0x12be <print_webpage+0x132>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    12aa:	2d 93       	st	X+, r18
+                pos++;
+    12ac:	21 96       	adiw	r28, 0x01	; 1
+    12ae:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    12b0:	01 96       	adiw	r24, 0x01	; 1
+    12b2:	24 91       	lpm	r18, Z+
+    12b4:	22 23       	and	r18, r18
+    12b6:	c9 f7       	brne	.-14     	; 0x12aa <print_webpage+0x11e>
+    12b8:	f0 cf       	rjmp	.-32     	; 0x129a <print_webpage+0x10e>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    12ba:	2d 93       	st	X+, r18
+                pos++;
+    12bc:	21 96       	adiw	r28, 0x01	; 1
+    12be:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    12c0:	01 96       	adiw	r24, 0x01	; 1
+    12c2:	24 91       	lpm	r18, Z+
+    12c4:	22 23       	and	r18, r18
+    12c6:	c9 f7       	brne	.-14     	; 0x12ba <print_webpage+0x12e>
+    12c8:	ce 01       	movw	r24, r28
+    12ca:	c6 96       	adiw	r24, 0x36	; 54
+        if ((on_off&0x01)==1)
+    12cc:	45 2b       	or	r20, r21
+    12ce:	31 f4       	brne	.+12     	; 0x12dc <print_webpage+0x150>
+    12d0:	d8 01       	movw	r26, r16
+    12d2:	a8 0f       	add	r26, r24
+    12d4:	b9 1f       	adc	r27, r25
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/0\"> Switch off</a></p></center>"));
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/1\"> Switch on</a></p></center>"));
+    12d6:	81 e0       	ldi	r24, 0x01	; 1
+    12d8:	93 e0       	ldi	r25, 0x03	; 3
+    12da:	17 c0       	rjmp	.+46     	; 0x130a <print_webpage+0x17e>
+    12dc:	d8 01       	movw	r26, r16
+    12de:	a8 0f       	add	r26, r24
+    12e0:	b9 1f       	adc	r27, r25
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+        }
+        plen=fill_tcp_data_p(buf,plen,PSTR("<a href=\"."));
+        if ((on_off&0x01)==1)
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/0\"> Switch off</a></p></center>"));
+    12e2:	81 e2       	ldi	r24, 0x21	; 33
+    12e4:	93 e0       	ldi	r25, 0x03	; 3
+    12e6:	02 c0       	rjmp	.+4      	; 0x12ec <print_webpage+0x160>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    12e8:	2d 93       	st	X+, r18
+                pos++;
+    12ea:	21 96       	adiw	r28, 0x01	; 1
+    12ec:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    12ee:	01 96       	adiw	r24, 0x01	; 1
+    12f0:	24 91       	lpm	r18, Z+
+    12f2:	22 23       	and	r18, r18
+    12f4:	c9 f7       	brne	.-14     	; 0x12e8 <print_webpage+0x15c>
+    12f6:	e6 96       	adiw	r28, 0x36	; 54
+    12f8:	d8 01       	movw	r26, r16
+    12fa:	ac 0f       	add	r26, r28
+    12fc:	bd 1f       	adc	r27, r29
+    12fe:	e6 97       	sbiw	r28, 0x36	; 54
+                plen=fill_tcp_data_p(buf,plen,PSTR("/1\"> Switch on</a></p></center>"));
+        }
+		
+		//
+		
+		plen=fill_tcp_data_p(buf,plen,PSTR("<center><p>Load 2 Output is: "));
+    1300:	83 ee       	ldi	r24, 0xE3	; 227
+    1302:	92 e0       	ldi	r25, 0x02	; 2
+    1304:	0a c0       	rjmp	.+20     	; 0x131a <print_webpage+0x18e>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1306:	2d 93       	st	X+, r18
+                pos++;
+    1308:	21 96       	adiw	r28, 0x01	; 1
+    130a:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    130c:	01 96       	adiw	r24, 0x01	; 1
+    130e:	24 91       	lpm	r18, Z+
+    1310:	22 23       	and	r18, r18
+    1312:	c9 f7       	brne	.-14     	; 0x1306 <print_webpage+0x17a>
+    1314:	f0 cf       	rjmp	.-32     	; 0x12f6 <print_webpage+0x16a>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1316:	2d 93       	st	X+, r18
+                pos++;
+    1318:	21 96       	adiw	r28, 0x01	; 1
+    131a:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    131c:	01 96       	adiw	r24, 0x01	; 1
+    131e:	24 91       	lpm	r18, Z+
+    1320:	22 23       	and	r18, r18
+    1322:	c9 f7       	brne	.-14     	; 0x1316 <print_webpage+0x18a>
+    1324:	ce 01       	movw	r24, r28
+    1326:	c6 96       	adiw	r24, 0x36	; 54
+        if ((on_off&0x02)==2)
+    1328:	ab 01       	movw	r20, r22
+    132a:	42 70       	andi	r20, 0x02	; 2
+    132c:	50 70       	andi	r21, 0x00	; 0
+    132e:	61 fd       	sbrc	r22, 1
+    1330:	06 c0       	rjmp	.+12     	; 0x133e <print_webpage+0x1b2>
+    1332:	d8 01       	movw	r26, r16
+    1334:	a8 0f       	add	r26, r24
+    1336:	b9 1f       	adc	r27, r25
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("<font color=\"#00FF00\"> ON </font>"));
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+    1338:	8c eb       	ldi	r24, 0xBC	; 188
+    133a:	92 e0       	ldi	r25, 0x02	; 2
+    133c:	17 c0       	rjmp	.+46     	; 0x136c <print_webpage+0x1e0>
+    133e:	d8 01       	movw	r26, r16
+    1340:	a8 0f       	add	r26, r24
+    1342:	b9 1f       	adc	r27, r25
+		//
+		
+		plen=fill_tcp_data_p(buf,plen,PSTR("<center><p>Load 2 Output is: "));
+        if ((on_off&0x02)==2)
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("<font color=\"#00FF00\"> ON </font>"));
+    1344:	81 ec       	ldi	r24, 0xC1	; 193
+    1346:	92 e0       	ldi	r25, 0x02	; 2
+    1348:	02 c0       	rjmp	.+4      	; 0x134e <print_webpage+0x1c2>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    134a:	2d 93       	st	X+, r18
+                pos++;
+    134c:	21 96       	adiw	r28, 0x01	; 1
+    134e:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1350:	01 96       	adiw	r24, 0x01	; 1
+    1352:	24 91       	lpm	r18, Z+
+    1354:	22 23       	and	r18, r18
+    1356:	c9 f7       	brne	.-14     	; 0x134a <print_webpage+0x1be>
+    1358:	e6 96       	adiw	r28, 0x36	; 54
+    135a:	d8 01       	movw	r26, r16
+    135c:	ac 0f       	add	r26, r28
+    135e:	bd 1f       	adc	r27, r29
+    1360:	e6 97       	sbiw	r28, 0x36	; 54
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+        }
+        plen=fill_tcp_data_p(buf,plen,PSTR("<a href=\"."));
+    1362:	81 eb       	ldi	r24, 0xB1	; 177
+    1364:	92 e0       	ldi	r25, 0x02	; 2
+    1366:	0a c0       	rjmp	.+20     	; 0x137c <print_webpage+0x1f0>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1368:	2d 93       	st	X+, r18
+                pos++;
+    136a:	21 96       	adiw	r28, 0x01	; 1
+    136c:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    136e:	01 96       	adiw	r24, 0x01	; 1
+    1370:	24 91       	lpm	r18, Z+
+    1372:	22 23       	and	r18, r18
+    1374:	c9 f7       	brne	.-14     	; 0x1368 <print_webpage+0x1dc>
+    1376:	f0 cf       	rjmp	.-32     	; 0x1358 <print_webpage+0x1cc>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1378:	2d 93       	st	X+, r18
+                pos++;
+    137a:	21 96       	adiw	r28, 0x01	; 1
+    137c:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    137e:	01 96       	adiw	r24, 0x01	; 1
+    1380:	24 91       	lpm	r18, Z+
+    1382:	22 23       	and	r18, r18
+    1384:	c9 f7       	brne	.-14     	; 0x1378 <print_webpage+0x1ec>
+    1386:	ce 01       	movw	r24, r28
+    1388:	c6 96       	adiw	r24, 0x36	; 54
+        if ((on_off&0x02)==2)
+    138a:	45 2b       	or	r20, r21
+    138c:	31 f4       	brne	.+12     	; 0x139a <print_webpage+0x20e>
+    138e:	d8 01       	movw	r26, r16
+    1390:	a8 0f       	add	r26, r24
+    1392:	b9 1f       	adc	r27, r25
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/2\"> Switch off</a></p></center>"));
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/3\"> Switch on</a></p></center>"));
+    1394:	80 e7       	ldi	r24, 0x70	; 112
+    1396:	92 e0       	ldi	r25, 0x02	; 2
+    1398:	17 c0       	rjmp	.+46     	; 0x13c8 <print_webpage+0x23c>
+    139a:	d8 01       	movw	r26, r16
+    139c:	a8 0f       	add	r26, r24
+    139e:	b9 1f       	adc	r27, r25
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+        }
+        plen=fill_tcp_data_p(buf,plen,PSTR("<a href=\"."));
+        if ((on_off&0x02)==2)
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/2\"> Switch off</a></p></center>"));
+    13a0:	80 e9       	ldi	r24, 0x90	; 144
+    13a2:	92 e0       	ldi	r25, 0x02	; 2
+    13a4:	02 c0       	rjmp	.+4      	; 0x13aa <print_webpage+0x21e>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    13a6:	2d 93       	st	X+, r18
+                pos++;
+    13a8:	21 96       	adiw	r28, 0x01	; 1
+    13aa:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    13ac:	01 96       	adiw	r24, 0x01	; 1
+    13ae:	24 91       	lpm	r18, Z+
+    13b0:	22 23       	and	r18, r18
+    13b2:	c9 f7       	brne	.-14     	; 0x13a6 <print_webpage+0x21a>
+    13b4:	e6 96       	adiw	r28, 0x36	; 54
+    13b6:	d8 01       	movw	r26, r16
+    13b8:	ac 0f       	add	r26, r28
+    13ba:	bd 1f       	adc	r27, r29
+    13bc:	e6 97       	sbiw	r28, 0x36	; 54
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/3\"> Switch on</a></p></center>"));
+        }
+		//
+		
+		plen=fill_tcp_data_p(buf,plen,PSTR("<center><p>Load 3 Output is: "));
+    13be:	82 e5       	ldi	r24, 0x52	; 82
+    13c0:	92 e0       	ldi	r25, 0x02	; 2
+    13c2:	0a c0       	rjmp	.+20     	; 0x13d8 <print_webpage+0x24c>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    13c4:	2d 93       	st	X+, r18
+                pos++;
+    13c6:	21 96       	adiw	r28, 0x01	; 1
+    13c8:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    13ca:	01 96       	adiw	r24, 0x01	; 1
+    13cc:	24 91       	lpm	r18, Z+
+    13ce:	22 23       	and	r18, r18
+    13d0:	c9 f7       	brne	.-14     	; 0x13c4 <print_webpage+0x238>
+    13d2:	f0 cf       	rjmp	.-32     	; 0x13b4 <print_webpage+0x228>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    13d4:	2d 93       	st	X+, r18
+                pos++;
+    13d6:	21 96       	adiw	r28, 0x01	; 1
+    13d8:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    13da:	01 96       	adiw	r24, 0x01	; 1
+    13dc:	24 91       	lpm	r18, Z+
+    13de:	22 23       	and	r18, r18
+    13e0:	c9 f7       	brne	.-14     	; 0x13d4 <print_webpage+0x248>
+    13e2:	ce 01       	movw	r24, r28
+    13e4:	c6 96       	adiw	r24, 0x36	; 54
+        if ((on_off&0x04)==4)
+    13e6:	ab 01       	movw	r20, r22
+    13e8:	44 70       	andi	r20, 0x04	; 4
+    13ea:	50 70       	andi	r21, 0x00	; 0
+    13ec:	62 fd       	sbrc	r22, 2
+    13ee:	06 c0       	rjmp	.+12     	; 0x13fc <print_webpage+0x270>
+    13f0:	d8 01       	movw	r26, r16
+    13f2:	a8 0f       	add	r26, r24
+    13f4:	b9 1f       	adc	r27, r25
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("<font color=\"#00FF00\"> ON </font>"));
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+    13f6:	8b e2       	ldi	r24, 0x2B	; 43
+    13f8:	92 e0       	ldi	r25, 0x02	; 2
+    13fa:	17 c0       	rjmp	.+46     	; 0x142a <print_webpage+0x29e>
+    13fc:	d8 01       	movw	r26, r16
+    13fe:	a8 0f       	add	r26, r24
+    1400:	b9 1f       	adc	r27, r25
+		//
+		
+		plen=fill_tcp_data_p(buf,plen,PSTR("<center><p>Load 3 Output is: "));
+        if ((on_off&0x04)==4)
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("<font color=\"#00FF00\"> ON </font>"));
+    1402:	80 e3       	ldi	r24, 0x30	; 48
+    1404:	92 e0       	ldi	r25, 0x02	; 2
+    1406:	02 c0       	rjmp	.+4      	; 0x140c <print_webpage+0x280>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1408:	2d 93       	st	X+, r18
+                pos++;
+    140a:	21 96       	adiw	r28, 0x01	; 1
+    140c:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    140e:	01 96       	adiw	r24, 0x01	; 1
+    1410:	24 91       	lpm	r18, Z+
+    1412:	22 23       	and	r18, r18
+    1414:	c9 f7       	brne	.-14     	; 0x1408 <print_webpage+0x27c>
+    1416:	e6 96       	adiw	r28, 0x36	; 54
+    1418:	d8 01       	movw	r26, r16
+    141a:	ac 0f       	add	r26, r28
+    141c:	bd 1f       	adc	r27, r29
+    141e:	e6 97       	sbiw	r28, 0x36	; 54
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+        }
+        plen=fill_tcp_data_p(buf,plen,PSTR("<a href=\"."));
+    1420:	80 e2       	ldi	r24, 0x20	; 32
+    1422:	92 e0       	ldi	r25, 0x02	; 2
+    1424:	0a c0       	rjmp	.+20     	; 0x143a <print_webpage+0x2ae>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1426:	2d 93       	st	X+, r18
+                pos++;
+    1428:	21 96       	adiw	r28, 0x01	; 1
+    142a:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    142c:	01 96       	adiw	r24, 0x01	; 1
+    142e:	24 91       	lpm	r18, Z+
+    1430:	22 23       	and	r18, r18
+    1432:	c9 f7       	brne	.-14     	; 0x1426 <print_webpage+0x29a>
+    1434:	f0 cf       	rjmp	.-32     	; 0x1416 <print_webpage+0x28a>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1436:	2d 93       	st	X+, r18
+                pos++;
+    1438:	21 96       	adiw	r28, 0x01	; 1
+    143a:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    143c:	01 96       	adiw	r24, 0x01	; 1
+    143e:	24 91       	lpm	r18, Z+
+    1440:	22 23       	and	r18, r18
+    1442:	c9 f7       	brne	.-14     	; 0x1436 <print_webpage+0x2aa>
+    1444:	ce 01       	movw	r24, r28
+    1446:	c6 96       	adiw	r24, 0x36	; 54
+        if ((on_off&0x04)==4)
+    1448:	45 2b       	or	r20, r21
+    144a:	31 f4       	brne	.+12     	; 0x1458 <print_webpage+0x2cc>
+    144c:	d8 01       	movw	r26, r16
+    144e:	a8 0f       	add	r26, r24
+    1450:	b9 1f       	adc	r27, r25
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/4\"> Switch off</a></p></center>"));
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/5\"> Switch on</a></p></center>"));
+    1452:	8f ed       	ldi	r24, 0xDF	; 223
+    1454:	91 e0       	ldi	r25, 0x01	; 1
+    1456:	17 c0       	rjmp	.+46     	; 0x1486 <print_webpage+0x2fa>
+    1458:	d8 01       	movw	r26, r16
+    145a:	a8 0f       	add	r26, r24
+    145c:	b9 1f       	adc	r27, r25
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+        }
+        plen=fill_tcp_data_p(buf,plen,PSTR("<a href=\"."));
+        if ((on_off&0x04)==4)
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/4\"> Switch off</a></p></center>"));
+    145e:	8f ef       	ldi	r24, 0xFF	; 255
+    1460:	91 e0       	ldi	r25, 0x01	; 1
+    1462:	02 c0       	rjmp	.+4      	; 0x1468 <print_webpage+0x2dc>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1464:	2d 93       	st	X+, r18
+                pos++;
+    1466:	21 96       	adiw	r28, 0x01	; 1
+    1468:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    146a:	01 96       	adiw	r24, 0x01	; 1
+    146c:	24 91       	lpm	r18, Z+
+    146e:	22 23       	and	r18, r18
+    1470:	c9 f7       	brne	.-14     	; 0x1464 <print_webpage+0x2d8>
+    1472:	e6 96       	adiw	r28, 0x36	; 54
+    1474:	d8 01       	movw	r26, r16
+    1476:	ac 0f       	add	r26, r28
+    1478:	bd 1f       	adc	r27, r29
+    147a:	e6 97       	sbiw	r28, 0x36	; 54
+                plen=fill_tcp_data_p(buf,plen,PSTR("/5\"> Switch on</a></p></center>"));
+        }
+		
+		//
+		
+		plen=fill_tcp_data_p(buf,plen,PSTR("<center><p>Load 4 Output is: "));
+    147c:	81 ec       	ldi	r24, 0xC1	; 193
+    147e:	91 e0       	ldi	r25, 0x01	; 1
+    1480:	0a c0       	rjmp	.+20     	; 0x1496 <print_webpage+0x30a>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1482:	2d 93       	st	X+, r18
+                pos++;
+    1484:	21 96       	adiw	r28, 0x01	; 1
+    1486:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1488:	01 96       	adiw	r24, 0x01	; 1
+    148a:	24 91       	lpm	r18, Z+
+    148c:	22 23       	and	r18, r18
+    148e:	c9 f7       	brne	.-14     	; 0x1482 <print_webpage+0x2f6>
+    1490:	f0 cf       	rjmp	.-32     	; 0x1472 <print_webpage+0x2e6>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1492:	2d 93       	st	X+, r18
+                pos++;
+    1494:	21 96       	adiw	r28, 0x01	; 1
+    1496:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1498:	01 96       	adiw	r24, 0x01	; 1
+    149a:	24 91       	lpm	r18, Z+
+    149c:	22 23       	and	r18, r18
+    149e:	c9 f7       	brne	.-14     	; 0x1492 <print_webpage+0x306>
+    14a0:	ce 01       	movw	r24, r28
+    14a2:	c6 96       	adiw	r24, 0x36	; 54
+        if ((on_off&0x08)==8)
+    14a4:	ab 01       	movw	r20, r22
+    14a6:	48 70       	andi	r20, 0x08	; 8
+    14a8:	50 70       	andi	r21, 0x00	; 0
+    14aa:	63 fd       	sbrc	r22, 3
+    14ac:	06 c0       	rjmp	.+12     	; 0x14ba <print_webpage+0x32e>
+    14ae:	d8 01       	movw	r26, r16
+    14b0:	a8 0f       	add	r26, r24
+    14b2:	b9 1f       	adc	r27, r25
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("<font color=\"#00FF00\"> ON </font>"));
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+    14b4:	8a e9       	ldi	r24, 0x9A	; 154
+    14b6:	91 e0       	ldi	r25, 0x01	; 1
+    14b8:	17 c0       	rjmp	.+46     	; 0x14e8 <print_webpage+0x35c>
+    14ba:	d8 01       	movw	r26, r16
+    14bc:	a8 0f       	add	r26, r24
+    14be:	b9 1f       	adc	r27, r25
+		//
+		
+		plen=fill_tcp_data_p(buf,plen,PSTR("<center><p>Load 4 Output is: "));
+        if ((on_off&0x08)==8)
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("<font color=\"#00FF00\"> ON </font>"));
+    14c0:	8f e9       	ldi	r24, 0x9F	; 159
+    14c2:	91 e0       	ldi	r25, 0x01	; 1
+    14c4:	02 c0       	rjmp	.+4      	; 0x14ca <print_webpage+0x33e>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    14c6:	2d 93       	st	X+, r18
+                pos++;
+    14c8:	21 96       	adiw	r28, 0x01	; 1
+    14ca:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    14cc:	01 96       	adiw	r24, 0x01	; 1
+    14ce:	24 91       	lpm	r18, Z+
+    14d0:	22 23       	and	r18, r18
+    14d2:	c9 f7       	brne	.-14     	; 0x14c6 <print_webpage+0x33a>
+    14d4:	e6 96       	adiw	r28, 0x36	; 54
+    14d6:	d8 01       	movw	r26, r16
+    14d8:	ac 0f       	add	r26, r28
+    14da:	bd 1f       	adc	r27, r29
+    14dc:	e6 97       	sbiw	r28, 0x36	; 54
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+        }
+        plen=fill_tcp_data_p(buf,plen,PSTR("<a href=\"."));
+    14de:	8f e8       	ldi	r24, 0x8F	; 143
+    14e0:	91 e0       	ldi	r25, 0x01	; 1
+    14e2:	0a c0       	rjmp	.+20     	; 0x14f8 <print_webpage+0x36c>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    14e4:	2d 93       	st	X+, r18
+                pos++;
+    14e6:	21 96       	adiw	r28, 0x01	; 1
+    14e8:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    14ea:	01 96       	adiw	r24, 0x01	; 1
+    14ec:	24 91       	lpm	r18, Z+
+    14ee:	22 23       	and	r18, r18
+    14f0:	c9 f7       	brne	.-14     	; 0x14e4 <print_webpage+0x358>
+    14f2:	f0 cf       	rjmp	.-32     	; 0x14d4 <print_webpage+0x348>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    14f4:	2d 93       	st	X+, r18
+                pos++;
+    14f6:	21 96       	adiw	r28, 0x01	; 1
+    14f8:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    14fa:	01 96       	adiw	r24, 0x01	; 1
+    14fc:	24 91       	lpm	r18, Z+
+    14fe:	22 23       	and	r18, r18
+    1500:	c9 f7       	brne	.-14     	; 0x14f4 <print_webpage+0x368>
+    1502:	ce 01       	movw	r24, r28
+    1504:	c6 96       	adiw	r24, 0x36	; 54
+        if ((on_off&0x08)==8)
+    1506:	45 2b       	or	r20, r21
+    1508:	31 f4       	brne	.+12     	; 0x1516 <print_webpage+0x38a>
+    150a:	d8 01       	movw	r26, r16
+    150c:	a8 0f       	add	r26, r24
+    150e:	b9 1f       	adc	r27, r25
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/6\"> Switch off</a></p></center>"));
+        }
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/7\"> Switch on</a></p></center>"));
+    1510:	8e e4       	ldi	r24, 0x4E	; 78
+    1512:	91 e0       	ldi	r25, 0x01	; 1
+    1514:	17 c0       	rjmp	.+46     	; 0x1544 <print_webpage+0x3b8>
+    1516:	d8 01       	movw	r26, r16
+    1518:	a8 0f       	add	r26, r24
+    151a:	b9 1f       	adc	r27, r25
+                plen=fill_tcp_data_p(buf,plen,PSTR("OFF "));
+        }
+        plen=fill_tcp_data_p(buf,plen,PSTR("<a href=\"."));
+        if ((on_off&0x08)==8)
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/6\"> Switch off</a></p></center>"));
+    151c:	8e e6       	ldi	r24, 0x6E	; 110
+    151e:	91 e0       	ldi	r25, 0x01	; 1
+    1520:	02 c0       	rjmp	.+4      	; 0x1526 <print_webpage+0x39a>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1522:	2d 93       	st	X+, r18
+                pos++;
+    1524:	21 96       	adiw	r28, 0x01	; 1
+    1526:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1528:	01 96       	adiw	r24, 0x01	; 1
+    152a:	24 91       	lpm	r18, Z+
+    152c:	22 23       	and	r18, r18
+    152e:	c9 f7       	brne	.-14     	; 0x1522 <print_webpage+0x396>
+    1530:	e6 96       	adiw	r28, 0x36	; 54
+    1532:	d8 01       	movw	r26, r16
+    1534:	ac 0f       	add	r26, r28
+    1536:	bd 1f       	adc	r27, r29
+    1538:	e6 97       	sbiw	r28, 0x36	; 54
+		else
+		{
+                plen=fill_tcp_data_p(buf,plen,PSTR("/7\"> Switch on</a></p></center>"));
+        }
+		
+        plen=fill_tcp_data_p(buf,plen,PSTR("<hr><br>version 1.0, \n"));
+    153a:	87 e3       	ldi	r24, 0x37	; 55
+    153c:	91 e0       	ldi	r25, 0x01	; 1
+    153e:	0a c0       	rjmp	.+20     	; 0x1554 <print_webpage+0x3c8>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1540:	2d 93       	st	X+, r18
+                pos++;
+    1542:	21 96       	adiw	r28, 0x01	; 1
+    1544:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1546:	01 96       	adiw	r24, 0x01	; 1
+    1548:	24 91       	lpm	r18, Z+
+    154a:	22 23       	and	r18, r18
+    154c:	c9 f7       	brne	.-14     	; 0x1540 <print_webpage+0x3b4>
+    154e:	f0 cf       	rjmp	.-32     	; 0x1530 <print_webpage+0x3a4>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1550:	2d 93       	st	X+, r18
+                pos++;
+    1552:	21 96       	adiw	r28, 0x01	; 1
+    1554:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1556:	01 96       	adiw	r24, 0x01	; 1
+    1558:	24 91       	lpm	r18, Z+
+    155a:	22 23       	and	r18, r18
+    155c:	c9 f7       	brne	.-14     	; 0x1550 <print_webpage+0x3c4>
+        return(plen);
+}
+    155e:	ce 01       	movw	r24, r28
+    1560:	df 91       	pop	r29
+    1562:	cf 91       	pop	r28
+    1564:	1f 91       	pop	r17
+    1566:	0f 91       	pop	r16
+    1568:	ff 90       	pop	r15
+    156a:	08 95       	ret
+
+0000156c <main>:
+
+
+int main(void){
+    156c:	7f 92       	push	r7
+    156e:	8f 92       	push	r8
+    1570:	9f 92       	push	r9
+    1572:	af 92       	push	r10
+    1574:	bf 92       	push	r11
+    1576:	cf 92       	push	r12
+    1578:	df 92       	push	r13
+    157a:	ef 92       	push	r14
+    157c:	ff 92       	push	r15
+    157e:	0f 93       	push	r16
+    1580:	1f 93       	push	r17
+    1582:	df 93       	push	r29
+    1584:	cf 93       	push	r28
+    1586:	cd b7       	in	r28, 0x3d	; 61
+    1588:	de b7       	in	r29, 0x3e	; 62
+    158a:	6f 97       	sbiw	r28, 0x1f	; 31
+    158c:	0f b6       	in	r0, 0x3f	; 63
+    158e:	f8 94       	cli
+    1590:	de bf       	out	0x3e, r29	; 62
+    1592:	0f be       	out	0x3f, r0	; 63
+    1594:	cd bf       	out	0x3d, r28	; 61
+
+        
+        uint16_t plen;
+        uint16_t dat_p;
+        uint8_t i=0,dtpack=0;
+    1596:	19 82       	std	Y+1, r1	; 0x01
+    1598:	12 e3       	ldi	r17, 0x32	; 50
+    159a:	81 2f       	mov	r24, r17
+    159c:	8a 95       	dec	r24
+    159e:	f1 f7       	brne	.-4      	; 0x159c <main+0x30>
+//        CLKPR=(1<<CLKPCE); // change enable
+//        CLKPR=0; // "no pre-scaler"
+        _delay_loop_1(50); // 12ms
+
+        /* enable PD2/INT0, as input */
+        DDRD&= ~(1<<DDD2);
+    15a0:	8a 98       	cbi	0x11, 2	; 17
+          DDRA=0x0F;
+    15a2:	8f e0       	ldi	r24, 0x0F	; 15
+    15a4:	8a bb       	out	0x1a, r24	; 26
+        /*initialize enc28j60*/
+        enc28j60Init(mymac);
+    15a6:	84 e9       	ldi	r24, 0x94	; 148
+    15a8:	90 e0       	ldi	r25, 0x00	; 0
+    15aa:	0e 94 7a 03 	call	0x6f4	; 0x6f4 <enc28j60Init>
+        enc28j60clkout(2); // change clkout from 6.25MHz to 12.5MHz
+    15ae:	82 e0       	ldi	r24, 0x02	; 2
+    15b0:	0e 94 74 03 	call	0x6e8	; 0x6e8 <enc28j60clkout>
+    15b4:	81 2f       	mov	r24, r17
+    15b6:	8a 95       	dec	r24
+    15b8:	f1 f7       	brne	.-4      	; 0x15b6 <main+0x4a>
+        _delay_loop_1(50); // 12ms
+        
+        // LED
+        /* enable PB1, LED as output */
+        DDRB|= (1<<DDB1);
+    15ba:	b9 9a       	sbi	0x17, 1	; 23
+
+        /* set output to Vcc, LED off */
+        PORTB|= (1<<PORTB1);
+    15bc:	c1 9a       	sbi	0x18, 1	; 24
+
+        // the transistor on PD7
+        DDRD|= (1<<DDD7);DDRA|= (1<<7);
+    15be:	8f 9a       	sbi	0x11, 7	; 17
+    15c0:	d7 9a       	sbi	0x1a, 7	; 26
+       // PORTD &= ~(1<<PORTD7);// transistor off
+        DDRC=0xFF;
+    15c2:	8f ef       	ldi	r24, 0xFF	; 255
+    15c4:	84 bb       	out	0x14, r24	; 20
+		PORTC = 0x00;// transistor off
+    15c6:	15 ba       	out	0x15, r1	; 21
+        /* Magjack leds configuration, see enc28j60 datasheet, page 11 */
+        // LEDB=yellow LEDA=green
+        //
+        // 0x476 is PHLCON LEDA=links status, LEDB=receive/transmit
+        // enc28j60PhyWrite(PHLCON,0b0000 0100 0111 01 10);
+        enc28j60PhyWrite(PHLCON,0x476);
+    15c8:	84 e1       	ldi	r24, 0x14	; 20
+    15ca:	66 e7       	ldi	r22, 0x76	; 118
+    15cc:	74 e0       	ldi	r23, 0x04	; 4
+    15ce:	0e 94 56 03 	call	0x6ac	; 0x6ac <enc28j60PhyWrite>
+    15d2:	1a 95       	dec	r17
+    15d4:	f1 f7       	brne	.-4      	; 0x15d2 <main+0x66>
+        _delay_loop_1(50); // 12ms
+        
+        /* set output to GND, red LED on */
+        PORTB &= ~(1<<PORTB1);
+    15d6:	c1 98       	cbi	0x18, 1	; 24
+}
+
+// you must call this function once before you use any of the other functions:
+void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint8_t wwwp){
+        uint8_t i=0;
+        wwwport=wwwp;
+    15d8:	80 e5       	ldi	r24, 0x50	; 80
+    15da:	80 93 a6 00 	sts	0x00A6, r24
+    15de:	20 e0       	ldi	r18, 0x00	; 0
+    15e0:	30 e0       	ldi	r19, 0x00	; 0
+        while(i<4){
+                ipaddr[i]=myip[i];
+    15e2:	f9 01       	movw	r30, r18
+    15e4:	eb 54       	subi	r30, 0x4B	; 75
+    15e6:	ff 4f       	sbci	r31, 0xFF	; 255
+    15e8:	d9 01       	movw	r26, r18
+    15ea:	a6 56       	subi	r26, 0x66	; 102
+    15ec:	bf 4f       	sbci	r27, 0xFF	; 255
+    15ee:	8c 91       	ld	r24, X
+    15f0:	80 83       	st	Z, r24
+    15f2:	2f 5f       	subi	r18, 0xFF	; 255
+    15f4:	3f 4f       	sbci	r19, 0xFF	; 255
+
+// you must call this function once before you use any of the other functions:
+void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint8_t wwwp){
+        uint8_t i=0;
+        wwwport=wwwp;
+        while(i<4){
+    15f6:	24 30       	cpi	r18, 0x04	; 4
+    15f8:	31 05       	cpc	r19, r1
+    15fa:	99 f7       	brne	.-26     	; 0x15e2 <main+0x76>
+    15fc:	20 e0       	ldi	r18, 0x00	; 0
+    15fe:	30 e0       	ldi	r19, 0x00	; 0
+                ipaddr[i]=myip[i];
+                i++;
+        }
+        i=0;
+        while(i<6){
+                macaddr[i]=mymac[i];
+    1600:	f9 01       	movw	r30, r18
+    1602:	e1 55       	subi	r30, 0x51	; 81
+    1604:	ff 4f       	sbci	r31, 0xFF	; 255
+    1606:	d9 01       	movw	r26, r18
+    1608:	ac 56       	subi	r26, 0x6C	; 108
+    160a:	bf 4f       	sbci	r27, 0xFF	; 255
+    160c:	8c 91       	ld	r24, X
+    160e:	80 83       	st	Z, r24
+    1610:	2f 5f       	subi	r18, 0xFF	; 255
+    1612:	3f 4f       	sbci	r19, 0xFF	; 255
+        while(i<4){
+                ipaddr[i]=myip[i];
+                i++;
+        }
+        i=0;
+        while(i<6){
+    1614:	26 30       	cpi	r18, 0x06	; 6
+    1616:	31 05       	cpc	r19, r1
+    1618:	99 f7       	brne	.-26     	; 0x1600 <main+0x94>
+    161a:	99 24       	eor	r9, r9
+    161c:	93 94       	inc	r9
+                                strcpy(str,"e=no_such_cmd");
+                                goto ANSWER;
+                        }
+                        strcpy(str,"e=invalid_pw");
+ANSWER:
+                        make_udp_reply_from_request(buf,str,strlen(str),MYUDPPORT);
+    161e:	e2 e0       	ldi	r30, 0x02	; 2
+    1620:	ae 2e       	mov	r10, r30
+    1622:	b1 2c       	mov	r11, r1
+    1624:	ac 0e       	add	r10, r28
+    1626:	bd 1e       	adc	r11, r29
+        }
+        return(-2);
+}
+unsigned int adc(unsigned char channel)
+{  unsigned int val;
+   ADMUX=0x40+channel;
+    1628:	74 e4       	ldi	r23, 0x44	; 68
+    162a:	87 2e       	mov	r8, r23
+   ADCSRA=(1<<ADEN);
+    162c:	60 e8       	ldi	r22, 0x80	; 128
+    162e:	76 2e       	mov	r7, r22
+								switch(cmd)
+								{
+								 case 0:cbi(PORTA,0);cbi(PORTC,0);cbi(dtpack,0);break;
+								 case 1:sbi(PORTA,0);sbi(PORTC,0);sbi(dtpack,0);break;
+								 case 2:cbi(PORTC,1);cbi(dtpack,1);break;
+								 case 3:sbi(PORTC,1);sbi(dtpack,1);break;
+    1630:	6e 01       	movw	r12, r28
+    1632:	08 94       	sec
+    1634:	c1 1c       	adc	r12, r1
+    1636:	d1 1c       	adc	r13, r1
+        //init the ethernet/ip layer:
+        init_ip_arp_udp_tcp(mymac,myip,MYWWWPORT);
+
+        while(1){
+                // get the next new packet:
+                plen = enc28j60PacketReceive(BUFFER_SIZE, buf);
+    1638:	86 e2       	ldi	r24, 0x26	; 38
+    163a:	92 e0       	ldi	r25, 0x02	; 2
+    163c:	69 eb       	ldi	r22, 0xB9	; 185
+    163e:	70 e0       	ldi	r23, 0x00	; 0
+    1640:	0e 94 b1 04 	call	0x962	; 0x962 <enc28j60PacketReceive>
+    1644:	8c 01       	movw	r16, r24
+
+                /*plen will ne unequal to zero if there is a valid 
+                 * packet (without crc error) */
+                if(plen==0){
+    1646:	00 97       	sbiw	r24, 0x00	; 0
+    1648:	b9 f3       	breq	.-18     	; 0x1638 <main+0xcc>
+                }
+                        
+                // arp is broadcast if unknown but a host may also
+                // verify the mac address by sending it to 
+                // a unicast address.
+                if(eth_type_is_arp_and_my_ip(buf,plen)){
+    164a:	89 eb       	ldi	r24, 0xB9	; 185
+    164c:	90 e0       	ldi	r25, 0x00	; 0
+    164e:	b8 01       	movw	r22, r16
+    1650:	0e 94 ec 05 	call	0xbd8	; 0xbd8 <eth_type_is_arp_and_my_ip>
+    1654:	88 23       	and	r24, r24
+    1656:	29 f0       	breq	.+10     	; 0x1662 <main+0xf6>
+                        make_arp_answer_from_request(buf);
+    1658:	89 eb       	ldi	r24, 0xB9	; 185
+    165a:	90 e0       	ldi	r25, 0x00	; 0
+    165c:	0e 94 9b 06 	call	0xd36	; 0xd36 <make_arp_answer_from_request>
+    1660:	eb cf       	rjmp	.-42     	; 0x1638 <main+0xcc>
+                        continue;
+                }
+
+                // check if ip packets are for us:
+                if(eth_type_is_ip_and_my_ip(buf,plen)==0){
+    1662:	89 eb       	ldi	r24, 0xB9	; 185
+    1664:	90 e0       	ldi	r25, 0x00	; 0
+    1666:	b8 01       	movw	r22, r16
+    1668:	0e 94 08 06 	call	0xc10	; 0xc10 <eth_type_is_ip_and_my_ip>
+    166c:	88 23       	and	r24, r24
+    166e:	21 f3       	breq	.-56     	; 0x1638 <main+0xcc>
+                        continue;
+                }
+                // led----------
+                if (i){
+    1670:	99 20       	and	r9, r9
+    1672:	19 f0       	breq	.+6      	; 0x167a <main+0x10e>
+                        /* set output to Vcc, LED off */
+                        PORTB|= (1<<PORTB1);
+    1674:	c1 9a       	sbi	0x18, 1	; 24
+    1676:	99 24       	eor	r9, r9
+    1678:	03 c0       	rjmp	.+6      	; 0x1680 <main+0x114>
+                        i=0;
+                }else{
+                        /* set output to GND, LED on */
+                        PORTB &= ~(1<<PORTB1);
+    167a:	c1 98       	cbi	0x18, 1	; 24
+    167c:	99 24       	eor	r9, r9
+    167e:	93 94       	inc	r9
+                        i=1;
+                }
+                
+                if(buf[IP_PROTO_P]==IP_PROTO_ICMP_V && buf[ICMP_TYPE_P]==ICMP_TYPE_ECHOREQUEST_V){
+    1680:	80 91 d0 00 	lds	r24, 0x00D0
+    1684:	81 30       	cpi	r24, 0x01	; 1
+    1686:	51 f4       	brne	.+20     	; 0x169c <main+0x130>
+    1688:	80 91 db 00 	lds	r24, 0x00DB
+    168c:	88 30       	cpi	r24, 0x08	; 8
+    168e:	a1 f6       	brne	.-88     	; 0x1638 <main+0xcc>
+                        // a ping packet, let's send pong
+                        make_echo_reply_from_request(buf,plen);
+    1690:	89 eb       	ldi	r24, 0xB9	; 185
+    1692:	90 e0       	ldi	r25, 0x00	; 0
+    1694:	b8 01       	movw	r22, r16
+    1696:	0e 94 cf 06 	call	0xd9e	; 0xd9e <make_echo_reply_from_request>
+    169a:	ce cf       	rjmp	.-100    	; 0x1638 <main+0xcc>
+                        continue;
+                }
+                // tcp port www start, compare only the lower byte
+                if (buf[IP_PROTO_P]==IP_PROTO_TCP_V&&buf[TCP_DST_PORT_H_P]==0&&buf[TCP_DST_PORT_L_P]==MYWWWPORT){
+    169c:	86 30       	cpi	r24, 0x06	; 6
+    169e:	09 f0       	breq	.+2      	; 0x16a2 <main+0x136>
+    16a0:	f1 c0       	rjmp	.+482    	; 0x1884 <main+0x318>
+    16a2:	80 91 dd 00 	lds	r24, 0x00DD
+    16a6:	88 23       	and	r24, r24
+    16a8:	39 f6       	brne	.-114    	; 0x1638 <main+0xcc>
+    16aa:	80 91 de 00 	lds	r24, 0x00DE
+    16ae:	80 35       	cpi	r24, 0x50	; 80
+    16b0:	19 f6       	brne	.-122    	; 0x1638 <main+0xcc>
+                        if (buf[TCP_FLAGS_P] & TCP_FLAGS_SYN_V){
+    16b2:	80 91 e8 00 	lds	r24, 0x00E8
+    16b6:	81 ff       	sbrs	r24, 1
+    16b8:	05 c0       	rjmp	.+10     	; 0x16c4 <main+0x158>
+                                make_tcp_synack_from_syn(buf);
+    16ba:	89 eb       	ldi	r24, 0xB9	; 185
+    16bc:	90 e0       	ldi	r25, 0x00	; 0
+    16be:	0e 94 4a 07 	call	0xe94	; 0xe94 <make_tcp_synack_from_syn>
+    16c2:	ba cf       	rjmp	.-140    	; 0x1638 <main+0xcc>
+                                // make_tcp_synack_from_syn does already send the syn,ack
+                                continue;
+                        }
+                        if (buf[TCP_FLAGS_P] & TCP_FLAGS_ACK_V){
+    16c4:	84 ff       	sbrs	r24, 4
+    16c6:	b8 cf       	rjmp	.-144    	; 0x1638 <main+0xcc>
+                                init_len_info(buf); // init some data structures
+    16c8:	89 eb       	ldi	r24, 0xB9	; 185
+    16ca:	90 e0       	ldi	r25, 0x00	; 0
+    16cc:	0e 94 8a 07 	call	0xf14	; 0xf14 <init_len_info>
+// get a pointer to the start of tcp data in buf
+// Returns 0 if there is no data
+// You must call init_len_info once before calling this function
+uint16_t get_tcp_data_pointer(void)
+{
+        if (info_data_len){
+    16d0:	80 91 a8 00 	lds	r24, 0x00A8
+    16d4:	90 91 a9 00 	lds	r25, 0x00A9
+    16d8:	89 2b       	or	r24, r25
+    16da:	61 f0       	breq	.+24     	; 0x16f4 <main+0x188>
+                return((uint16_t)TCP_SRC_PORT_H_P+info_hdr_len);
+    16dc:	00 91 aa 00 	lds	r16, 0x00AA
+    16e0:	10 91 ab 00 	lds	r17, 0x00AB
+    16e4:	52 e2       	ldi	r21, 0x22	; 34
+    16e6:	e5 2e       	mov	r14, r21
+    16e8:	f1 2c       	mov	r15, r1
+    16ea:	e0 0e       	add	r14, r16
+    16ec:	f1 1e       	adc	r15, r17
+                                // we can possibly have no data, just ack:
+                                dat_p=get_tcp_data_pointer();
+                                if (dat_p==0){
+    16ee:	e1 14       	cp	r14, r1
+    16f0:	f1 04       	cpc	r15, r1
+    16f2:	49 f4       	brne	.+18     	; 0x1706 <main+0x19a>
+                                        if (buf[TCP_FLAGS_P] & TCP_FLAGS_FIN_V){
+    16f4:	80 91 e8 00 	lds	r24, 0x00E8
+    16f8:	80 ff       	sbrs	r24, 0
+    16fa:	9e cf       	rjmp	.-196    	; 0x1638 <main+0xcc>
+                                                // finack, answer with ack
+                                                make_tcp_ack_from_any(buf);
+    16fc:	89 eb       	ldi	r24, 0xB9	; 185
+    16fe:	90 e0       	ldi	r25, 0x00	; 0
+    1700:	0e 94 d2 07 	call	0xfa4	; 0xfa4 <make_tcp_ack_from_any>
+    1704:	99 cf       	rjmp	.-206    	; 0x1638 <main+0xcc>
+                                        }
+                                        // just an ack with no data, wait for next packet
+                                        continue;
+                                }
+                                if (strncmp("GET ",(char *)&(buf[dat_p]),4)!=0){
+    1706:	b7 01       	movw	r22, r14
+    1708:	67 54       	subi	r22, 0x47	; 71
+    170a:	7f 4f       	sbci	r23, 0xFF	; 255
+    170c:	80 e6       	ldi	r24, 0x60	; 96
+    170e:	90 e0       	ldi	r25, 0x00	; 0
+    1710:	44 e0       	ldi	r20, 0x04	; 4
+    1712:	50 e0       	ldi	r21, 0x00	; 0
+    1714:	0e 94 b1 0c 	call	0x1962	; 0x1962 <strncmp>
+    1718:	00 97       	sbiw	r24, 0x00	; 0
+    171a:	81 f0       	breq	.+32     	; 0x173c <main+0x1d0>
+    171c:	00 e0       	ldi	r16, 0x00	; 0
+    171e:	10 e0       	ldi	r17, 0x00	; 0
+    1720:	06 c0       	rjmp	.+12     	; 0x172e <main+0x1c2>
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1722:	f8 01       	movw	r30, r16
+    1724:	e7 54       	subi	r30, 0x47	; 71
+    1726:	ff 4f       	sbci	r31, 0xFF	; 255
+    1728:	86 ab       	std	Z+54, r24	; 0x36
+                pos++;
+    172a:	0f 5f       	subi	r16, 0xFF	; 255
+    172c:	1f 4f       	sbci	r17, 0xFF	; 255
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    172e:	f8 01       	movw	r30, r16
+    1730:	e5 50       	subi	r30, 0x05	; 5
+    1732:	ff 4f       	sbci	r31, 0xFF	; 255
+    1734:	84 91       	lpm	r24, Z+
+    1736:	88 23       	and	r24, r24
+    1738:	a1 f7       	brne	.-24     	; 0x1722 <main+0x1b6>
+    173a:	9a c0       	rjmp	.+308    	; 0x1870 <main+0x304>
+                                        // for possible status codes see:
+                                        // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+                                        plen=fill_tcp_data_p(buf,0,PSTR("HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n<h1>200 OK</h1>"));
+                                        goto SENDTCP;
+                                }
+                                if (strncmp("/ ",(char *)&(buf[dat_p+4]),2)==0){
+    173c:	01 52       	subi	r16, 0x21	; 33
+    173e:	1f 4f       	sbci	r17, 0xFF	; 255
+    1740:	85 e6       	ldi	r24, 0x65	; 101
+    1742:	90 e0       	ldi	r25, 0x00	; 0
+    1744:	b8 01       	movw	r22, r16
+    1746:	42 e0       	ldi	r20, 0x02	; 2
+    1748:	50 e0       	ldi	r21, 0x00	; 0
+    174a:	0e 94 b1 0c 	call	0x1962	; 0x1962 <strncmp>
+    174e:	00 97       	sbiw	r24, 0x00	; 0
+    1750:	f1 f4       	brne	.+60     	; 0x178e <main+0x222>
+    1752:	00 e0       	ldi	r16, 0x00	; 0
+    1754:	10 e0       	ldi	r17, 0x00	; 0
+    1756:	06 c0       	rjmp	.+12     	; 0x1764 <main+0x1f8>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    1758:	f8 01       	movw	r30, r16
+    175a:	e7 54       	subi	r30, 0x47	; 71
+    175c:	ff 4f       	sbci	r31, 0xFF	; 255
+    175e:	86 ab       	std	Z+54, r24	; 0x36
+                pos++;
+    1760:	0f 5f       	subi	r16, 0xFF	; 255
+    1762:	1f 4f       	sbci	r17, 0xFF	; 255
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1764:	f8 01       	movw	r30, r16
+    1766:	e2 53       	subi	r30, 0x32	; 50
+    1768:	ff 4f       	sbci	r31, 0xFF	; 255
+    176a:	84 91       	lpm	r24, Z+
+    176c:	88 23       	and	r24, r24
+    176e:	a1 f7       	brne	.-24     	; 0x1758 <main+0x1ec>
+    1770:	d8 01       	movw	r26, r16
+    1772:	a1 51       	subi	r26, 0x11	; 17
+    1774:	bf 4f       	sbci	r27, 0xFF	; 255
+                                        plen=fill_tcp_data_p(buf,0,PSTR("HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n"));
+                                        plen=fill_tcp_data_p(buf,plen,PSTR("<p>Usage: http://host_or_ip/password</p>\n"));
+    1776:	84 ea       	ldi	r24, 0xA4	; 164
+    1778:	90 e0       	ldi	r25, 0x00	; 0
+    177a:	03 c0       	rjmp	.+6      	; 0x1782 <main+0x216>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    177c:	2d 93       	st	X+, r18
+                pos++;
+    177e:	0f 5f       	subi	r16, 0xFF	; 255
+    1780:	1f 4f       	sbci	r17, 0xFF	; 255
+    1782:	fc 01       	movw	r30, r24
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    1784:	01 96       	adiw	r24, 0x01	; 1
+    1786:	24 91       	lpm	r18, Z+
+    1788:	22 23       	and	r18, r18
+    178a:	c1 f7       	brne	.-16     	; 0x177c <main+0x210>
+    178c:	71 c0       	rjmp	.+226    	; 0x1870 <main+0x304>
+                                        goto SENDTCP;
+                                }
+                                cmd=analyse_get_url((char *)&(buf[dat_p+5]));
+    178e:	c7 01       	movw	r24, r14
+    1790:	82 54       	subi	r24, 0x42	; 66
+    1792:	9f 4f       	sbci	r25, 0xFF	; 255
+    1794:	0e 94 34 08 	call	0x1068	; 0x1068 <analyse_get_url>
+                                // for possible status codes see:
+                                // http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
+                                if (cmd==-1){
+    1798:	8f 3f       	cpi	r24, 0xFF	; 255
+    179a:	81 f4       	brne	.+32     	; 0x17bc <main+0x250>
+    179c:	00 e0       	ldi	r16, 0x00	; 0
+    179e:	10 e0       	ldi	r17, 0x00	; 0
+    17a0:	06 c0       	rjmp	.+12     	; 0x17ae <main+0x242>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+    17a2:	f8 01       	movw	r30, r16
+    17a4:	e7 54       	subi	r30, 0x47	; 71
+    17a6:	ff 4f       	sbci	r31, 0xFF	; 255
+    17a8:	86 ab       	std	Z+54, r24	; 0x36
+                pos++;
+    17aa:	0f 5f       	subi	r16, 0xFF	; 255
+    17ac:	1f 4f       	sbci	r17, 0xFF	; 255
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+    17ae:	f8 01       	movw	r30, r16
+    17b0:	ec 5a       	subi	r30, 0xAC	; 172
+    17b2:	ff 4f       	sbci	r31, 0xFF	; 255
+    17b4:	84 91       	lpm	r24, Z+
+    17b6:	88 23       	and	r24, r24
+    17b8:	a1 f7       	brne	.-24     	; 0x17a2 <main+0x236>
+    17ba:	5a c0       	rjmp	.+180    	; 0x1870 <main+0x304>
+                                        plen=fill_tcp_data_p(buf,0,PSTR("HTTP/1.0 401 Unauthorized\r\nContent-Type: text/html\r\n\r\n<h1>401 Unauthorized</h1>"));
+                                        goto SENDTCP;
+                                }
+								switch(cmd)
+    17bc:	83 30       	cpi	r24, 0x03	; 3
+    17be:	19 f1       	breq	.+70     	; 0x1806 <main+0x29a>
+    17c0:	84 30       	cpi	r24, 0x04	; 4
+    17c2:	3c f4       	brge	.+14     	; 0x17d2 <main+0x266>
+    17c4:	81 30       	cpi	r24, 0x01	; 1
+    17c6:	a1 f0       	breq	.+40     	; 0x17f0 <main+0x284>
+    17c8:	82 30       	cpi	r24, 0x02	; 2
+    17ca:	c4 f4       	brge	.+48     	; 0x17fc <main+0x290>
+    17cc:	88 23       	and	r24, r24
+    17ce:	51 f0       	breq	.+20     	; 0x17e4 <main+0x278>
+    17d0:	34 c0       	rjmp	.+104    	; 0x183a <main+0x2ce>
+    17d2:	85 30       	cpi	r24, 0x05	; 5
+    17d4:	11 f1       	breq	.+68     	; 0x181a <main+0x2ae>
+    17d6:	85 30       	cpi	r24, 0x05	; 5
+    17d8:	dc f0       	brlt	.+54     	; 0x1810 <main+0x2a4>
+    17da:	86 30       	cpi	r24, 0x06	; 6
+    17dc:	19 f1       	breq	.+70     	; 0x1824 <main+0x2b8>
+    17de:	87 30       	cpi	r24, 0x07	; 7
+    17e0:	61 f5       	brne	.+88     	; 0x183a <main+0x2ce>
+    17e2:	26 c0       	rjmp	.+76     	; 0x1830 <main+0x2c4>
+								{
+								 case 0:cbi(PORTA,0);cbi(PORTC,0);cbi(dtpack,0);break;
+    17e4:	d8 98       	cbi	0x1b, 0	; 27
+    17e6:	a8 98       	cbi	0x15, 0	; 21
+    17e8:	f6 01       	movw	r30, r12
+    17ea:	80 81       	ld	r24, Z
+    17ec:	8e 7f       	andi	r24, 0xFE	; 254
+    17ee:	1e c0       	rjmp	.+60     	; 0x182c <main+0x2c0>
+								 case 1:sbi(PORTA,0);sbi(PORTC,0);sbi(dtpack,0);break;
+    17f0:	d8 9a       	sbi	0x1b, 0	; 27
+    17f2:	a8 9a       	sbi	0x15, 0	; 21
+    17f4:	f6 01       	movw	r30, r12
+    17f6:	80 81       	ld	r24, Z
+    17f8:	81 60       	ori	r24, 0x01	; 1
+    17fa:	18 c0       	rjmp	.+48     	; 0x182c <main+0x2c0>
+								 case 2:cbi(PORTC,1);cbi(dtpack,1);break;
+    17fc:	a9 98       	cbi	0x15, 1	; 21
+    17fe:	f6 01       	movw	r30, r12
+    1800:	80 81       	ld	r24, Z
+    1802:	8d 7f       	andi	r24, 0xFD	; 253
+    1804:	13 c0       	rjmp	.+38     	; 0x182c <main+0x2c0>
+								 case 3:sbi(PORTC,1);sbi(dtpack,1);break;
+    1806:	a9 9a       	sbi	0x15, 1	; 21
+    1808:	f6 01       	movw	r30, r12
+    180a:	80 81       	ld	r24, Z
+    180c:	82 60       	ori	r24, 0x02	; 2
+    180e:	0e c0       	rjmp	.+28     	; 0x182c <main+0x2c0>
+								 case 4:cbi(PORTC,2);cbi(dtpack,2);break;
+    1810:	aa 98       	cbi	0x15, 2	; 21
+    1812:	f6 01       	movw	r30, r12
+    1814:	80 81       	ld	r24, Z
+    1816:	8b 7f       	andi	r24, 0xFB	; 251
+    1818:	09 c0       	rjmp	.+18     	; 0x182c <main+0x2c0>
+								 case 5:sbi(PORTC,2);sbi(dtpack,2);break;
+    181a:	aa 9a       	sbi	0x15, 2	; 21
+    181c:	f6 01       	movw	r30, r12
+    181e:	80 81       	ld	r24, Z
+    1820:	84 60       	ori	r24, 0x04	; 4
+    1822:	04 c0       	rjmp	.+8      	; 0x182c <main+0x2c0>
+							     case 6:cbi(PORTC,3);cbi(dtpack,3);break;
+    1824:	ab 98       	cbi	0x15, 3	; 21
+    1826:	f6 01       	movw	r30, r12
+    1828:	80 81       	ld	r24, Z
+    182a:	87 7f       	andi	r24, 0xF7	; 247
+    182c:	80 83       	st	Z, r24
+    182e:	0c c0       	rjmp	.+24     	; 0x1848 <main+0x2dc>
+								 case 7:sbi(PORTC,3);sbi(dtpack,3);break;
+    1830:	ab 9a       	sbi	0x15, 3	; 21
+    1832:	f6 01       	movw	r30, r12
+    1834:	80 81       	ld	r24, Z
+    1836:	88 60       	ori	r24, 0x08	; 8
+    1838:	f9 cf       	rjmp	.-14     	; 0x182c <main+0x2c0>
+                                }
+                                if (cmd==0){
+                                       // PORTD &= ~(1<<PORTD7);// transistor off
+                                        PORTC &= ~(1<<0);// transistor off
+                                }*/
+                                if (cmd==-3){
+    183a:	8d 3f       	cpi	r24, 0xFD	; 253
+    183c:	29 f4       	brne	.+10     	; 0x1848 <main+0x2dc>
+                                        // redirect to add a trailing slash
+                                        plen=moved_perm(buf);
+    183e:	89 eb       	ldi	r24, 0xB9	; 185
+    1840:	90 e0       	ldi	r25, 0x00	; 0
+    1842:	0e 94 60 08 	call	0x10c0	; 0x10c0 <moved_perm>
+    1846:	13 c0       	rjmp	.+38     	; 0x186e <main+0x302>
+        }
+        return(-2);
+}
+unsigned int adc(unsigned char channel)
+{  unsigned int val;
+   ADMUX=0x40+channel;
+    1848:	87 b8       	out	0x07, r8	; 7
+   ADCSRA=(1<<ADEN);
+    184a:	76 b8       	out	0x06, r7	; 6
+   ADCSRA|=(1<<ADSC);
+    184c:	36 9a       	sbi	0x06, 6	; 6
+    ADCSRA|=0x07;
+    184e:	86 b1       	in	r24, 0x06	; 6
+    1850:	87 60       	ori	r24, 0x07	; 7
+    1852:	86 b9       	out	0x06, r24	; 6
+   while(bit_is_clear(ADCSRA,ADIF));
+    1854:	34 9b       	sbis	0x06, 4	; 6
+    1856:	fe cf       	rjmp	.-4      	; 0x1854 <main+0x2e8>
+   val=ADCW; 
+    1858:	84 b1       	in	r24, 0x04	; 4
+    185a:	95 b1       	in	r25, 0x05	; 5
+                                if (cmd==-3){
+                                        // redirect to add a trailing slash
+                                        plen=moved_perm(buf);
+                                        goto SENDTCP;
+                                }
+								radiance=adc(4);
+    185c:	90 93 e1 02 	sts	0x02E1, r25
+    1860:	80 93 e0 02 	sts	0x02E0, r24
+                                // if (cmd==-2) or any other value
+                                // just display the status:
+                                plen=print_webpage(buf,dtpack);
+    1864:	89 eb       	ldi	r24, 0xB9	; 185
+    1866:	90 e0       	ldi	r25, 0x00	; 0
+    1868:	69 81       	ldd	r22, Y+1	; 0x01
+    186a:	0e 94 c6 08 	call	0x118c	; 0x118c <print_webpage>
+    186e:	8c 01       	movw	r16, r24
+                                //
+SENDTCP:
+                                make_tcp_ack_from_any(buf); // send ack for http get
+    1870:	89 eb       	ldi	r24, 0xB9	; 185
+    1872:	90 e0       	ldi	r25, 0x00	; 0
+    1874:	0e 94 d2 07 	call	0xfa4	; 0xfa4 <make_tcp_ack_from_any>
+                                make_tcp_ack_with_data(buf,plen); // send data
+    1878:	89 eb       	ldi	r24, 0xB9	; 185
+    187a:	90 e0       	ldi	r25, 0x00	; 0
+    187c:	b8 01       	movw	r22, r16
+    187e:	0e 94 0a 08 	call	0x1014	; 0x1014 <make_tcp_ack_with_data>
+    1882:	da ce       	rjmp	.-588    	; 0x1638 <main+0xcc>
+
+                }
+                // tcp port www end
+                //
+                // udp start, we listen on udp port 1200=0x4B0
+                if (buf[IP_PROTO_P]==IP_PROTO_UDP_V&&buf[UDP_DST_PORT_H_P]==4&&buf[UDP_DST_PORT_L_P]==0xb0){
+    1884:	81 31       	cpi	r24, 0x11	; 17
+    1886:	09 f0       	breq	.+2      	; 0x188a <main+0x31e>
+    1888:	d7 ce       	rjmp	.-594    	; 0x1638 <main+0xcc>
+    188a:	80 91 dd 00 	lds	r24, 0x00DD
+    188e:	84 30       	cpi	r24, 0x04	; 4
+    1890:	09 f0       	breq	.+2      	; 0x1894 <main+0x328>
+    1892:	d2 ce       	rjmp	.-604    	; 0x1638 <main+0xcc>
+    1894:	80 91 de 00 	lds	r24, 0x00DE
+    1898:	80 3b       	cpi	r24, 0xB0	; 176
+    189a:	09 f0       	breq	.+2      	; 0x189e <main+0x332>
+    189c:	cd ce       	rjmp	.-614    	; 0x1638 <main+0xcc>
+                        payloadlen=buf[UDP_LEN_L_P]-UDP_HEADER_LEN;
+    189e:	10 91 e0 00 	lds	r17, 0x00E0
+    18a2:	18 50       	subi	r17, 0x08	; 8
+                        // you must sent a string starting with v
+                        // e.g udpcom version 10.0.0.24
+                        if (verify_password((char *)&(buf[UDP_DATA_P]))){
+    18a4:	83 ee       	ldi	r24, 0xE3	; 227
+    18a6:	90 e0       	ldi	r25, 0x00	; 0
+    18a8:	0e 94 b9 08 	call	0x1172	; 0x1172 <verify_password>
+    18ac:	88 23       	and	r24, r24
+    18ae:	59 f4       	brne	.+22     	; 0x18c6 <main+0x35a>
+    18b0:	3c c0       	rjmp	.+120    	; 0x192a <main+0x3be>
+                                // find the first comma which indicates 
+                                // the start of a command:
+                                cmd_pos=0;
+                                while(cmd_pos<payloadlen){
+                                        cmd_pos++;
+    18b2:	9f 5f       	subi	r25, 0xFF	; 255
+                                        if (buf[UDP_DATA_P+cmd_pos]==','){
+    18b4:	e9 2f       	mov	r30, r25
+    18b6:	f0 e0       	ldi	r31, 0x00	; 0
+    18b8:	e7 54       	subi	r30, 0x47	; 71
+    18ba:	ff 4f       	sbci	r31, 0xFF	; 255
+    18bc:	82 a5       	ldd	r24, Z+42	; 0x2a
+    18be:	8c 32       	cpi	r24, 0x2C	; 44
+    18c0:	19 f4       	brne	.+6      	; 0x18c8 <main+0x35c>
+                                                cmd_pos++; // put on start of cmd
+    18c2:	9f 5f       	subi	r25, 0xFF	; 255
+    18c4:	03 c0       	rjmp	.+6      	; 0x18cc <main+0x360>
+                                                break;
+    18c6:	90 e0       	ldi	r25, 0x00	; 0
+                        // e.g udpcom version 10.0.0.24
+                        if (verify_password((char *)&(buf[UDP_DATA_P]))){
+                                // find the first comma which indicates 
+                                // the start of a command:
+                                cmd_pos=0;
+                                while(cmd_pos<payloadlen){
+    18c8:	91 17       	cp	r25, r17
+    18ca:	98 f3       	brcs	.-26     	; 0x18b2 <main+0x346>
+                                        }
+                                }
+                                // a command is one char and a value. At
+                                // least 3 characters long. It has an '=' on
+                                // position 2:
+                                if (cmd_pos<2 || cmd_pos>payloadlen-3 || buf[UDP_DATA_P+cmd_pos+1]!='='){
+    18cc:	92 30       	cpi	r25, 0x02	; 2
+    18ce:	68 f0       	brcs	.+26     	; 0x18ea <main+0x37e>
+    18d0:	e9 2f       	mov	r30, r25
+    18d2:	f0 e0       	ldi	r31, 0x00	; 0
+    18d4:	81 2f       	mov	r24, r17
+    18d6:	90 e0       	ldi	r25, 0x00	; 0
+    18d8:	02 97       	sbiw	r24, 0x02	; 2
+    18da:	e8 17       	cp	r30, r24
+    18dc:	f9 07       	cpc	r31, r25
+    18de:	2c f4       	brge	.+10     	; 0x18ea <main+0x37e>
+    18e0:	e7 54       	subi	r30, 0x47	; 71
+    18e2:	ff 4f       	sbci	r31, 0xFF	; 255
+    18e4:	83 a5       	ldd	r24, Z+43	; 0x2b
+    18e6:	8d 33       	cpi	r24, 0x3D	; 61
+    18e8:	21 f0       	breq	.+8      	; 0x18f2 <main+0x386>
+                                        strcpy(str,"e=no_cmd");
+    18ea:	c5 01       	movw	r24, r10
+    18ec:	68 e6       	ldi	r22, 0x68	; 104
+    18ee:	70 e0       	ldi	r23, 0x00	; 0
+    18f0:	1f c0       	rjmp	.+62     	; 0x1930 <main+0x3c4>
+                                        goto ANSWER;
+                                }
+                                // supported commands are
+                                // t=1 t=0 t=?
+                                if (buf[UDP_DATA_P+cmd_pos]=='t'){
+    18f2:	82 a5       	ldd	r24, Z+42	; 0x2a
+    18f4:	84 37       	cpi	r24, 0x74	; 116
+    18f6:	a9 f4       	brne	.+42     	; 0x1922 <main+0x3b6>
+                                        cmdval=buf[UDP_DATA_P+cmd_pos+2];
+    18f8:	e4 a5       	ldd	r30, Z+44	; 0x2c
+                                        if(cmdval=='1'){
+    18fa:	e1 33       	cpi	r30, 0x31	; 49
+    18fc:	11 f4       	brne	.+4      	; 0x1902 <main+0x396>
+                                                PORTC|= (1<<PORTC0);// transistor on
+    18fe:	a8 9a       	sbi	0x15, 0	; 21
+    1900:	08 c0       	rjmp	.+16     	; 0x1912 <main+0x3a6>
+                                                strcpy(str,"t=1");
+                                                goto ANSWER;
+                                        }else if(cmdval=='0'){
+    1902:	e0 33       	cpi	r30, 0x30	; 48
+    1904:	11 f4       	brne	.+4      	; 0x190a <main+0x39e>
+                                                PORTC &= ~(1<<PORTC0);// transistor off
+    1906:	a8 98       	cbi	0x15, 0	; 21
+    1908:	08 c0       	rjmp	.+16     	; 0x191a <main+0x3ae>
+                                                strcpy(str,"t=0");
+                                                goto ANSWER;
+                                        }else if(cmdval=='?'){
+    190a:	ef 33       	cpi	r30, 0x3F	; 63
+    190c:	51 f4       	brne	.+20     	; 0x1922 <main+0x3b6>
+                                                if (PORTC & (1<<PORTC0)){
+    190e:	a8 9b       	sbis	0x15, 0	; 21
+    1910:	04 c0       	rjmp	.+8      	; 0x191a <main+0x3ae>
+                                                        strcpy(str,"t=1");
+    1912:	c5 01       	movw	r24, r10
+    1914:	61 e7       	ldi	r22, 0x71	; 113
+    1916:	70 e0       	ldi	r23, 0x00	; 0
+    1918:	0b c0       	rjmp	.+22     	; 0x1930 <main+0x3c4>
+                                                        goto ANSWER;
+                                                }
+                                                strcpy(str,"t=0");
+    191a:	c5 01       	movw	r24, r10
+    191c:	65 e7       	ldi	r22, 0x75	; 117
+    191e:	70 e0       	ldi	r23, 0x00	; 0
+    1920:	07 c0       	rjmp	.+14     	; 0x1930 <main+0x3c4>
+                                                goto ANSWER;
+                                        }
+                                }
+                                strcpy(str,"e=no_such_cmd");
+    1922:	c5 01       	movw	r24, r10
+    1924:	69 e7       	ldi	r22, 0x79	; 121
+    1926:	70 e0       	ldi	r23, 0x00	; 0
+    1928:	03 c0       	rjmp	.+6      	; 0x1930 <main+0x3c4>
+                                goto ANSWER;
+                        }
+                        strcpy(str,"e=invalid_pw");
+    192a:	c5 01       	movw	r24, r10
+    192c:	67 e8       	ldi	r22, 0x87	; 135
+    192e:	70 e0       	ldi	r23, 0x00	; 0
+    1930:	0e 94 aa 0c 	call	0x1954	; 0x1954 <strcpy>
+ANSWER:
+                        make_udp_reply_from_request(buf,str,strlen(str),MYUDPPORT);
+    1934:	f5 01       	movw	r30, r10
+    1936:	01 90       	ld	r0, Z+
+    1938:	00 20       	and	r0, r0
+    193a:	e9 f7       	brne	.-6      	; 0x1936 <main+0x3ca>
+    193c:	31 97       	sbiw	r30, 0x01	; 1
+    193e:	ea 19       	sub	r30, r10
+    1940:	fb 09       	sbc	r31, r11
+    1942:	89 eb       	ldi	r24, 0xB9	; 185
+    1944:	90 e0       	ldi	r25, 0x00	; 0
+    1946:	b5 01       	movw	r22, r10
+    1948:	4e 2f       	mov	r20, r30
+    194a:	20 eb       	ldi	r18, 0xB0	; 176
+    194c:	34 e0       	ldi	r19, 0x04	; 4
+    194e:	0e 94 f7 06 	call	0xdee	; 0xdee <make_udp_reply_from_request>
+    1952:	72 ce       	rjmp	.-796    	; 0x1638 <main+0xcc>
+
+00001954 <strcpy>:
+    1954:	fb 01       	movw	r30, r22
+    1956:	dc 01       	movw	r26, r24
+    1958:	01 90       	ld	r0, Z+
+    195a:	0d 92       	st	X+, r0
+    195c:	00 20       	and	r0, r0
+    195e:	e1 f7       	brne	.-8      	; 0x1958 <strcpy+0x4>
+    1960:	08 95       	ret
+
+00001962 <strncmp>:
+    1962:	fb 01       	movw	r30, r22
+    1964:	dc 01       	movw	r26, r24
+    1966:	41 50       	subi	r20, 0x01	; 1
+    1968:	50 40       	sbci	r21, 0x00	; 0
+    196a:	30 f0       	brcs	.+12     	; 0x1978 <strncmp+0x16>
+    196c:	8d 91       	ld	r24, X+
+    196e:	01 90       	ld	r0, Z+
+    1970:	80 19       	sub	r24, r0
+    1972:	19 f4       	brne	.+6      	; 0x197a <strncmp+0x18>
+    1974:	00 20       	and	r0, r0
+    1976:	b9 f7       	brne	.-18     	; 0x1966 <strncmp+0x4>
+    1978:	88 1b       	sub	r24, r24
+    197a:	99 0b       	sbc	r25, r25
+    197c:	08 95       	ret
+
+0000197e <itoa>:
+    197e:	fb 01       	movw	r30, r22
+    1980:	9f 01       	movw	r18, r30
+    1982:	e8 94       	clt
+    1984:	42 30       	cpi	r20, 0x02	; 2
+    1986:	c4 f0       	brlt	.+48     	; 0x19b8 <itoa+0x3a>
+    1988:	45 32       	cpi	r20, 0x25	; 37
+    198a:	b4 f4       	brge	.+44     	; 0x19b8 <itoa+0x3a>
+    198c:	4a 30       	cpi	r20, 0x0A	; 10
+    198e:	29 f4       	brne	.+10     	; 0x199a <itoa+0x1c>
+    1990:	97 fb       	bst	r25, 7
+    1992:	1e f4       	brtc	.+6      	; 0x199a <itoa+0x1c>
+    1994:	90 95       	com	r25
+    1996:	81 95       	neg	r24
+    1998:	9f 4f       	sbci	r25, 0xFF	; 255
+    199a:	64 2f       	mov	r22, r20
+    199c:	77 27       	eor	r23, r23
+    199e:	0e 94 f0 0c 	call	0x19e0	; 0x19e0 <__udivmodhi4>
+    19a2:	80 5d       	subi	r24, 0xD0	; 208
+    19a4:	8a 33       	cpi	r24, 0x3A	; 58
+    19a6:	0c f0       	brlt	.+2      	; 0x19aa <itoa+0x2c>
+    19a8:	89 5d       	subi	r24, 0xD9	; 217
+    19aa:	81 93       	st	Z+, r24
+    19ac:	cb 01       	movw	r24, r22
+    19ae:	00 97       	sbiw	r24, 0x00	; 0
+    19b0:	a1 f7       	brne	.-24     	; 0x199a <itoa+0x1c>
+    19b2:	16 f4       	brtc	.+4      	; 0x19b8 <itoa+0x3a>
+    19b4:	5d e2       	ldi	r21, 0x2D	; 45
+    19b6:	51 93       	st	Z+, r21
+    19b8:	10 82       	st	Z, r1
+    19ba:	c9 01       	movw	r24, r18
+    19bc:	0c 94 e0 0c 	jmp	0x19c0	; 0x19c0 <strrev>
+
+000019c0 <strrev>:
+    19c0:	dc 01       	movw	r26, r24
+    19c2:	fc 01       	movw	r30, r24
+    19c4:	67 2f       	mov	r22, r23
+    19c6:	71 91       	ld	r23, Z+
+    19c8:	77 23       	and	r23, r23
+    19ca:	e1 f7       	brne	.-8      	; 0x19c4 <strrev+0x4>
+    19cc:	32 97       	sbiw	r30, 0x02	; 2
+    19ce:	04 c0       	rjmp	.+8      	; 0x19d8 <strrev+0x18>
+    19d0:	7c 91       	ld	r23, X
+    19d2:	6d 93       	st	X+, r22
+    19d4:	70 83       	st	Z, r23
+    19d6:	62 91       	ld	r22, -Z
+    19d8:	ae 17       	cp	r26, r30
+    19da:	bf 07       	cpc	r27, r31
+    19dc:	c8 f3       	brcs	.-14     	; 0x19d0 <strrev+0x10>
+    19de:	08 95       	ret
+
+000019e0 <__udivmodhi4>:
+    19e0:	aa 1b       	sub	r26, r26
+    19e2:	bb 1b       	sub	r27, r27
+    19e4:	51 e1       	ldi	r21, 0x11	; 17
+    19e6:	07 c0       	rjmp	.+14     	; 0x19f6 <__udivmodhi4_ep>
+
+000019e8 <__udivmodhi4_loop>:
+    19e8:	aa 1f       	adc	r26, r26
+    19ea:	bb 1f       	adc	r27, r27
+    19ec:	a6 17       	cp	r26, r22
+    19ee:	b7 07       	cpc	r27, r23
+    19f0:	10 f0       	brcs	.+4      	; 0x19f6 <__udivmodhi4_ep>
+    19f2:	a6 1b       	sub	r26, r22
+    19f4:	b7 0b       	sbc	r27, r23
+
+000019f6 <__udivmodhi4_ep>:
+    19f6:	88 1f       	adc	r24, r24
+    19f8:	99 1f       	adc	r25, r25
+    19fa:	5a 95       	dec	r21
+    19fc:	a9 f7       	brne	.-22     	; 0x19e8 <__udivmodhi4_loop>
+    19fe:	80 95       	com	r24
+    1a00:	90 95       	com	r25
+    1a02:	bc 01       	movw	r22, r24
+    1a04:	cd 01       	movw	r24, r26
+    1a06:	08 95       	ret
+
+00001a08 <_exit>:
+    1a08:	f8 94       	cli
+
+00001a0a <__stop_program>:
+    1a0a:	ff cf       	rjmp	.-2      	; 0x1a0a <__stop_program>

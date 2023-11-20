@@ -1,0 +1,28 @@
+#include<avr/io.h>
+
+
+int main(void)
+{ DDRA=0xFF;
+  PORTA=0x00;
+  DDRC=0xFF;
+  DDRD=0x00;
+  PORTD=0xFF;
+  PORTC=0x00;
+  while(1)
+  {
+    if(!(PIND & 0x01))
+	PORTA=PORTC=0xA0;
+	else if(!(PIND & 0x02))
+	PORTA=PORTC=0x50;
+	else 
+	PORTA=PORTC=0x00;
+    
+  }
+   return 0;
+
+
+
+
+}
+
+

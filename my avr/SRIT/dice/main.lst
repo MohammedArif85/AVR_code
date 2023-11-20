@@ -1,0 +1,129 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	main
+  18               	main:
+  19               	.LFB6:
+  20               	.LM1:
+  21 0000 DF93      		push r29
+  22 0002 CF93      		push r28
+  23 0004 00D0      		rcall .
+  24 0006 00D0      		rcall .
+  25 0008 00D0      		rcall .
+  26 000a CDB7      		in r28,__SP_L__
+  27 000c DEB7      		in r29,__SP_H__
+  28               	/* prologue: function */
+  29               	/* frame size = 6 */
+  30               	.LM2:
+  31 000e DE01      		movw r26,r28
+  32 0010 1196      		adiw r26,1
+  33 0012 E0E0      		ldi r30,lo8(C.0.1250)
+  34 0014 F0E0      		ldi r31,hi8(C.0.1250)
+  35 0016 86E0      		ldi r24,lo8(6)
+  36               	.L2:
+  37 0018 0190      		ld r0,Z+
+  38 001a 0D92      		st X+,r0
+  39 001c 8150      		subi r24,lo8(-(-1))
+  40 001e 01F4      		brne .L2
+  41               	.LM3:
+  42 0020 8FEF      		ldi r24,lo8(-1)
+  43 0022 8ABB      		out 58-32,r24
+  44               	.LM4:
+  45 0024 84E0      		ldi r24,lo8(4)
+  46 0026 87BB      		out 55-32,r24
+  47               	.LM5:
+  48 0028 1BBA      		out 59-32,__zero_reg__
+  49               	.LM6:
+  50 002a 88BB      		out 56-32,r24
+  51 002c 21E0      		ldi r18,lo8(1)
+  52               	.LVL0:
+  53               	.LBB12:
+  54               	.LBB13:
+  55               	.LBB14:
+  56               	.LBB15:
+  57               	.LM7:
+  58 002e 48EC      		ldi r20,lo8(200)
+  59 0030 50E0      		ldi r21,hi8(200)
+  60               	.LVL1:
+  61               	.L14:
+  62               	.LBE15:
+  63               	.LBE14:
+  64               	.LBE13:
+  65               	.LBE12:
+  66               	.LM8:
+  67 0032 B299      		sbic 54-32,2
+  68 0034 00C0      		rjmp .L14
+  69 0036 00C0      		rjmp .L13
+  70               	.L15:
+  71               	.LM9:
+  72 0038 FE01      		movw r30,r28
+  73               	.LVL2:
+  74 003a E20F      		add r30,r18
+  75 003c F11D      		adc r31,__zero_reg__
+  76 003e 8081      		ld r24,Z
+  77               	.LVL3:
+  78 0040 8BBB      		out 59-32,r24
+  79 0042 88EE      		ldi r24,lo8(1000)
+  80 0044 93E0      		ldi r25,hi8(1000)
+  81               	.LVL4:
+  82               	.L5:
+  83               	.LBB19:
+  84               	.LBB18:
+  85               	.LBB17:
+  86               	.LBB16:
+  87               	.LM10:
+  88 0046 FA01      		movw r30,r20
+  89               	.LVL5:
+  90               	/* #APP */
+  91               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  92 0048 3197      		1: sbiw r30,1
+  93 004a 01F4      		brne 1b
+  94               	 ;  0 "" 2
+  95               	/* #NOAPP */
+  96               	.LBE16:
+  97               	.LBE17:
+  98               	.LM11:
+  99 004c 0197      		sbiw r24,1
+ 100               	.LM12:
+ 101 004e 01F4      		brne .L5
+ 102               	.LBE18:
+ 103               	.LBE19:
+ 104               	.LM13:
+ 105 0050 2F5F      		subi r18,lo8(-(1))
+ 106               	.LM14:
+ 107 0052 2730      		cpi r18,lo8(7)
+ 108 0054 00F0      		brlo .L13
+ 109 0056 21E0      		ldi r18,lo8(1)
+ 110               	.L13:
+ 111               	.LM15:
+ 112 0058 B299      		sbic 54-32,2
+ 113 005a 00C0      		rjmp .L14
+ 114 005c 00C0      		rjmp .L15
+ 115               	.LFE6:
+ 117               		.data
+ 120               	C.0.1250:
+ 121 0000 79        		.byte	121
+ 122 0001 24        		.byte	36
+ 123 0002 30        		.byte	48
+ 124 0003 19        		.byte	25
+ 125 0004 12        		.byte	18
+ 126 0005 02        		.byte	2
+ 151               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccTYCC31.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccTYCC31.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccTYCC31.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccTYCC31.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccTYCC31.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccTYCC31.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccTYCC31.s:18     .text:00000000 main
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccTYCC31.s:120    .data:00000000 C.0.1250
+
+UNDEFINED SYMBOLS
+__do_copy_data

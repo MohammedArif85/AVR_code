@@ -1,0 +1,1288 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000005d8  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000024  00800060  000005d8  0000066c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000001  00800084  00800084  00000690  2**0
+                  ALLOC
+  3 .debug_aranges 00000060  00000000  00000000  00000690  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_pubnames 000001e3  00000000  00000000  000006f0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000f6e  00000000  00000000  000008d3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 000004bb  00000000  00000000  00001841  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00000a45  00000000  00000000  00001cfc  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  000001c0  00000000  00000000  00002744  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    0000035b  00000000  00000000  00002904  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00000458  00000000  00000000  00002c5f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000060  00000000  00000000  000030b7  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+   c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+  50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+  60:	10 e0       	ldi	r17, 0x00	; 0
+  62:	a0 e6       	ldi	r26, 0x60	; 96
+  64:	b0 e0       	ldi	r27, 0x00	; 0
+  66:	e8 ed       	ldi	r30, 0xD8	; 216
+  68:	f5 e0       	ldi	r31, 0x05	; 5
+  6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
+
+0000006c <.do_copy_data_loop>:
+  6c:	05 90       	lpm	r0, Z+
+  6e:	0d 92       	st	X+, r0
+
+00000070 <.do_copy_data_start>:
+  70:	a4 38       	cpi	r26, 0x84	; 132
+  72:	b1 07       	cpc	r27, r17
+  74:	d9 f7       	brne	.-10     	; 0x6c <.do_copy_data_loop>
+
+00000076 <__do_clear_bss>:
+  76:	10 e0       	ldi	r17, 0x00	; 0
+  78:	a4 e8       	ldi	r26, 0x84	; 132
+  7a:	b0 e0       	ldi	r27, 0x00	; 0
+  7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+  7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+  80:	a5 38       	cpi	r26, 0x85	; 133
+  82:	b1 07       	cpc	r27, r17
+  84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+  86:	0e 94 82 00 	call	0x104	; 0x104 <main>
+  8a:	0c 94 ea 02 	jmp	0x5d4	; 0x5d4 <_exit>
+
+0000008e <__bad_interrupt>:
+  8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <uart_init>:
+
+
+
+void uart_init(unsigned int baud)
+{
+ UBRRH=UART_BAUD_SELECT>>8;
+  92:	9c 01       	movw	r18, r24
+  94:	44 e0       	ldi	r20, 0x04	; 4
+  96:	22 0f       	add	r18, r18
+  98:	33 1f       	adc	r19, r19
+  9a:	4a 95       	dec	r20
+  9c:	e1 f7       	brne	.-8      	; 0x96 <uart_init+0x4>
+  9e:	40 e0       	ldi	r20, 0x00	; 0
+  a0:	50 e0       	ldi	r21, 0x00	; 0
+  a2:	60 e0       	ldi	r22, 0x00	; 0
+  a4:	74 e2       	ldi	r23, 0x24	; 36
+  a6:	84 ef       	ldi	r24, 0xF4	; 244
+  a8:	90 e0       	ldi	r25, 0x00	; 0
+  aa:	0e 94 c8 02 	call	0x590	; 0x590 <__udivmodsi4>
+  ae:	c9 01       	movw	r24, r18
+  b0:	da 01       	movw	r26, r20
+  b2:	01 97       	sbiw	r24, 0x01	; 1
+  b4:	a1 09       	sbc	r26, r1
+  b6:	b1 09       	sbc	r27, r1
+  b8:	29 2f       	mov	r18, r25
+  ba:	3a 2f       	mov	r19, r26
+  bc:	4b 2f       	mov	r20, r27
+  be:	55 27       	eor	r21, r21
+  c0:	01 96       	adiw	r24, 0x01	; 1
+  c2:	a1 1d       	adc	r26, r1
+  c4:	b1 1d       	adc	r27, r1
+  c6:	20 bd       	out	0x20, r18	; 32
+ UBRRL=(uint8_t)UART_BAUD_SELECT;
+  c8:	81 50       	subi	r24, 0x01	; 1
+  ca:	89 b9       	out	0x09, r24	; 9
+ 
+ UCSRB=_BV(RXEN)|_BV(TXEN);
+  cc:	88 e1       	ldi	r24, 0x18	; 24
+  ce:	8a b9       	out	0x0a, r24	; 10
+ UCSRC=_BV(URSEL)|_BV(UCSZ1)|_BV(UCSZ0);
+  d0:	86 e8       	ldi	r24, 0x86	; 134
+  d2:	80 bd       	out	0x20, r24	; 32
+ 
+}
+  d4:	08 95       	ret
+
+000000d6 <uart_tx_char>:
+
+
+
+void uart_tx_char(unsigned char s)
+{
+ loop_until_bit_is_set(UCSRA,UDRE);
+  d6:	5d 9b       	sbis	0x0b, 5	; 11
+  d8:	fe cf       	rjmp	.-4      	; 0xd6 <uart_tx_char>
+ UDR=s;
+  da:	8c b9       	out	0x0c, r24	; 12
+}
+  dc:	08 95       	ret
+
+000000de <uart_rx_char>:
+
+
+
+unsigned char uart_rx_char(void)
+{
+ loop_until_bit_is_set(UCSRA,RXC);
+  de:	5f 9b       	sbis	0x0b, 7	; 11
+  e0:	fe cf       	rjmp	.-4      	; 0xde <uart_rx_char>
+ if(UCSRA&(_BV(PE)|_BV(DOR)|_BV(FE)))
+  e2:	8b b1       	in	r24, 0x0b	; 11
+  e4:	8c 71       	andi	r24, 0x1C	; 28
+  e6:	11 f0       	breq	.+4      	; 0xec <uart_rx_char+0xe>
+  e8:	8f ef       	ldi	r24, 0xFF	; 255
+  ea:	08 95       	ret
+ return(unsigned char)-1;
+ 
+ return UDR;
+  ec:	8c b1       	in	r24, 0x0c	; 12
+}
+  ee:	08 95       	ret
+
+000000f0 <uart_puts>:
+
+
+
+void uart_puts(const char *s )
+{
+  f0:	fc 01       	movw	r30, r24
+  f2:	04 c0       	rjmp	.+8      	; 0xfc <uart_puts+0xc>
+
+
+
+void uart_tx_char(unsigned char s)
+{
+ loop_until_bit_is_set(UCSRA,UDRE);
+  f4:	5d 9b       	sbis	0x0b, 5	; 11
+  f6:	fe cf       	rjmp	.-4      	; 0xf4 <uart_puts+0x4>
+
+
+void uart_puts(const char *s )
+{
+    while (*s) 
+      uart_tx_char(*s++);
+  f8:	31 96       	adiw	r30, 0x01	; 1
+
+
+void uart_tx_char(unsigned char s)
+{
+ loop_until_bit_is_set(UCSRA,UDRE);
+ UDR=s;
+  fa:	8c b9       	out	0x0c, r24	; 12
+
+
+
+void uart_puts(const char *s )
+{
+    while (*s) 
+  fc:	80 81       	ld	r24, Z
+  fe:	88 23       	and	r24, r24
+ 100:	c9 f7       	brne	.-14     	; 0xf4 <uart_puts+0x4>
+      uart_tx_char(*s++);
+
+}
+ 102:	08 95       	ret
+
+00000104 <main>:
+
+
+
+
+int main(void)
+{
+ 104:	cf 93       	push	r28
+ 106:	df 93       	push	r29
+	uint8_t i,data;
+	
+	Init_spi();
+ 108:	0e 94 8d 02 	call	0x51a	; 0x51a <Init_spi>
+	uart_init(9600);
+ 10c:	80 e8       	ldi	r24, 0x80	; 128
+ 10e:	95 e2       	ldi	r25, 0x25	; 37
+ 110:	0e 94 49 00 	call	0x92	; 0x92 <uart_init>
+	DDRA=0xFF;
+ 114:	8f ef       	ldi	r24, 0xFF	; 255
+ 116:	8a bb       	out	0x1a, r24	; 26
+	PORTA=0X00;
+ 118:	1b ba       	out	0x1b, r1	; 27
+	RfResetChip();
+ 11a:	0e 94 67 02 	call	0x4ce	; 0x4ce <RfResetChip>
+	
+	RfConfig(&myRfConfig, myPaTable, myPaTableLen);
+ 11e:	80 e6       	ldi	r24, 0x60	; 96
+ 120:	90 e0       	ldi	r25, 0x00	; 0
+ 122:	62 e8       	ldi	r22, 0x82	; 130
+ 124:	70 e0       	ldi	r23, 0x00	; 0
+ 126:	41 e0       	ldi	r20, 0x01	; 1
+ 128:	0e 94 a2 01 	call	0x344	; 0x344 <RfConfig>
+ 12c:	80 e1       	ldi	r24, 0x10	; 16
+ 12e:	97 e2       	ldi	r25, 0x27	; 39
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 130:	20 e9       	ldi	r18, 0x90	; 144
+ 132:	31 e0       	ldi	r19, 0x01	; 1
+ 134:	f9 01       	movw	r30, r18
+ 136:	31 97       	sbiw	r30, 0x01	; 1
+ 138:	f1 f7       	brne	.-4      	; 0x136 <main+0x32>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 13a:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 13c:	d9 f7       	brne	.-10     	; 0x134 <main+0x30>
+	_delay_ms(1000);
+	PORTA=0XFF;
+ 13e:	8f ef       	ldi	r24, 0xFF	; 255
+ 140:	8b bb       	out	0x1b, r24	; 27
+ 142:	80 e1       	ldi	r24, 0x10	; 16
+ 144:	97 e2       	ldi	r25, 0x27	; 39
+ 146:	20 e9       	ldi	r18, 0x90	; 144
+ 148:	31 e0       	ldi	r19, 0x01	; 1
+ 14a:	f9 01       	movw	r30, r18
+ 14c:	31 97       	sbiw	r30, 0x01	; 1
+ 14e:	f1 f7       	brne	.-4      	; 0x14c <main+0x48>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 150:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 152:	d9 f7       	brne	.-10     	; 0x14a <main+0x46>
+	_delay_ms(1000);
+	
+	PORTA=0X00;
+ 154:	1b ba       	out	0x1b, r1	; 27
+
+
+
+void uart_tx_char(unsigned char s)
+{
+ loop_until_bit_is_set(UCSRA,UDRE);
+ 156:	5d 9b       	sbis	0x0b, 5	; 11
+ 158:	fe cf       	rjmp	.-4      	; 0x156 <main+0x52>
+ UDR=s;
+ 15a:	8b e6       	ldi	r24, 0x6B	; 107
+ 15c:	8c b9       	out	0x0c, r24	; 12
+
+
+
+void uart_tx_char(unsigned char s)
+{
+ loop_until_bit_is_set(UCSRA,UDRE);
+ 15e:	5d 9b       	sbis	0x0b, 5	; 11
+ 160:	fe cf       	rjmp	.-4      	; 0x15e <main+0x5a>
+ UDR=s;
+ 162:	85 e6       	ldi	r24, 0x65	; 101
+ 164:	8c b9       	out	0x0c, r24	; 12
+
+
+
+void uart_tx_char(unsigned char s)
+{
+ loop_until_bit_is_set(UCSRA,UDRE);
+ 166:	5d 9b       	sbis	0x0b, 5	; 11
+ 168:	fe cf       	rjmp	.-4      	; 0x166 <main+0x62>
+ UDR=s;
+ 16a:	84 e7       	ldi	r24, 0x74	; 116
+ 16c:	8c b9       	out	0x0c, r24	; 12
+
+
+
+void uart_tx_char(unsigned char s)
+{
+ loop_until_bit_is_set(UCSRA,UDRE);
+ 16e:	5d 9b       	sbis	0x0b, 5	; 11
+ 170:	fe cf       	rjmp	.-4      	; 0x16e <main+0x6a>
+ UDR=s;
+ 172:	81 e6       	ldi	r24, 0x61	; 97
+ 174:	8c b9       	out	0x0c, r24	; 12
+
+
+
+void uart_tx_char(unsigned char s)
+{
+ loop_until_bit_is_set(UCSRA,UDRE);
+ 176:	5d 9b       	sbis	0x0b, 5	; 11
+ 178:	fe cf       	rjmp	.-4      	; 0x176 <main+0x72>
+ UDR=s;
+ 17a:	8e e6       	ldi	r24, 0x6E	; 110
+ 17c:	8c b9       	out	0x0c, r24	; 12
+ 17e:	c0 e9       	ldi	r28, 0x90	; 144
+ 180:	d1 e0       	ldi	r29, 0x01	; 1
+	uart_tx_char('n');
+	
+	while(1)
+	{
+	
+		data=RfStrobe(0x3D);
+ 182:	8d e3       	ldi	r24, 0x3D	; 61
+ 184:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+
+
+
+void uart_tx_char(unsigned char s)
+{
+ loop_until_bit_is_set(UCSRA,UDRE);
+ 188:	5d 9b       	sbis	0x0b, 5	; 11
+ 18a:	fe cf       	rjmp	.-4      	; 0x188 <main+0x84>
+ UDR=s;
+ 18c:	8c b9       	out	0x0c, r24	; 12
+ 18e:	80 e1       	ldi	r24, 0x10	; 16
+ 190:	97 e2       	ldi	r25, 0x27	; 39
+ 192:	fe 01       	movw	r30, r28
+ 194:	31 97       	sbiw	r30, 0x01	; 1
+ 196:	f1 f7       	brne	.-4      	; 0x194 <main+0x90>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 198:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 19a:	d9 f7       	brne	.-10     	; 0x192 <main+0x8e>
+ 19c:	80 e1       	ldi	r24, 0x10	; 16
+ 19e:	97 e2       	ldi	r25, 0x27	; 39
+ 1a0:	fe 01       	movw	r30, r28
+ 1a2:	31 97       	sbiw	r30, 0x01	; 1
+ 1a4:	f1 f7       	brne	.-4      	; 0x1a2 <main+0x9e>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 1a6:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 1a8:	d9 f7       	brne	.-10     	; 0x1a0 <main+0x9c>
+ 1aa:	80 e1       	ldi	r24, 0x10	; 16
+ 1ac:	97 e2       	ldi	r25, 0x27	; 39
+ 1ae:	fe 01       	movw	r30, r28
+ 1b0:	31 97       	sbiw	r30, 0x01	; 1
+ 1b2:	f1 f7       	brne	.-4      	; 0x1b0 <main+0xac>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 1b4:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 1b6:	d9 f7       	brne	.-10     	; 0x1ae <main+0xaa>
+ 1b8:	80 e1       	ldi	r24, 0x10	; 16
+ 1ba:	97 e2       	ldi	r25, 0x27	; 39
+ 1bc:	fe 01       	movw	r30, r28
+ 1be:	31 97       	sbiw	r30, 0x01	; 1
+ 1c0:	f1 f7       	brne	.-4      	; 0x1be <main+0xba>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 1c2:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 1c4:	d9 f7       	brne	.-10     	; 0x1bc <main+0xb8>
+ 1c6:	dd cf       	rjmp	.-70     	; 0x182 <main+0x7e>
+
+000001c8 <rf_init>:
+
+
+
+void rf_init(void)
+{
+	CC2500_DDR=(_BV(SCK)|_BV(MOSI)|_BV(CS));
+ 1c8:	80 eb       	ldi	r24, 0xB0	; 176
+ 1ca:	87 bb       	out	0x17, r24	; 23
+	CC2500_PORT=(_BV(MISO)|_BV(GDO2));
+ 1cc:	82 e4       	ldi	r24, 0x42	; 66
+ 1ce:	88 bb       	out	0x18, r24	; 24
+
+	
+
+}
+ 1d0:	08 95       	ret
+
+000001d2 <RfReadFifo>:
+
+//----------------------------------------------------------------------------------
+//  RF_STATUS RfReadFifo(uint8_t* data, uint8_t length)
+//----------------------------------------------------------------------------------
+RF_STATUS RfReadFifo(uint8_t* data, uint8_t length)
+{
+ 1d2:	9c 01       	movw	r18, r24
+ 1d4:	46 2f       	mov	r20, r22
+	uint8_t rc;
+	CS_HIGH;
+ 1d6:	c4 98       	cbi	0x18, 4	; 24
+	while(GET_MISO_HIGH);
+ 1d8:	b6 99       	sbic	0x16, 6	; 22
+ 1da:	fe cf       	rjmp	.-4      	; 0x1d8 <RfReadFifo+0x6>
+	rc=SpiRead(CC2500_RXFIFO | CC2500_READ_BURST, data, length);
+ 1dc:	8f ef       	ldi	r24, 0xFF	; 255
+ 1de:	b9 01       	movw	r22, r18
+ 1e0:	50 e0       	ldi	r21, 0x00	; 0
+ 1e2:	0e 94 a8 02 	call	0x550	; 0x550 <SpiRead>
+	CS_LOW;
+ 1e6:	c4 9a       	sbi	0x18, 4	; 24
+	return(rc);
+}
+ 1e8:	08 95       	ret
+
+000001ea <RfReadReg>:
+
+//----------------------------------------------------------------------------------
+//  uint8_t RfReadReg(uint8_t addr)
+//----------------------------------------------------------------------------------
+uint8_t RfReadReg(uint8_t addr)
+{
+ 1ea:	df 93       	push	r29
+ 1ec:	cf 93       	push	r28
+ 1ee:	0f 92       	push	r0
+ 1f0:	cd b7       	in	r28, 0x3d	; 61
+ 1f2:	de b7       	in	r29, 0x3e	; 62
+    uint8_t reg;
+	CS_HIGH;
+ 1f4:	c4 98       	cbi	0x18, 4	; 24
+	while(GET_MISO_HIGH);
+ 1f6:	b6 99       	sbic	0x16, 6	; 22
+ 1f8:	fe cf       	rjmp	.-4      	; 0x1f6 <RfReadReg+0xc>
+    SpiRead(addr | CC2500_READ_SINGLE, &reg, 1);
+ 1fa:	80 68       	ori	r24, 0x80	; 128
+ 1fc:	be 01       	movw	r22, r28
+ 1fe:	6f 5f       	subi	r22, 0xFF	; 255
+ 200:	7f 4f       	sbci	r23, 0xFF	; 255
+ 202:	41 e0       	ldi	r20, 0x01	; 1
+ 204:	50 e0       	ldi	r21, 0x00	; 0
+ 206:	0e 94 a8 02 	call	0x550	; 0x550 <SpiRead>
+	CS_LOW;
+ 20a:	c4 9a       	sbi	0x18, 4	; 24
+    return(reg);
+}
+ 20c:	89 81       	ldd	r24, Y+1	; 0x01
+ 20e:	0f 90       	pop	r0
+ 210:	cf 91       	pop	r28
+ 212:	df 91       	pop	r29
+ 214:	08 95       	ret
+
+00000216 <RfGetRxStatus>:
+//      workarounds.
+//
+//----------------------------------------------------------------------------------
+RF_STATUS RfGetRxStatus(void)
+{
+    return(RfReadReg(CC2500_SNOP | CC2500_READ_SINGLE));
+ 216:	8d eb       	ldi	r24, 0xBD	; 189
+ 218:	0e 94 f5 00 	call	0x1ea	; 0x1ea <RfReadReg>
+}
+ 21c:	08 95       	ret
+
+0000021e <RfGetTxStatus>:
+//      workarounds.
+//
+//----------------------------------------------------------------------------------
+RF_STATUS RfGetTxStatus(void)
+{
+    return(RfReadReg(CC2500_SNOP));
+ 21e:	8d e3       	ldi	r24, 0x3D	; 61
+ 220:	0e 94 f5 00 	call	0x1ea	; 0x1ea <RfReadReg>
+}
+ 224:	08 95       	ret
+
+00000226 <RfReadStatusReg>:
+//      that the result is corrupt. The CC1100 and CC2500 errata notes explain the
+//      problem and propose several workarounds.
+//
+//----------------------------------------------------------------------------------
+uint8_t RfReadStatusReg(uint8_t addr)
+{
+ 226:	df 93       	push	r29
+ 228:	cf 93       	push	r28
+ 22a:	0f 92       	push	r0
+ 22c:	cd b7       	in	r28, 0x3d	; 61
+ 22e:	de b7       	in	r29, 0x3e	; 62
+    uint8_t reg;
+	CS_HIGH;
+ 230:	c4 98       	cbi	0x18, 4	; 24
+	while(GET_MISO_HIGH);
+ 232:	b6 99       	sbic	0x16, 6	; 22
+ 234:	fe cf       	rjmp	.-4      	; 0x232 <RfReadStatusReg+0xc>
+    SpiRead(addr | CC2500_READ_BURST, &reg, 1);
+ 236:	80 6c       	ori	r24, 0xC0	; 192
+ 238:	be 01       	movw	r22, r28
+ 23a:	6f 5f       	subi	r22, 0xFF	; 255
+ 23c:	7f 4f       	sbci	r23, 0xFF	; 255
+ 23e:	41 e0       	ldi	r20, 0x01	; 1
+ 240:	50 e0       	ldi	r21, 0x00	; 0
+ 242:	0e 94 a8 02 	call	0x550	; 0x550 <SpiRead>
+	CS_LOW;
+ 246:	c4 9a       	sbi	0x18, 4	; 24
+    return(reg);
+}
+ 248:	89 81       	ldd	r24, Y+1	; 0x01
+ 24a:	0f 90       	pop	r0
+ 24c:	cf 91       	pop	r28
+ 24e:	df 91       	pop	r29
+ 250:	08 95       	ret
+
+00000252 <RfGetChipVer>:
+//----------------------------------------------------------------------------------
+//  uint8_t RfGetChipVer(void)
+//----------------------------------------------------------------------------------
+uint8_t RfGetChipVer(void)
+{
+    return(RfReadStatusReg(CC2500_VERSION));
+ 252:	81 e3       	ldi	r24, 0x31	; 49
+ 254:	0e 94 13 01 	call	0x226	; 0x226 <RfReadStatusReg>
+}
+ 258:	08 95       	ret
+
+0000025a <RfGetChipId>:
+//----------------------------------------------------------------------------------
+//  uint8_t RfGetChipId(void)
+//----------------------------------------------------------------------------------
+uint8_t RfGetChipId(void)
+{
+    return(RfReadStatusReg(CC2500_PARTNUM));
+ 25a:	80 e3       	ldi	r24, 0x30	; 48
+ 25c:	0e 94 13 01 	call	0x226	; 0x226 <RfReadStatusReg>
+}
+ 260:	08 95       	ret
+
+00000262 <RfWriteFifo>:
+
+//----------------------------------------------------------------------------------
+//  RF_STATUS RfWriteFifo(uint8_t* data, uint8_t length)
+//----------------------------------------------------------------------------------
+RF_STATUS RfWriteFifo(const uint8_t* data, uint8_t length)
+{
+ 262:	9c 01       	movw	r18, r24
+ 264:	46 2f       	mov	r20, r22
+    uint8_t rc;
+	CS_HIGH;
+ 266:	c4 98       	cbi	0x18, 4	; 24
+	while(GET_MISO_HIGH);
+ 268:	b6 99       	sbic	0x16, 6	; 22
+ 26a:	fe cf       	rjmp	.-4      	; 0x268 <RfWriteFifo+0x6>
+	rc=SpiWrite(CC2500_TXFIFO | CC2500_WRITE_BURST, data, length);
+ 26c:	8f e7       	ldi	r24, 0x7F	; 127
+ 26e:	b9 01       	movw	r22, r18
+ 270:	50 e0       	ldi	r21, 0x00	; 0
+ 272:	0e 94 91 02 	call	0x522	; 0x522 <SpiWrite>
+	CS_LOW;
+ 276:	c4 9a       	sbi	0x18, 4	; 24
+	return(rc);
+	
+}
+ 278:	08 95       	ret
+
+0000027a <RfWriteReg>:
+
+//----------------------------------------------------------------------------------
+//  RF_STATUS RfWriteReg(uint8_t addr, uint8_t data)
+//----------------------------------------------------------------------------------
+RF_STATUS RfWriteReg(uint8_t addr, uint8_t data)
+{
+ 27a:	df 93       	push	r29
+ 27c:	cf 93       	push	r28
+ 27e:	0f 92       	push	r0
+ 280:	cd b7       	in	r28, 0x3d	; 61
+ 282:	de b7       	in	r29, 0x3e	; 62
+ 284:	69 83       	std	Y+1, r22	; 0x01
+    uint8_t rc;
+	CS_HIGH;
+ 286:	c4 98       	cbi	0x18, 4	; 24
+	while(GET_MISO_HIGH);
+ 288:	b6 99       	sbic	0x16, 6	; 22
+ 28a:	fe cf       	rjmp	.-4      	; 0x288 <RfWriteReg+0xe>
+    rc = SpiWrite(addr, &data, 1);
+ 28c:	be 01       	movw	r22, r28
+ 28e:	6f 5f       	subi	r22, 0xFF	; 255
+ 290:	7f 4f       	sbci	r23, 0xFF	; 255
+ 292:	41 e0       	ldi	r20, 0x01	; 1
+ 294:	50 e0       	ldi	r21, 0x00	; 0
+ 296:	0e 94 91 02 	call	0x522	; 0x522 <SpiWrite>
+	CS_LOW;
+ 29a:	c4 9a       	sbi	0x18, 4	; 24
+    return(rc);
+}
+ 29c:	0f 90       	pop	r0
+ 29e:	cf 91       	pop	r28
+ 2a0:	df 91       	pop	r29
+ 2a2:	08 95       	ret
+
+000002a4 <RfBurstConfig>:
+//    rfPaTable    - array of PA table values (from SmartRF Studio)
+//    rfPaTableLen - length of PA table
+//
+//----------------------------------------------------------------------------------
+void  RfBurstConfig(const RF_BURST_CONFIG rfConfig, const uint8_t* rfPaTable, uint8_t rfPaTableLen)
+{
+ 2a4:	1f 93       	push	r17
+ 2a6:	cf 93       	push	r28
+ 2a8:	df 93       	push	r29
+ 2aa:	9c 01       	movw	r18, r24
+ 2ac:	eb 01       	movw	r28, r22
+ 2ae:	14 2f       	mov	r17, r20
+    CS_HIGH;
+ 2b0:	c4 98       	cbi	0x18, 4	; 24
+	while(GET_MISO_HIGH);
+ 2b2:	b6 99       	sbic	0x16, 6	; 22
+ 2b4:	fe cf       	rjmp	.-4      	; 0x2b2 <RfBurstConfig+0xe>
+	SpiWrite(CC2500_IOCFG2  | CC2500_WRITE_BURST, rfConfig, sizeof(rfConfig));
+ 2b6:	80 e4       	ldi	r24, 0x40	; 64
+ 2b8:	b9 01       	movw	r22, r18
+ 2ba:	42 e0       	ldi	r20, 0x02	; 2
+ 2bc:	50 e0       	ldi	r21, 0x00	; 0
+ 2be:	0e 94 91 02 	call	0x522	; 0x522 <SpiWrite>
+    SpiWrite(CC2500_PATABLE | CC2500_WRITE_BURST, rfPaTable, rfPaTableLen);
+ 2c2:	8e e7       	ldi	r24, 0x7E	; 126
+ 2c4:	be 01       	movw	r22, r28
+ 2c6:	41 2f       	mov	r20, r17
+ 2c8:	50 e0       	ldi	r21, 0x00	; 0
+ 2ca:	0e 94 91 02 	call	0x522	; 0x522 <SpiWrite>
+	CS_LOW;
+ 2ce:	c4 9a       	sbi	0x18, 4	; 24
+}
+ 2d0:	df 91       	pop	r29
+ 2d2:	cf 91       	pop	r28
+ 2d4:	1f 91       	pop	r17
+ 2d6:	08 95       	ret
+
+000002d8 <RfStrobe>:
+//  RF_STATUS RfStrobe(uint8_t cmd)
+//----------------------------------------------------------------------------------
+RF_STATUS RfStrobe(uint8_t cmd)
+{
+	uint8_t rc;
+	CS_HIGH;
+ 2d8:	c4 98       	cbi	0x18, 4	; 24
+	while(GET_MISO_HIGH);
+ 2da:	b6 99       	sbic	0x16, 6	; 22
+ 2dc:	fe cf       	rjmp	.-4      	; 0x2da <RfStrobe+0x2>
+	rc=SpiStrobe(cmd);
+ 2de:	0e 94 c0 02 	call	0x580	; 0x580 <SpiStrobe>
+	CS_LOW;
+ 2e2:	c4 9a       	sbi	0x18, 4	; 24
+    return(rc);
+}
+ 2e4:	08 95       	ret
+
+000002e6 <Rf_rx_data>:
+//
+//---------------------------------------------------------------
+void Rf_rx_data(void)
+{
+	
+	data=RfReadReg(0x3F);
+ 2e6:	8f e3       	ldi	r24, 0x3F	; 63
+ 2e8:	0e 94 f5 00 	call	0x1ea	; 0x1ea <RfReadReg>
+ 2ec:	80 93 84 00 	sts	0x0084, r24
+	if(data==5)
+ 2f0:	80 91 84 00 	lds	r24, 0x0084
+ 2f4:	85 30       	cpi	r24, 0x05	; 5
+ 2f6:	11 f4       	brne	.+4      	; 0x2fc <Rf_rx_data+0x16>
+	PORTA=0x0A;
+ 2f8:	8a e0       	ldi	r24, 0x0A	; 10
+ 2fa:	01 c0       	rjmp	.+2      	; 0x2fe <Rf_rx_data+0x18>
+	else
+	PORTA=0x05;
+ 2fc:	85 e0       	ldi	r24, 0x05	; 5
+ 2fe:	8b bb       	out	0x1b, r24	; 27
+	RfStrobe(0x3A);  //flux rxfifo
+ 300:	8a e3       	ldi	r24, 0x3A	; 58
+ 302:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+	RfStrobe(0x36); //ideale mode 
+ 306:	86 e3       	ldi	r24, 0x36	; 54
+ 308:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+	RfStrobe(0x34);	//receive mode
+ 30c:	84 e3       	ldi	r24, 0x34	; 52
+ 30e:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+}
+ 312:	08 95       	ret
+
+00000314 <Rf_tx_data>:
+}
+
+
+
+void Rf_tx_data(uint8_t data)
+{
+ 314:	68 2f       	mov	r22, r24
+	
+	RfWriteReg(0x3F,data);
+ 316:	8f e3       	ldi	r24, 0x3F	; 63
+ 318:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+	RfStrobe(CC2500_STX);
+ 31c:	85 e3       	ldi	r24, 0x35	; 53
+ 31e:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+	while(GET_GDO0_LOW);
+ 322:	b2 9b       	sbis	0x16, 2	; 22
+ 324:	fe cf       	rjmp	.-4      	; 0x322 <Rf_tx_data+0xe>
+	while(GET_GDO0_HIGH);
+ 326:	b2 99       	sbic	0x16, 2	; 22
+ 328:	fe cf       	rjmp	.-4      	; 0x326 <Rf_tx_data+0x12>
+	RfStrobe(CC2500_SFRX);  //flux rxfifo
+ 32a:	8a e3       	ldi	r24, 0x3A	; 58
+ 32c:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+	RfStrobe(CC2500_SFTX);  //flux txfifo
+ 330:	8b e3       	ldi	r24, 0x3B	; 59
+ 332:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+	RfStrobe(CC2500_SIDLE); //ideale mode 
+ 336:	86 e3       	ldi	r24, 0x36	; 54
+ 338:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+	RfStrobe(CC2500_SRX); //receiver mode
+ 33c:	84 e3       	ldi	r24, 0x34	; 52
+ 33e:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+	
+}
+ 342:	08 95       	ret
+
+00000344 <RfConfig>:
+//    rfPaTable    - array of PA table values (from SmartRF Studio)
+//    rfPaTableLen - length of PA table
+//
+//----------------------------------------------------------------------------------
+void RfConfig(const RF_CONFIG* rfConfig, const uint8_t* rfPaTable, uint8_t rfPaTableLen)
+{  RfWriteReg(CC2500_FSCTRL1,  rfConfig->fsctrl1);    // Frequency synthesizer control.
+ 344:	ff 92       	push	r15
+ 346:	0f 93       	push	r16
+ 348:	1f 93       	push	r17
+ 34a:	cf 93       	push	r28
+ 34c:	df 93       	push	r29
+ 34e:	8c 01       	movw	r16, r24
+ 350:	eb 01       	movw	r28, r22
+ 352:	f4 2e       	mov	r15, r20
+ 354:	8b e0       	ldi	r24, 0x0B	; 11
+ 356:	f8 01       	movw	r30, r16
+ 358:	60 81       	ld	r22, Z
+ 35a:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FSCTRL0,  rfConfig->fsctrl0);    // Frequency synthesizer control.
+ 35e:	8c e0       	ldi	r24, 0x0C	; 12
+ 360:	f8 01       	movw	r30, r16
+ 362:	61 81       	ldd	r22, Z+1	; 0x01
+ 364:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FREQ2,    rfConfig->freq2);      // Frequency control word, high byte.
+ 368:	8d e0       	ldi	r24, 0x0D	; 13
+ 36a:	f8 01       	movw	r30, r16
+ 36c:	62 81       	ldd	r22, Z+2	; 0x02
+ 36e:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FREQ1,    rfConfig->freq1);      // Frequency control word, middle byte.
+ 372:	8e e0       	ldi	r24, 0x0E	; 14
+ 374:	f8 01       	movw	r30, r16
+ 376:	63 81       	ldd	r22, Z+3	; 0x03
+ 378:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FREQ0,    rfConfig->freq0);      // Frequency control word, low byte.
+ 37c:	8f e0       	ldi	r24, 0x0F	; 15
+ 37e:	f8 01       	movw	r30, r16
+ 380:	64 81       	ldd	r22, Z+4	; 0x04
+ 382:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_MDMCFG4,  rfConfig->mdmcfg4);    // Modem configuration.
+ 386:	80 e1       	ldi	r24, 0x10	; 16
+ 388:	f8 01       	movw	r30, r16
+ 38a:	65 81       	ldd	r22, Z+5	; 0x05
+ 38c:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_MDMCFG3,  rfConfig->mdmcfg3);    // Modem configuration.
+ 390:	81 e1       	ldi	r24, 0x11	; 17
+ 392:	f8 01       	movw	r30, r16
+ 394:	66 81       	ldd	r22, Z+6	; 0x06
+ 396:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_MDMCFG2,  rfConfig->mdmcfg2);    // Modem configuration.
+ 39a:	82 e1       	ldi	r24, 0x12	; 18
+ 39c:	f8 01       	movw	r30, r16
+ 39e:	67 81       	ldd	r22, Z+7	; 0x07
+ 3a0:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_MDMCFG1,  rfConfig->mdmcfg1);    // Modem configuration.
+ 3a4:	83 e1       	ldi	r24, 0x13	; 19
+ 3a6:	f8 01       	movw	r30, r16
+ 3a8:	60 85       	ldd	r22, Z+8	; 0x08
+ 3aa:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_MDMCFG0,  rfConfig->mdmcfg0);    // Modem configuration.
+ 3ae:	84 e1       	ldi	r24, 0x14	; 20
+ 3b0:	f8 01       	movw	r30, r16
+ 3b2:	61 85       	ldd	r22, Z+9	; 0x09
+ 3b4:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_CHANNR,   rfConfig->channr);     // Channel number.
+ 3b8:	8a e0       	ldi	r24, 0x0A	; 10
+ 3ba:	f8 01       	movw	r30, r16
+ 3bc:	62 85       	ldd	r22, Z+10	; 0x0a
+ 3be:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_DEVIATN,  rfConfig->deviatn);    // Modem deviation setting (when FSK modulation is enabled).
+ 3c2:	85 e1       	ldi	r24, 0x15	; 21
+ 3c4:	f8 01       	movw	r30, r16
+ 3c6:	63 85       	ldd	r22, Z+11	; 0x0b
+ 3c8:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FREND1,   rfConfig->frend1);     // Front end RX configuration.
+ 3cc:	81 e2       	ldi	r24, 0x21	; 33
+ 3ce:	f8 01       	movw	r30, r16
+ 3d0:	64 85       	ldd	r22, Z+12	; 0x0c
+ 3d2:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FREND0,   rfConfig->frend0);     // Front end RX configuration.
+ 3d6:	82 e2       	ldi	r24, 0x22	; 34
+ 3d8:	f8 01       	movw	r30, r16
+ 3da:	65 85       	ldd	r22, Z+13	; 0x0d
+ 3dc:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_MCSM0,    rfConfig->mcsm0);      // Main Radio Control State Machine configuration.
+ 3e0:	88 e1       	ldi	r24, 0x18	; 24
+ 3e2:	f8 01       	movw	r30, r16
+ 3e4:	66 85       	ldd	r22, Z+14	; 0x0e
+ 3e6:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FOCCFG,   rfConfig->foccfg);     // Frequency Offset Compensation Configuration.
+ 3ea:	89 e1       	ldi	r24, 0x19	; 25
+ 3ec:	f8 01       	movw	r30, r16
+ 3ee:	67 85       	ldd	r22, Z+15	; 0x0f
+ 3f0:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_BSCFG,    rfConfig->bscfg);      // Bit synchronization Configuration.
+ 3f4:	8a e1       	ldi	r24, 0x1A	; 26
+ 3f6:	f8 01       	movw	r30, r16
+ 3f8:	60 89       	ldd	r22, Z+16	; 0x10
+ 3fa:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_AGCCTRL2, rfConfig->agcctrl2);   // AGC control.
+ 3fe:	8b e1       	ldi	r24, 0x1B	; 27
+ 400:	f8 01       	movw	r30, r16
+ 402:	61 89       	ldd	r22, Z+17	; 0x11
+ 404:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_AGCCTRL1, rfConfig->agcctrl1);   // AGC control.
+ 408:	8c e1       	ldi	r24, 0x1C	; 28
+ 40a:	f8 01       	movw	r30, r16
+ 40c:	62 89       	ldd	r22, Z+18	; 0x12
+ 40e:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_AGCCTRL0, rfConfig->agcctrl0);   // AGC control.
+ 412:	8d e1       	ldi	r24, 0x1D	; 29
+ 414:	f8 01       	movw	r30, r16
+ 416:	63 89       	ldd	r22, Z+19	; 0x13
+ 418:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FSCAL3,   rfConfig->fscal3);     // Frequency synthesizer calibration.
+ 41c:	83 e2       	ldi	r24, 0x23	; 35
+ 41e:	f8 01       	movw	r30, r16
+ 420:	64 89       	ldd	r22, Z+20	; 0x14
+ 422:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FSCAL2,   rfConfig->fscal2);     // Frequency synthesizer calibration.
+ 426:	84 e2       	ldi	r24, 0x24	; 36
+ 428:	f8 01       	movw	r30, r16
+ 42a:	65 89       	ldd	r22, Z+21	; 0x15
+ 42c:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FSCAL1,   rfConfig->fscal1);     // Frequency synthesizer calibration.
+ 430:	85 e2       	ldi	r24, 0x25	; 37
+ 432:	f8 01       	movw	r30, r16
+ 434:	66 89       	ldd	r22, Z+22	; 0x16
+ 436:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FSCAL0,   rfConfig->fscal0);     // Frequency synthesizer calibration.
+ 43a:	86 e2       	ldi	r24, 0x26	; 38
+ 43c:	f8 01       	movw	r30, r16
+ 43e:	67 89       	ldd	r22, Z+23	; 0x17
+ 440:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_FSTEST,   rfConfig->fstest);     // Frequency synthesizer calibration.
+ 444:	89 e2       	ldi	r24, 0x29	; 41
+ 446:	f8 01       	movw	r30, r16
+ 448:	60 8d       	ldd	r22, Z+24	; 0x18
+ 44a:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_TEST2,    rfConfig->test2);      // Various test settings.
+ 44e:	8c e2       	ldi	r24, 0x2C	; 44
+ 450:	f8 01       	movw	r30, r16
+ 452:	61 8d       	ldd	r22, Z+25	; 0x19
+ 454:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_TEST1,    rfConfig->test1);      // Various test settings.
+ 458:	8d e2       	ldi	r24, 0x2D	; 45
+ 45a:	f8 01       	movw	r30, r16
+ 45c:	62 8d       	ldd	r22, Z+26	; 0x1a
+ 45e:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_TEST0,    rfConfig->test0);      // Various test settings.
+ 462:	8e e2       	ldi	r24, 0x2E	; 46
+ 464:	f8 01       	movw	r30, r16
+ 466:	63 8d       	ldd	r22, Z+27	; 0x1b
+ 468:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_IOCFG2,   rfConfig->iocfg2);     // GDO2 output pin configuration.
+ 46c:	80 e0       	ldi	r24, 0x00	; 0
+ 46e:	f8 01       	movw	r30, r16
+ 470:	64 8d       	ldd	r22, Z+28	; 0x1c
+ 472:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_IOCFG0,   rfConfig->iocfg0);     // GDO0 output pin configuration.
+ 476:	82 e0       	ldi	r24, 0x02	; 2
+ 478:	f8 01       	movw	r30, r16
+ 47a:	65 8d       	ldd	r22, Z+29	; 0x1d
+ 47c:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_PKTCTRL1, rfConfig->pktctrl1);   // Packet automation control.
+ 480:	87 e0       	ldi	r24, 0x07	; 7
+ 482:	f8 01       	movw	r30, r16
+ 484:	66 8d       	ldd	r22, Z+30	; 0x1e
+ 486:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_PKTCTRL0, rfConfig->pktctrl0);   // Packet automation control.
+ 48a:	88 e0       	ldi	r24, 0x08	; 8
+ 48c:	f8 01       	movw	r30, r16
+ 48e:	67 8d       	ldd	r22, Z+31	; 0x1f
+ 490:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_ADDR,     rfConfig->addr);       // Device address.
+ 494:	89 e0       	ldi	r24, 0x09	; 9
+ 496:	f8 01       	movw	r30, r16
+ 498:	60 a1       	ldd	r22, Z+32	; 0x20
+ 49a:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+    RfWriteReg(CC2500_PKTLEN,   rfConfig->pktlen);     // Packet length.
+ 49e:	86 e0       	ldi	r24, 0x06	; 6
+ 4a0:	f8 01       	movw	r30, r16
+ 4a2:	61 a1       	ldd	r22, Z+33	; 0x21
+ 4a4:	0e 94 3d 01 	call	0x27a	; 0x27a <RfWriteReg>
+	CS_HIGH;
+ 4a8:	c4 98       	cbi	0x18, 4	; 24
+	while(GET_MISO_HIGH);
+ 4aa:	b6 99       	sbic	0x16, 6	; 22
+ 4ac:	fe cf       	rjmp	.-4      	; 0x4aa <__stack+0x4b>
+    SpiWrite(CC2500_PATABLE | CC2500_WRITE_BURST, rfPaTable, rfPaTableLen);
+ 4ae:	8e e7       	ldi	r24, 0x7E	; 126
+ 4b0:	be 01       	movw	r22, r28
+ 4b2:	4f 2d       	mov	r20, r15
+ 4b4:	50 e0       	ldi	r21, 0x00	; 0
+ 4b6:	0e 94 91 02 	call	0x522	; 0x522 <SpiWrite>
+	 CS_LOW;
+ 4ba:	c4 9a       	sbi	0x18, 4	; 24
+	 RfStrobe(CC2500_SRX); //receiver mode
+ 4bc:	84 e3       	ldi	r24, 0x34	; 52
+ 4be:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+	
+}
+ 4c2:	df 91       	pop	r29
+ 4c4:	cf 91       	pop	r28
+ 4c6:	1f 91       	pop	r17
+ 4c8:	0f 91       	pop	r16
+ 4ca:	ff 90       	pop	r15
+ 4cc:	08 95       	ret
+
+000004ce <RfResetChip>:
+
+
+
+void rf_init(void)
+{
+	CC2500_DDR=(_BV(SCK)|_BV(MOSI)|_BV(CS));
+ 4ce:	80 eb       	ldi	r24, 0xB0	; 176
+ 4d0:	87 bb       	out	0x17, r24	; 23
+	CC2500_PORT=(_BV(MISO)|_BV(GDO2));
+ 4d2:	82 e4       	ldi	r24, 0x42	; 66
+ 4d4:	88 bb       	out	0x18, r24	; 24
+//    Resets the chip using the procedure described in the datasheet.
+//----------------------------------------------------------------------------------
+void RfResetChip(void)
+{
+	rf_init();
+	CS_HIGH;
+ 4d6:	c4 98       	cbi	0x18, 4	; 24
+    can be achieved.
+*/
+void
+_delay_loop_1(uint8_t __count)
+{
+	__asm__ volatile (
+ 4d8:	8a e1       	ldi	r24, 0x1A	; 26
+ 4da:	98 2f       	mov	r25, r24
+ 4dc:	9a 95       	dec	r25
+ 4de:	f1 f7       	brne	.-4      	; 0x4dc <RfResetChip+0xe>
+	_delay_us(5);
+	SCK_LOW;
+ 4e0:	c7 98       	cbi	0x18, 7	; 24
+ 4e2:	98 2f       	mov	r25, r24
+ 4e4:	9a 95       	dec	r25
+ 4e6:	f1 f7       	brne	.-4      	; 0x4e4 <RfResetChip+0x16>
+	_delay_us(5);
+	MOSI_LOW;
+ 4e8:	c5 98       	cbi	0x18, 5	; 24
+ 4ea:	8a 95       	dec	r24
+ 4ec:	f1 f7       	brne	.-4      	; 0x4ea <RfResetChip+0x1c>
+	_delay_us(5);
+    // Toggle chip select signal
+    CS_LOW;
+ 4ee:	c4 9a       	sbi	0x18, 4	; 24
+ 4f0:	80 ea       	ldi	r24, 0xA0	; 160
+ 4f2:	98 2f       	mov	r25, r24
+ 4f4:	9a 95       	dec	r25
+ 4f6:	f1 f7       	brne	.-4      	; 0x4f4 <RfResetChip+0x26>
+    _delay_us(30);
+    CS_HIGH;
+ 4f8:	c4 98       	cbi	0x18, 4	; 24
+ 4fa:	8a 95       	dec	r24
+ 4fc:	f1 f7       	brne	.-4      	; 0x4fa <RfResetChip+0x2c>
+    _delay_us(30);
+    CS_LOW;
+ 4fe:	c4 9a       	sbi	0x18, 4	; 24
+ 500:	80 ef       	ldi	r24, 0xF0	; 240
+ 502:	8a 95       	dec	r24
+ 504:	f1 f7       	brne	.-4      	; 0x502 <RfResetChip+0x34>
+    _delay_us(45);
+
+    // Send SRES command
+    CS_HIGH;
+ 506:	c4 98       	cbi	0x18, 4	; 24
+    while(GET_MISO_HIGH);
+ 508:	b6 99       	sbic	0x16, 6	; 22
+ 50a:	fe cf       	rjmp	.-4      	; 0x508 <RfResetChip+0x3a>
+    RfStrobe(CC2500_SRES);
+ 50c:	80 e3       	ldi	r24, 0x30	; 48
+ 50e:	0e 94 6c 01 	call	0x2d8	; 0x2d8 <RfStrobe>
+    // Wait for chip to finish internal reset
+    while(GET_MISO_HIGH);
+ 512:	b6 99       	sbic	0x16, 6	; 22
+ 514:	fe cf       	rjmp	.-4      	; 0x512 <RfResetChip+0x44>
+    CS_LOW;
+ 516:	c4 9a       	sbi	0x18, 4	; 24
+}
+ 518:	08 95       	ret
+
+0000051a <Init_spi>:
+#include"spi.h"
+
+
+void Init_spi(void) 
+{
+	SPCR=0X1D;
+ 51a:	8d e1       	ldi	r24, 0x1D	; 29
+ 51c:	8d b9       	out	0x0d, r24	; 13
+	SPSR=0X00;
+ 51e:	1e b8       	out	0x0e, r1	; 14
+}
+ 520:	08 95       	ret
+
+00000522 <SpiWrite>:
+uint8_t SpiWrite(uint8_t addr, const uint8_t* data, uint16_t length)
+{
+    uint16_t i;
+    uint8_t rc;
+
+    SPI_BEGIN;
+ 522:	6e 9a       	sbi	0x0d, 6	; 13
+    SPI_TXBUF_SET(addr);
+ 524:	8f b9       	out	0x0f, r24	; 15
+    SPI_WAIT_TXFIN;
+ 526:	77 9b       	sbis	0x0e, 7	; 14
+ 528:	fe cf       	rjmp	.-4      	; 0x526 <SpiWrite+0x4>
+    rc = SPI_RXBUF;
+ 52a:	9f b1       	in	r25, 0x0f	; 15
+ 52c:	20 e0       	ldi	r18, 0x00	; 0
+ 52e:	30 e0       	ldi	r19, 0x00	; 0
+ 530:	09 c0       	rjmp	.+18     	; 0x544 <SpiWrite+0x22>
+    for (i = 0; i < length; i++)
+    {
+      SPI_TXBUF_SET(data[i]);
+ 532:	fb 01       	movw	r30, r22
+ 534:	e2 0f       	add	r30, r18
+ 536:	f3 1f       	adc	r31, r19
+ 538:	80 81       	ld	r24, Z
+ 53a:	8f b9       	out	0x0f, r24	; 15
+      SPI_WAIT_TXFIN;
+ 53c:	77 9b       	sbis	0x0e, 7	; 14
+ 53e:	fe cf       	rjmp	.-4      	; 0x53c <SpiWrite+0x1a>
+
+    SPI_BEGIN;
+    SPI_TXBUF_SET(addr);
+    SPI_WAIT_TXFIN;
+    rc = SPI_RXBUF;
+    for (i = 0; i < length; i++)
+ 540:	2f 5f       	subi	r18, 0xFF	; 255
+ 542:	3f 4f       	sbci	r19, 0xFF	; 255
+ 544:	24 17       	cp	r18, r20
+ 546:	35 07       	cpc	r19, r21
+ 548:	a0 f3       	brcs	.-24     	; 0x532 <SpiWrite+0x10>
+    {
+      SPI_TXBUF_SET(data[i]);
+      SPI_WAIT_TXFIN;
+    }
+
+    SPI_END;
+ 54a:	6e 98       	cbi	0x0d, 6	; 13
+    return(rc);
+
+}
+ 54c:	89 2f       	mov	r24, r25
+ 54e:	08 95       	ret
+
+00000550 <SpiRead>:
+uint8_t SpiRead(uint8_t addr, uint8_t* data, uint16_t length)
+{
+    uint16_t i;
+    uint8_t rc;
+
+    SPI_BEGIN;
+ 550:	6e 9a       	sbi	0x0d, 6	; 13
+
+    SPI_TXBUF_SET(addr);
+ 552:	8f b9       	out	0x0f, r24	; 15
+    SPI_WAIT_TXFIN;
+ 554:	77 9b       	sbis	0x0e, 7	; 14
+ 556:	fe cf       	rjmp	.-4      	; 0x554 <SpiRead+0x4>
+    rc = SPI_RXBUF;
+ 558:	9f b1       	in	r25, 0x0f	; 15
+ 55a:	20 e0       	ldi	r18, 0x00	; 0
+ 55c:	30 e0       	ldi	r19, 0x00	; 0
+ 55e:	0a c0       	rjmp	.+20     	; 0x574 <SpiRead+0x24>
+    for (i = 0; i < length; i++)
+    {
+        SPI_TXBUF_SET(0);        // Dummy write to read data byte
+ 560:	1f b8       	out	0x0f, r1	; 15
+        SPI_WAIT_TXFIN;
+ 562:	77 9b       	sbis	0x0e, 7	; 14
+ 564:	fe cf       	rjmp	.-4      	; 0x562 <SpiRead+0x12>
+        data[i] = SPI_RXBUF;     // Store data from last data RX
+ 566:	8f b1       	in	r24, 0x0f	; 15
+ 568:	fb 01       	movw	r30, r22
+ 56a:	e2 0f       	add	r30, r18
+ 56c:	f3 1f       	adc	r31, r19
+ 56e:	80 83       	st	Z, r24
+    SPI_BEGIN;
+
+    SPI_TXBUF_SET(addr);
+    SPI_WAIT_TXFIN;
+    rc = SPI_RXBUF;
+    for (i = 0; i < length; i++)
+ 570:	2f 5f       	subi	r18, 0xFF	; 255
+ 572:	3f 4f       	sbci	r19, 0xFF	; 255
+ 574:	24 17       	cp	r18, r20
+ 576:	35 07       	cpc	r19, r21
+ 578:	98 f3       	brcs	.-26     	; 0x560 <SpiRead+0x10>
+        SPI_TXBUF_SET(0);        // Dummy write to read data byte
+        SPI_WAIT_TXFIN;
+        data[i] = SPI_RXBUF;     // Store data from last data RX
+    }
+
+    SPI_END;
+ 57a:	6e 98       	cbi	0x0d, 6	; 13
+    return(rc);
+}
+ 57c:	89 2f       	mov	r24, r25
+ 57e:	08 95       	ret
+
+00000580 <SpiStrobe>:
+//----------------------------------------------------------------------------------
+uint8_t SpiStrobe(uint8_t cmd)
+{
+    uint8_t rc;
+
+    SPI_BEGIN;
+ 580:	6e 9a       	sbi	0x0d, 6	; 13
+    SPI_TXBUF_SET(cmd);
+ 582:	8f b9       	out	0x0f, r24	; 15
+    SPI_WAIT_TXFIN;
+ 584:	77 9b       	sbis	0x0e, 7	; 14
+ 586:	fe cf       	rjmp	.-4      	; 0x584 <SpiStrobe+0x4>
+    rc = SPI_RXBUF;
+ 588:	8f b1       	in	r24, 0x0f	; 15
+    rc = SPI_RXBUF;
+ 58a:	8f b1       	in	r24, 0x0f	; 15
+    SPI_END;
+ 58c:	6e 98       	cbi	0x0d, 6	; 13
+    return(rc);
+}
+ 58e:	08 95       	ret
+
+00000590 <__udivmodsi4>:
+ 590:	a1 e2       	ldi	r26, 0x21	; 33
+ 592:	1a 2e       	mov	r1, r26
+ 594:	aa 1b       	sub	r26, r26
+ 596:	bb 1b       	sub	r27, r27
+ 598:	fd 01       	movw	r30, r26
+ 59a:	0d c0       	rjmp	.+26     	; 0x5b6 <__udivmodsi4_ep>
+
+0000059c <__udivmodsi4_loop>:
+ 59c:	aa 1f       	adc	r26, r26
+ 59e:	bb 1f       	adc	r27, r27
+ 5a0:	ee 1f       	adc	r30, r30
+ 5a2:	ff 1f       	adc	r31, r31
+ 5a4:	a2 17       	cp	r26, r18
+ 5a6:	b3 07       	cpc	r27, r19
+ 5a8:	e4 07       	cpc	r30, r20
+ 5aa:	f5 07       	cpc	r31, r21
+ 5ac:	20 f0       	brcs	.+8      	; 0x5b6 <__udivmodsi4_ep>
+ 5ae:	a2 1b       	sub	r26, r18
+ 5b0:	b3 0b       	sbc	r27, r19
+ 5b2:	e4 0b       	sbc	r30, r20
+ 5b4:	f5 0b       	sbc	r31, r21
+
+000005b6 <__udivmodsi4_ep>:
+ 5b6:	66 1f       	adc	r22, r22
+ 5b8:	77 1f       	adc	r23, r23
+ 5ba:	88 1f       	adc	r24, r24
+ 5bc:	99 1f       	adc	r25, r25
+ 5be:	1a 94       	dec	r1
+ 5c0:	69 f7       	brne	.-38     	; 0x59c <__udivmodsi4_loop>
+ 5c2:	60 95       	com	r22
+ 5c4:	70 95       	com	r23
+ 5c6:	80 95       	com	r24
+ 5c8:	90 95       	com	r25
+ 5ca:	9b 01       	movw	r18, r22
+ 5cc:	ac 01       	movw	r20, r24
+ 5ce:	bd 01       	movw	r22, r26
+ 5d0:	cf 01       	movw	r24, r30
+ 5d2:	08 95       	ret
+
+000005d4 <_exit>:
+ 5d4:	f8 94       	cli
+
+000005d6 <__stop_program>:
+ 5d6:	ff cf       	rjmp	.-2      	; 0x5d6 <__stop_program>

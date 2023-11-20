@@ -1,0 +1,4320 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         0000175a  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         0000000a  00800060  0000175a  000017ee  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          00000003  0080006a  0080006a  000017f8  2**0
+                  ALLOC
+  3 .debug_aranges 00000060  00000000  00000000  000017f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_pubnames 00000123  00000000  00000000  00001858  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00001b26  00000000  00000000  0000197b  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 00000694  00000000  00000000  000034a1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   0000127e  00000000  00000000  00003b35  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000190  00000000  00000000  00004db4  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    000003f4  00000000  00000000  00004f44  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    00001960  00000000  00000000  00005338  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000118  00000000  00000000  00006c98  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+       0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+       4:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+       8:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+       c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      10:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      14:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      18:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      1c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      20:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      24:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      28:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      2c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      30:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      34:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      38:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      3c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      40:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      44:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      48:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      4c:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+      50:	0c 94 47 00 	jmp	0x8e	; 0x8e <__bad_interrupt>
+
+00000054 <__ctors_end>:
+      54:	11 24       	eor	r1, r1
+      56:	1f be       	out	0x3f, r1	; 63
+      58:	cf e5       	ldi	r28, 0x5F	; 95
+      5a:	d4 e0       	ldi	r29, 0x04	; 4
+      5c:	de bf       	out	0x3e, r29	; 62
+      5e:	cd bf       	out	0x3d, r28	; 61
+
+00000060 <__do_copy_data>:
+      60:	10 e0       	ldi	r17, 0x00	; 0
+      62:	a0 e6       	ldi	r26, 0x60	; 96
+      64:	b0 e0       	ldi	r27, 0x00	; 0
+      66:	ea e5       	ldi	r30, 0x5A	; 90
+      68:	f7 e1       	ldi	r31, 0x17	; 23
+      6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
+
+0000006c <.do_copy_data_loop>:
+      6c:	05 90       	lpm	r0, Z+
+      6e:	0d 92       	st	X+, r0
+
+00000070 <.do_copy_data_start>:
+      70:	aa 36       	cpi	r26, 0x6A	; 106
+      72:	b1 07       	cpc	r27, r17
+      74:	d9 f7       	brne	.-10     	; 0x6c <.do_copy_data_loop>
+
+00000076 <__do_clear_bss>:
+      76:	10 e0       	ldi	r17, 0x00	; 0
+      78:	aa e6       	ldi	r26, 0x6A	; 106
+      7a:	b0 e0       	ldi	r27, 0x00	; 0
+      7c:	01 c0       	rjmp	.+2      	; 0x80 <.do_clear_bss_start>
+
+0000007e <.do_clear_bss_loop>:
+      7e:	1d 92       	st	X+, r1
+
+00000080 <.do_clear_bss_start>:
+      80:	ad 36       	cpi	r26, 0x6D	; 109
+      82:	b1 07       	cpc	r27, r17
+      84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
+      86:	0e 94 27 01 	call	0x24e	; 0x24e <main>
+      8a:	0c 94 ab 0b 	jmp	0x1756	; 0x1756 <_exit>
+
+0000008e <__bad_interrupt>:
+      8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000092 <lcd_reset>:
+#define LCD_RW      0x02
+#define LCD_EN      0x04
+
+void lcd_reset(void)
+{
+        lcd_port = 0xFF;
+      92:	8f ef       	ldi	r24, 0xFF	; 255
+      94:	85 bb       	out	0x15, r24	; 21
+      96:	88 ec       	ldi	r24, 0xC8	; 200
+      98:	90 e0       	ldi	r25, 0x00	; 0
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+      9a:	20 e9       	ldi	r18, 0x90	; 144
+      9c:	31 e0       	ldi	r19, 0x01	; 1
+      9e:	f9 01       	movw	r30, r18
+      a0:	31 97       	sbiw	r30, 0x01	; 1
+      a2:	f1 f7       	brne	.-4      	; 0xa0 <lcd_reset+0xe>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+      a4:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+      a6:	d9 f7       	brne	.-10     	; 0x9e <lcd_reset+0xc>
+        _delay_ms(20);
+        lcd_port = 0x30+LCD_EN;
+      a8:	94 e3       	ldi	r25, 0x34	; 52
+      aa:	95 bb       	out	0x15, r25	; 21
+        lcd_port = 0x30;
+      ac:	80 e3       	ldi	r24, 0x30	; 48
+      ae:	85 bb       	out	0x15, r24	; 21
+      b0:	e0 e4       	ldi	r30, 0x40	; 64
+      b2:	fc e9       	ldi	r31, 0x9C	; 156
+      b4:	31 97       	sbiw	r30, 0x01	; 1
+      b6:	f1 f7       	brne	.-4      	; 0xb4 <lcd_reset+0x22>
+        _delay_ms(10);
+        lcd_port = 0x30+LCD_EN;
+      b8:	95 bb       	out	0x15, r25	; 21
+        lcd_port = 0x30;
+      ba:	85 bb       	out	0x15, r24	; 21
+      bc:	20 ea       	ldi	r18, 0xA0	; 160
+      be:	3f e0       	ldi	r19, 0x0F	; 15
+      c0:	f9 01       	movw	r30, r18
+      c2:	31 97       	sbiw	r30, 0x01	; 1
+      c4:	f1 f7       	brne	.-4      	; 0xc2 <lcd_reset+0x30>
+        _delay_ms(1);
+        lcd_port = 0x30+LCD_EN;
+      c6:	95 bb       	out	0x15, r25	; 21
+        lcd_port = 0x30;
+      c8:	85 bb       	out	0x15, r24	; 21
+      ca:	c9 01       	movw	r24, r18
+      cc:	01 97       	sbiw	r24, 0x01	; 1
+      ce:	f1 f7       	brne	.-4      	; 0xcc <lcd_reset+0x3a>
+        _delay_ms(1);
+        lcd_port = 0x20+LCD_EN;
+      d0:	84 e2       	ldi	r24, 0x24	; 36
+      d2:	85 bb       	out	0x15, r24	; 21
+        lcd_port = 0x20;
+      d4:	80 e2       	ldi	r24, 0x20	; 32
+      d6:	85 bb       	out	0x15, r24	; 21
+      d8:	c9 01       	movw	r24, r18
+      da:	01 97       	sbiw	r24, 0x01	; 1
+      dc:	f1 f7       	brne	.-4      	; 0xda <lcd_reset+0x48>
+        _delay_ms(1);
+}
+      de:	08 95       	ret
+
+000000e0 <lcd_cmd>:
+void lcd_cmd (char cmd)
+{
+        lcd_port = (cmd & 0xF0)|LCD_EN;
+      e0:	38 2f       	mov	r19, r24
+      e2:	30 7f       	andi	r19, 0xF0	; 240
+      e4:	23 2f       	mov	r18, r19
+      e6:	24 60       	ori	r18, 0x04	; 4
+      e8:	25 bb       	out	0x15, r18	; 21
+        lcd_port = (cmd & 0xF0);
+      ea:	35 bb       	out	0x15, r19	; 21
+		
+        lcd_port = ((cmd << 4) & 0xF0)|LCD_EN;
+      ec:	90 e0       	ldi	r25, 0x00	; 0
+      ee:	24 e0       	ldi	r18, 0x04	; 4
+      f0:	88 0f       	add	r24, r24
+      f2:	99 1f       	adc	r25, r25
+      f4:	2a 95       	dec	r18
+      f6:	e1 f7       	brne	.-8      	; 0xf0 <lcd_cmd+0x10>
+      f8:	28 2f       	mov	r18, r24
+      fa:	24 60       	ori	r18, 0x04	; 4
+      fc:	25 bb       	out	0x15, r18	; 21
+        lcd_port = ((cmd << 4) & 0xF0);
+      fe:	85 bb       	out	0x15, r24	; 21
+     100:	80 e4       	ldi	r24, 0x40	; 64
+     102:	9f e1       	ldi	r25, 0x1F	; 31
+     104:	fc 01       	movw	r30, r24
+     106:	31 97       	sbiw	r30, 0x01	; 1
+     108:	f1 f7       	brne	.-4      	; 0x106 <lcd_cmd+0x26>
+
+      
+
+        _delay_ms(2);
+        _delay_ms(2);
+}
+     10a:	01 97       	sbiw	r24, 0x01	; 1
+     10c:	f1 f7       	brne	.-4      	; 0x10a <lcd_cmd+0x2a>
+     10e:	08 95       	ret
+
+00000110 <lcd_init>:
+
+void lcd_init (void)
+{       DDRC=0xFF;
+     110:	8f ef       	ldi	r24, 0xFF	; 255
+     112:	84 bb       	out	0x14, r24	; 20
+        PORTC=0x00; 
+     114:	15 ba       	out	0x15, r1	; 21
+        lcd_reset();         // Call LCD reset
+     116:	0e 94 49 00 	call	0x92	; 0x92 <lcd_reset>
+        lcd_port = 0x20;
+        _delay_ms(1);
+}
+void lcd_cmd (char cmd)
+{
+        lcd_port = (cmd & 0xF0)|LCD_EN;
+     11a:	84 e2       	ldi	r24, 0x24	; 36
+     11c:	85 bb       	out	0x15, r24	; 21
+        lcd_port = (cmd & 0xF0);
+     11e:	80 e2       	ldi	r24, 0x20	; 32
+     120:	85 bb       	out	0x15, r24	; 21
+		
+        lcd_port = ((cmd << 4) & 0xF0)|LCD_EN;
+     122:	54 e8       	ldi	r21, 0x84	; 132
+     124:	55 bb       	out	0x15, r21	; 21
+        lcd_port = ((cmd << 4) & 0xF0);
+     126:	40 e8       	ldi	r20, 0x80	; 128
+     128:	45 bb       	out	0x15, r20	; 21
+     12a:	20 e4       	ldi	r18, 0x40	; 64
+     12c:	3f e1       	ldi	r19, 0x1F	; 31
+     12e:	c9 01       	movw	r24, r18
+     130:	01 97       	sbiw	r24, 0x01	; 1
+     132:	f1 f7       	brne	.-4      	; 0x130 <lcd_init+0x20>
+        lcd_port = 0x20;
+        _delay_ms(1);
+}
+void lcd_cmd (char cmd)
+{
+        lcd_port = (cmd & 0xF0)|LCD_EN;
+     134:	c9 01       	movw	r24, r18
+     136:	01 97       	sbiw	r24, 0x01	; 1
+     138:	f1 f7       	brne	.-4      	; 0x136 <lcd_init+0x26>
+     13a:	94 e0       	ldi	r25, 0x04	; 4
+     13c:	95 bb       	out	0x15, r25	; 21
+        lcd_port = (cmd & 0xF0);
+     13e:	15 ba       	out	0x15, r1	; 21
+		
+        lcd_port = ((cmd << 4) & 0xF0)|LCD_EN;
+     140:	84 ec       	ldi	r24, 0xC4	; 196
+     142:	85 bb       	out	0x15, r24	; 21
+        lcd_port = ((cmd << 4) & 0xF0);
+     144:	80 ec       	ldi	r24, 0xC0	; 192
+     146:	85 bb       	out	0x15, r24	; 21
+     148:	f9 01       	movw	r30, r18
+     14a:	31 97       	sbiw	r30, 0x01	; 1
+     14c:	f1 f7       	brne	.-4      	; 0x14a <lcd_init+0x3a>
+        lcd_port = 0x20;
+        _delay_ms(1);
+}
+void lcd_cmd (char cmd)
+{
+        lcd_port = (cmd & 0xF0)|LCD_EN;
+     14e:	f9 01       	movw	r30, r18
+     150:	31 97       	sbiw	r30, 0x01	; 1
+     152:	f1 f7       	brne	.-4      	; 0x150 <lcd_init+0x40>
+     154:	95 bb       	out	0x15, r25	; 21
+        lcd_port = (cmd & 0xF0);
+     156:	15 ba       	out	0x15, r1	; 21
+		
+        lcd_port = ((cmd << 4) & 0xF0)|LCD_EN;
+     158:	84 e6       	ldi	r24, 0x64	; 100
+     15a:	85 bb       	out	0x15, r24	; 21
+        lcd_port = ((cmd << 4) & 0xF0);
+     15c:	80 e6       	ldi	r24, 0x60	; 96
+     15e:	85 bb       	out	0x15, r24	; 21
+     160:	f9 01       	movw	r30, r18
+     162:	31 97       	sbiw	r30, 0x01	; 1
+     164:	f1 f7       	brne	.-4      	; 0x162 <lcd_init+0x52>
+        lcd_port = 0x20;
+        _delay_ms(1);
+}
+void lcd_cmd (char cmd)
+{
+        lcd_port = (cmd & 0xF0)|LCD_EN;
+     166:	f9 01       	movw	r30, r18
+     168:	31 97       	sbiw	r30, 0x01	; 1
+     16a:	f1 f7       	brne	.-4      	; 0x168 <lcd_init+0x58>
+     16c:	55 bb       	out	0x15, r21	; 21
+        lcd_port = (cmd & 0xF0);
+     16e:	45 bb       	out	0x15, r20	; 21
+		
+        lcd_port = ((cmd << 4) & 0xF0)|LCD_EN;
+     170:	95 bb       	out	0x15, r25	; 21
+        lcd_port = ((cmd << 4) & 0xF0);
+     172:	15 ba       	out	0x15, r1	; 21
+     174:	c9 01       	movw	r24, r18
+     176:	01 97       	sbiw	r24, 0x01	; 1
+     178:	f1 f7       	brne	.-4      	; 0x176 <lcd_init+0x66>
+        lcd_reset();         // Call LCD reset
+        lcd_cmd(0x28);       // 4-bit mode - 2 line - 5x7 font.
+        lcd_cmd(0x0C);       // Display on cursor - off .
+        lcd_cmd(0x06);       // Automatic Increment - No Display shift.
+        lcd_cmd(0x80);       // Address DDRAM with 0 offset 80h.
+ }
+     17a:	c9 01       	movw	r24, r18
+     17c:	01 97       	sbiw	r24, 0x01	; 1
+     17e:	f1 f7       	brne	.-4      	; 0x17c <lcd_init+0x6c>
+     180:	08 95       	ret
+
+00000182 <lcd_data>:
+
+
+void lcd_data (unsigned char dat)
+{
+        lcd_port = ((dat & 0xF0)|LCD_EN|LCD_RS);
+     182:	98 2f       	mov	r25, r24
+     184:	90 7f       	andi	r25, 0xF0	; 240
+     186:	29 2f       	mov	r18, r25
+     188:	25 60       	ori	r18, 0x05	; 5
+     18a:	25 bb       	out	0x15, r18	; 21
+        lcd_port = ((dat & 0xF0)|LCD_RS);
+     18c:	91 60       	ori	r25, 0x01	; 1
+     18e:	95 bb       	out	0x15, r25	; 21
+		
+		lcd_port = (((dat << 4) & 0xF0)|LCD_EN|LCD_RS);
+     190:	82 95       	swap	r24
+     192:	80 7f       	andi	r24, 0xF0	; 240
+     194:	98 2f       	mov	r25, r24
+     196:	95 60       	ori	r25, 0x05	; 5
+     198:	95 bb       	out	0x15, r25	; 21
+        lcd_port = (((dat << 4) & 0xF0)|LCD_RS);
+     19a:	81 60       	ori	r24, 0x01	; 1
+     19c:	85 bb       	out	0x15, r24	; 21
+     19e:	80 e4       	ldi	r24, 0x40	; 64
+     1a0:	9f e1       	ldi	r25, 0x1F	; 31
+     1a2:	fc 01       	movw	r30, r24
+     1a4:	31 97       	sbiw	r30, 0x01	; 1
+     1a6:	f1 f7       	brne	.-4      	; 0x1a4 <lcd_data+0x22>
+       
+      
+
+       _delay_ms(2);
+       _delay_ms(2);
+}
+     1a8:	01 97       	sbiw	r24, 0x01	; 1
+     1aa:	f1 f7       	brne	.-4      	; 0x1a8 <lcd_data+0x26>
+     1ac:	08 95       	ret
+
+000001ae <lcd_puts>:
+void lcd_puts(char *aaa)
+{
+     1ae:	cf 93       	push	r28
+     1b0:	df 93       	push	r29
+     1b2:	ec 01       	movw	r28, r24
+     1b4:	02 c0       	rjmp	.+4      	; 0x1ba <lcd_puts+0xc>
+unsigned int i;
+for(i=0;aaa[i]!=0;i++)
+lcd_data(aaa[i]);
+     1b6:	0e 94 c1 00 	call	0x182	; 0x182 <lcd_data>
+       _delay_ms(2);
+}
+void lcd_puts(char *aaa)
+{
+unsigned int i;
+for(i=0;aaa[i]!=0;i++)
+     1ba:	89 91       	ld	r24, Y+
+     1bc:	88 23       	and	r24, r24
+     1be:	d9 f7       	brne	.-10     	; 0x1b6 <lcd_puts+0x8>
+lcd_data(aaa[i]);
+
+}
+     1c0:	df 91       	pop	r29
+     1c2:	cf 91       	pop	r28
+     1c4:	08 95       	ret
+
+000001c6 <ascii>:
+void ascii(uint16_t num)
+{
+     1c6:	cf 92       	push	r12
+     1c8:	df 92       	push	r13
+     1ca:	ef 92       	push	r14
+     1cc:	ff 92       	push	r15
+     1ce:	0f 93       	push	r16
+     1d0:	1f 93       	push	r17
+     1d2:	7c 01       	movw	r14, r24
+ unsigned char a,b,c,d;
+ a=num%10;
+ num=num/10;
+     1d4:	6a e0       	ldi	r22, 0x0A	; 10
+     1d6:	70 e0       	ldi	r23, 0x00	; 0
+     1d8:	0e 94 75 0b 	call	0x16ea	; 0x16ea <__udivmodhi4>
+     1dc:	d6 2e       	mov	r13, r22
+     1de:	c7 2e       	mov	r12, r23
+ b=num%10;
+ num=num/10;
+     1e0:	86 2f       	mov	r24, r22
+     1e2:	97 2f       	mov	r25, r23
+     1e4:	6a e0       	ldi	r22, 0x0A	; 10
+     1e6:	70 e0       	ldi	r23, 0x00	; 0
+     1e8:	0e 94 75 0b 	call	0x16ea	; 0x16ea <__udivmodhi4>
+     1ec:	16 2f       	mov	r17, r22
+     1ee:	07 2f       	mov	r16, r23
+ c=num%10;
+ num=num/10;
+ d=num%10;
+ lcd_data(0x30+d); 
+     1f0:	86 2f       	mov	r24, r22
+     1f2:	97 2f       	mov	r25, r23
+     1f4:	6a e0       	ldi	r22, 0x0A	; 10
+     1f6:	70 e0       	ldi	r23, 0x00	; 0
+     1f8:	0e 94 75 0b 	call	0x16ea	; 0x16ea <__udivmodhi4>
+     1fc:	cb 01       	movw	r24, r22
+     1fe:	6a e0       	ldi	r22, 0x0A	; 10
+     200:	70 e0       	ldi	r23, 0x00	; 0
+     202:	0e 94 75 0b 	call	0x16ea	; 0x16ea <__udivmodhi4>
+     206:	80 5d       	subi	r24, 0xD0	; 208
+     208:	0e 94 c1 00 	call	0x182	; 0x182 <lcd_data>
+ lcd_data(0x30+c); 
+     20c:	81 2f       	mov	r24, r17
+     20e:	90 2f       	mov	r25, r16
+     210:	6a e0       	ldi	r22, 0x0A	; 10
+     212:	70 e0       	ldi	r23, 0x00	; 0
+     214:	0e 94 75 0b 	call	0x16ea	; 0x16ea <__udivmodhi4>
+     218:	80 5d       	subi	r24, 0xD0	; 208
+     21a:	0e 94 c1 00 	call	0x182	; 0x182 <lcd_data>
+ lcd_data(0x30+b); 
+     21e:	8d 2d       	mov	r24, r13
+     220:	9c 2d       	mov	r25, r12
+     222:	6a e0       	ldi	r22, 0x0A	; 10
+     224:	70 e0       	ldi	r23, 0x00	; 0
+     226:	0e 94 75 0b 	call	0x16ea	; 0x16ea <__udivmodhi4>
+     22a:	80 5d       	subi	r24, 0xD0	; 208
+     22c:	0e 94 c1 00 	call	0x182	; 0x182 <lcd_data>
+ lcd_data(0x30+a); 
+     230:	c7 01       	movw	r24, r14
+     232:	6a e0       	ldi	r22, 0x0A	; 10
+     234:	70 e0       	ldi	r23, 0x00	; 0
+     236:	0e 94 75 0b 	call	0x16ea	; 0x16ea <__udivmodhi4>
+     23a:	80 5d       	subi	r24, 0xD0	; 208
+     23c:	0e 94 c1 00 	call	0x182	; 0x182 <lcd_data>
+}
+     240:	1f 91       	pop	r17
+     242:	0f 91       	pop	r16
+     244:	ff 90       	pop	r15
+     246:	ef 90       	pop	r14
+     248:	df 90       	pop	r13
+     24a:	cf 90       	pop	r12
+     24c:	08 95       	ret
+
+0000024e <main>:
+/* _____PRIVATE FUNCTIONS____________________________________________________ */
+
+/* _____PUBLICE FUNCTIONS____________________________________________________ */
+
+int main (void)
+{
+     24e:	7f 92       	push	r7
+     250:	8f 92       	push	r8
+     252:	9f 92       	push	r9
+     254:	af 92       	push	r10
+     256:	bf 92       	push	r11
+     258:	cf 92       	push	r12
+     25a:	df 92       	push	r13
+     25c:	ef 92       	push	r14
+     25e:	ff 92       	push	r15
+     260:	0f 93       	push	r16
+     262:	1f 93       	push	r17
+     264:	df 93       	push	r29
+     266:	cf 93       	push	r28
+     268:	cd b7       	in	r28, 0x3d	; 61
+     26a:	de b7       	in	r29, 0x3e	; 62
+     26c:	c8 54       	subi	r28, 0x48	; 72
+     26e:	d0 40       	sbci	r29, 0x00	; 0
+     270:	0f b6       	in	r0, 0x3f	; 63
+     272:	f8 94       	cli
+     274:	de bf       	out	0x3e, r29	; 62
+     276:	0f be       	out	0x3f, r0	; 63
+     278:	cd bf       	out	0x3d, r28	; 61
+	FILINFO fno;		/* File information */
+//	unsigned int h = -1, w=-1;
+
+//	LCD_BL_ON();
+//	LCD_Reset();
+    lcd_init();
+     27a:	0e 94 88 00 	call	0x110	; 0x110 <lcd_init>
+        lcd_port = 0x20;
+        _delay_ms(1);
+}
+void lcd_cmd (char cmd)
+{
+        lcd_port = (cmd & 0xF0)|LCD_EN;
+     27e:	84 e0       	ldi	r24, 0x04	; 4
+     280:	85 bb       	out	0x15, r24	; 21
+        lcd_port = (cmd & 0xF0);
+     282:	15 ba       	out	0x15, r1	; 21
+		
+        lcd_port = ((cmd << 4) & 0xF0)|LCD_EN;
+     284:	84 e1       	ldi	r24, 0x14	; 20
+     286:	85 bb       	out	0x15, r24	; 21
+        lcd_port = ((cmd << 4) & 0xF0);
+     288:	80 e1       	ldi	r24, 0x10	; 16
+     28a:	85 bb       	out	0x15, r24	; 21
+     28c:	80 e4       	ldi	r24, 0x40	; 64
+     28e:	9f e1       	ldi	r25, 0x1F	; 31
+     290:	fc 01       	movw	r30, r24
+     292:	31 97       	sbiw	r30, 0x01	; 1
+     294:	f1 f7       	brne	.-4      	; 0x292 <main+0x44>
+	lcd_cmd(0x01);
+	lcd_puts("SDCARD");
+     296:	01 97       	sbiw	r24, 0x01	; 1
+     298:	f1 f7       	brne	.-4      	; 0x296 <main+0x48>
+     29a:	80 e6       	ldi	r24, 0x60	; 96
+     29c:	90 e0       	ldi	r25, 0x00	; 0
+     29e:	0e 94 d7 00 	call	0x1ae	; 0x1ae <lcd_puts>
+	res = disk_initialize();
+     2a2:	0e 94 fa 09 	call	0x13f4	; 0x13f4 <disk_initialize>
+	if (res == FR_OK)
+     2a6:	88 23       	and	r24, r24
+     2a8:	d1 f5       	brne	.+116    	; 0x31e <main+0xd0>
+	{
+		res = pf_mount(&fs);
+     2aa:	ce 01       	movw	r24, r28
+     2ac:	83 96       	adiw	r24, 0x23	; 35
+     2ae:	0e 94 70 08 	call	0x10e0	; 0x10e0 <pf_mount>
+		if (res == FR_OK)
+     2b2:	88 23       	and	r24, r24
+     2b4:	a1 f5       	brne	.+104    	; 0x31e <main+0xd0>
+		{
+			for(;;)
+			{
+				res = pf_opendir(&dir, "/");
+     2b6:	7e 01       	movw	r14, r28
+     2b8:	08 94       	sec
+     2ba:	e1 1c       	adc	r14, r1
+     2bc:	f1 1c       	adc	r15, r1
+				if (res == FR_OK)
+				{
+					for(;;)
+					{
+						res = pf_readdir(&dir, &fno);
+     2be:	7d e0       	ldi	r23, 0x0D	; 13
+     2c0:	a7 2e       	mov	r10, r23
+     2c2:	b1 2c       	mov	r11, r1
+     2c4:	ac 0e       	add	r10, r28
+     2c6:	bd 1e       	adc	r11, r29
+        lcd_port = 0x20;
+        _delay_ms(1);
+}
+void lcd_cmd (char cmd)
+{
+        lcd_port = (cmd & 0xF0)|LCD_EN;
+     2c8:	64 ec       	ldi	r22, 0xC4	; 196
+     2ca:	76 2e       	mov	r7, r22
+        lcd_port = (cmd & 0xF0);
+     2cc:	50 ec       	ldi	r21, 0xC0	; 192
+     2ce:	85 2e       	mov	r8, r21
+		
+        lcd_port = ((cmd << 4) & 0xF0)|LCD_EN;
+     2d0:	44 e0       	ldi	r20, 0x04	; 4
+     2d2:	94 2e       	mov	r9, r20
+     2d4:	00 e4       	ldi	r16, 0x40	; 64
+     2d6:	1f e1       	ldi	r17, 0x1F	; 31
+						if (res != FR_OK)
+							break;
+						if (!fno.fname[0])	// end of file name/dir
+							break;
+                         lcd_cmd(0xc0);
+                        lcd_puts(fno.fname); 
+     2d8:	36 e1       	ldi	r19, 0x16	; 22
+     2da:	c3 2e       	mov	r12, r19
+     2dc:	d1 2c       	mov	r13, r1
+     2de:	cc 0e       	add	r12, r28
+     2e0:	dd 1e       	adc	r13, r29
+		res = pf_mount(&fs);
+		if (res == FR_OK)
+		{
+			for(;;)
+			{
+				res = pf_opendir(&dir, "/");
+     2e2:	c7 01       	movw	r24, r14
+     2e4:	67 e6       	ldi	r22, 0x67	; 103
+     2e6:	70 e0       	ldi	r23, 0x00	; 0
+     2e8:	0e 94 43 06 	call	0xc86	; 0xc86 <pf_opendir>
+				if (res == FR_OK)
+     2ec:	88 23       	and	r24, r24
+     2ee:	c9 f7       	brne	.-14     	; 0x2e2 <main+0x94>
+				{
+					for(;;)
+					{
+						res = pf_readdir(&dir, &fno);
+     2f0:	c7 01       	movw	r24, r14
+     2f2:	b5 01       	movw	r22, r10
+     2f4:	0e 94 d4 03 	call	0x7a8	; 0x7a8 <pf_readdir>
+						if (res != FR_OK)
+     2f8:	88 23       	and	r24, r24
+     2fa:	99 f7       	brne	.-26     	; 0x2e2 <main+0x94>
+							break;
+						if (!fno.fname[0])	// end of file name/dir
+     2fc:	8e 89       	ldd	r24, Y+22	; 0x16
+     2fe:	88 23       	and	r24, r24
+     300:	81 f3       	breq	.-32     	; 0x2e2 <main+0x94>
+        lcd_port = 0x20;
+        _delay_ms(1);
+}
+void lcd_cmd (char cmd)
+{
+        lcd_port = (cmd & 0xF0)|LCD_EN;
+     302:	75 ba       	out	0x15, r7	; 21
+        lcd_port = (cmd & 0xF0);
+     304:	85 ba       	out	0x15, r8	; 21
+		
+        lcd_port = ((cmd << 4) & 0xF0)|LCD_EN;
+     306:	95 ba       	out	0x15, r9	; 21
+        lcd_port = ((cmd << 4) & 0xF0);
+     308:	15 ba       	out	0x15, r1	; 21
+     30a:	c8 01       	movw	r24, r16
+     30c:	01 97       	sbiw	r24, 0x01	; 1
+     30e:	f1 f7       	brne	.-4      	; 0x30c <main+0xbe>
+							break;
+                         lcd_cmd(0xc0);
+                        lcd_puts(fno.fname); 
+     310:	c8 01       	movw	r24, r16
+     312:	01 97       	sbiw	r24, 0x01	; 1
+     314:	f1 f7       	brne	.-4      	; 0x312 <main+0xc4>
+     316:	c6 01       	movw	r24, r12
+     318:	0e 94 d7 00 	call	0x1ae	; 0x1ae <lcd_puts>
+     31c:	e9 cf       	rjmp	.-46     	; 0x2f0 <main+0xa2>
+				}
+			}
+		}
+	}
+
+	pf_mount(0);
+     31e:	80 e0       	ldi	r24, 0x00	; 0
+     320:	90 e0       	ldi	r25, 0x00	; 0
+     322:	0e 94 70 08 	call	0x10e0	; 0x10e0 <pf_mount>
+     326:	ff cf       	rjmp	.-2      	; 0x326 <main+0xd8>
+
+00000328 <get_fat>:
+
+static
+CLUST get_fat (	/* 1:IO error, Else:Cluster status */
+	CLUST clst	/* Cluster# to get the link information */
+)
+{
+     328:	8f 92       	push	r8
+     32a:	9f 92       	push	r9
+     32c:	af 92       	push	r10
+     32e:	bf 92       	push	r11
+     330:	cf 92       	push	r12
+     332:	df 92       	push	r13
+     334:	ef 92       	push	r14
+     336:	ff 92       	push	r15
+     338:	0f 93       	push	r16
+     33a:	1f 93       	push	r17
+     33c:	df 93       	push	r29
+     33e:	cf 93       	push	r28
+     340:	00 d0       	rcall	.+0      	; 0x342 <get_fat+0x1a>
+     342:	00 d0       	rcall	.+0      	; 0x344 <get_fat+0x1c>
+     344:	cd b7       	in	r28, 0x3d	; 61
+     346:	de b7       	in	r29, 0x3e	; 62
+     348:	5c 01       	movw	r10, r24
+	WORD wc, bc, ofs;
+	BYTE buf[4];
+	FATFS *fs = FatFs;
+     34a:	80 90 6a 00 	lds	r8, 0x006A
+     34e:	90 90 6b 00 	lds	r9, 0x006B
+
+
+	if (clst < 2 || clst >= fs->max_clust)	/* Range check */
+     352:	82 e0       	ldi	r24, 0x02	; 2
+     354:	a8 16       	cp	r10, r24
+     356:	b1 04       	cpc	r11, r1
+     358:	08 f4       	brcc	.+2      	; 0x35c <get_fat+0x34>
+     35a:	7d c0       	rjmp	.+250    	; 0x456 <get_fat+0x12e>
+     35c:	f4 01       	movw	r30, r8
+     35e:	80 85       	ldd	r24, Z+8	; 0x08
+     360:	91 85       	ldd	r25, Z+9	; 0x09
+     362:	a8 16       	cp	r10, r24
+     364:	b9 06       	cpc	r11, r25
+     366:	08 f0       	brcs	.+2      	; 0x36a <get_fat+0x42>
+     368:	76 c0       	rjmp	.+236    	; 0x456 <get_fat+0x12e>
+		return 1;
+
+	switch (fs->fs_type) {
+     36a:	80 81       	ld	r24, Z
+     36c:	81 30       	cpi	r24, 0x01	; 1
+     36e:	21 f0       	breq	.+8      	; 0x378 <get_fat+0x50>
+     370:	82 30       	cpi	r24, 0x02	; 2
+     372:	09 f0       	breq	.+2      	; 0x376 <get_fat+0x4e>
+     374:	70 c0       	rjmp	.+224    	; 0x456 <get_fat+0x12e>
+     376:	51 c0       	rjmp	.+162    	; 0x41a <get_fat+0xf2>
+	case FS_FAT12 :
+		bc = (WORD)clst; bc += bc / 2;
+     378:	c5 01       	movw	r24, r10
+     37a:	96 95       	lsr	r25
+     37c:	87 95       	ror	r24
+     37e:	8a 0d       	add	r24, r10
+     380:	9b 1d       	adc	r25, r11
+		ofs = bc % 512; bc /= 512;
+     382:	9c 01       	movw	r18, r24
+     384:	31 70       	andi	r19, 0x01	; 1
+     386:	89 2f       	mov	r24, r25
+     388:	99 27       	eor	r25, r25
+     38a:	86 95       	lsr	r24
+     38c:	6c 01       	movw	r12, r24
+     38e:	ee 24       	eor	r14, r14
+     390:	ff 24       	eor	r15, r15
+     392:	f4 01       	movw	r30, r8
+     394:	42 85       	ldd	r20, Z+10	; 0x0a
+     396:	53 85       	ldd	r21, Z+11	; 0x0b
+     398:	64 85       	ldd	r22, Z+12	; 0x0c
+     39a:	75 85       	ldd	r23, Z+13	; 0x0d
+     39c:	ce 01       	movw	r24, r28
+     39e:	01 96       	adiw	r24, 0x01	; 1
+		if (ofs != 511) {
+     3a0:	f1 e0       	ldi	r31, 0x01	; 1
+     3a2:	2f 3f       	cpi	r18, 0xFF	; 255
+     3a4:	3f 07       	cpc	r19, r31
+     3a6:	49 f0       	breq	.+18     	; 0x3ba <get_fat+0x92>
+			if (disk_readp(buf, fs->fatbase + bc, ofs, 2)) break;
+     3a8:	c4 0e       	add	r12, r20
+     3aa:	d5 1e       	adc	r13, r21
+     3ac:	e6 1e       	adc	r14, r22
+     3ae:	f7 1e       	adc	r15, r23
+     3b0:	b7 01       	movw	r22, r14
+     3b2:	a6 01       	movw	r20, r12
+     3b4:	02 e0       	ldi	r16, 0x02	; 2
+     3b6:	10 e0       	ldi	r17, 0x00	; 0
+     3b8:	1e c0       	rjmp	.+60     	; 0x3f6 <get_fat+0xce>
+		} else {
+			if (disk_readp(buf, fs->fatbase + bc, 511, 1)) break;
+     3ba:	4c 0d       	add	r20, r12
+     3bc:	5d 1d       	adc	r21, r13
+     3be:	6e 1d       	adc	r22, r14
+     3c0:	7f 1d       	adc	r23, r15
+     3c2:	2f ef       	ldi	r18, 0xFF	; 255
+     3c4:	31 e0       	ldi	r19, 0x01	; 1
+     3c6:	01 e0       	ldi	r16, 0x01	; 1
+     3c8:	10 e0       	ldi	r17, 0x00	; 0
+     3ca:	0e 94 bd 0a 	call	0x157a	; 0x157a <disk_readp>
+     3ce:	88 23       	and	r24, r24
+     3d0:	09 f0       	breq	.+2      	; 0x3d4 <get_fat+0xac>
+     3d2:	41 c0       	rjmp	.+130    	; 0x456 <get_fat+0x12e>
+			if (disk_readp(buf+1, fs->fatbase + bc + 1, 0, 1)) break;
+     3d4:	f4 01       	movw	r30, r8
+     3d6:	42 85       	ldd	r20, Z+10	; 0x0a
+     3d8:	53 85       	ldd	r21, Z+11	; 0x0b
+     3da:	64 85       	ldd	r22, Z+12	; 0x0c
+     3dc:	75 85       	ldd	r23, Z+13	; 0x0d
+     3de:	4f 5f       	subi	r20, 0xFF	; 255
+     3e0:	5f 4f       	sbci	r21, 0xFF	; 255
+     3e2:	6f 4f       	sbci	r22, 0xFF	; 255
+     3e4:	7f 4f       	sbci	r23, 0xFF	; 255
+     3e6:	4c 0d       	add	r20, r12
+     3e8:	5d 1d       	adc	r21, r13
+     3ea:	6e 1d       	adc	r22, r14
+     3ec:	7f 1d       	adc	r23, r15
+     3ee:	ce 01       	movw	r24, r28
+     3f0:	02 96       	adiw	r24, 0x02	; 2
+     3f2:	20 e0       	ldi	r18, 0x00	; 0
+     3f4:	30 e0       	ldi	r19, 0x00	; 0
+     3f6:	0e 94 bd 0a 	call	0x157a	; 0x157a <disk_readp>
+     3fa:	88 23       	and	r24, r24
+     3fc:	61 f5       	brne	.+88     	; 0x456 <get_fat+0x12e>
+		}
+		wc = LD_WORD(buf);
+     3fe:	89 81       	ldd	r24, Y+1	; 0x01
+     400:	9a 81       	ldd	r25, Y+2	; 0x02
+		return (clst & 1) ? (wc >> 4) : (wc & 0xFFF);
+     402:	a0 fe       	sbrs	r10, 0
+     404:	07 c0       	rjmp	.+14     	; 0x414 <get_fat+0xec>
+     406:	9c 01       	movw	r18, r24
+     408:	44 e0       	ldi	r20, 0x04	; 4
+     40a:	36 95       	lsr	r19
+     40c:	27 95       	ror	r18
+     40e:	4a 95       	dec	r20
+     410:	e1 f7       	brne	.-8      	; 0x40a <get_fat+0xe2>
+     412:	23 c0       	rjmp	.+70     	; 0x45a <get_fat+0x132>
+     414:	9c 01       	movw	r18, r24
+     416:	3f 70       	andi	r19, 0x0F	; 15
+     418:	20 c0       	rjmp	.+64     	; 0x45a <get_fat+0x132>
+
+	case FS_FAT16 :
+		if (disk_readp(buf, fs->fatbase + clst / 256, (WORD)(((WORD)clst % 256) * 2), 2)) break;
+     41a:	4b 2d       	mov	r20, r11
+     41c:	55 27       	eor	r21, r21
+     41e:	60 e0       	ldi	r22, 0x00	; 0
+     420:	70 e0       	ldi	r23, 0x00	; 0
+     422:	f4 01       	movw	r30, r8
+     424:	82 85       	ldd	r24, Z+10	; 0x0a
+     426:	93 85       	ldd	r25, Z+11	; 0x0b
+     428:	a4 85       	ldd	r26, Z+12	; 0x0c
+     42a:	b5 85       	ldd	r27, Z+13	; 0x0d
+     42c:	48 0f       	add	r20, r24
+     42e:	59 1f       	adc	r21, r25
+     430:	6a 1f       	adc	r22, r26
+     432:	7b 1f       	adc	r23, r27
+     434:	ff ef       	ldi	r31, 0xFF	; 255
+     436:	af 22       	and	r10, r31
+     438:	bb 24       	eor	r11, r11
+     43a:	aa 0c       	add	r10, r10
+     43c:	bb 1c       	adc	r11, r11
+     43e:	ce 01       	movw	r24, r28
+     440:	01 96       	adiw	r24, 0x01	; 1
+     442:	95 01       	movw	r18, r10
+     444:	02 e0       	ldi	r16, 0x02	; 2
+     446:	10 e0       	ldi	r17, 0x00	; 0
+     448:	0e 94 bd 0a 	call	0x157a	; 0x157a <disk_readp>
+     44c:	88 23       	and	r24, r24
+     44e:	19 f4       	brne	.+6      	; 0x456 <get_fat+0x12e>
+		return LD_WORD(buf);
+     450:	29 81       	ldd	r18, Y+1	; 0x01
+     452:	3a 81       	ldd	r19, Y+2	; 0x02
+     454:	02 c0       	rjmp	.+4      	; 0x45a <get_fat+0x132>
+     456:	21 e0       	ldi	r18, 0x01	; 1
+     458:	30 e0       	ldi	r19, 0x00	; 0
+		return LD_DWORD(buf) & 0x0FFFFFFF;
+#endif
+	}
+
+	return 1;	/* An error occured at the disk I/O layer */
+}
+     45a:	c9 01       	movw	r24, r18
+     45c:	0f 90       	pop	r0
+     45e:	0f 90       	pop	r0
+     460:	0f 90       	pop	r0
+     462:	0f 90       	pop	r0
+     464:	cf 91       	pop	r28
+     466:	df 91       	pop	r29
+     468:	1f 91       	pop	r17
+     46a:	0f 91       	pop	r16
+     46c:	ff 90       	pop	r15
+     46e:	ef 90       	pop	r14
+     470:	df 90       	pop	r13
+     472:	cf 90       	pop	r12
+     474:	bf 90       	pop	r11
+     476:	af 90       	pop	r10
+     478:	9f 90       	pop	r9
+     47a:	8f 90       	pop	r8
+     47c:	08 95       	ret
+
+0000047e <dir_next>:
+
+static
+FRESULT dir_next (	/* FR_OK:Succeeded, FR_NO_FILE:End of table, FR_DENIED:EOT and could not streach */
+	DIR *dj			/* Pointer to directory object */
+)
+{
+     47e:	ef 92       	push	r14
+     480:	ff 92       	push	r15
+     482:	0f 93       	push	r16
+     484:	1f 93       	push	r17
+     486:	cf 93       	push	r28
+     488:	df 93       	push	r29
+     48a:	7c 01       	movw	r14, r24
+	CLUST clst;
+	WORD i;
+	FATFS *fs = FatFs;
+     48c:	c0 91 6a 00 	lds	r28, 0x006A
+     490:	d0 91 6b 00 	lds	r29, 0x006B
+
+
+	i = dj->index + 1;
+     494:	fc 01       	movw	r30, r24
+     496:	00 81       	ld	r16, Z
+     498:	11 81       	ldd	r17, Z+1	; 0x01
+     49a:	0f 5f       	subi	r16, 0xFF	; 255
+     49c:	1f 4f       	sbci	r17, 0xFF	; 255
+	if (!i || !dj->sect)	/* Report EOT when index has reached 65535 */
+     49e:	09 f4       	brne	.+2      	; 0x4a2 <dir_next+0x24>
+     4a0:	6f c0       	rjmp	.+222    	; 0x580 <dir_next+0x102>
+     4a2:	20 85       	ldd	r18, Z+8	; 0x08
+     4a4:	31 85       	ldd	r19, Z+9	; 0x09
+     4a6:	42 85       	ldd	r20, Z+10	; 0x0a
+     4a8:	53 85       	ldd	r21, Z+11	; 0x0b
+     4aa:	21 15       	cp	r18, r1
+     4ac:	31 05       	cpc	r19, r1
+     4ae:	41 05       	cpc	r20, r1
+     4b0:	51 05       	cpc	r21, r1
+     4b2:	09 f4       	brne	.+2      	; 0x4b6 <dir_next+0x38>
+     4b4:	65 c0       	rjmp	.+202    	; 0x580 <dir_next+0x102>
+		return FR_NO_FILE;
+
+	if (!(i & (16-1))) {	/* Sector changed? */
+     4b6:	c8 01       	movw	r24, r16
+     4b8:	8f 70       	andi	r24, 0x0F	; 15
+     4ba:	90 70       	andi	r25, 0x00	; 0
+     4bc:	89 2b       	or	r24, r25
+     4be:	09 f0       	breq	.+2      	; 0x4c2 <dir_next+0x44>
+     4c0:	5a c0       	rjmp	.+180    	; 0x576 <dir_next+0xf8>
+		dj->sect++;			/* Next sector */
+     4c2:	2f 5f       	subi	r18, 0xFF	; 255
+     4c4:	3f 4f       	sbci	r19, 0xFF	; 255
+     4c6:	4f 4f       	sbci	r20, 0xFF	; 255
+     4c8:	5f 4f       	sbci	r21, 0xFF	; 255
+     4ca:	20 87       	std	Z+8, r18	; 0x08
+     4cc:	31 87       	std	Z+9, r19	; 0x09
+     4ce:	42 87       	std	Z+10, r20	; 0x0a
+     4d0:	53 87       	std	Z+11, r21	; 0x0b
+
+		if (dj->clust == 0) {	/* Static table */
+     4d2:	46 81       	ldd	r20, Z+6	; 0x06
+     4d4:	57 81       	ldd	r21, Z+7	; 0x07
+     4d6:	41 15       	cp	r20, r1
+     4d8:	51 05       	cpc	r21, r1
+     4da:	39 f4       	brne	.+14     	; 0x4ea <dir_next+0x6c>
+			if (i >= fs->n_rootdir)	/* Report EOT when end of table */
+     4dc:	8c 81       	ldd	r24, Y+4	; 0x04
+     4de:	9d 81       	ldd	r25, Y+5	; 0x05
+     4e0:	08 17       	cp	r16, r24
+     4e2:	19 07       	cpc	r17, r25
+     4e4:	08 f4       	brcc	.+2      	; 0x4e8 <dir_next+0x6a>
+     4e6:	47 c0       	rjmp	.+142    	; 0x576 <dir_next+0xf8>
+     4e8:	4b c0       	rjmp	.+150    	; 0x580 <dir_next+0x102>
+				return FR_NO_FILE;
+		}
+		else {					/* Dynamic table */
+			if (((i / 16) & (fs->csize-1)) == 0) {	/* Cluster changed? */
+     4ea:	89 81       	ldd	r24, Y+1	; 0x01
+     4ec:	90 e0       	ldi	r25, 0x00	; 0
+     4ee:	01 97       	sbiw	r24, 0x01	; 1
+     4f0:	98 01       	movw	r18, r16
+     4f2:	74 e0       	ldi	r23, 0x04	; 4
+     4f4:	36 95       	lsr	r19
+     4f6:	27 95       	ror	r18
+     4f8:	7a 95       	dec	r23
+     4fa:	e1 f7       	brne	.-8      	; 0x4f4 <dir_next+0x76>
+     4fc:	82 23       	and	r24, r18
+     4fe:	93 23       	and	r25, r19
+     500:	89 2b       	or	r24, r25
+     502:	c9 f5       	brne	.+114    	; 0x576 <dir_next+0xf8>
+				clst = get_fat(dj->clust);		/* Get next cluster */
+     504:	ca 01       	movw	r24, r20
+     506:	0e 94 94 01 	call	0x328	; 0x328 <get_fat>
+     50a:	bc 01       	movw	r22, r24
+				if (clst <= 1) return FR_DISK_ERR;
+     50c:	82 30       	cpi	r24, 0x02	; 2
+     50e:	91 05       	cpc	r25, r1
+     510:	10 f4       	brcc	.+4      	; 0x516 <dir_next+0x98>
+     512:	81 e0       	ldi	r24, 0x01	; 1
+     514:	36 c0       	rjmp	.+108    	; 0x582 <dir_next+0x104>
+				if (clst >= fs->max_clust)		/* When it reached end of dynamic table */
+     516:	88 85       	ldd	r24, Y+8	; 0x08
+     518:	99 85       	ldd	r25, Y+9	; 0x09
+     51a:	68 17       	cp	r22, r24
+     51c:	79 07       	cpc	r23, r25
+     51e:	80 f5       	brcc	.+96     	; 0x580 <dir_next+0x102>
+					return FR_NO_FILE;			/* Report EOT */
+				dj->clust = clst;				/* Initialize data for new cluster */
+     520:	f7 01       	movw	r30, r14
+     522:	77 83       	std	Z+7, r23	; 0x07
+     524:	66 83       	std	Z+6, r22	; 0x06
+static
+DWORD clust2sect (	/* !=0: Sector number, 0: Failed - invalid cluster# */
+	CLUST clst		/* Cluster# to be converted */
+)
+{
+	FATFS *fs = FatFs;
+     526:	c0 91 6a 00 	lds	r28, 0x006A
+     52a:	d0 91 6b 00 	lds	r29, 0x006B
+
+
+	clst -= 2;
+     52e:	62 50       	subi	r22, 0x02	; 2
+     530:	70 40       	sbci	r23, 0x00	; 0
+	if (clst >= (fs->max_clust - 2)) return 0;		/* Invalid cluster# */
+     532:	88 85       	ldd	r24, Y+8	; 0x08
+     534:	99 85       	ldd	r25, Y+9	; 0x09
+     536:	02 97       	sbiw	r24, 0x02	; 2
+     538:	68 17       	cp	r22, r24
+     53a:	79 07       	cpc	r23, r25
+     53c:	28 f0       	brcs	.+10     	; 0x548 <dir_next+0xca>
+     53e:	20 e0       	ldi	r18, 0x00	; 0
+     540:	30 e0       	ldi	r19, 0x00	; 0
+     542:	40 e0       	ldi	r20, 0x00	; 0
+     544:	50 e0       	ldi	r21, 0x00	; 0
+     546:	12 c0       	rjmp	.+36     	; 0x56c <dir_next+0xee>
+	return (DWORD)clst * fs->csize + fs->database;
+     548:	80 e0       	ldi	r24, 0x00	; 0
+     54a:	90 e0       	ldi	r25, 0x00	; 0
+     54c:	29 81       	ldd	r18, Y+1	; 0x01
+     54e:	30 e0       	ldi	r19, 0x00	; 0
+     550:	40 e0       	ldi	r20, 0x00	; 0
+     552:	50 e0       	ldi	r21, 0x00	; 0
+     554:	0e 94 56 0b 	call	0x16ac	; 0x16ac <__mulsi3>
+     558:	9b 01       	movw	r18, r22
+     55a:	ac 01       	movw	r20, r24
+     55c:	8a 89       	ldd	r24, Y+18	; 0x12
+     55e:	9b 89       	ldd	r25, Y+19	; 0x13
+     560:	ac 89       	ldd	r26, Y+20	; 0x14
+     562:	bd 89       	ldd	r27, Y+21	; 0x15
+     564:	28 0f       	add	r18, r24
+     566:	39 1f       	adc	r19, r25
+     568:	4a 1f       	adc	r20, r26
+     56a:	5b 1f       	adc	r21, r27
+				clst = get_fat(dj->clust);		/* Get next cluster */
+				if (clst <= 1) return FR_DISK_ERR;
+				if (clst >= fs->max_clust)		/* When it reached end of dynamic table */
+					return FR_NO_FILE;			/* Report EOT */
+				dj->clust = clst;				/* Initialize data for new cluster */
+				dj->sect = clust2sect(clst);
+     56c:	f7 01       	movw	r30, r14
+     56e:	20 87       	std	Z+8, r18	; 0x08
+     570:	31 87       	std	Z+9, r19	; 0x09
+     572:	42 87       	std	Z+10, r20	; 0x0a
+     574:	53 87       	std	Z+11, r21	; 0x0b
+			}
+		}
+	}
+
+	dj->index = i;
+     576:	f7 01       	movw	r30, r14
+     578:	11 83       	std	Z+1, r17	; 0x01
+     57a:	00 83       	st	Z, r16
+     57c:	80 e0       	ldi	r24, 0x00	; 0
+     57e:	01 c0       	rjmp	.+2      	; 0x582 <dir_next+0x104>
+
+	return FR_OK;
+     580:	83 e0       	ldi	r24, 0x03	; 3
+}
+     582:	df 91       	pop	r29
+     584:	cf 91       	pop	r28
+     586:	1f 91       	pop	r17
+     588:	0f 91       	pop	r16
+     58a:	ff 90       	pop	r15
+     58c:	ef 90       	pop	r14
+     58e:	08 95       	ret
+
+00000590 <pf_lseek>:
+/*-----------------------------------------------------------------------*/
+
+FRESULT pf_lseek (
+	DWORD ofs		/* File pointer from top of file */
+)
+{
+     590:	2f 92       	push	r2
+     592:	3f 92       	push	r3
+     594:	4f 92       	push	r4
+     596:	5f 92       	push	r5
+     598:	6f 92       	push	r6
+     59a:	7f 92       	push	r7
+     59c:	8f 92       	push	r8
+     59e:	9f 92       	push	r9
+     5a0:	af 92       	push	r10
+     5a2:	bf 92       	push	r11
+     5a4:	cf 92       	push	r12
+     5a6:	df 92       	push	r13
+     5a8:	ef 92       	push	r14
+     5aa:	ff 92       	push	r15
+     5ac:	0f 93       	push	r16
+     5ae:	1f 93       	push	r17
+     5b0:	cf 93       	push	r28
+     5b2:	df 93       	push	r29
+     5b4:	e8 2f       	mov	r30, r24
+	CLUST clst;
+	DWORD bcs, nsect, ifptr;
+	FATFS *fs = FatFs;
+     5b6:	c0 91 6a 00 	lds	r28, 0x006A
+     5ba:	d0 91 6b 00 	lds	r29, 0x006B
+
+
+	if (!fs) return FR_NOT_ENABLED;		/* Check file system */
+     5be:	20 97       	sbiw	r28, 0x00	; 0
+     5c0:	11 f4       	brne	.+4      	; 0x5c6 <pf_lseek+0x36>
+     5c2:	88 e0       	ldi	r24, 0x08	; 8
+     5c4:	de c0       	rjmp	.+444    	; 0x782 <pf_lseek+0x1f2>
+	if (!(fs->flag & FA_READ))
+     5c6:	8a 81       	ldd	r24, Y+2	; 0x02
+     5c8:	80 fd       	sbrc	r24, 0
+     5ca:	02 c0       	rjmp	.+4      	; 0x5d0 <pf_lseek+0x40>
+     5cc:	87 e0       	ldi	r24, 0x07	; 7
+     5ce:	d9 c0       	rjmp	.+434    	; 0x782 <pf_lseek+0x1f2>
+     5d0:	6a 8c       	ldd	r6, Y+26	; 0x1a
+     5d2:	7b 8c       	ldd	r7, Y+27	; 0x1b
+     5d4:	8c 8c       	ldd	r8, Y+28	; 0x1c
+     5d6:	9d 8c       	ldd	r9, Y+29	; 0x1d
+     5d8:	4e 2f       	mov	r20, r30
+     5da:	59 2f       	mov	r21, r25
+     5dc:	cb 01       	movw	r24, r22
+     5de:	da 01       	movw	r26, r20
+     5e0:	5c 01       	movw	r10, r24
+     5e2:	6d 01       	movw	r12, r26
+     5e4:	6a 14       	cp	r6, r10
+     5e6:	7b 04       	cpc	r7, r11
+     5e8:	8c 04       	cpc	r8, r12
+     5ea:	9d 04       	cpc	r9, r13
+     5ec:	10 f4       	brcc	.+4      	; 0x5f2 <pf_lseek+0x62>
+     5ee:	64 01       	movw	r12, r8
+     5f0:	53 01       	movw	r10, r6
+			return FR_INVALID_OBJECT;
+
+	if (ofs > fs->fsize) ofs = fs->fsize;	/* Clip offset with the file size */
+	ifptr = fs->fptr;
+     5f2:	2e 89       	ldd	r18, Y+22	; 0x16
+     5f4:	3f 89       	ldd	r19, Y+23	; 0x17
+     5f6:	48 8d       	ldd	r20, Y+24	; 0x18
+     5f8:	59 8d       	ldd	r21, Y+25	; 0x19
+	fs->fptr = 0;
+     5fa:	1e 8a       	std	Y+22, r1	; 0x16
+     5fc:	1f 8a       	std	Y+23, r1	; 0x17
+     5fe:	18 8e       	std	Y+24, r1	; 0x18
+     600:	19 8e       	std	Y+25, r1	; 0x19
+	if (ofs > 0) {
+     602:	a1 14       	cp	r10, r1
+     604:	b1 04       	cpc	r11, r1
+     606:	c1 04       	cpc	r12, r1
+     608:	d1 04       	cpc	r13, r1
+     60a:	09 f4       	brne	.+2      	; 0x60e <pf_lseek+0x7e>
+     60c:	b9 c0       	rjmp	.+370    	; 0x780 <pf_lseek+0x1f0>
+		bcs = (DWORD)fs->csize * 512;	/* Cluster size (byte) */
+     60e:	89 81       	ldd	r24, Y+1	; 0x01
+     610:	68 2e       	mov	r6, r24
+     612:	77 24       	eor	r7, r7
+     614:	88 24       	eor	r8, r8
+     616:	99 24       	eor	r9, r9
+     618:	f9 e0       	ldi	r31, 0x09	; 9
+     61a:	66 0c       	add	r6, r6
+     61c:	77 1c       	adc	r7, r7
+     61e:	88 1c       	adc	r8, r8
+     620:	99 1c       	adc	r9, r9
+     622:	fa 95       	dec	r31
+     624:	d1 f7       	brne	.-12     	; 0x61a <pf_lseek+0x8a>
+		if (ifptr > 0 &&
+     626:	21 15       	cp	r18, r1
+     628:	31 05       	cpc	r19, r1
+     62a:	41 05       	cpc	r20, r1
+     62c:	51 05       	cpc	r21, r1
+     62e:	a1 f1       	breq	.+104    	; 0x698 <pf_lseek+0x108>
+     630:	19 01       	movw	r2, r18
+     632:	2a 01       	movw	r4, r20
+     634:	08 94       	sec
+     636:	21 08       	sbc	r2, r1
+     638:	31 08       	sbc	r3, r1
+     63a:	41 08       	sbc	r4, r1
+     63c:	51 08       	sbc	r5, r1
+     63e:	c6 01       	movw	r24, r12
+     640:	b5 01       	movw	r22, r10
+     642:	61 50       	subi	r22, 0x01	; 1
+     644:	70 40       	sbci	r23, 0x00	; 0
+     646:	80 40       	sbci	r24, 0x00	; 0
+     648:	90 40       	sbci	r25, 0x00	; 0
+     64a:	a4 01       	movw	r20, r8
+     64c:	93 01       	movw	r18, r6
+     64e:	0e 94 89 0b 	call	0x1712	; 0x1712 <__udivmodsi4>
+     652:	79 01       	movw	r14, r18
+     654:	8a 01       	movw	r16, r20
+     656:	c2 01       	movw	r24, r4
+     658:	b1 01       	movw	r22, r2
+     65a:	a4 01       	movw	r20, r8
+     65c:	93 01       	movw	r18, r6
+     65e:	0e 94 89 0b 	call	0x1712	; 0x1712 <__udivmodsi4>
+     662:	e2 16       	cp	r14, r18
+     664:	f3 06       	cpc	r15, r19
+     666:	04 07       	cpc	r16, r20
+     668:	15 07       	cpc	r17, r21
+     66a:	b0 f0       	brcs	.+44     	; 0x698 <pf_lseek+0x108>
+			(ofs - 1) / bcs >= (ifptr - 1) / bcs) {	/* When seek to same or following cluster, */
+			fs->fptr = (ifptr - 1) & ~(bcs - 1);	/* start from the current cluster */
+     66c:	88 27       	eor	r24, r24
+     66e:	99 27       	eor	r25, r25
+     670:	dc 01       	movw	r26, r24
+     672:	86 19       	sub	r24, r6
+     674:	97 09       	sbc	r25, r7
+     676:	a8 09       	sbc	r26, r8
+     678:	b9 09       	sbc	r27, r9
+     67a:	82 21       	and	r24, r2
+     67c:	93 21       	and	r25, r3
+     67e:	a4 21       	and	r26, r4
+     680:	b5 21       	and	r27, r5
+     682:	8e 8b       	std	Y+22, r24	; 0x16
+     684:	9f 8b       	std	Y+23, r25	; 0x17
+     686:	a8 8f       	std	Y+24, r26	; 0x18
+     688:	b9 8f       	std	Y+25, r27	; 0x19
+			ofs -= fs->fptr;
+     68a:	a8 1a       	sub	r10, r24
+     68c:	b9 0a       	sbc	r11, r25
+     68e:	ca 0a       	sbc	r12, r26
+     690:	db 0a       	sbc	r13, r27
+			clst = fs->curr_clust;
+     692:	68 a1       	ldd	r22, Y+32	; 0x20
+     694:	79 a1       	ldd	r23, Y+33	; 0x21
+     696:	25 c0       	rjmp	.+74     	; 0x6e2 <pf_lseek+0x152>
+		} else {							/* When seek to back cluster, */
+			clst = fs->org_clust;			/* start from the first cluster */
+     698:	6e 8d       	ldd	r22, Y+30	; 0x1e
+     69a:	7f 8d       	ldd	r23, Y+31	; 0x1f
+			fs->curr_clust = clst;
+     69c:	79 a3       	std	Y+33, r23	; 0x21
+     69e:	68 a3       	std	Y+32, r22	; 0x20
+     6a0:	20 c0       	rjmp	.+64     	; 0x6e2 <pf_lseek+0x152>
+		}
+		while (ofs > bcs) {				/* Cluster following loop */
+				clst = get_fat(clst);	/* Follow cluster chain if not in write mode */
+     6a2:	cb 01       	movw	r24, r22
+     6a4:	0e 94 94 01 	call	0x328	; 0x328 <get_fat>
+     6a8:	bc 01       	movw	r22, r24
+			if (clst <= 1 || clst >= fs->max_clust) {
+     6aa:	82 30       	cpi	r24, 0x02	; 2
+     6ac:	91 05       	cpc	r25, r1
+     6ae:	08 f4       	brcc	.+2      	; 0x6b2 <pf_lseek+0x122>
+     6b0:	58 c0       	rjmp	.+176    	; 0x762 <pf_lseek+0x1d2>
+     6b2:	88 85       	ldd	r24, Y+8	; 0x08
+     6b4:	99 85       	ldd	r25, Y+9	; 0x09
+     6b6:	68 17       	cp	r22, r24
+     6b8:	79 07       	cpc	r23, r25
+     6ba:	08 f0       	brcs	.+2      	; 0x6be <pf_lseek+0x12e>
+     6bc:	52 c0       	rjmp	.+164    	; 0x762 <pf_lseek+0x1d2>
+				fs->flag = 0; return FR_DISK_ERR;
+			}
+			fs->curr_clust = clst;
+     6be:	79 a3       	std	Y+33, r23	; 0x21
+     6c0:	68 a3       	std	Y+32, r22	; 0x20
+			fs->fptr += bcs;
+     6c2:	8e 89       	ldd	r24, Y+22	; 0x16
+     6c4:	9f 89       	ldd	r25, Y+23	; 0x17
+     6c6:	a8 8d       	ldd	r26, Y+24	; 0x18
+     6c8:	b9 8d       	ldd	r27, Y+25	; 0x19
+     6ca:	86 0d       	add	r24, r6
+     6cc:	97 1d       	adc	r25, r7
+     6ce:	a8 1d       	adc	r26, r8
+     6d0:	b9 1d       	adc	r27, r9
+     6d2:	8e 8b       	std	Y+22, r24	; 0x16
+     6d4:	9f 8b       	std	Y+23, r25	; 0x17
+     6d6:	a8 8f       	std	Y+24, r26	; 0x18
+     6d8:	b9 8f       	std	Y+25, r27	; 0x19
+			ofs -= bcs;
+     6da:	a6 18       	sub	r10, r6
+     6dc:	b7 08       	sbc	r11, r7
+     6de:	c8 08       	sbc	r12, r8
+     6e0:	d9 08       	sbc	r13, r9
+			clst = fs->curr_clust;
+		} else {							/* When seek to back cluster, */
+			clst = fs->org_clust;			/* start from the first cluster */
+			fs->curr_clust = clst;
+		}
+		while (ofs > bcs) {				/* Cluster following loop */
+     6e2:	6a 14       	cp	r6, r10
+     6e4:	7b 04       	cpc	r7, r11
+     6e6:	8c 04       	cpc	r8, r12
+     6e8:	9d 04       	cpc	r9, r13
+     6ea:	d8 f2       	brcs	.-74     	; 0x6a2 <pf_lseek+0x112>
+			}
+			fs->curr_clust = clst;
+			fs->fptr += bcs;
+			ofs -= bcs;
+		}
+		fs->fptr += ofs;
+     6ec:	8e 89       	ldd	r24, Y+22	; 0x16
+     6ee:	9f 89       	ldd	r25, Y+23	; 0x17
+     6f0:	a8 8d       	ldd	r26, Y+24	; 0x18
+     6f2:	b9 8d       	ldd	r27, Y+25	; 0x19
+     6f4:	8a 0d       	add	r24, r10
+     6f6:	9b 1d       	adc	r25, r11
+     6f8:	ac 1d       	adc	r26, r12
+     6fa:	bd 1d       	adc	r27, r13
+     6fc:	8e 8b       	std	Y+22, r24	; 0x16
+     6fe:	9f 8b       	std	Y+23, r25	; 0x17
+     700:	a8 8f       	std	Y+24, r26	; 0x18
+     702:	b9 8f       	std	Y+25, r27	; 0x19
+		fs->csect = (BYTE)(ofs / 512) + 1;	/* Sector offset in the cluster */
+     704:	e9 e0       	ldi	r30, 0x09	; 9
+     706:	d6 94       	lsr	r13
+     708:	c7 94       	ror	r12
+     70a:	b7 94       	ror	r11
+     70c:	a7 94       	ror	r10
+     70e:	ea 95       	dec	r30
+     710:	d1 f7       	brne	.-12     	; 0x706 <pf_lseek+0x176>
+     712:	ea 2c       	mov	r14, r10
+     714:	e3 94       	inc	r14
+     716:	eb 82       	std	Y+3, r14	; 0x03
+static
+DWORD clust2sect (	/* !=0: Sector number, 0: Failed - invalid cluster# */
+	CLUST clst		/* Cluster# to be converted */
+)
+{
+	FATFS *fs = FatFs;
+     718:	c0 90 6a 00 	lds	r12, 0x006A
+     71c:	d0 90 6b 00 	lds	r13, 0x006B
+
+
+	clst -= 2;
+     720:	62 50       	subi	r22, 0x02	; 2
+     722:	70 40       	sbci	r23, 0x00	; 0
+	if (clst >= (fs->max_clust - 2)) return 0;		/* Invalid cluster# */
+     724:	f6 01       	movw	r30, r12
+     726:	80 85       	ldd	r24, Z+8	; 0x08
+     728:	91 85       	ldd	r25, Z+9	; 0x09
+     72a:	02 97       	sbiw	r24, 0x02	; 2
+     72c:	68 17       	cp	r22, r24
+     72e:	79 07       	cpc	r23, r25
+     730:	c0 f4       	brcc	.+48     	; 0x762 <pf_lseek+0x1d2>
+	return (DWORD)clst * fs->csize + fs->database;
+     732:	80 e0       	ldi	r24, 0x00	; 0
+     734:	90 e0       	ldi	r25, 0x00	; 0
+     736:	21 81       	ldd	r18, Z+1	; 0x01
+     738:	30 e0       	ldi	r19, 0x00	; 0
+     73a:	40 e0       	ldi	r20, 0x00	; 0
+     73c:	50 e0       	ldi	r21, 0x00	; 0
+     73e:	0e 94 56 0b 	call	0x16ac	; 0x16ac <__mulsi3>
+     742:	9b 01       	movw	r18, r22
+     744:	ac 01       	movw	r20, r24
+     746:	f6 01       	movw	r30, r12
+     748:	82 89       	ldd	r24, Z+18	; 0x12
+     74a:	93 89       	ldd	r25, Z+19	; 0x13
+     74c:	a4 89       	ldd	r26, Z+20	; 0x14
+     74e:	b5 89       	ldd	r27, Z+21	; 0x15
+     750:	28 0f       	add	r18, r24
+     752:	39 1f       	adc	r19, r25
+     754:	4a 1f       	adc	r20, r26
+     756:	5b 1f       	adc	r21, r27
+			ofs -= bcs;
+		}
+		fs->fptr += ofs;
+		fs->csect = (BYTE)(ofs / 512) + 1;	/* Sector offset in the cluster */
+		nsect = clust2sect(clst);	/* Current sector */
+		if (!nsect) {
+     758:	21 15       	cp	r18, r1
+     75a:	31 05       	cpc	r19, r1
+     75c:	41 05       	cpc	r20, r1
+     75e:	51 05       	cpc	r21, r1
+     760:	19 f4       	brne	.+6      	; 0x768 <pf_lseek+0x1d8>
+			fs->flag = 0; return FR_DISK_ERR;
+     762:	1a 82       	std	Y+2, r1	; 0x02
+     764:	81 e0       	ldi	r24, 0x01	; 1
+     766:	0d c0       	rjmp	.+26     	; 0x782 <pf_lseek+0x1f2>
+		}
+		fs->dsect = nsect + fs->csect - 1;
+     768:	2e 0d       	add	r18, r14
+     76a:	31 1d       	adc	r19, r1
+     76c:	41 1d       	adc	r20, r1
+     76e:	51 1d       	adc	r21, r1
+     770:	21 50       	subi	r18, 0x01	; 1
+     772:	30 40       	sbci	r19, 0x00	; 0
+     774:	40 40       	sbci	r20, 0x00	; 0
+     776:	50 40       	sbci	r21, 0x00	; 0
+     778:	2a a3       	std	Y+34, r18	; 0x22
+     77a:	3b a3       	std	Y+35, r19	; 0x23
+     77c:	4c a3       	std	Y+36, r20	; 0x24
+     77e:	5d a3       	std	Y+37, r21	; 0x25
+     780:	80 e0       	ldi	r24, 0x00	; 0
+	}
+
+	return FR_OK;
+}
+     782:	df 91       	pop	r29
+     784:	cf 91       	pop	r28
+     786:	1f 91       	pop	r17
+     788:	0f 91       	pop	r16
+     78a:	ff 90       	pop	r15
+     78c:	ef 90       	pop	r14
+     78e:	df 90       	pop	r13
+     790:	cf 90       	pop	r12
+     792:	bf 90       	pop	r11
+     794:	af 90       	pop	r10
+     796:	9f 90       	pop	r9
+     798:	8f 90       	pop	r8
+     79a:	7f 90       	pop	r7
+     79c:	6f 90       	pop	r6
+     79e:	5f 90       	pop	r5
+     7a0:	4f 90       	pop	r4
+     7a2:	3f 90       	pop	r3
+     7a4:	2f 90       	pop	r2
+     7a6:	08 95       	ret
+
+000007a8 <pf_readdir>:
+
+FRESULT pf_readdir (
+	DIR *dj,			/* Pointer to the open directory object */
+	FILINFO *fno		/* Pointer to file information to return */
+)
+{
+     7a8:	af 92       	push	r10
+     7aa:	bf 92       	push	r11
+     7ac:	cf 92       	push	r12
+     7ae:	df 92       	push	r13
+     7b0:	ef 92       	push	r14
+     7b2:	ff 92       	push	r15
+     7b4:	0f 93       	push	r16
+     7b6:	1f 93       	push	r17
+     7b8:	df 93       	push	r29
+     7ba:	cf 93       	push	r28
+     7bc:	cd b7       	in	r28, 0x3d	; 61
+     7be:	de b7       	in	r29, 0x3e	; 62
+     7c0:	ac 97       	sbiw	r28, 0x2c	; 44
+     7c2:	0f b6       	in	r0, 0x3f	; 63
+     7c4:	f8 94       	cli
+     7c6:	de bf       	out	0x3e, r29	; 62
+     7c8:	0f be       	out	0x3f, r0	; 63
+     7ca:	cd bf       	out	0x3d, r28	; 61
+     7cc:	6c 01       	movw	r12, r24
+     7ce:	5b 01       	movw	r10, r22
+	FRESULT res;
+	BYTE sp[12], dir[32];
+	FATFS *fs = FatFs;
+     7d0:	00 91 6a 00 	lds	r16, 0x006A
+     7d4:	10 91 6b 00 	lds	r17, 0x006B
+
+
+	if (!fs) {				/* Check file system */
+     7d8:	01 15       	cp	r16, r1
+     7da:	11 05       	cpc	r17, r1
+     7dc:	11 f4       	brne	.+4      	; 0x7e2 <pf_readdir+0x3a>
+     7de:	88 e0       	ldi	r24, 0x08	; 8
+     7e0:	12 c1       	rjmp	.+548    	; 0xa06 <pf_readdir+0x25e>
+		res = FR_NOT_ENABLED;
+	} else {
+		fs->buf = dir;
+     7e2:	ce 01       	movw	r24, r28
+     7e4:	0d 96       	adiw	r24, 0x0d	; 13
+     7e6:	d8 01       	movw	r26, r16
+     7e8:	17 96       	adiw	r26, 0x07	; 7
+     7ea:	9c 93       	st	X, r25
+     7ec:	8e 93       	st	-X, r24
+     7ee:	16 97       	sbiw	r26, 0x06	; 6
+		dj->fn = sp;
+     7f0:	ce 01       	movw	r24, r28
+     7f2:	01 96       	adiw	r24, 0x01	; 1
+     7f4:	f6 01       	movw	r30, r12
+     7f6:	93 83       	std	Z+3, r25	; 0x03
+     7f8:	82 83       	std	Z+2, r24	; 0x02
+		if (!fno) {
+     7fa:	61 15       	cp	r22, r1
+     7fc:	71 05       	cpc	r23, r1
+     7fe:	11 f0       	breq	.+4      	; 0x804 <pf_readdir+0x5c>
+     800:	83 e0       	ldi	r24, 0x03	; 3
+     802:	75 c0       	rjmp	.+234    	; 0x8ee <pf_readdir+0x146>
+{
+	CLUST clst;
+	FATFS *fs = FatFs;
+
+
+	dj->index = 0;
+     804:	d6 01       	movw	r26, r12
+     806:	11 96       	adiw	r26, 0x01	; 1
+     808:	1c 92       	st	X, r1
+     80a:	1e 92       	st	-X, r1
+	clst = dj->sclust;
+     80c:	14 96       	adiw	r26, 0x04	; 4
+     80e:	6d 91       	ld	r22, X+
+     810:	7c 91       	ld	r23, X
+     812:	15 97       	sbiw	r26, 0x05	; 5
+	if (clst == 1 || clst >= fs->max_clust)	/* Check start cluster range */
+     814:	61 30       	cpi	r22, 0x01	; 1
+     816:	71 05       	cpc	r23, r1
+     818:	09 f4       	brne	.+2      	; 0x81c <pf_readdir+0x74>
+     81a:	f4 c0       	rjmp	.+488    	; 0xa04 <pf_readdir+0x25c>
+     81c:	f8 01       	movw	r30, r16
+     81e:	80 85       	ldd	r24, Z+8	; 0x08
+     820:	91 85       	ldd	r25, Z+9	; 0x09
+     822:	68 17       	cp	r22, r24
+     824:	79 07       	cpc	r23, r25
+     826:	08 f0       	brcs	.+2      	; 0x82a <pf_readdir+0x82>
+     828:	ed c0       	rjmp	.+474    	; 0xa04 <pf_readdir+0x25c>
+		return FR_DISK_ERR;
+#if _FS_FAT32
+	if (!clst && fs->fs_type == FS_FAT32)	/* Replace cluster# 0 with root cluster# if in FAT32 */
+		clst = fs->dirbase;
+#endif
+	dj->clust = clst;						/* Current cluster */
+     82a:	17 96       	adiw	r26, 0x07	; 7
+     82c:	7c 93       	st	X, r23
+     82e:	6e 93       	st	-X, r22
+     830:	16 97       	sbiw	r26, 0x06	; 6
+	dj->sect = clst ? clust2sect(clst) : fs->dirbase;	/* Current sector */
+     832:	61 15       	cp	r22, r1
+     834:	71 05       	cpc	r23, r1
+     836:	19 f1       	breq	.+70     	; 0x87e <pf_readdir+0xd6>
+)
+{
+	FATFS *fs = FatFs;
+
+
+	clst -= 2;
+     838:	62 50       	subi	r22, 0x02	; 2
+     83a:	70 40       	sbci	r23, 0x00	; 0
+	if (clst >= (fs->max_clust - 2)) return 0;		/* Invalid cluster# */
+     83c:	80 85       	ldd	r24, Z+8	; 0x08
+     83e:	91 85       	ldd	r25, Z+9	; 0x09
+     840:	02 97       	sbiw	r24, 0x02	; 2
+     842:	68 17       	cp	r22, r24
+     844:	79 07       	cpc	r23, r25
+     846:	28 f0       	brcs	.+10     	; 0x852 <pf_readdir+0xaa>
+     848:	20 e0       	ldi	r18, 0x00	; 0
+     84a:	30 e0       	ldi	r19, 0x00	; 0
+     84c:	40 e0       	ldi	r20, 0x00	; 0
+     84e:	50 e0       	ldi	r21, 0x00	; 0
+     850:	1d c0       	rjmp	.+58     	; 0x88c <pf_readdir+0xe4>
+	return (DWORD)clst * fs->csize + fs->database;
+     852:	80 e0       	ldi	r24, 0x00	; 0
+     854:	90 e0       	ldi	r25, 0x00	; 0
+     856:	d8 01       	movw	r26, r16
+     858:	11 96       	adiw	r26, 0x01	; 1
+     85a:	2c 91       	ld	r18, X
+     85c:	30 e0       	ldi	r19, 0x00	; 0
+     85e:	40 e0       	ldi	r20, 0x00	; 0
+     860:	50 e0       	ldi	r21, 0x00	; 0
+     862:	0e 94 56 0b 	call	0x16ac	; 0x16ac <__mulsi3>
+     866:	9b 01       	movw	r18, r22
+     868:	ac 01       	movw	r20, r24
+     86a:	f8 01       	movw	r30, r16
+     86c:	82 89       	ldd	r24, Z+18	; 0x12
+     86e:	93 89       	ldd	r25, Z+19	; 0x13
+     870:	a4 89       	ldd	r26, Z+20	; 0x14
+     872:	b5 89       	ldd	r27, Z+21	; 0x15
+     874:	28 0f       	add	r18, r24
+     876:	39 1f       	adc	r19, r25
+     878:	4a 1f       	adc	r20, r26
+     87a:	5b 1f       	adc	r21, r27
+     87c:	07 c0       	rjmp	.+14     	; 0x88c <pf_readdir+0xe4>
+#if _FS_FAT32
+	if (!clst && fs->fs_type == FS_FAT32)	/* Replace cluster# 0 with root cluster# if in FAT32 */
+		clst = fs->dirbase;
+#endif
+	dj->clust = clst;						/* Current cluster */
+	dj->sect = clst ? clust2sect(clst) : fs->dirbase;	/* Current sector */
+     87e:	d8 01       	movw	r26, r16
+     880:	1e 96       	adiw	r26, 0x0e	; 14
+     882:	2d 91       	ld	r18, X+
+     884:	3d 91       	ld	r19, X+
+     886:	4d 91       	ld	r20, X+
+     888:	5c 91       	ld	r21, X
+     88a:	51 97       	sbiw	r26, 0x11	; 17
+     88c:	f6 01       	movw	r30, r12
+     88e:	20 87       	std	Z+8, r18	; 0x08
+     890:	31 87       	std	Z+9, r19	; 0x09
+     892:	42 87       	std	Z+10, r20	; 0x0a
+     894:	53 87       	std	Z+11, r21	; 0x0b
+     896:	b4 c0       	rjmp	.+360    	; 0xa00 <pf_readdir+0x258>
+	BYTE a, c, *dir;
+
+
+	res = FR_NO_FILE;
+	while (dj->sect) {
+		dir = FatFs->buf;
+     898:	e0 91 6a 00 	lds	r30, 0x006A
+     89c:	f0 91 6b 00 	lds	r31, 0x006B
+     8a0:	e6 80       	ldd	r14, Z+6	; 0x06
+     8a2:	f7 80       	ldd	r15, Z+7	; 0x07
+		res = disk_readp(dir, dj->sect, (WORD)((dj->index % 16) * 32), 32)	/* Read an entry */
+     8a4:	d6 01       	movw	r26, r12
+     8a6:	2d 91       	ld	r18, X+
+     8a8:	3c 91       	ld	r19, X
+     8aa:	2f 70       	andi	r18, 0x0F	; 15
+     8ac:	30 70       	andi	r19, 0x00	; 0
+     8ae:	a5 e0       	ldi	r26, 0x05	; 5
+     8b0:	22 0f       	add	r18, r18
+     8b2:	33 1f       	adc	r19, r19
+     8b4:	aa 95       	dec	r26
+     8b6:	e1 f7       	brne	.-8      	; 0x8b0 <pf_readdir+0x108>
+     8b8:	c7 01       	movw	r24, r14
+     8ba:	00 e2       	ldi	r16, 0x20	; 32
+     8bc:	10 e0       	ldi	r17, 0x00	; 0
+     8be:	0e 94 bd 0a 	call	0x157a	; 0x157a <disk_readp>
+			? FR_DISK_ERR : FR_OK;
+		if (res != FR_OK) break;
+     8c2:	88 23       	and	r24, r24
+     8c4:	11 f0       	breq	.+4      	; 0x8ca <pf_readdir+0x122>
+     8c6:	81 e0       	ldi	r24, 0x01	; 1
+     8c8:	20 c0       	rjmp	.+64     	; 0x90a <pf_readdir+0x162>
+		c = dir[DIR_Name];
+     8ca:	f7 01       	movw	r30, r14
+     8cc:	20 81       	ld	r18, Z
+		if (c == 0) { res = FR_NO_FILE; break; }	/* Reached to end of table */
+     8ce:	22 23       	and	r18, r18
+     8d0:	09 f4       	brne	.+2      	; 0x8d4 <pf_readdir+0x12c>
+     8d2:	aa c0       	rjmp	.+340    	; 0xa28 <pf_readdir+0x280>
+		a = dir[DIR_Attr] & AM_MASK;
+     8d4:	83 85       	ldd	r24, Z+11	; 0x0b
+		if (c != 0xE5 && c != '.' && !(a & AM_VOL))	/* Is it a valid entry? */
+     8d6:	25 3e       	cpi	r18, 0xE5	; 229
+     8d8:	29 f0       	breq	.+10     	; 0x8e4 <pf_readdir+0x13c>
+     8da:	2e 32       	cpi	r18, 0x2E	; 46
+     8dc:	19 f0       	breq	.+6      	; 0x8e4 <pf_readdir+0x13c>
+     8de:	8f 73       	andi	r24, 0x3F	; 63
+     8e0:	83 ff       	sbrs	r24, 3
+     8e2:	1d c0       	rjmp	.+58     	; 0x91e <pf_readdir+0x176>
+			break;
+		res = dir_next(dj);				/* Next entry */
+     8e4:	c6 01       	movw	r24, r12
+     8e6:	0e 94 3f 02 	call	0x47e	; 0x47e <dir_next>
+		if (res != FR_OK) break;
+     8ea:	88 23       	and	r24, r24
+     8ec:	71 f4       	brne	.+28     	; 0x90a <pf_readdir+0x162>
+	FRESULT res;
+	BYTE a, c, *dir;
+
+
+	res = FR_NO_FILE;
+	while (dj->sect) {
+     8ee:	d6 01       	movw	r26, r12
+     8f0:	18 96       	adiw	r26, 0x08	; 8
+     8f2:	4d 91       	ld	r20, X+
+     8f4:	5d 91       	ld	r21, X+
+     8f6:	6d 91       	ld	r22, X+
+     8f8:	7c 91       	ld	r23, X
+     8fa:	1b 97       	sbiw	r26, 0x0b	; 11
+     8fc:	41 15       	cp	r20, r1
+     8fe:	51 05       	cpc	r21, r1
+     900:	61 05       	cpc	r22, r1
+     902:	71 05       	cpc	r23, r1
+     904:	49 f6       	brne	.-110    	; 0x898 <pf_readdir+0xf0>
+			break;
+		res = dir_next(dj);				/* Next entry */
+		if (res != FR_OK) break;
+	}
+
+	if (res != FR_OK) dj->sect = 0;
+     906:	88 23       	and	r24, r24
+     908:	51 f0       	breq	.+20     	; 0x91e <pf_readdir+0x176>
+     90a:	f6 01       	movw	r30, r12
+     90c:	10 86       	std	Z+8, r1	; 0x08
+     90e:	11 86       	std	Z+9, r1	; 0x09
+     910:	12 86       	std	Z+10, r1	; 0x0a
+     912:	13 86       	std	Z+11, r1	; 0x0b
+		dj->fn = sp;
+		if (!fno) {
+			res = dir_rewind(dj);
+		} else {
+			res = dir_read(dj);
+			if (res == FR_NO_FILE) {
+     914:	83 30       	cpi	r24, 0x03	; 3
+     916:	19 f0       	breq	.+6      	; 0x91e <pf_readdir+0x176>
+				dj->sect = 0;
+				res = FR_OK;
+			}
+			if (res == FR_OK) {				/* A valid entry is found */
+     918:	88 23       	and	r24, r24
+     91a:	09 f0       	breq	.+2      	; 0x91e <pf_readdir+0x176>
+     91c:	74 c0       	rjmp	.+232    	; 0xa06 <pf_readdir+0x25e>
+{
+	BYTE i, c, *dir;
+	char *p;
+
+
+	p = fno->fname;
+     91e:	95 01       	movw	r18, r10
+     920:	27 5f       	subi	r18, 0xF7	; 247
+     922:	3f 4f       	sbci	r19, 0xFF	; 255
+	if (dj->sect) {
+     924:	f6 01       	movw	r30, r12
+     926:	80 85       	ldd	r24, Z+8	; 0x08
+     928:	91 85       	ldd	r25, Z+9	; 0x09
+     92a:	a2 85       	ldd	r26, Z+10	; 0x0a
+     92c:	b3 85       	ldd	r27, Z+11	; 0x0b
+     92e:	00 97       	sbiw	r24, 0x00	; 0
+     930:	a1 05       	cpc	r26, r1
+     932:	b1 05       	cpc	r27, r1
+     934:	09 f4       	brne	.+2      	; 0x938 <pf_readdir+0x190>
+     936:	56 c0       	rjmp	.+172    	; 0x9e4 <pf_readdir+0x23c>
+		dir = FatFs->buf;
+     938:	e0 91 6a 00 	lds	r30, 0x006A
+     93c:	f0 91 6b 00 	lds	r31, 0x006B
+     940:	46 81       	ldd	r20, Z+6	; 0x06
+     942:	57 81       	ldd	r21, Z+7	; 0x07
+     944:	80 e0       	ldi	r24, 0x00	; 0
+     946:	90 e0       	ldi	r25, 0x00	; 0
+		for (i = 0; i < 8; i++) {	/* Copy file name body */
+			c = dir[i];
+     948:	fa 01       	movw	r30, r20
+     94a:	e8 0f       	add	r30, r24
+     94c:	f9 1f       	adc	r31, r25
+     94e:	e0 81       	ld	r30, Z
+			if (c == ' ') break;
+     950:	e0 32       	cpi	r30, 0x20	; 32
+     952:	51 f0       	breq	.+20     	; 0x968 <pf_readdir+0x1c0>
+			if (c == 0x05) c = 0xE5;
+     954:	e5 30       	cpi	r30, 0x05	; 5
+     956:	09 f4       	brne	.+2      	; 0x95a <pf_readdir+0x1b2>
+     958:	e5 ee       	ldi	r30, 0xE5	; 229
+			*p++ = c;
+     95a:	d9 01       	movw	r26, r18
+     95c:	ed 93       	st	X+, r30
+     95e:	9d 01       	movw	r18, r26
+     960:	01 96       	adiw	r24, 0x01	; 1
+
+
+	p = fno->fname;
+	if (dj->sect) {
+		dir = FatFs->buf;
+		for (i = 0; i < 8; i++) {	/* Copy file name body */
+     962:	88 30       	cpi	r24, 0x08	; 8
+     964:	91 05       	cpc	r25, r1
+     966:	81 f7       	brne	.-32     	; 0x948 <pf_readdir+0x1a0>
+			c = dir[i];
+			if (c == ' ') break;
+			if (c == 0x05) c = 0xE5;
+			*p++ = c;
+		}
+		if (dir[8] != ' ') {		/* Copy file name extension */
+     968:	fa 01       	movw	r30, r20
+     96a:	80 85       	ldd	r24, Z+8	; 0x08
+     96c:	80 32       	cpi	r24, 0x20	; 32
+     96e:	11 f4       	brne	.+4      	; 0x974 <pf_readdir+0x1cc>
+     970:	f9 01       	movw	r30, r18
+     972:	10 c0       	rjmp	.+32     	; 0x994 <pf_readdir+0x1ec>
+			*p++ = '.';
+     974:	f9 01       	movw	r30, r18
+     976:	8e e2       	ldi	r24, 0x2E	; 46
+     978:	81 93       	st	Z+, r24
+     97a:	da 01       	movw	r26, r20
+			for (i = 8; i < 11; i++) {
+     97c:	2c 5f       	subi	r18, 0xFC	; 252
+     97e:	3f 4f       	sbci	r19, 0xFF	; 255
+				c = dir[i];
+     980:	18 96       	adiw	r26, 0x08	; 8
+     982:	8c 91       	ld	r24, X
+     984:	18 97       	sbiw	r26, 0x08	; 8
+				if (c == ' ') break;
+     986:	80 32       	cpi	r24, 0x20	; 32
+     988:	29 f0       	breq	.+10     	; 0x994 <pf_readdir+0x1ec>
+				*p++ = c;
+     98a:	81 93       	st	Z+, r24
+     98c:	11 96       	adiw	r26, 0x01	; 1
+			if (c == 0x05) c = 0xE5;
+			*p++ = c;
+		}
+		if (dir[8] != ' ') {		/* Copy file name extension */
+			*p++ = '.';
+			for (i = 8; i < 11; i++) {
+     98e:	e2 17       	cp	r30, r18
+     990:	f3 07       	cpc	r31, r19
+     992:	b1 f7       	brne	.-20     	; 0x980 <pf_readdir+0x1d8>
+				c = dir[i];
+				if (c == ' ') break;
+				*p++ = c;
+			}
+		}
+		fno->fattrib = dir[DIR_Attr];				/* Attribute */
+     994:	da 01       	movw	r26, r20
+     996:	1b 96       	adiw	r26, 0x0b	; 11
+     998:	8c 91       	ld	r24, X
+     99a:	d5 01       	movw	r26, r10
+     99c:	18 96       	adiw	r26, 0x08	; 8
+     99e:	8c 93       	st	X, r24
+		fno->fsize = LD_DWORD(dir+DIR_FileSize);	/* Size */
+     9a0:	da 01       	movw	r26, r20
+     9a2:	5c 96       	adiw	r26, 0x1c	; 28
+     9a4:	0d 91       	ld	r16, X+
+     9a6:	1d 91       	ld	r17, X+
+     9a8:	2d 91       	ld	r18, X+
+     9aa:	3c 91       	ld	r19, X
+     9ac:	5f 97       	sbiw	r26, 0x1f	; 31
+     9ae:	d5 01       	movw	r26, r10
+     9b0:	0d 93       	st	X+, r16
+     9b2:	1d 93       	st	X+, r17
+     9b4:	2d 93       	st	X+, r18
+     9b6:	3c 93       	st	X, r19
+     9b8:	13 97       	sbiw	r26, 0x03	; 3
+		fno->fdate = LD_WORD(dir+DIR_WrtDate);		/* Date */
+     9ba:	da 01       	movw	r26, r20
+     9bc:	58 96       	adiw	r26, 0x18	; 24
+     9be:	8d 91       	ld	r24, X+
+     9c0:	9c 91       	ld	r25, X
+     9c2:	59 97       	sbiw	r26, 0x19	; 25
+     9c4:	d5 01       	movw	r26, r10
+     9c6:	15 96       	adiw	r26, 0x05	; 5
+     9c8:	9c 93       	st	X, r25
+     9ca:	8e 93       	st	-X, r24
+     9cc:	14 97       	sbiw	r26, 0x04	; 4
+		fno->ftime = LD_WORD(dir+DIR_WrtTime);		/* Time */
+     9ce:	da 01       	movw	r26, r20
+     9d0:	56 96       	adiw	r26, 0x16	; 22
+     9d2:	8d 91       	ld	r24, X+
+     9d4:	9c 91       	ld	r25, X
+     9d6:	57 97       	sbiw	r26, 0x17	; 23
+     9d8:	d5 01       	movw	r26, r10
+     9da:	17 96       	adiw	r26, 0x07	; 7
+     9dc:	9c 93       	st	X, r25
+     9de:	8e 93       	st	-X, r24
+     9e0:	16 97       	sbiw	r26, 0x06	; 6
+     9e2:	9f 01       	movw	r18, r30
+	}
+	*p = 0;
+     9e4:	f9 01       	movw	r30, r18
+     9e6:	10 82       	st	Z, r1
+				dj->sect = 0;
+				res = FR_OK;
+			}
+			if (res == FR_OK) {				/* A valid entry is found */
+				get_fileinfo(dj, fno);		/* Get the object information */
+				res = dir_next(dj);			/* Increment index for next */
+     9e8:	c6 01       	movw	r24, r12
+     9ea:	0e 94 3f 02 	call	0x47e	; 0x47e <dir_next>
+				if (res == FR_NO_FILE) {
+     9ee:	83 30       	cpi	r24, 0x03	; 3
+     9f0:	51 f4       	brne	.+20     	; 0xa06 <pf_readdir+0x25e>
+					dj->sect = 0;
+     9f2:	d6 01       	movw	r26, r12
+     9f4:	18 96       	adiw	r26, 0x08	; 8
+     9f6:	1d 92       	st	X+, r1
+     9f8:	1d 92       	st	X+, r1
+     9fa:	1d 92       	st	X+, r1
+     9fc:	1c 92       	st	X, r1
+     9fe:	1b 97       	sbiw	r26, 0x0b	; 11
+     a00:	80 e0       	ldi	r24, 0x00	; 0
+     a02:	01 c0       	rjmp	.+2      	; 0xa06 <pf_readdir+0x25e>
+     a04:	81 e0       	ldi	r24, 0x01	; 1
+			}
+		}
+	}
+
+	return res;
+}
+     a06:	ac 96       	adiw	r28, 0x2c	; 44
+     a08:	0f b6       	in	r0, 0x3f	; 63
+     a0a:	f8 94       	cli
+     a0c:	de bf       	out	0x3e, r29	; 62
+     a0e:	0f be       	out	0x3f, r0	; 63
+     a10:	cd bf       	out	0x3d, r28	; 61
+     a12:	cf 91       	pop	r28
+     a14:	df 91       	pop	r29
+     a16:	1f 91       	pop	r17
+     a18:	0f 91       	pop	r16
+     a1a:	ff 90       	pop	r15
+     a1c:	ef 90       	pop	r14
+     a1e:	df 90       	pop	r13
+     a20:	cf 90       	pop	r12
+     a22:	bf 90       	pop	r11
+     a24:	af 90       	pop	r10
+     a26:	08 95       	ret
+			}
+			if (res == FR_OK) {				/* A valid entry is found */
+				get_fileinfo(dj, fno);		/* Get the object information */
+				res = dir_next(dj);			/* Increment index for next */
+				if (res == FR_NO_FILE) {
+					dj->sect = 0;
+     a28:	83 e0       	ldi	r24, 0x03	; 3
+     a2a:	6f cf       	rjmp	.-290    	; 0x90a <pf_readdir+0x162>
+
+00000a2c <follow_path>:
+static
+FRESULT follow_path (	/* FR_OK(0): successful, !=0: error code */
+	DIR *dj,			/* Directory object to return last directory and found object */
+	const char *path	/* Full-path string to find a file or directory */
+)
+{
+     a2c:	9f 92       	push	r9
+     a2e:	af 92       	push	r10
+     a30:	bf 92       	push	r11
+     a32:	cf 92       	push	r12
+     a34:	df 92       	push	r13
+     a36:	ef 92       	push	r14
+     a38:	ff 92       	push	r15
+     a3a:	0f 93       	push	r16
+     a3c:	1f 93       	push	r17
+     a3e:	cf 93       	push	r28
+     a40:	df 93       	push	r29
+     a42:	ec 01       	movw	r28, r24
+     a44:	6b 01       	movw	r12, r22
+	FRESULT res;
+	BYTE *dir;
+
+
+	if (*path == '/') path++;			/* Strip heading separator */
+     a46:	fb 01       	movw	r30, r22
+     a48:	80 81       	ld	r24, Z
+     a4a:	8f 32       	cpi	r24, 0x2F	; 47
+     a4c:	19 f4       	brne	.+6      	; 0xa54 <follow_path+0x28>
+     a4e:	08 94       	sec
+     a50:	c1 1c       	adc	r12, r1
+     a52:	d1 1c       	adc	r13, r1
+	dj->sclust = 0;						/* Set start directory (always root dir) */
+     a54:	1d 82       	std	Y+5, r1	; 0x05
+     a56:	1c 82       	std	Y+4, r1	; 0x04
+
+	if ((BYTE)*path < ' ') {			/* Null path means the root directory */
+     a58:	f6 01       	movw	r30, r12
+     a5a:	80 81       	ld	r24, Z
+     a5c:	80 32       	cpi	r24, 0x20	; 32
+     a5e:	e0 f4       	brcc	.+56     	; 0xa98 <follow_path+0x6c>
+FRESULT dir_rewind (
+	DIR *dj			/* Pointer to directory object */
+)
+{
+	CLUST clst;
+	FATFS *fs = FatFs;
+     a60:	e0 91 6a 00 	lds	r30, 0x006A
+     a64:	f0 91 6b 00 	lds	r31, 0x006B
+
+
+	dj->index = 0;
+     a68:	19 82       	std	Y+1, r1	; 0x01
+     a6a:	18 82       	st	Y, r1
+	clst = dj->sclust;
+	if (clst == 1 || clst >= fs->max_clust)	/* Check start cluster range */
+     a6c:	80 85       	ldd	r24, Z+8	; 0x08
+     a6e:	91 85       	ldd	r25, Z+9	; 0x09
+     a70:	89 2b       	or	r24, r25
+     a72:	61 f0       	breq	.+24     	; 0xa8c <follow_path+0x60>
+		return FR_DISK_ERR;
+#if _FS_FAT32
+	if (!clst && fs->fs_type == FS_FAT32)	/* Replace cluster# 0 with root cluster# if in FAT32 */
+		clst = fs->dirbase;
+#endif
+	dj->clust = clst;						/* Current cluster */
+     a74:	1f 82       	std	Y+7, r1	; 0x07
+     a76:	1e 82       	std	Y+6, r1	; 0x06
+	dj->sect = clst ? clust2sect(clst) : fs->dirbase;	/* Current sector */
+     a78:	86 85       	ldd	r24, Z+14	; 0x0e
+     a7a:	97 85       	ldd	r25, Z+15	; 0x0f
+     a7c:	a0 89       	ldd	r26, Z+16	; 0x10
+     a7e:	b1 89       	ldd	r27, Z+17	; 0x11
+     a80:	88 87       	std	Y+8, r24	; 0x08
+     a82:	99 87       	std	Y+9, r25	; 0x09
+     a84:	aa 87       	std	Y+10, r26	; 0x0a
+     a86:	bb 87       	std	Y+11, r27	; 0x0b
+     a88:	40 e0       	ldi	r20, 0x00	; 0
+     a8a:	01 c0       	rjmp	.+2      	; 0xa8e <follow_path+0x62>
+     a8c:	41 e0       	ldi	r20, 0x01	; 1
+	if (*path == '/') path++;			/* Strip heading separator */
+	dj->sclust = 0;						/* Set start directory (always root dir) */
+
+	if ((BYTE)*path < ' ') {			/* Null path means the root directory */
+		res = dir_rewind(dj);
+		FatFs->buf[0] = 0;
+     a8e:	06 80       	ldd	r0, Z+6	; 0x06
+     a90:	f7 81       	ldd	r31, Z+7	; 0x07
+     a92:	e0 2d       	mov	r30, r0
+     a94:	10 82       	st	Z, r1
+     a96:	df c0       	rjmp	.+446    	; 0xc56 <follow_path+0x22a>
+
+/* Fill memory */
+static
+void mem_set (void* dst, int val, int cnt) {
+	char *d = (char*)dst;
+	while (cnt--) *d++ = (char)val;
+     a98:	10 e2       	ldi	r17, 0x20	; 32
+     a9a:	a1 2e       	mov	r10, r17
+		sfn[i++] = c;
+	}
+	if (!i) return FR_INVALID_NAME;		/* Reject null string */
+	*path = &p[si];						/* Rerurn pointer to the next segment */
+
+	sfn[11] = (c < ' ') ? 1 : 0;		/* Set last segment flag if end of path */
+     a9c:	99 24       	eor	r9, r9
+     a9e:	93 94       	inc	r9
+{
+	BYTE c, ni, si, i, *sfn;
+	const char *p;
+
+	/* Create file name in directory form */
+	sfn = dj->fn;
+     aa0:	aa 81       	ldd	r26, Y+2	; 0x02
+     aa2:	bb 81       	ldd	r27, Y+3	; 0x03
+     aa4:	fd 01       	movw	r30, r26
+     aa6:	8b e0       	ldi	r24, 0x0B	; 11
+     aa8:	90 e0       	ldi	r25, 0x00	; 0
+     aaa:	01 c0       	rjmp	.+2      	; 0xaae <follow_path+0x82>
+
+/* Fill memory */
+static
+void mem_set (void* dst, int val, int cnt) {
+	char *d = (char*)dst;
+	while (cnt--) *d++ = (char)val;
+     aac:	a1 92       	st	Z+, r10
+     aae:	01 97       	sbiw	r24, 0x01	; 1
+     ab0:	2f ef       	ldi	r18, 0xFF	; 255
+     ab2:	8f 3f       	cpi	r24, 0xFF	; 255
+     ab4:	92 07       	cpc	r25, r18
+     ab6:	d1 f7       	brne	.-12     	; 0xaac <follow_path+0x80>
+     ab8:	20 e0       	ldi	r18, 0x00	; 0
+     aba:	bb 24       	eor	r11, r11
+     abc:	38 e0       	ldi	r19, 0x08	; 8
+     abe:	02 c0       	rjmp	.+4      	; 0xac4 <follow_path+0x98>
+     ac0:	28 e0       	ldi	r18, 0x08	; 8
+     ac2:	3b e0       	ldi	r19, 0x0B	; 11
+	sfn = dj->fn;
+	mem_set(sfn, ' ', 11);
+	si = i = 0; ni = 8;
+	p = *path;
+	for (;;) {
+		c = p[si++];
+     ac4:	f6 01       	movw	r30, r12
+     ac6:	eb 0d       	add	r30, r11
+     ac8:	f1 1d       	adc	r31, r1
+     aca:	90 81       	ld	r25, Z
+     acc:	b3 94       	inc	r11
+		if (c < ' ' || c == '/') break;	/* Break on end of segment */
+     ace:	90 32       	cpi	r25, 0x20	; 32
+     ad0:	b8 f0       	brcs	.+46     	; 0xb00 <follow_path+0xd4>
+     ad2:	9f 32       	cpi	r25, 0x2F	; 47
+     ad4:	a9 f0       	breq	.+42     	; 0xb00 <follow_path+0xd4>
+		if (c == '.' || i >= ni) {
+     ad6:	9e 32       	cpi	r25, 0x2E	; 46
+     ad8:	11 f0       	breq	.+4      	; 0xade <follow_path+0xb2>
+     ada:	23 17       	cp	r18, r19
+     adc:	30 f0       	brcs	.+12     	; 0xaea <follow_path+0xbe>
+			if (ni != 8 || c != '.') return FR_INVALID_NAME;
+     ade:	38 30       	cpi	r19, 0x08	; 8
+     ae0:	09 f0       	breq	.+2      	; 0xae4 <follow_path+0xb8>
+     ae2:	b6 c0       	rjmp	.+364    	; 0xc50 <follow_path+0x224>
+     ae4:	9e 32       	cpi	r25, 0x2E	; 46
+     ae6:	61 f3       	breq	.-40     	; 0xac0 <follow_path+0x94>
+     ae8:	b3 c0       	rjmp	.+358    	; 0xc50 <follow_path+0x224>
+			i = 8; ni = 11;
+			continue;
+		}
+		if (c >='a' && c <= 'z') c -= 0x20;
+     aea:	89 2f       	mov	r24, r25
+     aec:	81 56       	subi	r24, 0x61	; 97
+     aee:	8a 31       	cpi	r24, 0x1A	; 26
+     af0:	08 f4       	brcc	.+2      	; 0xaf4 <follow_path+0xc8>
+     af2:	90 52       	subi	r25, 0x20	; 32
+		sfn[i++] = c;
+     af4:	fd 01       	movw	r30, r26
+     af6:	e2 0f       	add	r30, r18
+     af8:	f1 1d       	adc	r31, r1
+     afa:	90 83       	st	Z, r25
+     afc:	2f 5f       	subi	r18, 0xFF	; 255
+     afe:	e2 cf       	rjmp	.-60     	; 0xac4 <follow_path+0x98>
+	}
+	if (!i) return FR_INVALID_NAME;		/* Reject null string */
+     b00:	22 23       	and	r18, r18
+     b02:	09 f4       	brne	.+2      	; 0xb06 <follow_path+0xda>
+     b04:	a5 c0       	rjmp	.+330    	; 0xc50 <follow_path+0x224>
+	*path = &p[si];						/* Rerurn pointer to the next segment */
+
+	sfn[11] = (c < ' ') ? 1 : 0;		/* Set last segment flag if end of path */
+     b06:	1b 96       	adiw	r26, 0x0b	; 11
+     b08:	1c 92       	st	X, r1
+     b0a:	1b 97       	sbiw	r26, 0x0b	; 11
+     b0c:	90 32       	cpi	r25, 0x20	; 32
+     b0e:	10 f4       	brcc	.+4      	; 0xb14 <follow_path+0xe8>
+     b10:	1b 96       	adiw	r26, 0x0b	; 11
+     b12:	9c 92       	st	X, r9
+FRESULT dir_rewind (
+	DIR *dj			/* Pointer to directory object */
+)
+{
+	CLUST clst;
+	FATFS *fs = FatFs;
+     b14:	00 91 6a 00 	lds	r16, 0x006A
+     b18:	10 91 6b 00 	lds	r17, 0x006B
+
+
+	dj->index = 0;
+     b1c:	19 82       	std	Y+1, r1	; 0x01
+     b1e:	18 82       	st	Y, r1
+	clst = dj->sclust;
+     b20:	6c 81       	ldd	r22, Y+4	; 0x04
+     b22:	7d 81       	ldd	r23, Y+5	; 0x05
+	if (clst == 1 || clst >= fs->max_clust)	/* Check start cluster range */
+     b24:	61 30       	cpi	r22, 0x01	; 1
+     b26:	71 05       	cpc	r23, r1
+     b28:	09 f4       	brne	.+2      	; 0xb2c <follow_path+0x100>
+     b2a:	a4 c0       	rjmp	.+328    	; 0xc74 <follow_path+0x248>
+     b2c:	f8 01       	movw	r30, r16
+     b2e:	80 85       	ldd	r24, Z+8	; 0x08
+     b30:	91 85       	ldd	r25, Z+9	; 0x09
+     b32:	68 17       	cp	r22, r24
+     b34:	79 07       	cpc	r23, r25
+     b36:	08 f0       	brcs	.+2      	; 0xb3a <follow_path+0x10e>
+     b38:	9d c0       	rjmp	.+314    	; 0xc74 <follow_path+0x248>
+		return FR_DISK_ERR;
+#if _FS_FAT32
+	if (!clst && fs->fs_type == FS_FAT32)	/* Replace cluster# 0 with root cluster# if in FAT32 */
+		clst = fs->dirbase;
+#endif
+	dj->clust = clst;						/* Current cluster */
+     b3a:	7f 83       	std	Y+7, r23	; 0x07
+     b3c:	6e 83       	std	Y+6, r22	; 0x06
+	dj->sect = clst ? clust2sect(clst) : fs->dirbase;	/* Current sector */
+     b3e:	61 15       	cp	r22, r1
+     b40:	71 05       	cpc	r23, r1
+     b42:	11 f1       	breq	.+68     	; 0xb88 <follow_path+0x15c>
+)
+{
+	FATFS *fs = FatFs;
+
+
+	clst -= 2;
+     b44:	62 50       	subi	r22, 0x02	; 2
+     b46:	70 40       	sbci	r23, 0x00	; 0
+	if (clst >= (fs->max_clust - 2)) return 0;		/* Invalid cluster# */
+     b48:	80 85       	ldd	r24, Z+8	; 0x08
+     b4a:	91 85       	ldd	r25, Z+9	; 0x09
+     b4c:	02 97       	sbiw	r24, 0x02	; 2
+     b4e:	68 17       	cp	r22, r24
+     b50:	79 07       	cpc	r23, r25
+     b52:	28 f0       	brcs	.+10     	; 0xb5e <follow_path+0x132>
+     b54:	20 e0       	ldi	r18, 0x00	; 0
+     b56:	30 e0       	ldi	r19, 0x00	; 0
+     b58:	40 e0       	ldi	r20, 0x00	; 0
+     b5a:	50 e0       	ldi	r21, 0x00	; 0
+     b5c:	1a c0       	rjmp	.+52     	; 0xb92 <follow_path+0x166>
+	return (DWORD)clst * fs->csize + fs->database;
+     b5e:	80 e0       	ldi	r24, 0x00	; 0
+     b60:	90 e0       	ldi	r25, 0x00	; 0
+     b62:	f8 01       	movw	r30, r16
+     b64:	21 81       	ldd	r18, Z+1	; 0x01
+     b66:	30 e0       	ldi	r19, 0x00	; 0
+     b68:	40 e0       	ldi	r20, 0x00	; 0
+     b6a:	50 e0       	ldi	r21, 0x00	; 0
+     b6c:	0e 94 56 0b 	call	0x16ac	; 0x16ac <__mulsi3>
+     b70:	9b 01       	movw	r18, r22
+     b72:	ac 01       	movw	r20, r24
+     b74:	f8 01       	movw	r30, r16
+     b76:	82 89       	ldd	r24, Z+18	; 0x12
+     b78:	93 89       	ldd	r25, Z+19	; 0x13
+     b7a:	a4 89       	ldd	r26, Z+20	; 0x14
+     b7c:	b5 89       	ldd	r27, Z+21	; 0x15
+     b7e:	28 0f       	add	r18, r24
+     b80:	39 1f       	adc	r19, r25
+     b82:	4a 1f       	adc	r20, r26
+     b84:	5b 1f       	adc	r21, r27
+     b86:	05 c0       	rjmp	.+10     	; 0xb92 <follow_path+0x166>
+#if _FS_FAT32
+	if (!clst && fs->fs_type == FS_FAT32)	/* Replace cluster# 0 with root cluster# if in FAT32 */
+		clst = fs->dirbase;
+#endif
+	dj->clust = clst;						/* Current cluster */
+	dj->sect = clst ? clust2sect(clst) : fs->dirbase;	/* Current sector */
+     b88:	f8 01       	movw	r30, r16
+     b8a:	26 85       	ldd	r18, Z+14	; 0x0e
+     b8c:	37 85       	ldd	r19, Z+15	; 0x0f
+     b8e:	40 89       	ldd	r20, Z+16	; 0x10
+     b90:	51 89       	ldd	r21, Z+17	; 0x11
+     b92:	28 87       	std	Y+8, r18	; 0x08
+     b94:	39 87       	std	Y+9, r19	; 0x09
+     b96:	4a 87       	std	Y+10, r20	; 0x0a
+     b98:	5b 87       	std	Y+11, r21	; 0x0b
+
+
+	res = dir_rewind(dj);			/* Rewind directory object */
+	if (res != FR_OK) return res;
+
+	dir = FatFs->buf;
+     b9a:	f8 01       	movw	r30, r16
+     b9c:	e6 80       	ldd	r14, Z+6	; 0x06
+     b9e:	f7 80       	ldd	r15, Z+7	; 0x07
+	do {
+		res = disk_readp(dir, dj->sect, (WORD)((dj->index % 16) * 32), 32)	/* Read an entry */
+     ba0:	48 85       	ldd	r20, Y+8	; 0x08
+     ba2:	59 85       	ldd	r21, Y+9	; 0x09
+     ba4:	6a 85       	ldd	r22, Y+10	; 0x0a
+     ba6:	7b 85       	ldd	r23, Y+11	; 0x0b
+     ba8:	28 81       	ld	r18, Y
+     baa:	39 81       	ldd	r19, Y+1	; 0x01
+     bac:	2f 70       	andi	r18, 0x0F	; 15
+     bae:	30 70       	andi	r19, 0x00	; 0
+     bb0:	b5 e0       	ldi	r27, 0x05	; 5
+     bb2:	22 0f       	add	r18, r18
+     bb4:	33 1f       	adc	r19, r19
+     bb6:	ba 95       	dec	r27
+     bb8:	e1 f7       	brne	.-8      	; 0xbb2 <follow_path+0x186>
+     bba:	c7 01       	movw	r24, r14
+     bbc:	00 e2       	ldi	r16, 0x20	; 32
+     bbe:	10 e0       	ldi	r17, 0x00	; 0
+     bc0:	0e 94 bd 0a 	call	0x157a	; 0x157a <disk_readp>
+			? FR_DISK_ERR : FR_OK;
+		if (res != FR_OK) break;
+     bc4:	88 23       	and	r24, r24
+     bc6:	09 f0       	breq	.+2      	; 0xbca <follow_path+0x19e>
+     bc8:	55 c0       	rjmp	.+170    	; 0xc74 <follow_path+0x248>
+		c = dir[DIR_Name];	/* First character */
+		if (c == 0) { res = FR_NO_FILE; break; }	/* Reached to end of table */
+     bca:	f7 01       	movw	r30, r14
+     bcc:	80 81       	ld	r24, Z
+     bce:	88 23       	and	r24, r24
+     bd0:	09 f4       	brne	.+2      	; 0xbd4 <follow_path+0x1a8>
+     bd2:	4e c0       	rjmp	.+156    	; 0xc70 <follow_path+0x244>
+		if (!(dir[DIR_Attr] & AM_VOL) && !mem_cmp(dir, dj->fn, 11)) /* Is it a valid entry? */
+     bd4:	83 85       	ldd	r24, Z+11	; 0x0b
+     bd6:	83 fd       	sbrc	r24, 3
+     bd8:	1c c0       	rjmp	.+56     	; 0xc12 <follow_path+0x1e6>
+     bda:	d7 01       	movw	r26, r14
+     bdc:	8a 81       	ldd	r24, Y+2	; 0x02
+     bde:	9b 81       	ldd	r25, Y+3	; 0x03
+     be0:	9c 01       	movw	r18, r24
+     be2:	f9 01       	movw	r30, r18
+     be4:	4b e0       	ldi	r20, 0x0B	; 11
+     be6:	50 e0       	ldi	r21, 0x00	; 0
+/* Compare memory to memory */
+static
+char mem_cmp (const void* dst, const void* src, int cnt) {
+	const char *d = (const char *)dst, *s = (const char *)src;
+	int r = 0;
+	while (cnt-- && (r = *d++ - *s++) == 0) ;
+     be8:	41 50       	subi	r20, 0x01	; 1
+     bea:	50 40       	sbci	r21, 0x00	; 0
+     bec:	2f ef       	ldi	r18, 0xFF	; 255
+     bee:	4f 3f       	cpi	r20, 0xFF	; 255
+     bf0:	52 07       	cpc	r21, r18
+     bf2:	09 f4       	brne	.+2      	; 0xbf6 <follow_path+0x1ca>
+     bf4:	41 c0       	rjmp	.+130    	; 0xc78 <follow_path+0x24c>
+     bf6:	8c 91       	ld	r24, X
+     bf8:	28 2f       	mov	r18, r24
+     bfa:	30 e0       	ldi	r19, 0x00	; 0
+     bfc:	80 81       	ld	r24, Z
+     bfe:	28 1b       	sub	r18, r24
+     c00:	31 09       	sbc	r19, r1
+     c02:	21 15       	cp	r18, r1
+     c04:	31 05       	cpc	r19, r1
+     c06:	19 f4       	brne	.+6      	; 0xc0e <follow_path+0x1e2>
+     c08:	11 96       	adiw	r26, 0x01	; 1
+     c0a:	31 96       	adiw	r30, 0x01	; 1
+     c0c:	ed cf       	rjmp	.-38     	; 0xbe8 <follow_path+0x1bc>
+		res = disk_readp(dir, dj->sect, (WORD)((dj->index % 16) * 32), 32)	/* Read an entry */
+			? FR_DISK_ERR : FR_OK;
+		if (res != FR_OK) break;
+		c = dir[DIR_Name];	/* First character */
+		if (c == 0) { res = FR_NO_FILE; break; }	/* Reached to end of table */
+		if (!(dir[DIR_Attr] & AM_VOL) && !mem_cmp(dir, dj->fn, 11)) /* Is it a valid entry? */
+     c0e:	22 23       	and	r18, r18
+     c10:	99 f1       	breq	.+102    	; 0xc78 <follow_path+0x24c>
+			break;
+		res = dir_next(dj);							/* Next entry */
+     c12:	ce 01       	movw	r24, r28
+     c14:	0e 94 3f 02 	call	0x47e	; 0x47e <dir_next>
+     c18:	48 2f       	mov	r20, r24
+	} while (res == FR_OK);
+     c1a:	88 23       	and	r24, r24
+     c1c:	09 f2       	breq	.-126    	; 0xba0 <follow_path+0x174>
+		for (;;) {
+			res = create_name(dj, &path);	/* Get a segment */
+			if (res != FR_OK) break;
+			res = dir_find(dj);				/* Find it */
+			if (res != FR_OK) {				/* Could not find the object */
+				if (res == FR_NO_FILE && !*(dj->fn+11))
+     c1e:	83 30       	cpi	r24, 0x03	; 3
+     c20:	d1 f4       	brne	.+52     	; 0xc56 <follow_path+0x22a>
+     c22:	ea 81       	ldd	r30, Y+2	; 0x02
+     c24:	fb 81       	ldd	r31, Y+3	; 0x03
+     c26:	83 85       	ldd	r24, Z+11	; 0x0b
+     c28:	88 23       	and	r24, r24
+     c2a:	a1 f0       	breq	.+40     	; 0xc54 <follow_path+0x228>
+     c2c:	14 c0       	rjmp	.+40     	; 0xc56 <follow_path+0x22a>
+					res = FR_NO_PATH;
+				break;
+			}
+			if (*(dj->fn+11)) break;		/* Last segment match. Function completed. */
+			dir = FatFs->buf;				/* There is next segment. Follow the sub directory */
+     c2e:	e0 91 6a 00 	lds	r30, 0x006A
+     c32:	f0 91 6b 00 	lds	r31, 0x006B
+     c36:	06 80       	ldd	r0, Z+6	; 0x06
+     c38:	f7 81       	ldd	r31, Z+7	; 0x07
+     c3a:	e0 2d       	mov	r30, r0
+			if (!(dir[DIR_Attr] & AM_DIR)) { /* Cannot follow because it is a file */
+     c3c:	83 85       	ldd	r24, Z+11	; 0x0b
+     c3e:	84 ff       	sbrs	r24, 4
+     c40:	09 c0       	rjmp	.+18     	; 0xc54 <follow_path+0x228>
+		}
+		if (c >='a' && c <= 'z') c -= 0x20;
+		sfn[i++] = c;
+	}
+	if (!i) return FR_INVALID_NAME;		/* Reject null string */
+	*path = &p[si];						/* Rerurn pointer to the next segment */
+     c42:	cb 0c       	add	r12, r11
+     c44:	d1 1c       	adc	r13, r1
+			if (*(dj->fn+11)) break;		/* Last segment match. Function completed. */
+			dir = FatFs->buf;				/* There is next segment. Follow the sub directory */
+			if (!(dir[DIR_Attr] & AM_DIR)) { /* Cannot follow because it is a file */
+				res = FR_NO_PATH; break;
+			}
+			dj->sclust =
+     c46:	82 8d       	ldd	r24, Z+26	; 0x1a
+     c48:	93 8d       	ldd	r25, Z+27	; 0x1b
+     c4a:	9d 83       	std	Y+5, r25	; 0x05
+     c4c:	8c 83       	std	Y+4, r24	; 0x04
+     c4e:	28 cf       	rjmp	.-432    	; 0xaa0 <follow_path+0x74>
+#if _FS_FAT32
+				((DWORD)LD_WORD(dir+DIR_FstClusHI) << 16) | 
+#endif
+				LD_WORD(dir+DIR_FstClusLO);
+		}
+     c50:	45 e0       	ldi	r20, 0x05	; 5
+     c52:	01 c0       	rjmp	.+2      	; 0xc56 <follow_path+0x22a>
+     c54:	44 e0       	ldi	r20, 0x04	; 4
+	}
+
+	return res;
+}
+     c56:	84 2f       	mov	r24, r20
+     c58:	df 91       	pop	r29
+     c5a:	cf 91       	pop	r28
+     c5c:	1f 91       	pop	r17
+     c5e:	0f 91       	pop	r16
+     c60:	ff 90       	pop	r15
+     c62:	ef 90       	pop	r14
+     c64:	df 90       	pop	r13
+     c66:	cf 90       	pop	r12
+     c68:	bf 90       	pop	r11
+     c6a:	af 90       	pop	r10
+     c6c:	9f 90       	pop	r9
+     c6e:	08 95       	ret
+			dj->sclust =
+#if _FS_FAT32
+				((DWORD)LD_WORD(dir+DIR_FstClusHI) << 16) | 
+#endif
+				LD_WORD(dir+DIR_FstClusLO);
+		}
+     c70:	43 e0       	ldi	r20, 0x03	; 3
+     c72:	d7 cf       	rjmp	.-82     	; 0xc22 <follow_path+0x1f6>
+     c74:	41 e0       	ldi	r20, 0x01	; 1
+     c76:	ef cf       	rjmp	.-34     	; 0xc56 <follow_path+0x22a>
+			if (res != FR_OK) {				/* Could not find the object */
+				if (res == FR_NO_FILE && !*(dj->fn+11))
+					res = FR_NO_PATH;
+				break;
+			}
+			if (*(dj->fn+11)) break;		/* Last segment match. Function completed. */
+     c78:	ea 81       	ldd	r30, Y+2	; 0x02
+     c7a:	fb 81       	ldd	r31, Y+3	; 0x03
+     c7c:	83 85       	ldd	r24, Z+11	; 0x0b
+     c7e:	88 23       	and	r24, r24
+     c80:	b1 f2       	breq	.-84     	; 0xc2e <follow_path+0x202>
+     c82:	40 e0       	ldi	r20, 0x00	; 0
+     c84:	e8 cf       	rjmp	.-48     	; 0xc56 <follow_path+0x22a>
+
+00000c86 <pf_opendir>:
+
+FRESULT pf_opendir (
+	DIR *dj,			/* Pointer to directory object to create */
+	const char *path	/* Pointer to the directory path */
+)
+{
+     c86:	df 92       	push	r13
+     c88:	ef 92       	push	r14
+     c8a:	ff 92       	push	r15
+     c8c:	0f 93       	push	r16
+     c8e:	1f 93       	push	r17
+     c90:	df 93       	push	r29
+     c92:	cf 93       	push	r28
+     c94:	cd b7       	in	r28, 0x3d	; 61
+     c96:	de b7       	in	r29, 0x3e	; 62
+     c98:	ac 97       	sbiw	r28, 0x2c	; 44
+     c9a:	0f b6       	in	r0, 0x3f	; 63
+     c9c:	f8 94       	cli
+     c9e:	de bf       	out	0x3e, r29	; 62
+     ca0:	0f be       	out	0x3f, r0	; 63
+     ca2:	cd bf       	out	0x3d, r28	; 61
+     ca4:	7c 01       	movw	r14, r24
+	FRESULT res;
+	BYTE sp[12], dir[32];
+	FATFS *fs = FatFs;
+     ca6:	e0 91 6a 00 	lds	r30, 0x006A
+     caa:	f0 91 6b 00 	lds	r31, 0x006B
+
+
+	if (!fs) {				/* Check file system */
+     cae:	30 97       	sbiw	r30, 0x00	; 0
+     cb0:	19 f4       	brne	.+6      	; 0xcb8 <pf_opendir+0x32>
+     cb2:	88 e0       	ldi	r24, 0x08	; 8
+     cb4:	d8 2e       	mov	r13, r24
+     cb6:	6a c0       	rjmp	.+212    	; 0xd8c <pf_opendir+0x106>
+		res = FR_NOT_ENABLED;
+	} else {
+		fs->buf = dir;
+     cb8:	8e 01       	movw	r16, r28
+     cba:	03 5f       	subi	r16, 0xF3	; 243
+     cbc:	1f 4f       	sbci	r17, 0xFF	; 255
+     cbe:	17 83       	std	Z+7, r17	; 0x07
+     cc0:	06 83       	std	Z+6, r16	; 0x06
+		dj->fn = sp;
+     cc2:	ce 01       	movw	r24, r28
+     cc4:	01 96       	adiw	r24, 0x01	; 1
+     cc6:	f7 01       	movw	r30, r14
+     cc8:	93 83       	std	Z+3, r25	; 0x03
+     cca:	82 83       	std	Z+2, r24	; 0x02
+		res = follow_path(dj, path);			/* Follow the path to the directory */
+     ccc:	c7 01       	movw	r24, r14
+     cce:	0e 94 16 05 	call	0xa2c	; 0xa2c <follow_path>
+     cd2:	d8 2e       	mov	r13, r24
+		if (res == FR_OK) {						/* Follow completed */
+     cd4:	88 23       	and	r24, r24
+     cd6:	09 f0       	breq	.+2      	; 0xcda <pf_opendir+0x54>
+     cd8:	54 c0       	rjmp	.+168    	; 0xd82 <pf_opendir+0xfc>
+			if (dir[0]) {						/* It is not the root dir */
+     cda:	8d 85       	ldd	r24, Y+13	; 0x0d
+     cdc:	88 23       	and	r24, r24
+     cde:	49 f0       	breq	.+18     	; 0xcf2 <pf_opendir+0x6c>
+				if (dir[DIR_Attr] & AM_DIR) {	/* The object is a directory */
+     ce0:	88 8d       	ldd	r24, Y+24	; 0x18
+     ce2:	84 ff       	sbrs	r24, 4
+     ce4:	51 c0       	rjmp	.+162    	; 0xd88 <pf_opendir+0x102>
+					dj->sclust =
+     ce6:	f8 01       	movw	r30, r16
+     ce8:	82 8d       	ldd	r24, Z+26	; 0x1a
+     cea:	93 8d       	ldd	r25, Z+27	; 0x1b
+     cec:	f7 01       	movw	r30, r14
+     cee:	95 83       	std	Z+5, r25	; 0x05
+     cf0:	84 83       	std	Z+4, r24	; 0x04
+FRESULT dir_rewind (
+	DIR *dj			/* Pointer to directory object */
+)
+{
+	CLUST clst;
+	FATFS *fs = FatFs;
+     cf2:	00 91 6a 00 	lds	r16, 0x006A
+     cf6:	10 91 6b 00 	lds	r17, 0x006B
+
+
+	dj->index = 0;
+     cfa:	f7 01       	movw	r30, r14
+     cfc:	11 82       	std	Z+1, r1	; 0x01
+     cfe:	10 82       	st	Z, r1
+	clst = dj->sclust;
+     d00:	64 81       	ldd	r22, Z+4	; 0x04
+     d02:	75 81       	ldd	r23, Z+5	; 0x05
+	if (clst == 1 || clst >= fs->max_clust)	/* Check start cluster range */
+     d04:	61 30       	cpi	r22, 0x01	; 1
+     d06:	71 05       	cpc	r23, r1
+     d08:	09 f4       	brne	.+2      	; 0xd0c <pf_opendir+0x86>
+     d0a:	4f c0       	rjmp	.+158    	; 0xdaa <pf_opendir+0x124>
+     d0c:	f8 01       	movw	r30, r16
+     d0e:	80 85       	ldd	r24, Z+8	; 0x08
+     d10:	91 85       	ldd	r25, Z+9	; 0x09
+     d12:	68 17       	cp	r22, r24
+     d14:	79 07       	cpc	r23, r25
+     d16:	08 f0       	brcs	.+2      	; 0xd1a <pf_opendir+0x94>
+     d18:	48 c0       	rjmp	.+144    	; 0xdaa <pf_opendir+0x124>
+		return FR_DISK_ERR;
+#if _FS_FAT32
+	if (!clst && fs->fs_type == FS_FAT32)	/* Replace cluster# 0 with root cluster# if in FAT32 */
+		clst = fs->dirbase;
+#endif
+	dj->clust = clst;						/* Current cluster */
+     d1a:	f7 01       	movw	r30, r14
+     d1c:	77 83       	std	Z+7, r23	; 0x07
+     d1e:	66 83       	std	Z+6, r22	; 0x06
+	dj->sect = clst ? clust2sect(clst) : fs->dirbase;	/* Current sector */
+     d20:	61 15       	cp	r22, r1
+     d22:	71 05       	cpc	r23, r1
+     d24:	19 f1       	breq	.+70     	; 0xd6c <pf_opendir+0xe6>
+)
+{
+	FATFS *fs = FatFs;
+
+
+	clst -= 2;
+     d26:	62 50       	subi	r22, 0x02	; 2
+     d28:	70 40       	sbci	r23, 0x00	; 0
+	if (clst >= (fs->max_clust - 2)) return 0;		/* Invalid cluster# */
+     d2a:	f8 01       	movw	r30, r16
+     d2c:	80 85       	ldd	r24, Z+8	; 0x08
+     d2e:	91 85       	ldd	r25, Z+9	; 0x09
+     d30:	02 97       	sbiw	r24, 0x02	; 2
+     d32:	68 17       	cp	r22, r24
+     d34:	79 07       	cpc	r23, r25
+     d36:	28 f0       	brcs	.+10     	; 0xd42 <pf_opendir+0xbc>
+     d38:	20 e0       	ldi	r18, 0x00	; 0
+     d3a:	30 e0       	ldi	r19, 0x00	; 0
+     d3c:	40 e0       	ldi	r20, 0x00	; 0
+     d3e:	50 e0       	ldi	r21, 0x00	; 0
+     d40:	1a c0       	rjmp	.+52     	; 0xd76 <pf_opendir+0xf0>
+	return (DWORD)clst * fs->csize + fs->database;
+     d42:	80 e0       	ldi	r24, 0x00	; 0
+     d44:	90 e0       	ldi	r25, 0x00	; 0
+     d46:	f8 01       	movw	r30, r16
+     d48:	21 81       	ldd	r18, Z+1	; 0x01
+     d4a:	30 e0       	ldi	r19, 0x00	; 0
+     d4c:	40 e0       	ldi	r20, 0x00	; 0
+     d4e:	50 e0       	ldi	r21, 0x00	; 0
+     d50:	0e 94 56 0b 	call	0x16ac	; 0x16ac <__mulsi3>
+     d54:	9b 01       	movw	r18, r22
+     d56:	ac 01       	movw	r20, r24
+     d58:	f8 01       	movw	r30, r16
+     d5a:	82 89       	ldd	r24, Z+18	; 0x12
+     d5c:	93 89       	ldd	r25, Z+19	; 0x13
+     d5e:	a4 89       	ldd	r26, Z+20	; 0x14
+     d60:	b5 89       	ldd	r27, Z+21	; 0x15
+     d62:	28 0f       	add	r18, r24
+     d64:	39 1f       	adc	r19, r25
+     d66:	4a 1f       	adc	r20, r26
+     d68:	5b 1f       	adc	r21, r27
+     d6a:	05 c0       	rjmp	.+10     	; 0xd76 <pf_opendir+0xf0>
+#if _FS_FAT32
+	if (!clst && fs->fs_type == FS_FAT32)	/* Replace cluster# 0 with root cluster# if in FAT32 */
+		clst = fs->dirbase;
+#endif
+	dj->clust = clst;						/* Current cluster */
+	dj->sect = clst ? clust2sect(clst) : fs->dirbase;	/* Current sector */
+     d6c:	f8 01       	movw	r30, r16
+     d6e:	26 85       	ldd	r18, Z+14	; 0x0e
+     d70:	37 85       	ldd	r19, Z+15	; 0x0f
+     d72:	40 89       	ldd	r20, Z+16	; 0x10
+     d74:	51 89       	ldd	r21, Z+17	; 0x11
+     d76:	f7 01       	movw	r30, r14
+     d78:	20 87       	std	Z+8, r18	; 0x08
+     d7a:	31 87       	std	Z+9, r19	; 0x09
+     d7c:	42 87       	std	Z+10, r20	; 0x0a
+     d7e:	53 87       	std	Z+11, r21	; 0x0b
+     d80:	05 c0       	rjmp	.+10     	; 0xd8c <pf_opendir+0x106>
+			}
+			if (res == FR_OK) {
+				res = dir_rewind(dj);			/* Rewind dir */
+			}
+		}
+		if (res == FR_NO_FILE) res = FR_NO_PATH;
+     d82:	f3 e0       	ldi	r31, 0x03	; 3
+     d84:	8f 17       	cp	r24, r31
+     d86:	11 f4       	brne	.+4      	; 0xd8c <pf_opendir+0x106>
+     d88:	04 e0       	ldi	r16, 0x04	; 4
+     d8a:	d0 2e       	mov	r13, r16
+	}
+
+	return res;
+}
+     d8c:	8d 2d       	mov	r24, r13
+     d8e:	ac 96       	adiw	r28, 0x2c	; 44
+     d90:	0f b6       	in	r0, 0x3f	; 63
+     d92:	f8 94       	cli
+     d94:	de bf       	out	0x3e, r29	; 62
+     d96:	0f be       	out	0x3f, r0	; 63
+     d98:	cd bf       	out	0x3d, r28	; 61
+     d9a:	cf 91       	pop	r28
+     d9c:	df 91       	pop	r29
+     d9e:	1f 91       	pop	r17
+     da0:	0f 91       	pop	r16
+     da2:	ff 90       	pop	r15
+     da4:	ef 90       	pop	r14
+     da6:	df 90       	pop	r13
+     da8:	08 95       	ret
+			}
+			if (res == FR_OK) {
+				res = dir_rewind(dj);			/* Rewind dir */
+			}
+		}
+		if (res == FR_NO_FILE) res = FR_NO_PATH;
+     daa:	dd 24       	eor	r13, r13
+     dac:	d3 94       	inc	r13
+     dae:	ee cf       	rjmp	.-36     	; 0xd8c <pf_opendir+0x106>
+
+00000db0 <pf_open>:
+/*-----------------------------------------------------------------------*/
+
+FRESULT pf_open (
+	const char *path	/* Pointer to the file name */
+)
+{
+     db0:	ef 92       	push	r14
+     db2:	ff 92       	push	r15
+     db4:	0f 93       	push	r16
+     db6:	1f 93       	push	r17
+     db8:	df 93       	push	r29
+     dba:	cf 93       	push	r28
+     dbc:	cd b7       	in	r28, 0x3d	; 61
+     dbe:	de b7       	in	r29, 0x3e	; 62
+     dc0:	e8 97       	sbiw	r28, 0x38	; 56
+     dc2:	0f b6       	in	r0, 0x3f	; 63
+     dc4:	f8 94       	cli
+     dc6:	de bf       	out	0x3e, r29	; 62
+     dc8:	0f be       	out	0x3f, r0	; 63
+     dca:	cd bf       	out	0x3d, r28	; 61
+     dcc:	bc 01       	movw	r22, r24
+	FRESULT res;
+	DIR dj;
+	BYTE sp[12], dir[32];
+	FATFS *fs = FatFs;
+     dce:	00 91 6a 00 	lds	r16, 0x006A
+     dd2:	10 91 6b 00 	lds	r17, 0x006B
+
+
+	if (!fs)						/* Check file system */
+     dd6:	01 15       	cp	r16, r1
+     dd8:	11 05       	cpc	r17, r1
+     dda:	11 f4       	brne	.+4      	; 0xde0 <pf_open+0x30>
+     ddc:	28 e0       	ldi	r18, 0x08	; 8
+     dde:	32 c0       	rjmp	.+100    	; 0xe44 <pf_open+0x94>
+		return FR_NOT_ENABLED;
+
+	fs->flag = 0;
+     de0:	f8 01       	movw	r30, r16
+     de2:	12 82       	std	Z+2, r1	; 0x02
+	fs->buf = dir;
+     de4:	99 e1       	ldi	r25, 0x19	; 25
+     de6:	e9 2e       	mov	r14, r25
+     de8:	f1 2c       	mov	r15, r1
+     dea:	ec 0e       	add	r14, r28
+     dec:	fd 1e       	adc	r15, r29
+     dee:	f7 82       	std	Z+7, r15	; 0x07
+     df0:	e6 82       	std	Z+6, r14	; 0x06
+	dj.fn = sp;
+     df2:	ce 01       	movw	r24, r28
+     df4:	0d 96       	adiw	r24, 0x0d	; 13
+     df6:	9c 83       	std	Y+4, r25	; 0x04
+     df8:	8b 83       	std	Y+3, r24	; 0x03
+	res = follow_path(&dj, path);	/* Follow the file path */
+     dfa:	ce 01       	movw	r24, r28
+     dfc:	01 96       	adiw	r24, 0x01	; 1
+     dfe:	0e 94 16 05 	call	0xa2c	; 0xa2c <follow_path>
+     e02:	28 2f       	mov	r18, r24
+	if (res != FR_OK) return res;	/* Follow failed */
+     e04:	88 23       	and	r24, r24
+     e06:	f1 f4       	brne	.+60     	; 0xe44 <pf_open+0x94>
+	if (!dir[0] || (dir[DIR_Attr] & AM_DIR))	/* It is a directory */
+     e08:	89 8d       	ldd	r24, Y+25	; 0x19
+     e0a:	88 23       	and	r24, r24
+     e0c:	d1 f0       	breq	.+52     	; 0xe42 <pf_open+0x92>
+     e0e:	8c a1       	ldd	r24, Y+36	; 0x24
+     e10:	84 fd       	sbrc	r24, 4
+     e12:	17 c0       	rjmp	.+46     	; 0xe42 <pf_open+0x92>
+		return FR_NO_FILE;
+
+	fs->org_clust =						/* File start cluster */
+     e14:	f7 01       	movw	r30, r14
+     e16:	82 8d       	ldd	r24, Z+26	; 0x1a
+     e18:	93 8d       	ldd	r25, Z+27	; 0x1b
+     e1a:	f8 01       	movw	r30, r16
+     e1c:	97 8f       	std	Z+31, r25	; 0x1f
+     e1e:	86 8f       	std	Z+30, r24	; 0x1e
+#if _FS_FAT32
+		((DWORD)LD_WORD(dir+DIR_FstClusHI) << 16) |
+#endif
+		LD_WORD(dir+DIR_FstClusLO);
+	fs->fsize = LD_DWORD(dir+DIR_FileSize);	/* File size */
+     e20:	f7 01       	movw	r30, r14
+     e22:	84 8d       	ldd	r24, Z+28	; 0x1c
+     e24:	95 8d       	ldd	r25, Z+29	; 0x1d
+     e26:	a6 8d       	ldd	r26, Z+30	; 0x1e
+     e28:	b7 8d       	ldd	r27, Z+31	; 0x1f
+     e2a:	f8 01       	movw	r30, r16
+     e2c:	82 8f       	std	Z+26, r24	; 0x1a
+     e2e:	93 8f       	std	Z+27, r25	; 0x1b
+     e30:	a4 8f       	std	Z+28, r26	; 0x1c
+     e32:	b5 8f       	std	Z+29, r27	; 0x1d
+	fs->fptr = 0;						/* File pointer */
+     e34:	16 8a       	std	Z+22, r1	; 0x16
+     e36:	17 8a       	std	Z+23, r1	; 0x17
+     e38:	10 8e       	std	Z+24, r1	; 0x18
+     e3a:	11 8e       	std	Z+25, r1	; 0x19
+	fs->flag = FA_READ;
+     e3c:	81 e0       	ldi	r24, 0x01	; 1
+     e3e:	82 83       	std	Z+2, r24	; 0x02
+     e40:	01 c0       	rjmp	.+2      	; 0xe44 <pf_open+0x94>
+
+	return FR_OK;
+     e42:	23 e0       	ldi	r18, 0x03	; 3
+}
+     e44:	82 2f       	mov	r24, r18
+     e46:	e8 96       	adiw	r28, 0x38	; 56
+     e48:	0f b6       	in	r0, 0x3f	; 63
+     e4a:	f8 94       	cli
+     e4c:	de bf       	out	0x3e, r29	; 62
+     e4e:	0f be       	out	0x3f, r0	; 63
+     e50:	cd bf       	out	0x3d, r28	; 61
+     e52:	cf 91       	pop	r28
+     e54:	df 91       	pop	r29
+     e56:	1f 91       	pop	r17
+     e58:	0f 91       	pop	r16
+     e5a:	ff 90       	pop	r15
+     e5c:	ef 90       	pop	r14
+     e5e:	08 95       	ret
+
+00000e60 <pf_read>:
+FRESULT pf_read (
+	void* dest,		/* Pointer to the destination object */
+	WORD btr,		/* Number of bytes to read (bit15:destination) */
+	WORD* br		/* Pointer to number of bytes read */
+)
+{
+     e60:	4f 92       	push	r4
+     e62:	5f 92       	push	r5
+     e64:	6f 92       	push	r6
+     e66:	7f 92       	push	r7
+     e68:	8f 92       	push	r8
+     e6a:	9f 92       	push	r9
+     e6c:	af 92       	push	r10
+     e6e:	bf 92       	push	r11
+     e70:	cf 92       	push	r12
+     e72:	df 92       	push	r13
+     e74:	ef 92       	push	r14
+     e76:	ff 92       	push	r15
+     e78:	0f 93       	push	r16
+     e7a:	1f 93       	push	r17
+     e7c:	cf 93       	push	r28
+     e7e:	df 93       	push	r29
+     e80:	3c 01       	movw	r6, r24
+     e82:	6b 01       	movw	r12, r22
+     e84:	4a 01       	movw	r8, r20
+	DRESULT dr;
+	CLUST clst;
+	DWORD sect, remain;
+	WORD rcnt;
+	BYTE *rbuff = dest;
+	FATFS *fs = FatFs;
+     e86:	c0 91 6a 00 	lds	r28, 0x006A
+     e8a:	d0 91 6b 00 	lds	r29, 0x006B
+
+
+	*br = 0;
+     e8e:	fa 01       	movw	r30, r20
+     e90:	11 82       	std	Z+1, r1	; 0x01
+     e92:	10 82       	st	Z, r1
+	if (!fs) return FR_NOT_ENABLED;		/* Check file system */
+     e94:	20 97       	sbiw	r28, 0x00	; 0
+     e96:	11 f4       	brne	.+4      	; 0xe9c <pf_read+0x3c>
+     e98:	88 e0       	ldi	r24, 0x08	; 8
+     e9a:	cd c0       	rjmp	.+410    	; 0x1036 <pf_read+0x1d6>
+	if (!(fs->flag & FA_READ))
+     e9c:	8a 81       	ldd	r24, Y+2	; 0x02
+     e9e:	80 fd       	sbrc	r24, 0
+     ea0:	02 c0       	rjmp	.+4      	; 0xea6 <pf_read+0x46>
+     ea2:	87 e0       	ldi	r24, 0x07	; 7
+     ea4:	c8 c0       	rjmp	.+400    	; 0x1036 <pf_read+0x1d6>
+			return FR_INVALID_OBJECT;
+
+	remain = fs->fsize - fs->fptr;
+     ea6:	2a 8d       	ldd	r18, Y+26	; 0x1a
+     ea8:	3b 8d       	ldd	r19, Y+27	; 0x1b
+     eaa:	4c 8d       	ldd	r20, Y+28	; 0x1c
+     eac:	5d 8d       	ldd	r21, Y+29	; 0x1d
+     eae:	8e 89       	ldd	r24, Y+22	; 0x16
+     eb0:	9f 89       	ldd	r25, Y+23	; 0x17
+     eb2:	a8 8d       	ldd	r26, Y+24	; 0x18
+     eb4:	b9 8d       	ldd	r27, Y+25	; 0x19
+     eb6:	28 1b       	sub	r18, r24
+     eb8:	39 0b       	sbc	r19, r25
+     eba:	4a 0b       	sbc	r20, r26
+     ebc:	5b 0b       	sbc	r21, r27
+	if (btr > remain) btr = (UINT)remain;			/* Truncate btr by remaining bytes */
+     ebe:	cb 01       	movw	r24, r22
+     ec0:	a0 e0       	ldi	r26, 0x00	; 0
+     ec2:	b0 e0       	ldi	r27, 0x00	; 0
+     ec4:	28 17       	cp	r18, r24
+     ec6:	39 07       	cpc	r19, r25
+     ec8:	4a 07       	cpc	r20, r26
+     eca:	5b 07       	cpc	r21, r27
+     ecc:	08 f4       	brcc	.+2      	; 0xed0 <pf_read+0x70>
+     ece:	69 01       	movw	r12, r18
+{
+	DRESULT dr;
+	CLUST clst;
+	DWORD sect, remain;
+	WORD rcnt;
+	BYTE *rbuff = dest;
+     ed0:	53 01       	movw	r10, r6
+			}
+			sect += fs->csect;
+			fs->dsect = sect;
+			fs->csect++;							/* Next sector address in the cluster */
+		}
+		rcnt = 512 - ((WORD)fs->fptr % 512);		/* Get partial sector data from sector buffer */
+     ed2:	41 2c       	mov	r4, r1
+     ed4:	32 e0       	ldi	r19, 0x02	; 2
+     ed6:	53 2e       	mov	r5, r19
+     ed8:	a9 c0       	rjmp	.+338    	; 0x102c <pf_read+0x1cc>
+	remain = fs->fsize - fs->fptr;
+	if (btr > remain) btr = (UINT)remain;			/* Truncate btr by remaining bytes */
+
+	for ( ;  btr;									/* Repeat until all data transferred */
+		rbuff += rcnt, fs->fptr += rcnt, *br += rcnt, btr -= rcnt) {
+		if ((fs->fptr % 512) == 0) {				/* On the sector boundary? */
+     eda:	ee 88       	ldd	r14, Y+22	; 0x16
+     edc:	ff 88       	ldd	r15, Y+23	; 0x17
+     ede:	08 8d       	ldd	r16, Y+24	; 0x18
+     ee0:	19 8d       	ldd	r17, Y+25	; 0x19
+     ee2:	d8 01       	movw	r26, r16
+     ee4:	c7 01       	movw	r24, r14
+     ee6:	91 70       	andi	r25, 0x01	; 1
+     ee8:	a0 70       	andi	r26, 0x00	; 0
+     eea:	b0 70       	andi	r27, 0x00	; 0
+     eec:	00 97       	sbiw	r24, 0x00	; 0
+     eee:	a1 05       	cpc	r26, r1
+     ef0:	b1 05       	cpc	r27, r1
+     ef2:	09 f0       	breq	.+2      	; 0xef6 <pf_read+0x96>
+     ef4:	5a c0       	rjmp	.+180    	; 0xfaa <pf_read+0x14a>
+			if ((fs->fptr / 512 % fs->csize) == 0) {	/* On the cluster boundary? */
+     ef6:	c8 01       	movw	r24, r16
+     ef8:	b7 01       	movw	r22, r14
+     efa:	29 e0       	ldi	r18, 0x09	; 9
+     efc:	96 95       	lsr	r25
+     efe:	87 95       	ror	r24
+     f00:	77 95       	ror	r23
+     f02:	67 95       	ror	r22
+     f04:	2a 95       	dec	r18
+     f06:	d1 f7       	brne	.-12     	; 0xefc <pf_read+0x9c>
+     f08:	29 81       	ldd	r18, Y+1	; 0x01
+     f0a:	30 e0       	ldi	r19, 0x00	; 0
+     f0c:	40 e0       	ldi	r20, 0x00	; 0
+     f0e:	50 e0       	ldi	r21, 0x00	; 0
+     f10:	0e 94 89 0b 	call	0x1712	; 0x1712 <__udivmodsi4>
+     f14:	61 15       	cp	r22, r1
+     f16:	71 05       	cpc	r23, r1
+     f18:	81 05       	cpc	r24, r1
+     f1a:	91 05       	cpc	r25, r1
+     f1c:	91 f4       	brne	.+36     	; 0xf42 <pf_read+0xe2>
+				clst = (fs->fptr == 0) ?			/* On the top of the file? */
+     f1e:	e1 14       	cp	r14, r1
+     f20:	f1 04       	cpc	r15, r1
+     f22:	01 05       	cpc	r16, r1
+     f24:	11 05       	cpc	r17, r1
+     f26:	19 f4       	brne	.+6      	; 0xf2e <pf_read+0xce>
+     f28:	8e 8d       	ldd	r24, Y+30	; 0x1e
+     f2a:	9f 8d       	ldd	r25, Y+31	; 0x1f
+     f2c:	04 c0       	rjmp	.+8      	; 0xf36 <pf_read+0xd6>
+     f2e:	88 a1       	ldd	r24, Y+32	; 0x20
+     f30:	99 a1       	ldd	r25, Y+33	; 0x21
+     f32:	0e 94 94 01 	call	0x328	; 0x328 <get_fat>
+					fs->org_clust : get_fat(fs->curr_clust);
+				if (clst <= 1) {
+     f36:	82 30       	cpi	r24, 0x02	; 2
+     f38:	91 05       	cpc	r25, r1
+     f3a:	50 f1       	brcs	.+84     	; 0xf90 <pf_read+0x130>
+					fs->flag = 0; return FR_DISK_ERR;
+				}
+				fs->curr_clust = clst;				/* Update current cluster */
+     f3c:	99 a3       	std	Y+33, r25	; 0x21
+     f3e:	88 a3       	std	Y+32, r24	; 0x20
+				fs->csect = 0;						/* Reset sector offset in the cluster */
+     f40:	1b 82       	std	Y+3, r1	; 0x03
+static
+DWORD clust2sect (	/* !=0: Sector number, 0: Failed - invalid cluster# */
+	CLUST clst		/* Cluster# to be converted */
+)
+{
+	FATFS *fs = FatFs;
+     f42:	00 91 6a 00 	lds	r16, 0x006A
+     f46:	10 91 6b 00 	lds	r17, 0x006B
+
+
+	clst -= 2;
+     f4a:	68 a1       	ldd	r22, Y+32	; 0x20
+     f4c:	79 a1       	ldd	r23, Y+33	; 0x21
+     f4e:	62 50       	subi	r22, 0x02	; 2
+     f50:	70 40       	sbci	r23, 0x00	; 0
+	if (clst >= (fs->max_clust - 2)) return 0;		/* Invalid cluster# */
+     f52:	f8 01       	movw	r30, r16
+     f54:	80 85       	ldd	r24, Z+8	; 0x08
+     f56:	91 85       	ldd	r25, Z+9	; 0x09
+     f58:	02 97       	sbiw	r24, 0x02	; 2
+     f5a:	68 17       	cp	r22, r24
+     f5c:	79 07       	cpc	r23, r25
+     f5e:	c0 f4       	brcc	.+48     	; 0xf90 <pf_read+0x130>
+	return (DWORD)clst * fs->csize + fs->database;
+     f60:	80 e0       	ldi	r24, 0x00	; 0
+     f62:	90 e0       	ldi	r25, 0x00	; 0
+     f64:	21 81       	ldd	r18, Z+1	; 0x01
+     f66:	30 e0       	ldi	r19, 0x00	; 0
+     f68:	40 e0       	ldi	r20, 0x00	; 0
+     f6a:	50 e0       	ldi	r21, 0x00	; 0
+     f6c:	0e 94 56 0b 	call	0x16ac	; 0x16ac <__mulsi3>
+     f70:	9b 01       	movw	r18, r22
+     f72:	ac 01       	movw	r20, r24
+     f74:	f8 01       	movw	r30, r16
+     f76:	82 89       	ldd	r24, Z+18	; 0x12
+     f78:	93 89       	ldd	r25, Z+19	; 0x13
+     f7a:	a4 89       	ldd	r26, Z+20	; 0x14
+     f7c:	b5 89       	ldd	r27, Z+21	; 0x15
+     f7e:	28 0f       	add	r18, r24
+     f80:	39 1f       	adc	r19, r25
+     f82:	4a 1f       	adc	r20, r26
+     f84:	5b 1f       	adc	r21, r27
+				}
+				fs->curr_clust = clst;				/* Update current cluster */
+				fs->csect = 0;						/* Reset sector offset in the cluster */
+			}
+			sect = clust2sect(fs->curr_clust);		/* Get current sector */
+			if (!sect) {
+     f86:	21 15       	cp	r18, r1
+     f88:	31 05       	cpc	r19, r1
+     f8a:	41 05       	cpc	r20, r1
+     f8c:	51 05       	cpc	r21, r1
+     f8e:	11 f4       	brne	.+4      	; 0xf94 <pf_read+0x134>
+				fs->flag = 0; return FR_DISK_ERR;
+     f90:	1a 82       	std	Y+2, r1	; 0x02
+     f92:	2e c0       	rjmp	.+92     	; 0xff0 <pf_read+0x190>
+			}
+			sect += fs->csect;
+			fs->dsect = sect;
+     f94:	8b 81       	ldd	r24, Y+3	; 0x03
+     f96:	28 0f       	add	r18, r24
+     f98:	31 1d       	adc	r19, r1
+     f9a:	41 1d       	adc	r20, r1
+     f9c:	51 1d       	adc	r21, r1
+     f9e:	2a a3       	std	Y+34, r18	; 0x22
+     fa0:	3b a3       	std	Y+35, r19	; 0x23
+     fa2:	4c a3       	std	Y+36, r20	; 0x24
+     fa4:	5d a3       	std	Y+37, r21	; 0x25
+			fs->csect++;							/* Next sector address in the cluster */
+     fa6:	8f 5f       	subi	r24, 0xFF	; 255
+     fa8:	8b 83       	std	Y+3, r24	; 0x03
+		}
+		rcnt = 512 - ((WORD)fs->fptr % 512);		/* Get partial sector data from sector buffer */
+     faa:	2e 89       	ldd	r18, Y+22	; 0x16
+     fac:	3f 89       	ldd	r19, Y+23	; 0x17
+     fae:	48 8d       	ldd	r20, Y+24	; 0x18
+     fb0:	59 8d       	ldd	r21, Y+25	; 0x19
+     fb2:	c9 01       	movw	r24, r18
+     fb4:	91 70       	andi	r25, 0x01	; 1
+     fb6:	b2 01       	movw	r22, r4
+     fb8:	68 1b       	sub	r22, r24
+     fba:	79 0b       	sbc	r23, r25
+     fbc:	76 01       	movw	r14, r12
+     fbe:	6c 15       	cp	r22, r12
+     fc0:	7d 05       	cpc	r23, r13
+     fc2:	08 f4       	brcc	.+2      	; 0xfc6 <pf_read+0x166>
+     fc4:	7b 01       	movw	r14, r22
+		if (rcnt > btr) rcnt = btr;
+		if (fs->flag & FA_STREAM) {
+     fc6:	8a 81       	ldd	r24, Y+2	; 0x02
+     fc8:	31 70       	andi	r19, 0x01	; 1
+     fca:	4a a1       	ldd	r20, Y+34	; 0x22
+     fcc:	5b a1       	ldd	r21, Y+35	; 0x23
+     fce:	6c a1       	ldd	r22, Y+36	; 0x24
+     fd0:	7d a1       	ldd	r23, Y+37	; 0x25
+     fd2:	86 ff       	sbrs	r24, 6
+     fd4:	04 c0       	rjmp	.+8      	; 0xfde <pf_read+0x17e>
+			dr = disk_readp(dest, fs->dsect, (WORD)(fs->fptr % 512), (WORD)(rcnt | 0x8000));
+     fd6:	87 01       	movw	r16, r14
+     fd8:	10 68       	ori	r17, 0x80	; 128
+     fda:	c3 01       	movw	r24, r6
+     fdc:	02 c0       	rjmp	.+4      	; 0xfe2 <pf_read+0x182>
+		} else {
+			dr = disk_readp(rbuff, fs->dsect, (WORD)(fs->fptr % 512), rcnt);
+     fde:	c5 01       	movw	r24, r10
+     fe0:	87 01       	movw	r16, r14
+     fe2:	0e 94 bd 0a 	call	0x157a	; 0x157a <disk_readp>
+		}
+		if (dr) {
+     fe6:	88 23       	and	r24, r24
+     fe8:	39 f0       	breq	.+14     	; 0xff8 <pf_read+0x198>
+			fs->flag = 0;
+     fea:	1a 82       	std	Y+2, r1	; 0x02
+			return (dr == RES_STRERR) ? FR_STREAM_ERR : FR_DISK_ERR;
+     fec:	82 30       	cpi	r24, 0x02	; 2
+     fee:	11 f0       	breq	.+4      	; 0xff4 <pf_read+0x194>
+     ff0:	81 e0       	ldi	r24, 0x01	; 1
+     ff2:	21 c0       	rjmp	.+66     	; 0x1036 <pf_read+0x1d6>
+     ff4:	86 e0       	ldi	r24, 0x06	; 6
+     ff6:	1f c0       	rjmp	.+62     	; 0x1036 <pf_read+0x1d6>
+
+	remain = fs->fsize - fs->fptr;
+	if (btr > remain) btr = (UINT)remain;			/* Truncate btr by remaining bytes */
+
+	for ( ;  btr;									/* Repeat until all data transferred */
+		rbuff += rcnt, fs->fptr += rcnt, *br += rcnt, btr -= rcnt) {
+     ff8:	ae 0c       	add	r10, r14
+     ffa:	bf 1c       	adc	r11, r15
+     ffc:	c7 01       	movw	r24, r14
+     ffe:	a0 e0       	ldi	r26, 0x00	; 0
+    1000:	b0 e0       	ldi	r27, 0x00	; 0
+    1002:	2e 89       	ldd	r18, Y+22	; 0x16
+    1004:	3f 89       	ldd	r19, Y+23	; 0x17
+    1006:	48 8d       	ldd	r20, Y+24	; 0x18
+    1008:	59 8d       	ldd	r21, Y+25	; 0x19
+    100a:	28 0f       	add	r18, r24
+    100c:	39 1f       	adc	r19, r25
+    100e:	4a 1f       	adc	r20, r26
+    1010:	5b 1f       	adc	r21, r27
+    1012:	2e 8b       	std	Y+22, r18	; 0x16
+    1014:	3f 8b       	std	Y+23, r19	; 0x17
+    1016:	48 8f       	std	Y+24, r20	; 0x18
+    1018:	59 8f       	std	Y+25, r21	; 0x19
+    101a:	f4 01       	movw	r30, r8
+    101c:	80 81       	ld	r24, Z
+    101e:	91 81       	ldd	r25, Z+1	; 0x01
+    1020:	8e 0d       	add	r24, r14
+    1022:	9f 1d       	adc	r25, r15
+    1024:	91 83       	std	Z+1, r25	; 0x01
+    1026:	80 83       	st	Z, r24
+    1028:	ce 18       	sub	r12, r14
+    102a:	df 08       	sbc	r13, r15
+			return FR_INVALID_OBJECT;
+
+	remain = fs->fsize - fs->fptr;
+	if (btr > remain) btr = (UINT)remain;			/* Truncate btr by remaining bytes */
+
+	for ( ;  btr;									/* Repeat until all data transferred */
+    102c:	c1 14       	cp	r12, r1
+    102e:	d1 04       	cpc	r13, r1
+    1030:	09 f0       	breq	.+2      	; 0x1034 <pf_read+0x1d4>
+    1032:	53 cf       	rjmp	.-346    	; 0xeda <pf_read+0x7a>
+    1034:	80 e0       	ldi	r24, 0x00	; 0
+			return (dr == RES_STRERR) ? FR_STREAM_ERR : FR_DISK_ERR;
+		}
+	}
+
+	return FR_OK;
+}
+    1036:	df 91       	pop	r29
+    1038:	cf 91       	pop	r28
+    103a:	1f 91       	pop	r17
+    103c:	0f 91       	pop	r16
+    103e:	ff 90       	pop	r15
+    1040:	ef 90       	pop	r14
+    1042:	df 90       	pop	r13
+    1044:	cf 90       	pop	r12
+    1046:	bf 90       	pop	r11
+    1048:	af 90       	pop	r10
+    104a:	9f 90       	pop	r9
+    104c:	8f 90       	pop	r8
+    104e:	7f 90       	pop	r7
+    1050:	6f 90       	pop	r6
+    1052:	5f 90       	pop	r5
+    1054:	4f 90       	pop	r4
+    1056:	08 95       	ret
+
+00001058 <check_fs>:
+static
+BYTE check_fs (	/* 0:The FAT boot record, 1:Valid boot record but not an FAT, 2:Not a boot record, 3:Error */
+	BYTE *buf,	/* Working buffer */
+	DWORD sect	/* Sector# (lba) to check if it is an FAT boot record or not */
+)
+{
+    1058:	af 92       	push	r10
+    105a:	bf 92       	push	r11
+    105c:	cf 92       	push	r12
+    105e:	df 92       	push	r13
+    1060:	ef 92       	push	r14
+    1062:	ff 92       	push	r15
+    1064:	0f 93       	push	r16
+    1066:	1f 93       	push	r17
+    1068:	cf 93       	push	r28
+    106a:	df 93       	push	r29
+    106c:	b8 2e       	mov	r11, r24
+    106e:	a9 2e       	mov	r10, r25
+    1070:	6a 01       	movw	r12, r20
+    1072:	7b 01       	movw	r14, r22
+	if (disk_readp(buf, sect, 510, 2))		/* Read the boot sector */
+    1074:	2e ef       	ldi	r18, 0xFE	; 254
+    1076:	31 e0       	ldi	r19, 0x01	; 1
+    1078:	02 e0       	ldi	r16, 0x02	; 2
+    107a:	10 e0       	ldi	r17, 0x00	; 0
+    107c:	0e 94 bd 0a 	call	0x157a	; 0x157a <disk_readp>
+    1080:	88 23       	and	r24, r24
+    1082:	11 f0       	breq	.+4      	; 0x1088 <check_fs+0x30>
+    1084:	23 e0       	ldi	r18, 0x03	; 3
+    1086:	20 c0       	rjmp	.+64     	; 0x10c8 <check_fs+0x70>
+		return 3;
+	if (LD_WORD(buf) != 0xAA55)				/* Check record signature */
+    1088:	cb 2d       	mov	r28, r11
+    108a:	da 2d       	mov	r29, r10
+    108c:	88 81       	ld	r24, Y
+    108e:	99 81       	ldd	r25, Y+1	; 0x01
+    1090:	85 55       	subi	r24, 0x55	; 85
+    1092:	9a 4a       	sbci	r25, 0xAA	; 170
+    1094:	11 f0       	breq	.+4      	; 0x109a <check_fs+0x42>
+    1096:	22 e0       	ldi	r18, 0x02	; 2
+    1098:	17 c0       	rjmp	.+46     	; 0x10c8 <check_fs+0x70>
+		return 2;
+
+	if (!disk_readp(buf, sect, BS_FilSysType, 2) && LD_WORD(buf) == 0x4146)	/* Check FAT12/16 */
+    109a:	8b 2d       	mov	r24, r11
+    109c:	9a 2d       	mov	r25, r10
+    109e:	b7 01       	movw	r22, r14
+    10a0:	a6 01       	movw	r20, r12
+    10a2:	26 e3       	ldi	r18, 0x36	; 54
+    10a4:	30 e0       	ldi	r19, 0x00	; 0
+    10a6:	02 e0       	ldi	r16, 0x02	; 2
+    10a8:	10 e0       	ldi	r17, 0x00	; 0
+    10aa:	0e 94 bd 0a 	call	0x157a	; 0x157a <disk_readp>
+    10ae:	88 23       	and	r24, r24
+    10b0:	11 f0       	breq	.+4      	; 0x10b6 <check_fs+0x5e>
+    10b2:	21 e0       	ldi	r18, 0x01	; 1
+    10b4:	09 c0       	rjmp	.+18     	; 0x10c8 <check_fs+0x70>
+    10b6:	20 e0       	ldi	r18, 0x00	; 0
+    10b8:	88 81       	ld	r24, Y
+    10ba:	99 81       	ldd	r25, Y+1	; 0x01
+    10bc:	86 54       	subi	r24, 0x46	; 70
+    10be:	91 44       	sbci	r25, 0x41	; 65
+    10c0:	09 f4       	brne	.+2      	; 0x10c4 <check_fs+0x6c>
+    10c2:	21 e0       	ldi	r18, 0x01	; 1
+    10c4:	81 e0       	ldi	r24, 0x01	; 1
+    10c6:	28 27       	eor	r18, r24
+#if _FS_FAT32
+	if (!disk_readp(buf, sect, BS_FilSysType32, 2) && LD_WORD(buf) == 0x4146)	/* Check FAT32 */
+		return 0;
+#endif
+	return 1;
+}
+    10c8:	82 2f       	mov	r24, r18
+    10ca:	df 91       	pop	r29
+    10cc:	cf 91       	pop	r28
+    10ce:	1f 91       	pop	r17
+    10d0:	0f 91       	pop	r16
+    10d2:	ff 90       	pop	r15
+    10d4:	ef 90       	pop	r14
+    10d6:	df 90       	pop	r13
+    10d8:	cf 90       	pop	r12
+    10da:	bf 90       	pop	r11
+    10dc:	af 90       	pop	r10
+    10de:	08 95       	ret
+
+000010e0 <pf_mount>:
+/*-----------------------------------------------------------------------*/
+
+FRESULT pf_mount (
+	FATFS *fs		/* Pointer to new file system object (NULL: Unmount) */
+)
+{
+    10e0:	6f 92       	push	r6
+    10e2:	7f 92       	push	r7
+    10e4:	8f 92       	push	r8
+    10e6:	9f 92       	push	r9
+    10e8:	af 92       	push	r10
+    10ea:	bf 92       	push	r11
+    10ec:	cf 92       	push	r12
+    10ee:	df 92       	push	r13
+    10f0:	ef 92       	push	r14
+    10f2:	ff 92       	push	r15
+    10f4:	0f 93       	push	r16
+    10f6:	1f 93       	push	r17
+    10f8:	df 93       	push	r29
+    10fa:	cf 93       	push	r28
+    10fc:	cd b7       	in	r28, 0x3d	; 61
+    10fe:	de b7       	in	r29, 0x3e	; 62
+    1100:	a4 97       	sbiw	r28, 0x24	; 36
+    1102:	0f b6       	in	r0, 0x3f	; 63
+    1104:	f8 94       	cli
+    1106:	de bf       	out	0x3e, r29	; 62
+    1108:	0f be       	out	0x3f, r0	; 63
+    110a:	cd bf       	out	0x3d, r28	; 61
+    110c:	5c 01       	movw	r10, r24
+	BYTE fmt, buf[36];
+	DWORD bsect, fsize, tsect, mclst;
+
+
+	FatFs = 0;
+    110e:	10 92 6b 00 	sts	0x006B, r1
+    1112:	10 92 6a 00 	sts	0x006A, r1
+	if (!fs) return FR_OK;				/* Unregister fs object */
+    1116:	00 97       	sbiw	r24, 0x00	; 0
+    1118:	09 f4       	brne	.+2      	; 0x111c <pf_mount+0x3c>
+    111a:	de c0       	rjmp	.+444    	; 0x12d8 <pf_mount+0x1f8>
+
+	if (disk_initialize() & STA_NOINIT)	/* Check if the drive is ready or not */
+    111c:	0e 94 fa 09 	call	0x13f4	; 0x13f4 <disk_initialize>
+    1120:	80 ff       	sbrs	r24, 0
+    1122:	02 c0       	rjmp	.+4      	; 0x1128 <pf_mount+0x48>
+    1124:	82 e0       	ldi	r24, 0x02	; 2
+    1126:	dd c0       	rjmp	.+442    	; 0x12e2 <pf_mount+0x202>
+		return FR_NOT_READY;
+
+	/* Search FAT partition on the drive */
+	bsect = 0;
+	fmt = check_fs(buf, bsect);			/* Check sector 0 as an SFD format */
+    1128:	4e 01       	movw	r8, r28
+    112a:	08 94       	sec
+    112c:	81 1c       	adc	r8, r1
+    112e:	91 1c       	adc	r9, r1
+    1130:	c4 01       	movw	r24, r8
+    1132:	40 e0       	ldi	r20, 0x00	; 0
+    1134:	50 e0       	ldi	r21, 0x00	; 0
+    1136:	60 e0       	ldi	r22, 0x00	; 0
+    1138:	70 e0       	ldi	r23, 0x00	; 0
+    113a:	0e 94 2c 08 	call	0x1058	; 0x1058 <check_fs>
+	if (fmt == 1) {						/* Not an FAT boot record, it may be FDISK format */
+    113e:	81 30       	cpi	r24, 0x01	; 1
+    1140:	21 f0       	breq	.+8      	; 0x114a <pf_mount+0x6a>
+    1142:	cc 24       	eor	r12, r12
+    1144:	dd 24       	eor	r13, r13
+    1146:	76 01       	movw	r14, r12
+    1148:	1b c0       	rjmp	.+54     	; 0x1180 <pf_mount+0xa0>
+		/* Check a partition listed in top of the partition table */
+		if (disk_readp(buf, bsect, MBR_Table, 16)) {	/* 1st partition entry */
+    114a:	c4 01       	movw	r24, r8
+    114c:	40 e0       	ldi	r20, 0x00	; 0
+    114e:	50 e0       	ldi	r21, 0x00	; 0
+    1150:	60 e0       	ldi	r22, 0x00	; 0
+    1152:	70 e0       	ldi	r23, 0x00	; 0
+    1154:	2e eb       	ldi	r18, 0xBE	; 190
+    1156:	31 e0       	ldi	r19, 0x01	; 1
+    1158:	00 e1       	ldi	r16, 0x10	; 16
+    115a:	10 e0       	ldi	r17, 0x00	; 0
+    115c:	0e 94 bd 0a 	call	0x157a	; 0x157a <disk_readp>
+    1160:	88 23       	and	r24, r24
+    1162:	09 f0       	breq	.+2      	; 0x1166 <pf_mount+0x86>
+    1164:	bb c0       	rjmp	.+374    	; 0x12dc <pf_mount+0x1fc>
+			fmt = 3;
+		} else {
+			if (buf[4]) {					/* Is the partition existing? */
+    1166:	8d 81       	ldd	r24, Y+5	; 0x05
+    1168:	88 23       	and	r24, r24
+    116a:	09 f4       	brne	.+2      	; 0x116e <pf_mount+0x8e>
+    116c:	b9 c0       	rjmp	.+370    	; 0x12e0 <pf_mount+0x200>
+				bsect = LD_DWORD(&buf[8]);	/* Partition offset in LBA */
+    116e:	c9 84       	ldd	r12, Y+9	; 0x09
+    1170:	da 84       	ldd	r13, Y+10	; 0x0a
+    1172:	eb 84       	ldd	r14, Y+11	; 0x0b
+    1174:	fc 84       	ldd	r15, Y+12	; 0x0c
+				fmt = check_fs(buf, bsect);	/* Check the partition */
+    1176:	c4 01       	movw	r24, r8
+    1178:	b7 01       	movw	r22, r14
+    117a:	a6 01       	movw	r20, r12
+    117c:	0e 94 2c 08 	call	0x1058	; 0x1058 <check_fs>
+			}
+		}
+	}
+	if (fmt == 3) return FR_DISK_ERR;
+    1180:	83 30       	cpi	r24, 0x03	; 3
+    1182:	09 f4       	brne	.+2      	; 0x1186 <pf_mount+0xa6>
+    1184:	ab c0       	rjmp	.+342    	; 0x12dc <pf_mount+0x1fc>
+	if (fmt) return FR_NO_FILESYSTEM;	/* No valid FAT patition is found */
+    1186:	88 23       	and	r24, r24
+    1188:	09 f0       	breq	.+2      	; 0x118c <pf_mount+0xac>
+    118a:	aa c0       	rjmp	.+340    	; 0x12e0 <pf_mount+0x200>
+
+	/* Initialize the file system object */
+	if (disk_readp(buf, bsect, 13, sizeof(buf))) return FR_DISK_ERR;
+    118c:	ce 01       	movw	r24, r28
+    118e:	01 96       	adiw	r24, 0x01	; 1
+    1190:	b7 01       	movw	r22, r14
+    1192:	a6 01       	movw	r20, r12
+    1194:	2d e0       	ldi	r18, 0x0D	; 13
+    1196:	30 e0       	ldi	r19, 0x00	; 0
+    1198:	04 e2       	ldi	r16, 0x24	; 36
+    119a:	10 e0       	ldi	r17, 0x00	; 0
+    119c:	0e 94 bd 0a 	call	0x157a	; 0x157a <disk_readp>
+    11a0:	88 23       	and	r24, r24
+    11a2:	09 f0       	breq	.+2      	; 0x11a6 <pf_mount+0xc6>
+    11a4:	9b c0       	rjmp	.+310    	; 0x12dc <pf_mount+0x1fc>
+
+	fsize = LD_WORD(buf+BPB_FATSz16-13);				/* Number of sectors per FAT */
+    11a6:	8a 85       	ldd	r24, Y+10	; 0x0a
+    11a8:	9b 85       	ldd	r25, Y+11	; 0x0b
+    11aa:	bc 01       	movw	r22, r24
+    11ac:	80 e0       	ldi	r24, 0x00	; 0
+    11ae:	90 e0       	ldi	r25, 0x00	; 0
+	if (!fsize) fsize = LD_DWORD(buf+BPB_FATSz32-13);
+    11b0:	61 15       	cp	r22, r1
+    11b2:	71 05       	cpc	r23, r1
+    11b4:	81 05       	cpc	r24, r1
+    11b6:	91 05       	cpc	r25, r1
+    11b8:	21 f4       	brne	.+8      	; 0x11c2 <pf_mount+0xe2>
+    11ba:	68 8d       	ldd	r22, Y+24	; 0x18
+    11bc:	79 8d       	ldd	r23, Y+25	; 0x19
+    11be:	8a 8d       	ldd	r24, Y+26	; 0x1a
+    11c0:	9b 8d       	ldd	r25, Y+27	; 0x1b
+
+	fsize *= buf[BPB_NumFATs-13];						/* Number of sectors in FAT area */
+    11c2:	2c 81       	ldd	r18, Y+4	; 0x04
+    11c4:	30 e0       	ldi	r19, 0x00	; 0
+    11c6:	40 e0       	ldi	r20, 0x00	; 0
+    11c8:	50 e0       	ldi	r21, 0x00	; 0
+    11ca:	0e 94 56 0b 	call	0x16ac	; 0x16ac <__mulsi3>
+    11ce:	3b 01       	movw	r6, r22
+    11d0:	4c 01       	movw	r8, r24
+	fs->fatbase = bsect + LD_WORD(buf+BPB_RsvdSecCnt-13); /* FAT start sector (lba) */
+    11d2:	8a 81       	ldd	r24, Y+2	; 0x02
+    11d4:	9b 81       	ldd	r25, Y+3	; 0x03
+    11d6:	a0 e0       	ldi	r26, 0x00	; 0
+    11d8:	b0 e0       	ldi	r27, 0x00	; 0
+    11da:	c8 0e       	add	r12, r24
+    11dc:	d9 1e       	adc	r13, r25
+    11de:	ea 1e       	adc	r14, r26
+    11e0:	fb 1e       	adc	r15, r27
+    11e2:	f5 01       	movw	r30, r10
+    11e4:	c2 86       	std	Z+10, r12	; 0x0a
+    11e6:	d3 86       	std	Z+11, r13	; 0x0b
+    11e8:	e4 86       	std	Z+12, r14	; 0x0c
+    11ea:	f5 86       	std	Z+13, r15	; 0x0d
+	fs->csize = buf[BPB_SecPerClus-13];					/* Number of sectors per cluster */
+    11ec:	89 81       	ldd	r24, Y+1	; 0x01
+    11ee:	81 83       	std	Z+1, r24	; 0x01
+	fs->n_rootdir = LD_WORD(buf+BPB_RootEntCnt-13);		/* Nmuber of root directory entries */
+    11f0:	2d 81       	ldd	r18, Y+5	; 0x05
+    11f2:	3e 81       	ldd	r19, Y+6	; 0x06
+    11f4:	35 83       	std	Z+5, r19	; 0x05
+    11f6:	24 83       	std	Z+4, r18	; 0x04
+	tsect = LD_WORD(buf+BPB_TotSec16-13);				/* Number of sectors on the file system */
+    11f8:	8f 81       	ldd	r24, Y+7	; 0x07
+    11fa:	98 85       	ldd	r25, Y+8	; 0x08
+    11fc:	7c 01       	movw	r14, r24
+    11fe:	00 e0       	ldi	r16, 0x00	; 0
+    1200:	10 e0       	ldi	r17, 0x00	; 0
+	if (!tsect) tsect = LD_DWORD(buf+BPB_TotSec32-13);
+    1202:	e1 14       	cp	r14, r1
+    1204:	f1 04       	cpc	r15, r1
+    1206:	01 05       	cpc	r16, r1
+    1208:	11 05       	cpc	r17, r1
+    120a:	21 f4       	brne	.+8      	; 0x1214 <pf_mount+0x134>
+    120c:	ec 88       	ldd	r14, Y+20	; 0x14
+    120e:	fd 88       	ldd	r15, Y+21	; 0x15
+    1210:	0e 89       	ldd	r16, Y+22	; 0x16
+    1212:	1f 89       	ldd	r17, Y+23	; 0x17
+	mclst = (tsect						/* Last cluster# + 1 */
+    1214:	8a 81       	ldd	r24, Y+2	; 0x02
+    1216:	9b 81       	ldd	r25, Y+3	; 0x03
+    1218:	a0 e0       	ldi	r26, 0x00	; 0
+    121a:	b0 e0       	ldi	r27, 0x00	; 0
+    121c:	e8 1a       	sub	r14, r24
+    121e:	f9 0a       	sbc	r15, r25
+    1220:	0a 0b       	sbc	r16, r26
+    1222:	1b 0b       	sbc	r17, r27
+    1224:	e6 18       	sub	r14, r6
+    1226:	f7 08       	sbc	r15, r7
+    1228:	08 09       	sbc	r16, r8
+    122a:	19 09       	sbc	r17, r9
+    122c:	74 e0       	ldi	r23, 0x04	; 4
+    122e:	36 95       	lsr	r19
+    1230:	27 95       	ror	r18
+    1232:	7a 95       	dec	r23
+    1234:	e1 f7       	brne	.-8      	; 0x122e <pf_mount+0x14e>
+    1236:	c9 01       	movw	r24, r18
+    1238:	a0 e0       	ldi	r26, 0x00	; 0
+    123a:	b0 e0       	ldi	r27, 0x00	; 0
+    123c:	e8 1a       	sub	r14, r24
+    123e:	f9 0a       	sbc	r15, r25
+    1240:	0a 0b       	sbc	r16, r26
+    1242:	1b 0b       	sbc	r17, r27
+    1244:	f5 01       	movw	r30, r10
+    1246:	21 81       	ldd	r18, Z+1	; 0x01
+    1248:	30 e0       	ldi	r19, 0x00	; 0
+    124a:	40 e0       	ldi	r20, 0x00	; 0
+    124c:	50 e0       	ldi	r21, 0x00	; 0
+    124e:	c8 01       	movw	r24, r16
+    1250:	b7 01       	movw	r22, r14
+    1252:	0e 94 89 0b 	call	0x1712	; 0x1712 <__udivmodsi4>
+    1256:	2e 5f       	subi	r18, 0xFE	; 254
+    1258:	3f 4f       	sbci	r19, 0xFF	; 255
+    125a:	4f 4f       	sbci	r20, 0xFF	; 255
+    125c:	5f 4f       	sbci	r21, 0xFF	; 255
+		- LD_WORD(buf+BPB_RsvdSecCnt-13) - fsize - fs->n_rootdir / 16
+		) / fs->csize + 2;
+	fs->max_clust = (CLUST)mclst;
+    125e:	f5 01       	movw	r30, r10
+    1260:	31 87       	std	Z+9, r19	; 0x09
+    1262:	20 87       	std	Z+8, r18	; 0x08
+
+	fmt = FS_FAT12;							/* Determine the FAT sub type */
+	if (mclst >= 0xFF7) fmt = FS_FAT16;		/* Number of clusters >= 0xFF5 */
+    1264:	27 3f       	cpi	r18, 0xF7	; 247
+    1266:	ff e0       	ldi	r31, 0x0F	; 15
+    1268:	3f 07       	cpc	r19, r31
+    126a:	f0 e0       	ldi	r31, 0x00	; 0
+    126c:	4f 07       	cpc	r20, r31
+    126e:	f0 e0       	ldi	r31, 0x00	; 0
+    1270:	5f 07       	cpc	r21, r31
+    1272:	10 f4       	brcc	.+4      	; 0x1278 <pf_mount+0x198>
+    1274:	81 e0       	ldi	r24, 0x01	; 1
+    1276:	06 c0       	rjmp	.+12     	; 0x1284 <pf_mount+0x1a4>
+	if (mclst >= 0xFFF7)					/* Number of clusters >= 0xFFF5 */
+    1278:	27 5f       	subi	r18, 0xF7	; 247
+    127a:	3f 4f       	sbci	r19, 0xFF	; 255
+    127c:	40 40       	sbci	r20, 0x00	; 0
+    127e:	50 40       	sbci	r21, 0x00	; 0
+    1280:	78 f5       	brcc	.+94     	; 0x12e0 <pf_mount+0x200>
+    1282:	82 e0       	ldi	r24, 0x02	; 2
+		fmt = FS_FAT32;
+#else
+		return FR_NO_FILESYSTEM;
+#endif
+
+	fs->fs_type = fmt;		/* FAT sub-type */
+    1284:	f5 01       	movw	r30, r10
+    1286:	80 83       	st	Z, r24
+#if _FS_FAT32
+	if (fmt == FS_FAT32)
+		fs->dirbase = LD_DWORD(buf+(BPB_RootClus-13));	/* Root directory start cluster */
+	else
+#endif
+		fs->dirbase = fs->fatbase + fsize;				/* Root directory start sector (lba) */
+    1288:	22 85       	ldd	r18, Z+10	; 0x0a
+    128a:	33 85       	ldd	r19, Z+11	; 0x0b
+    128c:	44 85       	ldd	r20, Z+12	; 0x0c
+    128e:	55 85       	ldd	r21, Z+13	; 0x0d
+    1290:	d4 01       	movw	r26, r8
+    1292:	c3 01       	movw	r24, r6
+    1294:	82 0f       	add	r24, r18
+    1296:	93 1f       	adc	r25, r19
+    1298:	a4 1f       	adc	r26, r20
+    129a:	b5 1f       	adc	r27, r21
+    129c:	86 87       	std	Z+14, r24	; 0x0e
+    129e:	97 87       	std	Z+15, r25	; 0x0f
+    12a0:	a0 8b       	std	Z+16, r26	; 0x10
+    12a2:	b1 8b       	std	Z+17, r27	; 0x11
+	fs->database = fs->fatbase + fsize + fs->n_rootdir / 16;	/* Data start sector (lba) */
+    12a4:	84 81       	ldd	r24, Z+4	; 0x04
+    12a6:	95 81       	ldd	r25, Z+5	; 0x05
+    12a8:	64 e0       	ldi	r22, 0x04	; 4
+    12aa:	96 95       	lsr	r25
+    12ac:	87 95       	ror	r24
+    12ae:	6a 95       	dec	r22
+    12b0:	e1 f7       	brne	.-8      	; 0x12aa <pf_mount+0x1ca>
+    12b2:	a0 e0       	ldi	r26, 0x00	; 0
+    12b4:	b0 e0       	ldi	r27, 0x00	; 0
+    12b6:	82 0f       	add	r24, r18
+    12b8:	93 1f       	adc	r25, r19
+    12ba:	a4 1f       	adc	r26, r20
+    12bc:	b5 1f       	adc	r27, r21
+    12be:	86 0d       	add	r24, r6
+    12c0:	97 1d       	adc	r25, r7
+    12c2:	a8 1d       	adc	r26, r8
+    12c4:	b9 1d       	adc	r27, r9
+    12c6:	82 8b       	std	Z+18, r24	; 0x12
+    12c8:	93 8b       	std	Z+19, r25	; 0x13
+    12ca:	a4 8b       	std	Z+20, r26	; 0x14
+    12cc:	b5 8b       	std	Z+21, r27	; 0x15
+
+	fs->flag = 0;
+    12ce:	12 82       	std	Z+2, r1	; 0x02
+	FatFs = fs;
+    12d0:	b0 92 6b 00 	sts	0x006B, r11
+    12d4:	a0 92 6a 00 	sts	0x006A, r10
+    12d8:	80 e0       	ldi	r24, 0x00	; 0
+    12da:	03 c0       	rjmp	.+6      	; 0x12e2 <pf_mount+0x202>
+
+	return FR_OK;
+    12dc:	81 e0       	ldi	r24, 0x01	; 1
+    12de:	01 c0       	rjmp	.+2      	; 0x12e2 <pf_mount+0x202>
+    12e0:	89 e0       	ldi	r24, 0x09	; 9
+}
+    12e2:	a4 96       	adiw	r28, 0x24	; 36
+    12e4:	0f b6       	in	r0, 0x3f	; 63
+    12e6:	f8 94       	cli
+    12e8:	de bf       	out	0x3e, r29	; 62
+    12ea:	0f be       	out	0x3f, r0	; 63
+    12ec:	cd bf       	out	0x3d, r28	; 61
+    12ee:	cf 91       	pop	r28
+    12f0:	df 91       	pop	r29
+    12f2:	1f 91       	pop	r17
+    12f4:	0f 91       	pop	r16
+    12f6:	ff 90       	pop	r15
+    12f8:	ef 90       	pop	r14
+    12fa:	df 90       	pop	r13
+    12fc:	cf 90       	pop	r12
+    12fe:	bf 90       	pop	r11
+    1300:	af 90       	pop	r10
+    1302:	9f 90       	pop	r9
+    1304:	8f 90       	pop	r8
+    1306:	7f 90       	pop	r7
+    1308:	6f 90       	pop	r6
+    130a:	08 95       	ret
+
+0000130c <init_spi>:
+/*-----------------------------------------------------------------------*/
+/* SPI interace                                                          */
+/*-----------------------------------------------------------------------*/
+void init_spi (void)
+{
+	DESELECT();												// set default CS pin	
+    130c:	c4 9a       	sbi	0x18, 4	; 24
+	SPI_DDR    = (1<<DD_MOSI) | (1<<DD_SCK);				// set spi direction
+    130e:	80 ea       	ldi	r24, 0xA0	; 160
+    1310:	87 bb       	out	0x17, r24	; 23
+//	SPI_DDR    = (1<<DD_MOSI) | (1<<DD_SCK)| (1<<DD_SS);	// set spi direction
+	SD_CS_DDR |= (1<<SD_CS_PIN);          					// Turns on CS pin as output
+    1312:	bc 9a       	sbi	0x17, 4	; 23
+    if (!(SPI_DDR & (1<<DD_SS)))							// if SS is input
+    1314:	bc 9b       	sbis	0x17, 4	; 23
+    	SPI_PORT |= (1<<DD_SS);								//   set internal pull up SS for spi master mode
+    1316:	c4 9a       	sbi	0x18, 4	; 24
+
+	SPCR	   = (1<<SPE)|(1<<MSTR)|(1<<SPR0); 						// Initialize SPI port (Mode 0)
+    1318:	81 e5       	ldi	r24, 0x51	; 81
+    131a:	8d b9       	out	0x0d, r24	; 13
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+    131c:	81 e0       	ldi	r24, 0x01	; 1
+    131e:	8e b9       	out	0x0e, r24	; 14
+}
+    1320:	08 95       	ret
+
+00001322 <rcv_spi>:
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    1322:	8f ef       	ldi	r24, 0xFF	; 255
+    1324:	8f b9       	out	0x0f, r24	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    1326:	77 9b       	sbis	0x0e, 7	; 14
+    1328:	fe cf       	rjmp	.-4      	; 0x1326 <rcv_spi+0x4>
+	return SPDR;
+    132a:	8f b1       	in	r24, 0x0f	; 15
+}
+    132c:	08 95       	ret
+
+0000132e <send_cmd>:
+static
+BYTE send_cmd (
+	BYTE cmd,		/* Command byte */
+	DWORD arg		/* Argument */
+)
+{
+    132e:	df 92       	push	r13
+    1330:	ef 92       	push	r14
+    1332:	ff 92       	push	r15
+    1334:	0f 93       	push	r16
+    1336:	1f 93       	push	r17
+    1338:	d8 2e       	mov	r13, r24
+    133a:	7a 01       	movw	r14, r20
+    133c:	8b 01       	movw	r16, r22
+	BYTE n, res;
+
+
+	if (cmd & 0x80) {	/* ACMD<n> is the command sequense of CMD55-CMD<n> */
+    133e:	87 ff       	sbrs	r24, 7
+    1340:	0c c0       	rjmp	.+24     	; 0x135a <send_cmd+0x2c>
+		cmd &= 0x7F;
+		res = send_cmd(CMD55, 0);
+    1342:	87 e7       	ldi	r24, 0x77	; 119
+    1344:	40 e0       	ldi	r20, 0x00	; 0
+    1346:	50 e0       	ldi	r21, 0x00	; 0
+    1348:	60 e0       	ldi	r22, 0x00	; 0
+    134a:	70 e0       	ldi	r23, 0x00	; 0
+    134c:	0e 94 97 09 	call	0x132e	; 0x132e <send_cmd>
+		if (res > 1) return res;
+    1350:	82 30       	cpi	r24, 0x02	; 2
+    1352:	08 f0       	brcs	.+2      	; 0x1356 <send_cmd+0x28>
+    1354:	49 c0       	rjmp	.+146    	; 0x13e8 <send_cmd+0xba>
+{
+	BYTE n, res;
+
+
+	if (cmd & 0x80) {	/* ACMD<n> is the command sequense of CMD55-CMD<n> */
+		cmd &= 0x7F;
+    1356:	8f e7       	ldi	r24, 0x7F	; 127
+    1358:	d8 22       	and	r13, r24
+		res = send_cmd(CMD55, 0);
+		if (res > 1) return res;
+	}
+
+	/* Select the card and wait for ready */
+	DESELECT();
+    135a:	c4 9a       	sbi	0x18, 4	; 24
+	SELECT();
+    135c:	c4 98       	cbi	0x18, 4	; 24
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    135e:	8f ef       	ldi	r24, 0xFF	; 255
+    1360:	8f b9       	out	0x0f, r24	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    1362:	77 9b       	sbis	0x0e, 7	; 14
+    1364:	fe cf       	rjmp	.-4      	; 0x1362 <send_cmd+0x34>
+	return SPDR;
+    1366:	8f b1       	in	r24, 0x0f	; 15
+    1368:	24 ec       	ldi	r18, 0xC4	; 196
+    136a:	39 e0       	ldi	r19, 0x09	; 9
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    136c:	9f ef       	ldi	r25, 0xFF	; 255
+    136e:	9f b9       	out	0x0f, r25	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    1370:	77 9b       	sbis	0x0e, 7	; 14
+    1372:	fe cf       	rjmp	.-4      	; 0x1370 <send_cmd+0x42>
+	return SPDR;
+    1374:	8f b1       	in	r24, 0x0f	; 15
+
+	rcv_spi();
+	tmr = 2500;
+	do
+		res = rcv_spi();
+	while (res != 0xFF && --tmr);
+    1376:	8f 3f       	cpi	r24, 0xFF	; 255
+    1378:	29 f0       	breq	.+10     	; 0x1384 <send_cmd+0x56>
+    137a:	21 50       	subi	r18, 0x01	; 1
+    137c:	30 40       	sbci	r19, 0x00	; 0
+    137e:	b9 f7       	brne	.-18     	; 0x136e <send_cmd+0x40>
+    1380:	8f ef       	ldi	r24, 0xFF	; 255
+    1382:	32 c0       	rjmp	.+100    	; 0x13e8 <send_cmd+0xba>
+	DESELECT();
+	SELECT();
+	if (wait_ready() != 0xFF) return 0xFF;
+
+	/* Send command packet */
+	xmit_spi(cmd);						/* Start + Command index */
+    1384:	df b8       	out	0x0f, r13	; 15
+    1386:	77 9b       	sbis	0x0e, 7	; 14
+    1388:	fe cf       	rjmp	.-4      	; 0x1386 <send_cmd+0x58>
+	xmit_spi((BYTE)(arg >> 24));		/* Argument[31..24] */
+    138a:	81 2f       	mov	r24, r17
+    138c:	99 27       	eor	r25, r25
+    138e:	aa 27       	eor	r26, r26
+    1390:	bb 27       	eor	r27, r27
+    1392:	8f b9       	out	0x0f, r24	; 15
+    1394:	77 9b       	sbis	0x0e, 7	; 14
+    1396:	fe cf       	rjmp	.-4      	; 0x1394 <send_cmd+0x66>
+	xmit_spi((BYTE)(arg >> 16));		/* Argument[23..16] */
+    1398:	c8 01       	movw	r24, r16
+    139a:	aa 27       	eor	r26, r26
+    139c:	bb 27       	eor	r27, r27
+    139e:	8f b9       	out	0x0f, r24	; 15
+    13a0:	77 9b       	sbis	0x0e, 7	; 14
+    13a2:	fe cf       	rjmp	.-4      	; 0x13a0 <send_cmd+0x72>
+	xmit_spi((BYTE)(arg >> 8));			/* Argument[15..8] */
+    13a4:	bb 27       	eor	r27, r27
+    13a6:	a1 2f       	mov	r26, r17
+    13a8:	90 2f       	mov	r25, r16
+    13aa:	8f 2d       	mov	r24, r15
+    13ac:	8f b9       	out	0x0f, r24	; 15
+    13ae:	77 9b       	sbis	0x0e, 7	; 14
+    13b0:	fe cf       	rjmp	.-4      	; 0x13ae <send_cmd+0x80>
+	xmit_spi((BYTE)arg);				/* Argument[7..0] */
+    13b2:	ef b8       	out	0x0f, r14	; 15
+    13b4:	77 9b       	sbis	0x0e, 7	; 14
+    13b6:	fe cf       	rjmp	.-4      	; 0x13b4 <send_cmd+0x86>
+	n = 0x01;							/* Dummy CRC + Stop */
+	if (cmd == CMD0) n = 0x95;			/* Valid CRC for CMD0(0) */
+    13b8:	80 e4       	ldi	r24, 0x40	; 64
+    13ba:	d8 16       	cp	r13, r24
+    13bc:	11 f4       	brne	.+4      	; 0x13c2 <send_cmd+0x94>
+    13be:	85 e9       	ldi	r24, 0x95	; 149
+    13c0:	06 c0       	rjmp	.+12     	; 0x13ce <send_cmd+0xa0>
+	if (cmd == CMD8) n = 0x87;			/* Valid CRC for CMD8(0x1AA) */
+    13c2:	88 e4       	ldi	r24, 0x48	; 72
+    13c4:	d8 16       	cp	r13, r24
+    13c6:	11 f4       	brne	.+4      	; 0x13cc <send_cmd+0x9e>
+    13c8:	87 e8       	ldi	r24, 0x87	; 135
+    13ca:	01 c0       	rjmp	.+2      	; 0x13ce <send_cmd+0xa0>
+    13cc:	81 e0       	ldi	r24, 0x01	; 1
+	xmit_spi(n);
+    13ce:	8f b9       	out	0x0f, r24	; 15
+    13d0:	77 9b       	sbis	0x0e, 7	; 14
+    13d2:	fe cf       	rjmp	.-4      	; 0x13d0 <send_cmd+0xa2>
+    13d4:	9a e0       	ldi	r25, 0x0A	; 10
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    13d6:	2f ef       	ldi	r18, 0xFF	; 255
+    13d8:	2f b9       	out	0x0f, r18	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    13da:	77 9b       	sbis	0x0e, 7	; 14
+    13dc:	fe cf       	rjmp	.-4      	; 0x13da <send_cmd+0xac>
+	return SPDR;
+    13de:	8f b1       	in	r24, 0x0f	; 15
+
+	/* Receive command response */
+	n = 10;								/* Wait for a valid response in timeout of 10 attempts */
+	do {
+		res = rcv_spi();
+	} while ((res & 0x80) && --n);
+    13e0:	87 ff       	sbrs	r24, 7
+    13e2:	02 c0       	rjmp	.+4      	; 0x13e8 <send_cmd+0xba>
+    13e4:	91 50       	subi	r25, 0x01	; 1
+    13e6:	c1 f7       	brne	.-16     	; 0x13d8 <send_cmd+0xaa>
+
+	return res;			/* Return with the response value */
+}
+    13e8:	1f 91       	pop	r17
+    13ea:	0f 91       	pop	r16
+    13ec:	ff 90       	pop	r15
+    13ee:	ef 90       	pop	r14
+    13f0:	df 90       	pop	r13
+    13f2:	08 95       	ret
+
+000013f4 <disk_initialize>:
+/*-----------------------------------------------------------------------*/
+/* Initialize Disk Drive                                                 */
+/*-----------------------------------------------------------------------*/
+
+DSTATUS disk_initialize (void)
+{
+    13f4:	cf 92       	push	r12
+    13f6:	df 92       	push	r13
+    13f8:	ef 92       	push	r14
+    13fa:	ff 92       	push	r15
+    13fc:	0f 93       	push	r16
+    13fe:	1f 93       	push	r17
+    1400:	df 93       	push	r29
+    1402:	cf 93       	push	r28
+    1404:	00 d0       	rcall	.+0      	; 0x1406 <disk_initialize+0x12>
+    1406:	00 d0       	rcall	.+0      	; 0x1408 <disk_initialize+0x14>
+    1408:	cd b7       	in	r28, 0x3d	; 61
+    140a:	de b7       	in	r29, 0x3e	; 62
+/*-----------------------------------------------------------------------*/
+/* SPI interace                                                          */
+/*-----------------------------------------------------------------------*/
+void init_spi (void)
+{
+	DESELECT();												// set default CS pin	
+    140c:	c4 9a       	sbi	0x18, 4	; 24
+	SPI_DDR    = (1<<DD_MOSI) | (1<<DD_SCK);				// set spi direction
+    140e:	80 ea       	ldi	r24, 0xA0	; 160
+    1410:	87 bb       	out	0x17, r24	; 23
+//	SPI_DDR    = (1<<DD_MOSI) | (1<<DD_SCK)| (1<<DD_SS);	// set spi direction
+	SD_CS_DDR |= (1<<SD_CS_PIN);          					// Turns on CS pin as output
+    1412:	bc 9a       	sbi	0x17, 4	; 23
+    if (!(SPI_DDR & (1<<DD_SS)))							// if SS is input
+    1414:	bc 9b       	sbis	0x17, 4	; 23
+    	SPI_PORT |= (1<<DD_SS);								//   set internal pull up SS for spi master mode
+    1416:	c4 9a       	sbi	0x18, 4	; 24
+
+	SPCR	   = (1<<SPE)|(1<<MSTR)|(1<<SPR0); 						// Initialize SPI port (Mode 0)
+    1418:	81 e5       	ldi	r24, 0x51	; 81
+    141a:	8d b9       	out	0x0d, r24	; 13
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+    141c:	81 e0       	ldi	r24, 0x01	; 1
+    141e:	8e b9       	out	0x0e, r24	; 14
+    1420:	84 e6       	ldi	r24, 0x64	; 100
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    1422:	9f ef       	ldi	r25, 0xFF	; 255
+    1424:	9f b9       	out	0x0f, r25	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    1426:	77 9b       	sbis	0x0e, 7	; 14
+    1428:	fe cf       	rjmp	.-4      	; 0x1426 <disk_initialize+0x32>
+	return SPDR;
+    142a:	2f b1       	in	r18, 0x0f	; 15
+	WORD tmr;
+
+
+	init_spi();		/* Initialize USI */
+
+	for (n = 100; n; n--) rcv_spi();	/* Dummy clocks */
+    142c:	81 50       	subi	r24, 0x01	; 1
+    142e:	d1 f7       	brne	.-12     	; 0x1424 <disk_initialize+0x30>
+
+	ty = 0;
+	if (send_cmd(CMD0, 0) == 1) {			/* Enter Idle state */
+    1430:	80 e4       	ldi	r24, 0x40	; 64
+    1432:	40 e0       	ldi	r20, 0x00	; 0
+    1434:	50 e0       	ldi	r21, 0x00	; 0
+    1436:	60 e0       	ldi	r22, 0x00	; 0
+    1438:	70 e0       	ldi	r23, 0x00	; 0
+    143a:	0e 94 97 09 	call	0x132e	; 0x132e <send_cmd>
+    143e:	81 30       	cpi	r24, 0x01	; 1
+    1440:	09 f0       	breq	.+2      	; 0x1444 <disk_initialize+0x50>
+    1442:	6c c0       	rjmp	.+216    	; 0x151c <disk_initialize+0x128>
+		if (send_cmd(CMD8, 0x1AA) == 1) {	/* SDHC */
+    1444:	88 e4       	ldi	r24, 0x48	; 72
+    1446:	4a ea       	ldi	r20, 0xAA	; 170
+    1448:	51 e0       	ldi	r21, 0x01	; 1
+    144a:	60 e0       	ldi	r22, 0x00	; 0
+    144c:	70 e0       	ldi	r23, 0x00	; 0
+    144e:	0e 94 97 09 	call	0x132e	; 0x132e <send_cmd>
+    1452:	81 30       	cpi	r24, 0x01	; 1
+    1454:	09 f0       	breq	.+2      	; 0x1458 <disk_initialize+0x64>
+    1456:	40 c0       	rjmp	.+128    	; 0x14d8 <disk_initialize+0xe4>
+    1458:	6e 01       	movw	r12, r28
+    145a:	08 94       	sec
+    145c:	c1 1c       	adc	r12, r1
+    145e:	d1 1c       	adc	r13, r1
+    1460:	76 01       	movw	r14, r12
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    1462:	9f ef       	ldi	r25, 0xFF	; 255
+			for (n = 0; n < 4; n++) ocr[n] = rcv_spi();		/* Get trailing return value of R7 resp */
+    1464:	9e 01       	movw	r18, r28
+    1466:	2b 5f       	subi	r18, 0xFB	; 251
+    1468:	3f 4f       	sbci	r19, 0xFF	; 255
+    146a:	9f b9       	out	0x0f, r25	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    146c:	77 9b       	sbis	0x0e, 7	; 14
+    146e:	fe cf       	rjmp	.-4      	; 0x146c <disk_initialize+0x78>
+	return SPDR;
+    1470:	8f b1       	in	r24, 0x0f	; 15
+    1472:	f7 01       	movw	r30, r14
+    1474:	81 93       	st	Z+, r24
+    1476:	7f 01       	movw	r14, r30
+    1478:	e2 17       	cp	r30, r18
+    147a:	f3 07       	cpc	r31, r19
+    147c:	b1 f7       	brne	.-20     	; 0x146a <disk_initialize+0x76>
+			if (ocr[2] == 0x01 && ocr[3] == 0xAA) {				/* The card can work at vdd range of 2.7-3.6V */
+    147e:	8b 81       	ldd	r24, Y+3	; 0x03
+    1480:	81 30       	cpi	r24, 0x01	; 1
+    1482:	09 f0       	breq	.+2      	; 0x1486 <disk_initialize+0x92>
+    1484:	4b c0       	rjmp	.+150    	; 0x151c <disk_initialize+0x128>
+    1486:	8c 81       	ldd	r24, Y+4	; 0x04
+    1488:	8a 3a       	cpi	r24, 0xAA	; 170
+    148a:	09 f0       	breq	.+2      	; 0x148e <disk_initialize+0x9a>
+    148c:	47 c0       	rjmp	.+142    	; 0x151c <disk_initialize+0x128>
+    148e:	08 ea       	ldi	r16, 0xA8	; 168
+    1490:	11 e6       	ldi	r17, 0x61	; 97
+    1492:	04 c0       	rjmp	.+8      	; 0x149c <disk_initialize+0xa8>
+				for (tmr = 25000; tmr && send_cmd(ACMD41, 1UL << 30); tmr--) ;	/* Wait for leaving idle state (ACMD41 with HCS bit) */
+    1494:	01 50       	subi	r16, 0x01	; 1
+    1496:	10 40       	sbci	r17, 0x00	; 0
+    1498:	09 f4       	brne	.+2      	; 0x149c <disk_initialize+0xa8>
+    149a:	40 c0       	rjmp	.+128    	; 0x151c <disk_initialize+0x128>
+    149c:	89 ee       	ldi	r24, 0xE9	; 233
+    149e:	40 e0       	ldi	r20, 0x00	; 0
+    14a0:	50 e0       	ldi	r21, 0x00	; 0
+    14a2:	60 e0       	ldi	r22, 0x00	; 0
+    14a4:	70 e4       	ldi	r23, 0x40	; 64
+    14a6:	0e 94 97 09 	call	0x132e	; 0x132e <send_cmd>
+    14aa:	88 23       	and	r24, r24
+    14ac:	99 f7       	brne	.-26     	; 0x1494 <disk_initialize+0xa0>
+    14ae:	50 c0       	rjmp	.+160    	; 0x1550 <disk_initialize+0x15c>
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    14b0:	9f ef       	ldi	r25, 0xFF	; 255
+    14b2:	9f b9       	out	0x0f, r25	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    14b4:	77 9b       	sbis	0x0e, 7	; 14
+    14b6:	fe cf       	rjmp	.-4      	; 0x14b4 <disk_initialize+0xc0>
+	return SPDR;
+    14b8:	8f b1       	in	r24, 0x0f	; 15
+				if (tmr && send_cmd(CMD58, 0) == 0) {		/* Check CCS bit in the OCR */
+					for (n = 0; n < 4; n++) ocr[n] = rcv_spi();
+    14ba:	f6 01       	movw	r30, r12
+    14bc:	81 93       	st	Z+, r24
+    14be:	6f 01       	movw	r12, r30
+    14c0:	ee 15       	cp	r30, r14
+    14c2:	ff 05       	cpc	r31, r15
+    14c4:	b1 f7       	brne	.-20     	; 0x14b2 <disk_initialize+0xbe>
+					ty = (ocr[0] & 0x40) ? CT_SD2 | CT_BLOCK : CT_SD2;	/* SDv2 */
+    14c6:	89 81       	ldd	r24, Y+1	; 0x01
+    14c8:	86 fd       	sbrc	r24, 6
+    14ca:	03 c0       	rjmp	.+6      	; 0x14d2 <disk_initialize+0xde>
+    14cc:	74 e0       	ldi	r23, 0x04	; 4
+    14ce:	f7 2e       	mov	r15, r23
+    14d0:	26 c0       	rjmp	.+76     	; 0x151e <disk_initialize+0x12a>
+    14d2:	6c e0       	ldi	r22, 0x0C	; 12
+    14d4:	f6 2e       	mov	r15, r22
+    14d6:	23 c0       	rjmp	.+70     	; 0x151e <disk_initialize+0x12a>
+				}
+			}
+		} else {							/* SDSC or MMC */
+			if (send_cmd(ACMD41, 0) <= 1) 	{
+    14d8:	89 ee       	ldi	r24, 0xE9	; 233
+    14da:	40 e0       	ldi	r20, 0x00	; 0
+    14dc:	50 e0       	ldi	r21, 0x00	; 0
+    14de:	60 e0       	ldi	r22, 0x00	; 0
+    14e0:	70 e0       	ldi	r23, 0x00	; 0
+    14e2:	0e 94 97 09 	call	0x132e	; 0x132e <send_cmd>
+    14e6:	82 30       	cpi	r24, 0x02	; 2
+    14e8:	28 f0       	brcs	.+10     	; 0x14f4 <disk_initialize+0x100>
+    14ea:	ff 24       	eor	r15, r15
+    14ec:	f3 94       	inc	r15
+    14ee:	51 e4       	ldi	r21, 0x41	; 65
+    14f0:	e5 2e       	mov	r14, r21
+    14f2:	04 c0       	rjmp	.+8      	; 0x14fc <disk_initialize+0x108>
+    14f4:	42 e0       	ldi	r20, 0x02	; 2
+    14f6:	f4 2e       	mov	r15, r20
+    14f8:	39 ee       	ldi	r19, 0xE9	; 233
+    14fa:	e3 2e       	mov	r14, r19
+    14fc:	08 ea       	ldi	r16, 0xA8	; 168
+    14fe:	11 e6       	ldi	r17, 0x61	; 97
+    1500:	03 c0       	rjmp	.+6      	; 0x1508 <disk_initialize+0x114>
+				ty = CT_SD1; cmd = ACMD41;	/* SDv1 */
+			} else {
+				ty = CT_MMC; cmd = CMD1;	/* MMCv3 */
+			}
+			for (tmr = 25000; tmr && send_cmd(cmd, 0); tmr--) ;	/* Wait for leaving idle state */
+    1502:	01 50       	subi	r16, 0x01	; 1
+    1504:	10 40       	sbci	r17, 0x00	; 0
+    1506:	51 f0       	breq	.+20     	; 0x151c <disk_initialize+0x128>
+    1508:	8e 2d       	mov	r24, r14
+    150a:	40 e0       	ldi	r20, 0x00	; 0
+    150c:	50 e0       	ldi	r21, 0x00	; 0
+    150e:	60 e0       	ldi	r22, 0x00	; 0
+    1510:	70 e0       	ldi	r23, 0x00	; 0
+    1512:	0e 94 97 09 	call	0x132e	; 0x132e <send_cmd>
+    1516:	88 23       	and	r24, r24
+    1518:	a1 f7       	brne	.-24     	; 0x1502 <disk_initialize+0x10e>
+    151a:	25 c0       	rjmp	.+74     	; 0x1566 <disk_initialize+0x172>
+    151c:	ff 24       	eor	r15, r15
+			if (!tmr || send_cmd(CMD16, 512) != 0)			/* Set R/W block length to 512 */
+				ty = 0;
+		}
+	}
+	CardType = ty;
+    151e:	f0 92 6c 00 	sts	0x006C, r15
+/*-----------------------------------------------------------------------*/
+
+static
+void release_spi (void)
+{
+	DESELECT();
+    1522:	c4 9a       	sbi	0x18, 4	; 24
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    1524:	8f ef       	ldi	r24, 0xFF	; 255
+    1526:	8f b9       	out	0x0f, r24	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    1528:	77 9b       	sbis	0x0e, 7	; 14
+    152a:	fe cf       	rjmp	.-4      	; 0x1528 <disk_initialize+0x134>
+	return SPDR;
+    152c:	8f b1       	in	r24, 0x0f	; 15
+    152e:	80 e0       	ldi	r24, 0x00	; 0
+    1530:	ff 20       	and	r15, r15
+    1532:	09 f4       	brne	.+2      	; 0x1536 <disk_initialize+0x142>
+    1534:	81 e0       	ldi	r24, 0x01	; 1
+	}
+	CardType = ty;
+	release_spi();
+
+	return ty ? 0 : STA_NOINIT;
+}
+    1536:	0f 90       	pop	r0
+    1538:	0f 90       	pop	r0
+    153a:	0f 90       	pop	r0
+    153c:	0f 90       	pop	r0
+    153e:	cf 91       	pop	r28
+    1540:	df 91       	pop	r29
+    1542:	1f 91       	pop	r17
+    1544:	0f 91       	pop	r16
+    1546:	ff 90       	pop	r15
+    1548:	ef 90       	pop	r14
+    154a:	df 90       	pop	r13
+    154c:	cf 90       	pop	r12
+    154e:	08 95       	ret
+	if (send_cmd(CMD0, 0) == 1) {			/* Enter Idle state */
+		if (send_cmd(CMD8, 0x1AA) == 1) {	/* SDHC */
+			for (n = 0; n < 4; n++) ocr[n] = rcv_spi();		/* Get trailing return value of R7 resp */
+			if (ocr[2] == 0x01 && ocr[3] == 0xAA) {				/* The card can work at vdd range of 2.7-3.6V */
+				for (tmr = 25000; tmr && send_cmd(ACMD41, 1UL << 30); tmr--) ;	/* Wait for leaving idle state (ACMD41 with HCS bit) */
+				if (tmr && send_cmd(CMD58, 0) == 0) {		/* Check CCS bit in the OCR */
+    1550:	8a e7       	ldi	r24, 0x7A	; 122
+    1552:	40 e0       	ldi	r20, 0x00	; 0
+    1554:	50 e0       	ldi	r21, 0x00	; 0
+    1556:	60 e0       	ldi	r22, 0x00	; 0
+    1558:	70 e0       	ldi	r23, 0x00	; 0
+    155a:	0e 94 97 09 	call	0x132e	; 0x132e <send_cmd>
+    155e:	88 23       	and	r24, r24
+    1560:	09 f4       	brne	.+2      	; 0x1564 <disk_initialize+0x170>
+    1562:	a6 cf       	rjmp	.-180    	; 0x14b0 <disk_initialize+0xbc>
+    1564:	db cf       	rjmp	.-74     	; 0x151c <disk_initialize+0x128>
+				ty = CT_SD1; cmd = ACMD41;	/* SDv1 */
+			} else {
+				ty = CT_MMC; cmd = CMD1;	/* MMCv3 */
+			}
+			for (tmr = 25000; tmr && send_cmd(cmd, 0); tmr--) ;	/* Wait for leaving idle state */
+			if (!tmr || send_cmd(CMD16, 512) != 0)			/* Set R/W block length to 512 */
+    1566:	80 e5       	ldi	r24, 0x50	; 80
+    1568:	40 e0       	ldi	r20, 0x00	; 0
+    156a:	52 e0       	ldi	r21, 0x02	; 2
+    156c:	60 e0       	ldi	r22, 0x00	; 0
+    156e:	70 e0       	ldi	r23, 0x00	; 0
+    1570:	0e 94 97 09 	call	0x132e	; 0x132e <send_cmd>
+    1574:	88 23       	and	r24, r24
+    1576:	91 f6       	brne	.-92     	; 0x151c <disk_initialize+0x128>
+    1578:	d2 cf       	rjmp	.-92     	; 0x151e <disk_initialize+0x12a>
+
+0000157a <disk_readp>:
+	void *dest,		/* Pointer to the destination object to put data */
+	DWORD lba,		/* Start sector number (LBA) */
+	WORD ofs,		/* Byte offset in the sector (0..511) */
+	WORD cnt		/* Byte count (1..512), b15:destination flag */
+)
+{
+    157a:	af 92       	push	r10
+    157c:	bf 92       	push	r11
+    157e:	cf 92       	push	r12
+    1580:	df 92       	push	r13
+    1582:	ef 92       	push	r14
+    1584:	ff 92       	push	r15
+    1586:	0f 93       	push	r16
+    1588:	1f 93       	push	r17
+    158a:	cf 93       	push	r28
+    158c:	df 93       	push	r29
+    158e:	b8 2e       	mov	r11, r24
+    1590:	a9 2e       	mov	r10, r25
+    1592:	69 01       	movw	r12, r18
+	WORD cf, tmr;
+	BYTE (*f)(BYTE);
+
+
+	dev = (cnt & 0x8000) ? 1 : 0;	/* Destination type */
+	cnt &= 0x7FFF;
+    1594:	ff ef       	ldi	r31, 0xFF	; 255
+    1596:	ef 2e       	mov	r14, r31
+    1598:	ff e7       	ldi	r31, 0x7F	; 127
+    159a:	ff 2e       	mov	r15, r31
+    159c:	e0 22       	and	r14, r16
+    159e:	f1 22       	and	r15, r17
+	if (!cnt || ofs + cnt > 512) return RES_PARERR;
+    15a0:	e1 14       	cp	r14, r1
+    15a2:	f1 04       	cpc	r15, r1
+    15a4:	09 f4       	brne	.+2      	; 0x15a8 <disk_readp+0x2e>
+    15a6:	76 c0       	rjmp	.+236    	; 0x1694 <disk_readp+0x11a>
+    15a8:	c7 01       	movw	r24, r14
+    15aa:	82 0f       	add	r24, r18
+    15ac:	93 1f       	adc	r25, r19
+    15ae:	81 50       	subi	r24, 0x01	; 1
+    15b0:	92 40       	sbci	r25, 0x02	; 2
+    15b2:	08 f0       	brcs	.+2      	; 0x15b6 <disk_readp+0x3c>
+    15b4:	6f c0       	rjmp	.+222    	; 0x1694 <disk_readp+0x11a>
+
+	if (!(CardType & CT_BLOCK)) lba *= 512;		/* Convert to byte address if needed */
+    15b6:	80 91 6c 00 	lds	r24, 0x006C
+    15ba:	83 fd       	sbrc	r24, 3
+    15bc:	07 c0       	rjmp	.+14     	; 0x15cc <disk_readp+0x52>
+    15be:	e9 e0       	ldi	r30, 0x09	; 9
+    15c0:	44 0f       	add	r20, r20
+    15c2:	55 1f       	adc	r21, r21
+    15c4:	66 1f       	adc	r22, r22
+    15c6:	77 1f       	adc	r23, r23
+    15c8:	ea 95       	dec	r30
+    15ca:	d1 f7       	brne	.-12     	; 0x15c0 <disk_readp+0x46>
+
+	res = RES_ERROR;
+	if (send_cmd(CMD17, lba) == 0) {		/* READ_SINGLE_BLOCK */
+    15cc:	81 e5       	ldi	r24, 0x51	; 81
+    15ce:	0e 94 97 09 	call	0x132e	; 0x132e <send_cmd>
+    15d2:	88 23       	and	r24, r24
+    15d4:	09 f0       	breq	.+2      	; 0x15d8 <disk_readp+0x5e>
+    15d6:	53 c0       	rjmp	.+166    	; 0x167e <disk_readp+0x104>
+    15d8:	88 ee       	ldi	r24, 0xE8	; 232
+    15da:	93 e0       	ldi	r25, 0x03	; 3
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    15dc:	3f ef       	ldi	r19, 0xFF	; 255
+    15de:	3f b9       	out	0x0f, r19	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    15e0:	77 9b       	sbis	0x0e, 7	; 14
+    15e2:	fe cf       	rjmp	.-4      	; 0x15e0 <disk_readp+0x66>
+	return SPDR;
+    15e4:	2f b1       	in	r18, 0x0f	; 15
+
+		tmr = 1000;
+		do {							/* Wait for data packet in timeout of 200ms */
+			rc = rcv_spi();
+		} while (rc == 0xFF && --tmr);
+    15e6:	2f 3f       	cpi	r18, 0xFF	; 255
+    15e8:	19 f4       	brne	.+6      	; 0x15f0 <disk_readp+0x76>
+    15ea:	01 97       	sbiw	r24, 0x01	; 1
+    15ec:	c1 f7       	brne	.-16     	; 0x15de <disk_readp+0x64>
+    15ee:	47 c0       	rjmp	.+142    	; 0x167e <disk_readp+0x104>
+
+		if (rc == 0xFE) {
+    15f0:	2e 3f       	cpi	r18, 0xFE	; 254
+    15f2:	09 f0       	breq	.+2      	; 0x15f6 <disk_readp+0x7c>
+    15f4:	44 c0       	rjmp	.+136    	; 0x167e <disk_readp+0x104>
+
+			cf = 512 + 2 - ofs - cnt;
+    15f6:	cc 27       	eor	r28, r28
+    15f8:	dd 27       	eor	r29, r29
+    15fa:	cc 19       	sub	r28, r12
+    15fc:	dd 09       	sbc	r29, r13
+    15fe:	ce 5f       	subi	r28, 0xFE	; 254
+    1600:	dd 4f       	sbci	r29, 0xFD	; 253
+    1602:	ce 19       	sub	r28, r14
+    1604:	df 09       	sbc	r29, r15
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    1606:	8f ef       	ldi	r24, 0xFF	; 255
+    1608:	07 c0       	rjmp	.+14     	; 0x1618 <disk_readp+0x9e>
+    160a:	8f b9       	out	0x0f, r24	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    160c:	77 9b       	sbis	0x0e, 7	; 14
+    160e:	fe cf       	rjmp	.-4      	; 0x160c <disk_readp+0x92>
+	return SPDR;
+    1610:	9f b1       	in	r25, 0x0f	; 15
+    1612:	08 94       	sec
+    1614:	c1 08       	sbc	r12, r1
+    1616:	d1 08       	sbc	r13, r1
+
+			while (ofs--) rcv_spi();	/* Skip top of sector */
+    1618:	c1 14       	cp	r12, r1
+    161a:	d1 04       	cpc	r13, r1
+    161c:	b1 f7       	brne	.-20     	; 0x160a <disk_readp+0x90>
+
+			if (dev) {					/* Receive middle of the sector */
+    161e:	17 ff       	sbrs	r17, 7
+    1620:	15 c0       	rjmp	.+42     	; 0x164c <disk_readp+0xd2>
+				f = dest;
+    1622:	0b 2d       	mov	r16, r11
+    1624:	1a 2d       	mov	r17, r10
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    1626:	dd 24       	eor	r13, r13
+    1628:	da 94       	dec	r13
+    162a:	df b8       	out	0x0f, r13	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    162c:	77 9b       	sbis	0x0e, 7	; 14
+    162e:	fe cf       	rjmp	.-4      	; 0x162c <disk_readp+0xb2>
+	return SPDR;
+    1630:	8f b1       	in	r24, 0x0f	; 15
+				do
+					res = f(rcv_spi());
+    1632:	f8 01       	movw	r30, r16
+    1634:	09 95       	icall
+				while (--cnt && res);
+    1636:	08 94       	sec
+    1638:	e1 08       	sbc	r14, r1
+    163a:	f1 08       	sbc	r15, r1
+    163c:	e1 14       	cp	r14, r1
+    163e:	f1 04       	cpc	r15, r1
+    1640:	11 f0       	breq	.+4      	; 0x1646 <disk_readp+0xcc>
+    1642:	88 23       	and	r24, r24
+    1644:	91 f7       	brne	.-28     	; 0x162a <disk_readp+0xb0>
+				cf += cnt;
+    1646:	ce 0d       	add	r28, r14
+    1648:	df 1d       	adc	r29, r15
+    164a:	12 c0       	rjmp	.+36     	; 0x1670 <disk_readp+0xf6>
+			} else {
+				p = dest;
+    164c:	8b 2d       	mov	r24, r11
+    164e:	9a 2d       	mov	r25, r10
+    1650:	9c 01       	movw	r18, r24
+    1652:	f9 01       	movw	r30, r18
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    1654:	9f ef       	ldi	r25, 0xFF	; 255
+    1656:	9f b9       	out	0x0f, r25	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    1658:	77 9b       	sbis	0x0e, 7	; 14
+    165a:	fe cf       	rjmp	.-4      	; 0x1658 <disk_readp+0xde>
+	return SPDR;
+    165c:	8f b1       	in	r24, 0x0f	; 15
+				do
+					*p++ = rcv_spi();
+    165e:	80 83       	st	Z, r24
+				while (--cnt);
+    1660:	08 94       	sec
+    1662:	e1 08       	sbc	r14, r1
+    1664:	f1 08       	sbc	r15, r1
+    1666:	e1 14       	cp	r14, r1
+    1668:	f1 04       	cpc	r15, r1
+    166a:	11 f0       	breq	.+4      	; 0x1670 <disk_readp+0xf6>
+				while (--cnt && res);
+				cf += cnt;
+			} else {
+				p = dest;
+				do
+					*p++ = rcv_spi();
+    166c:	31 96       	adiw	r30, 0x01	; 1
+    166e:	f3 cf       	rjmp	.-26     	; 0x1656 <disk_readp+0xdc>
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    1670:	8f ef       	ldi	r24, 0xFF	; 255
+    1672:	8f b9       	out	0x0f, r24	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    1674:	77 9b       	sbis	0x0e, 7	; 14
+    1676:	fe cf       	rjmp	.-4      	; 0x1674 <disk_readp+0xfa>
+	return SPDR;
+    1678:	9f b1       	in	r25, 0x0f	; 15
+				while (--cnt);
+			}
+
+			do							/* Skip bottom of sector and CRC */
+				rcv_spi();
+			while (--cf);
+    167a:	21 97       	sbiw	r28, 0x01	; 1
+    167c:	d1 f7       	brne	.-12     	; 0x1672 <disk_readp+0xf8>
+/*-----------------------------------------------------------------------*/
+
+static
+void release_spi (void)
+{
+	DESELECT();
+    167e:	c4 9a       	sbi	0x18, 4	; 24
+    SPSR	   = (1<<SPI2X);								// SPI double speed settings
+}
+
+BYTE rcv_spi (void)
+{
+	SPDR = 0xFF;
+    1680:	8f ef       	ldi	r24, 0xFF	; 255
+    1682:	8f b9       	out	0x0f, r24	; 15
+	loop_until_bit_is_set(SPSR, SPIF);
+    1684:	77 9b       	sbis	0x0e, 7	; 14
+    1686:	fe cf       	rjmp	.-4      	; 0x1684 <disk_readp+0x10a>
+	return SPDR;
+    1688:	8f b1       	in	r24, 0x0f	; 15
+		}
+	}
+
+	release_spi();
+
+	return cnt ? RES_ERROR : RES_OK;
+    168a:	80 e0       	ldi	r24, 0x00	; 0
+    168c:	ef 28       	or	r14, r15
+    168e:	19 f0       	breq	.+6      	; 0x1696 <disk_readp+0x11c>
+    1690:	81 e0       	ldi	r24, 0x01	; 1
+    1692:	01 c0       	rjmp	.+2      	; 0x1696 <disk_readp+0x11c>
+    1694:	84 e0       	ldi	r24, 0x04	; 4
+}
+    1696:	df 91       	pop	r29
+    1698:	cf 91       	pop	r28
+    169a:	1f 91       	pop	r17
+    169c:	0f 91       	pop	r16
+    169e:	ff 90       	pop	r15
+    16a0:	ef 90       	pop	r14
+    16a2:	df 90       	pop	r13
+    16a4:	cf 90       	pop	r12
+    16a6:	bf 90       	pop	r11
+    16a8:	af 90       	pop	r10
+    16aa:	08 95       	ret
+
+000016ac <__mulsi3>:
+    16ac:	62 9f       	mul	r22, r18
+    16ae:	d0 01       	movw	r26, r0
+    16b0:	73 9f       	mul	r23, r19
+    16b2:	f0 01       	movw	r30, r0
+    16b4:	82 9f       	mul	r24, r18
+    16b6:	e0 0d       	add	r30, r0
+    16b8:	f1 1d       	adc	r31, r1
+    16ba:	64 9f       	mul	r22, r20
+    16bc:	e0 0d       	add	r30, r0
+    16be:	f1 1d       	adc	r31, r1
+    16c0:	92 9f       	mul	r25, r18
+    16c2:	f0 0d       	add	r31, r0
+    16c4:	83 9f       	mul	r24, r19
+    16c6:	f0 0d       	add	r31, r0
+    16c8:	74 9f       	mul	r23, r20
+    16ca:	f0 0d       	add	r31, r0
+    16cc:	65 9f       	mul	r22, r21
+    16ce:	f0 0d       	add	r31, r0
+    16d0:	99 27       	eor	r25, r25
+    16d2:	72 9f       	mul	r23, r18
+    16d4:	b0 0d       	add	r27, r0
+    16d6:	e1 1d       	adc	r30, r1
+    16d8:	f9 1f       	adc	r31, r25
+    16da:	63 9f       	mul	r22, r19
+    16dc:	b0 0d       	add	r27, r0
+    16de:	e1 1d       	adc	r30, r1
+    16e0:	f9 1f       	adc	r31, r25
+    16e2:	bd 01       	movw	r22, r26
+    16e4:	cf 01       	movw	r24, r30
+    16e6:	11 24       	eor	r1, r1
+    16e8:	08 95       	ret
+
+000016ea <__udivmodhi4>:
+    16ea:	aa 1b       	sub	r26, r26
+    16ec:	bb 1b       	sub	r27, r27
+    16ee:	51 e1       	ldi	r21, 0x11	; 17
+    16f0:	07 c0       	rjmp	.+14     	; 0x1700 <__udivmodhi4_ep>
+
+000016f2 <__udivmodhi4_loop>:
+    16f2:	aa 1f       	adc	r26, r26
+    16f4:	bb 1f       	adc	r27, r27
+    16f6:	a6 17       	cp	r26, r22
+    16f8:	b7 07       	cpc	r27, r23
+    16fa:	10 f0       	brcs	.+4      	; 0x1700 <__udivmodhi4_ep>
+    16fc:	a6 1b       	sub	r26, r22
+    16fe:	b7 0b       	sbc	r27, r23
+
+00001700 <__udivmodhi4_ep>:
+    1700:	88 1f       	adc	r24, r24
+    1702:	99 1f       	adc	r25, r25
+    1704:	5a 95       	dec	r21
+    1706:	a9 f7       	brne	.-22     	; 0x16f2 <__udivmodhi4_loop>
+    1708:	80 95       	com	r24
+    170a:	90 95       	com	r25
+    170c:	bc 01       	movw	r22, r24
+    170e:	cd 01       	movw	r24, r26
+    1710:	08 95       	ret
+
+00001712 <__udivmodsi4>:
+    1712:	a1 e2       	ldi	r26, 0x21	; 33
+    1714:	1a 2e       	mov	r1, r26
+    1716:	aa 1b       	sub	r26, r26
+    1718:	bb 1b       	sub	r27, r27
+    171a:	fd 01       	movw	r30, r26
+    171c:	0d c0       	rjmp	.+26     	; 0x1738 <__udivmodsi4_ep>
+
+0000171e <__udivmodsi4_loop>:
+    171e:	aa 1f       	adc	r26, r26
+    1720:	bb 1f       	adc	r27, r27
+    1722:	ee 1f       	adc	r30, r30
+    1724:	ff 1f       	adc	r31, r31
+    1726:	a2 17       	cp	r26, r18
+    1728:	b3 07       	cpc	r27, r19
+    172a:	e4 07       	cpc	r30, r20
+    172c:	f5 07       	cpc	r31, r21
+    172e:	20 f0       	brcs	.+8      	; 0x1738 <__udivmodsi4_ep>
+    1730:	a2 1b       	sub	r26, r18
+    1732:	b3 0b       	sbc	r27, r19
+    1734:	e4 0b       	sbc	r30, r20
+    1736:	f5 0b       	sbc	r31, r21
+
+00001738 <__udivmodsi4_ep>:
+    1738:	66 1f       	adc	r22, r22
+    173a:	77 1f       	adc	r23, r23
+    173c:	88 1f       	adc	r24, r24
+    173e:	99 1f       	adc	r25, r25
+    1740:	1a 94       	dec	r1
+    1742:	69 f7       	brne	.-38     	; 0x171e <__udivmodsi4_loop>
+    1744:	60 95       	com	r22
+    1746:	70 95       	com	r23
+    1748:	80 95       	com	r24
+    174a:	90 95       	com	r25
+    174c:	9b 01       	movw	r18, r22
+    174e:	ac 01       	movw	r20, r24
+    1750:	bd 01       	movw	r22, r26
+    1752:	cf 01       	movw	r24, r30
+    1754:	08 95       	ret
+
+00001756 <_exit>:
+    1756:	f8 94       	cli
+
+00001758 <__stop_program>:
+    1758:	ff cf       	rjmp	.-2      	; 0x1758 <__stop_program>

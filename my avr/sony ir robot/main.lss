@@ -1,0 +1,699 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000002ca  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  0000031e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 00000094  00000000  00000000  0000033e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000031f  00000000  00000000  000003d2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 0000015e  00000000  00000000  000006f1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   000004b6  00000000  00000000  0000084f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  000000b0  00000000  00000000  00000d08  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    00000152  00000000  00000000  00000db8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    00000194  00000000  00000000  00000f0a  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 f7 00 	jmp	0x1ee	; 0x1ee <__vector_1>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 60 01 	call	0x2c0	; 0x2c0 <main>
+  64:	0c 94 63 01 	jmp	0x2c6	; 0x2c6 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <port_init>:
+//*********************************************************************
+//   Initializing functions for ports, timer0 & timer1
+//*********************************************************************	 
+void port_init(void)
+{
+ PORTB = 0x00; 
+  6c:	18 ba       	out	0x18, r1	; 24
+ DDRB  = 0x06; //PWM pins OC1A & OC1B defined as outputs
+  6e:	86 e0       	ldi	r24, 0x06	; 6
+  70:	87 bb       	out	0x17, r24	; 23
+
+ DDRC  = 0xFF; //LED for IR detection indication
+  72:	9f ef       	ldi	r25, 0xFF	; 255
+  74:	94 bb       	out	0x14, r25	; 20
+ PORTC = 0x00; 
+  76:	15 ba       	out	0x15, r1	; 21
+ DDRD  = 0x31; //LED, for testing purpose
+  78:	81 e3       	ldi	r24, 0x31	; 49
+  7a:	81 bb       	out	0x11, r24	; 17
+ PORTD = 0x00; 
+  7c:	12 ba       	out	0x12, r1	; 18
+ DDRA=0xFF;
+  7e:	9a bb       	out	0x1a, r25	; 26
+}
+  80:	08 95       	ret
+
+00000082 <pick>:
+void pick()
+{
+OCR1A=2200;//arm down
+  82:	88 e9       	ldi	r24, 0x98	; 152
+  84:	98 e0       	ldi	r25, 0x08	; 8
+  86:	9b bd       	out	0x2b, r25	; 43
+  88:	8a bd       	out	0x2a, r24	; 42
+OCR1B=2200;//gripper open
+  8a:	99 bd       	out	0x29, r25	; 41
+  8c:	88 bd       	out	0x28, r24	; 40
+}
+  8e:	08 95       	ret
+
+00000090 <pack>:
+void pack()
+{
+OCR1A=1010;//arm down
+  90:	82 ef       	ldi	r24, 0xF2	; 242
+  92:	93 e0       	ldi	r25, 0x03	; 3
+  94:	9b bd       	out	0x2b, r25	; 43
+  96:	8a bd       	out	0x2a, r24	; 42
+OCR1B=1010;//gripper open
+  98:	99 bd       	out	0x29, r25	; 41
+  9a:	88 bd       	out	0x28, r24	; 40
+}
+  9c:	08 95       	ret
+
+0000009e <initial>:
+
+//Fast PWM
+
+//ICR1=20000 defines 50Hz PWM
+
+ICR1=40000;
+  9e:	80 e4       	ldi	r24, 0x40	; 64
+  a0:	9c e9       	ldi	r25, 0x9C	; 156
+  a2:	97 bd       	out	0x27, r25	; 39
+  a4:	86 bd       	out	0x26, r24	; 38
+
+TCCR1A|=(0<<COM1A0)|(1<<COM1A1)|(0<<COM1B0)|(1<<COM1B1)|
+  a6:	8f b5       	in	r24, 0x2f	; 47
+  a8:	82 6a       	ori	r24, 0xA2	; 162
+  aa:	8f bd       	out	0x2f, r24	; 47
+
+(0<<FOC1A)|(0<<FOC1B)|(1<<WGM11)|(0<<WGM10);
+
+TCCR1B|=(0<<ICNC1)|(0<<ICES1)|(1<<WGM13)|(1<<WGM12)|
+  ac:	8e b5       	in	r24, 0x2e	; 46
+  ae:	8a 61       	ori	r24, 0x1A	; 26
+  b0:	8e bd       	out	0x2e, r24	; 46
+
+(0<<CS12)|(1<<CS11)|(0<<CS10);
+
+//start timer with prescaler 8
+OCR1A=1010;//arm down
+  b2:	82 ef       	ldi	r24, 0xF2	; 242
+  b4:	93 e0       	ldi	r25, 0x03	; 3
+  b6:	9b bd       	out	0x2b, r25	; 43
+  b8:	8a bd       	out	0x2a, r24	; 42
+OCR1B=1010;//gripper open
+  ba:	99 bd       	out	0x29, r25	; 41
+  bc:	88 bd       	out	0x28, r24	; 40
+}
+  be:	08 95       	ret
+
+000000c0 <timer0_init>:
+//timer0 init
+void timer0_init(void)
+{
+    //8-bit timer for measuring delay between IR pulses
+	TCCR0 = 0x05; //CLK / 64/1024
+  c0:	85 e0       	ldi	r24, 0x05	; 5
+  c2:	83 bf       	out	0x33, r24	; 51
+	TCNT0 = 0; //reset the timer
+  c4:	12 be       	out	0x32, r1	; 50
+}
+  c6:	08 95       	ret
+
+000000c8 <read_IR>:
+//*********************************************************************
+//Function to read IR message from the detector
+//Return value contains code in upper byte and address in lower byte
+//*********************************************************************	 
+unsigned int read_IR (void)
+{
+  c8:	60 e0       	ldi	r22, 0x00	; 0
+  ca:	20 e0       	ldi	r18, 0x00	; 0
+  cc:	30 e0       	ldi	r19, 0x00	; 0
+	   timerCount = TCNT0;
+	 
+	   if(timerCount > 14)
+	      code = code | (1 << (pulseCount-1));
+	   else
+	 	  code = code & ~(1 << (pulseCount-1));  
+  ce:	41 e0       	ldi	r20, 0x01	; 1
+  d0:	50 e0       	ldi	r21, 0x00	; 0
+    unsigned char pulseCount=0,  code = 0, address = 0, timerCount;
+	unsigned int IR_input;
+	 
+	while(pulseCount < 7)
+	{
+	   while(PIND & 0x04);
+  d2:	82 99       	sbic	0x10, 2	; 16
+  d4:	fe cf       	rjmp	.-4      	; 0xd2 <read_IR+0xa>
+	   TCNT0 = 0;
+  d6:	12 be       	out	0x32, r1	; 50
+	   
+	   while(!(PIND & 0x04));
+  d8:	82 9b       	sbis	0x10, 2	; 16
+  da:	fe cf       	rjmp	.-4      	; 0xd8 <read_IR+0x10>
+	   pulseCount++;
+	 
+	   timerCount = TCNT0;
+  dc:	82 b7       	in	r24, 0x32	; 50
+	 
+	   if(timerCount > 14)
+  de:	8f 30       	cpi	r24, 0x0F	; 15
+  e0:	48 f0       	brcs	.+18     	; 0xf4 <read_IR+0x2c>
+	      code = code | (1 << (pulseCount-1));
+  e2:	ca 01       	movw	r24, r20
+  e4:	02 2e       	mov	r0, r18
+  e6:	02 c0       	rjmp	.+4      	; 0xec <read_IR+0x24>
+  e8:	88 0f       	add	r24, r24
+  ea:	99 1f       	adc	r25, r25
+  ec:	0a 94       	dec	r0
+  ee:	e2 f7       	brpl	.-8      	; 0xe8 <read_IR+0x20>
+  f0:	68 2b       	or	r22, r24
+  f2:	09 c0       	rjmp	.+18     	; 0x106 <read_IR+0x3e>
+	   else
+	 	  code = code & ~(1 << (pulseCount-1));  
+  f4:	ca 01       	movw	r24, r20
+  f6:	02 2e       	mov	r0, r18
+  f8:	02 c0       	rjmp	.+4      	; 0xfe <read_IR+0x36>
+  fa:	88 0f       	add	r24, r24
+  fc:	99 1f       	adc	r25, r25
+  fe:	0a 94       	dec	r0
+ 100:	e2 f7       	brpl	.-8      	; 0xfa <read_IR+0x32>
+ 102:	80 95       	com	r24
+ 104:	68 23       	and	r22, r24
+ 106:	2f 5f       	subi	r18, 0xFF	; 255
+ 108:	3f 4f       	sbci	r19, 0xFF	; 255
+unsigned int read_IR (void)
+{
+    unsigned char pulseCount=0,  code = 0, address = 0, timerCount;
+	unsigned int IR_input;
+	 
+	while(pulseCount < 7)
+ 10a:	27 30       	cpi	r18, 0x07	; 7
+ 10c:	31 05       	cpc	r19, r1
+ 10e:	09 f7       	brne	.-62     	; 0xd2 <read_IR+0xa>
+ 110:	20 e0       	ldi	r18, 0x00	; 0
+ 112:	40 e0       	ldi	r20, 0x00	; 0
+ 114:	50 e0       	ldi	r21, 0x00	; 0
+	   timerCount = TCNT0;
+	 
+	   if(timerCount > 14)
+	      address = address | (1 << (pulseCount-1));
+	   else
+	 	  address = address & ~(1 << (pulseCount-1));  
+ 116:	e1 e0       	ldi	r30, 0x01	; 1
+ 118:	f0 e0       	ldi	r31, 0x00	; 0
+	 }
+
+	 pulseCount = 0;
+	 while(pulseCount < 5)
+	 {
+	   while(PIND & 0x04);
+ 11a:	82 99       	sbic	0x10, 2	; 16
+ 11c:	fe cf       	rjmp	.-4      	; 0x11a <read_IR+0x52>
+	   TCNT0 = 0;
+ 11e:	12 be       	out	0x32, r1	; 50
+	   
+	   while(!(PIND & 0x04));
+ 120:	82 9b       	sbis	0x10, 2	; 16
+ 122:	fe cf       	rjmp	.-4      	; 0x120 <read_IR+0x58>
+	   pulseCount++;
+	 
+	   timerCount = TCNT0;
+ 124:	82 b7       	in	r24, 0x32	; 50
+	 
+	   if(timerCount > 14)
+ 126:	8f 30       	cpi	r24, 0x0F	; 15
+ 128:	48 f0       	brcs	.+18     	; 0x13c <read_IR+0x74>
+	      address = address | (1 << (pulseCount-1));
+ 12a:	cf 01       	movw	r24, r30
+ 12c:	04 2e       	mov	r0, r20
+ 12e:	02 c0       	rjmp	.+4      	; 0x134 <read_IR+0x6c>
+ 130:	88 0f       	add	r24, r24
+ 132:	99 1f       	adc	r25, r25
+ 134:	0a 94       	dec	r0
+ 136:	e2 f7       	brpl	.-8      	; 0x130 <read_IR+0x68>
+ 138:	28 2b       	or	r18, r24
+ 13a:	09 c0       	rjmp	.+18     	; 0x14e <read_IR+0x86>
+	   else
+	 	  address = address & ~(1 << (pulseCount-1));  
+ 13c:	cf 01       	movw	r24, r30
+ 13e:	04 2e       	mov	r0, r20
+ 140:	02 c0       	rjmp	.+4      	; 0x146 <read_IR+0x7e>
+ 142:	88 0f       	add	r24, r24
+ 144:	99 1f       	adc	r25, r25
+ 146:	0a 94       	dec	r0
+ 148:	e2 f7       	brpl	.-8      	; 0x142 <read_IR+0x7a>
+ 14a:	80 95       	com	r24
+ 14c:	28 23       	and	r18, r24
+ 14e:	4f 5f       	subi	r20, 0xFF	; 255
+ 150:	5f 4f       	sbci	r21, 0xFF	; 255
+	   else
+	 	  code = code & ~(1 << (pulseCount-1));  
+	 }
+
+	 pulseCount = 0;
+	 while(pulseCount < 5)
+ 152:	45 30       	cpi	r20, 0x05	; 5
+ 154:	51 05       	cpc	r21, r1
+ 156:	09 f7       	brne	.-62     	; 0x11a <read_IR+0x52>
+ 158:	30 e0       	ldi	r19, 0x00	; 0
+ 15a:	96 2f       	mov	r25, r22
+ 15c:	80 e0       	ldi	r24, 0x00	; 0
+ 15e:	28 2b       	or	r18, r24
+ 160:	39 2b       	or	r19, r25
+	 }
+	 
+	 IR_input = (((unsigned int)code) << 8) | address;
+	 
+	 return(IR_input);
+}
+ 162:	c9 01       	movw	r24, r18
+ 164:	08 95       	ret
+
+00000166 <motorControl>:
+//****************************************************************************	 
+void motorControl (unsigned char code, unsigned char address)
+{
+	 static unsigned char counter, dir, dir1;
+	 
+	 if (address != 1)	//detect only TV remote, other signals rejected
+ 166:	61 30       	cpi	r22, 0x01	; 1
+ 168:	09 f0       	breq	.+2      	; 0x16c <motorControl+0x6>
+ 16a:	40 c0       	rjmp	.+128    	; 0x1ec <motorControl+0x86>
+	   return;
+
+	 if(code == 16) //Channel+ or Channel- button is pressed
+ 16c:	80 31       	cpi	r24, 0x10	; 16
+ 16e:	21 f4       	brne	.+8      	; 0x178 <motorControl+0x12>
+     {	
+	 PORTC=0x0A;
+ 170:	8a e0       	ldi	r24, 0x0A	; 10
+ 172:	85 bb       	out	0x15, r24	; 21
+   	 sbi(PORTA,7);
+ 174:	df 9a       	sbi	0x1b, 7	; 27
+ 176:	08 95       	ret
+	 }
+	 if(code == 17)
+ 178:	81 31       	cpi	r24, 0x11	; 17
+ 17a:	21 f4       	brne	.+8      	; 0x184 <motorControl+0x1e>
+	 {
+	 PORTC=0x05;
+ 17c:	85 e0       	ldi	r24, 0x05	; 5
+ 17e:	85 bb       	out	0x15, r24	; 21
+	 cbi(PORTA,7);
+ 180:	df 98       	cbi	0x1b, 7	; 27
+ 182:	08 95       	ret
+	 }
+	 if(code == 18) //Channel+ or Channel- button is pressed
+ 184:	82 31       	cpi	r24, 0x12	; 18
+ 186:	11 f4       	brne	.+4      	; 0x18c <motorControl+0x26>
+     {	
+	 PORTC=0x06;
+ 188:	86 e0       	ldi	r24, 0x06	; 6
+ 18a:	03 c0       	rjmp	.+6      	; 0x192 <motorControl+0x2c>
+   	 cbi(PORTA,4);
+	 }
+	 if(code == 19) //Channel+ or Channel- button is pressed
+ 18c:	83 31       	cpi	r24, 0x13	; 19
+ 18e:	21 f4       	brne	.+8      	; 0x198 <motorControl+0x32>
+     {	PORTC=0x09;
+ 190:	89 e0       	ldi	r24, 0x09	; 9
+ 192:	85 bb       	out	0x15, r24	; 21
+   	  cbi(PORTA,4);
+ 194:	dc 98       	cbi	0x1b, 4	; 27
+ 196:	08 95       	ret
+	 }
+	 if(code==0)
+ 198:	88 23       	and	r24, r24
+ 19a:	19 f4       	brne	.+6      	; 0x1a2 <motorControl+0x3c>
+ PORTD = 0x00; 
+ DDRA=0xFF;
+}
+void pick()
+{
+OCR1A=2200;//arm down
+ 19c:	88 e9       	ldi	r24, 0x98	; 152
+ 19e:	98 e0       	ldi	r25, 0x08	; 8
+ 1a0:	04 c0       	rjmp	.+8      	; 0x1aa <motorControl+0x44>
+	 }
+	 if(code==0)
+	 {pick();
+	 
+	 }
+     if(code==1)
+ 1a2:	81 30       	cpi	r24, 0x01	; 1
+ 1a4:	39 f4       	brne	.+14     	; 0x1b4 <motorControl+0x4e>
+OCR1A=2200;//arm down
+OCR1B=2200;//gripper open
+}
+void pack()
+{
+OCR1A=1010;//arm down
+ 1a6:	82 ef       	ldi	r24, 0xF2	; 242
+ 1a8:	93 e0       	ldi	r25, 0x03	; 3
+ 1aa:	9b bd       	out	0x2b, r25	; 43
+ 1ac:	8a bd       	out	0x2a, r24	; 42
+OCR1B=1010;//gripper open
+ 1ae:	99 bd       	out	0x29, r25	; 41
+ 1b0:	88 bd       	out	0x28, r24	; 40
+ 1b2:	08 95       	ret
+	 
+	 }
+     if(code==1)
+	 {pack();
+	  }
+	  if(code==3)
+ 1b4:	83 30       	cpi	r24, 0x03	; 3
+ 1b6:	11 f4       	brne	.+4      	; 0x1bc <motorControl+0x56>
+	 {PORTC=0x10;
+ 1b8:	80 e1       	ldi	r24, 0x10	; 16
+ 1ba:	0b c0       	rjmp	.+22     	; 0x1d2 <motorControl+0x6c>
+	  }
+	  if(code==4)
+ 1bc:	84 30       	cpi	r24, 0x04	; 4
+ 1be:	11 f4       	brne	.+4      	; 0x1c4 <motorControl+0x5e>
+	 {PORTC=0x20;
+ 1c0:	80 e2       	ldi	r24, 0x20	; 32
+ 1c2:	07 c0       	rjmp	.+14     	; 0x1d2 <motorControl+0x6c>
+	  }
+	  if(code==6)
+ 1c4:	86 30       	cpi	r24, 0x06	; 6
+ 1c6:	11 f4       	brne	.+4      	; 0x1cc <motorControl+0x66>
+	 {PORTC=0x40;
+ 1c8:	80 e4       	ldi	r24, 0x40	; 64
+ 1ca:	03 c0       	rjmp	.+6      	; 0x1d2 <motorControl+0x6c>
+	  }
+	  if(code==7)
+ 1cc:	87 30       	cpi	r24, 0x07	; 7
+ 1ce:	19 f4       	brne	.+6      	; 0x1d6 <motorControl+0x70>
+	 {PORTC=0x80;
+ 1d0:	80 e8       	ldi	r24, 0x80	; 128
+ 1d2:	85 bb       	out	0x15, r24	; 21
+ 1d4:	08 95       	ret
+	  }
+	   if(code==8)
+ 1d6:	88 30       	cpi	r24, 0x08	; 8
+ 1d8:	11 f4       	brne	.+4      	; 0x1de <motorControl+0x78>
+	 {PORTC=0xC0;
+ 1da:	80 ec       	ldi	r24, 0xC0	; 192
+ 1dc:	fa cf       	rjmp	.-12     	; 0x1d2 <motorControl+0x6c>
+	  }
+	  
+	 if(code==21)
+ 1de:	85 31       	cpi	r24, 0x15	; 21
+ 1e0:	11 f4       	brne	.+4      	; 0x1e6 <motorControl+0x80>
+	 {PORTC=0x00;
+ 1e2:	15 ba       	out	0x15, r1	; 21
+ 1e4:	08 95       	ret
+	  }
+	  if(code==20)
+ 1e6:	84 31       	cpi	r24, 0x14	; 20
+ 1e8:	09 f4       	brne	.+2      	; 0x1ec <motorControl+0x86>
+	 {PORTC=0x00;
+ 1ea:	15 ba       	out	0x15, r1	; 21
+ 1ec:	08 95       	ret
+
+000001ee <__vector_1>:
+* Interrupt Service Routine for INT0
+* Executed whenever a remote code is detected
+**************************************************************************/
+//#pragma interrupt_handler int0_isr:2
+ISR (INT0_vect)
+{ 		
+ 1ee:	1f 92       	push	r1
+ 1f0:	0f 92       	push	r0
+ 1f2:	0f b6       	in	r0, 0x3f	; 63
+ 1f4:	0f 92       	push	r0
+ 1f6:	11 24       	eor	r1, r1
+ 1f8:	2f 93       	push	r18
+ 1fa:	3f 93       	push	r19
+ 1fc:	4f 93       	push	r20
+ 1fe:	5f 93       	push	r21
+ 200:	6f 93       	push	r22
+ 202:	7f 93       	push	r23
+ 204:	8f 93       	push	r24
+ 206:	9f 93       	push	r25
+ 208:	af 93       	push	r26
+ 20a:	bf 93       	push	r27
+ 20c:	ef 93       	push	r30
+ 20e:	ff 93       	push	r31
+	unsigned char count, code, address;
+	unsigned int IR_input;
+	
+	TCNT0 = 0;
+ 210:	12 be       	out	0x32, r1	; 50
+	while(!(PIND & 0x04));
+ 212:	82 9b       	sbis	0x10, 2	; 16
+ 214:	fe cf       	rjmp	.-4      	; 0x212 <__vector_1+0x24>
+	count = TCNT0;
+ 216:	82 b7       	in	r24, 0x32	; 50
+	
+	if(count < 30) 		  //to verify start pulse (2.4 ms long)
+ 218:	8e 31       	cpi	r24, 0x1E	; 30
+ 21a:	68 f4       	brcc	.+26     	; 0x236 <__vector_1+0x48>
+ 21c:	88 ec       	ldi	r24, 0xC8	; 200
+ 21e:	90 e0       	ldi	r25, 0x00	; 0
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+ 220:	20 e9       	ldi	r18, 0x90	; 144
+ 222:	31 e0       	ldi	r19, 0x01	; 1
+ 224:	f9 01       	movw	r30, r18
+ 226:	31 97       	sbiw	r30, 0x01	; 1
+ 228:	f1 f7       	brne	.-4      	; 0x226 <__vector_1+0x38>
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 22a:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 22c:	d9 f7       	brne	.-10     	; 0x224 <__vector_1+0x36>
+	{
+	  _delay_ms(20);	
+	  ENABLE_INT0;
+ 22e:	8b b7       	in	r24, 0x3b	; 59
+ 230:	80 64       	ori	r24, 0x40	; 64
+ 232:	8b bf       	out	0x3b, r24	; 59
+ 234:	10 c0       	rjmp	.+32     	; 0x256 <__vector_1+0x68>
+	  return;
+	}
+	  
+	PORTA |= 0x20;
+ 236:	dd 9a       	sbi	0x1b, 5	; 27
+	
+	IR_input = read_IR ();
+ 238:	0e 94 64 00 	call	0xc8	; 0xc8 <read_IR>
+ 23c:	68 2f       	mov	r22, r24
+	
+	code = (unsigned char) ((IR_input & 0xff00) >> 8);
+	address = (unsigned char) (IR_input & 0x00ff);
+	
+	motorControl ( code, address );
+ 23e:	89 2f       	mov	r24, r25
+ 240:	0e 94 b3 00 	call	0x166	; 0x166 <motorControl>
+ 244:	88 ee       	ldi	r24, 0xE8	; 232
+ 246:	93 e0       	ldi	r25, 0x03	; 3
+ 248:	20 e9       	ldi	r18, 0x90	; 144
+ 24a:	31 e0       	ldi	r19, 0x01	; 1
+ 24c:	f9 01       	movw	r30, r18
+ 24e:	31 97       	sbiw	r30, 0x01	; 1
+ 250:	f1 f7       	brne	.-4      	; 0x24e <__vector_1+0x60>
+		{
+			// wait 1/10 ms
+			_delay_loop_2(((F_CPU) / 4e3) / 10);
+			__ticks --;
+ 252:	01 97       	sbiw	r24, 0x01	; 1
+		__ticks = 1;
+	else if (__tmp > 65535)
+	{
+		//	__ticks = requested delay in 1/10 ms
+		__ticks = (uint16_t) (__ms * 10.0);
+		while(__ticks)
+ 254:	d9 f7       	brne	.-10     	; 0x24c <__vector_1+0x5e>
+	
+	
+	_delay_ms(100);
+//	PORTA = (code<<4);//PORTC=0;
+}
+ 256:	ff 91       	pop	r31
+ 258:	ef 91       	pop	r30
+ 25a:	bf 91       	pop	r27
+ 25c:	af 91       	pop	r26
+ 25e:	9f 91       	pop	r25
+ 260:	8f 91       	pop	r24
+ 262:	7f 91       	pop	r23
+ 264:	6f 91       	pop	r22
+ 266:	5f 91       	pop	r21
+ 268:	4f 91       	pop	r20
+ 26a:	3f 91       	pop	r19
+ 26c:	2f 91       	pop	r18
+ 26e:	0f 90       	pop	r0
+ 270:	0f be       	out	0x3f, r0	; 63
+ 272:	0f 90       	pop	r0
+ 274:	1f 90       	pop	r1
+ 276:	18 95       	reti
+
+00000278 <init_devices>:
+//*** call this routine to initialize all peripherals
+//************************************************************
+void init_devices(void)
+{
+ //stop errant interrupts until set up
+ cli(); //disable all interrupts
+ 278:	f8 94       	cli
+//*********************************************************************
+//   Initializing functions for ports, timer0 & timer1
+//*********************************************************************	 
+void port_init(void)
+{
+ PORTB = 0x00; 
+ 27a:	18 ba       	out	0x18, r1	; 24
+ DDRB  = 0x06; //PWM pins OC1A & OC1B defined as outputs
+ 27c:	86 e0       	ldi	r24, 0x06	; 6
+ 27e:	87 bb       	out	0x17, r24	; 23
+
+ DDRC  = 0xFF; //LED for IR detection indication
+ 280:	9f ef       	ldi	r25, 0xFF	; 255
+ 282:	94 bb       	out	0x14, r25	; 20
+ PORTC = 0x00; 
+ 284:	15 ba       	out	0x15, r1	; 21
+ DDRD  = 0x31; //LED, for testing purpose
+ 286:	81 e3       	ldi	r24, 0x31	; 49
+ 288:	81 bb       	out	0x11, r24	; 17
+ PORTD = 0x00; 
+ 28a:	12 ba       	out	0x12, r1	; 18
+ DDRA=0xFF;
+ 28c:	9a bb       	out	0x1a, r25	; 26
+
+//Fast PWM
+
+//ICR1=20000 defines 50Hz PWM
+
+ICR1=40000;
+ 28e:	80 e4       	ldi	r24, 0x40	; 64
+ 290:	9c e9       	ldi	r25, 0x9C	; 156
+ 292:	97 bd       	out	0x27, r25	; 39
+ 294:	86 bd       	out	0x26, r24	; 38
+
+TCCR1A|=(0<<COM1A0)|(1<<COM1A1)|(0<<COM1B0)|(1<<COM1B1)|
+ 296:	8f b5       	in	r24, 0x2f	; 47
+ 298:	82 6a       	ori	r24, 0xA2	; 162
+ 29a:	8f bd       	out	0x2f, r24	; 47
+
+(0<<FOC1A)|(0<<FOC1B)|(1<<WGM11)|(0<<WGM10);
+
+TCCR1B|=(0<<ICNC1)|(0<<ICES1)|(1<<WGM13)|(1<<WGM12)|
+ 29c:	8e b5       	in	r24, 0x2e	; 46
+ 29e:	8a 61       	ori	r24, 0x1A	; 26
+ 2a0:	8e bd       	out	0x2e, r24	; 46
+
+(0<<CS12)|(1<<CS11)|(0<<CS10);
+
+//start timer with prescaler 8
+OCR1A=1010;//arm down
+ 2a2:	82 ef       	ldi	r24, 0xF2	; 242
+ 2a4:	93 e0       	ldi	r25, 0x03	; 3
+ 2a6:	9b bd       	out	0x2b, r25	; 43
+ 2a8:	8a bd       	out	0x2a, r24	; 42
+OCR1B=1010;//gripper open
+ 2aa:	99 bd       	out	0x29, r25	; 41
+ 2ac:	88 bd       	out	0x28, r24	; 40
+}
+//timer0 init
+void timer0_init(void)
+{
+    //8-bit timer for measuring delay between IR pulses
+	TCCR0 = 0x05; //CLK / 64/1024
+ 2ae:	85 e0       	ldi	r24, 0x05	; 5
+ 2b0:	83 bf       	out	0x33, r24	; 51
+	TCNT0 = 0; //reset the timer
+ 2b2:	12 be       	out	0x32, r1	; 50
+ //stop errant interrupts until set up
+ cli(); //disable all interrupts
+ port_init();
+ initial();
+ timer0_init();
+ MCUCR = 0x02;
+ 2b4:	82 e0       	ldi	r24, 0x02	; 2
+ 2b6:	85 bf       	out	0x35, r24	; 53
+ GICR  = 0x40;
+ 2b8:	80 e4       	ldi	r24, 0x40	; 64
+ 2ba:	8b bf       	out	0x3b, r24	; 59
+ sei(); //re-enable interrupts
+ 2bc:	78 94       	sei
+ //all peripherals are now initialized
+}
+ 2be:	08 95       	ret
+
+000002c0 <main>:
+//*******************************************************
+//	************  MAIN FUNCTION  *************
+//*******************************************************	 
+void main(void)
+{
+ init_devices();
+ 2c0:	0e 94 3c 01 	call	0x278	; 0x278 <init_devices>
+ 2c4:	ff cf       	rjmp	.-2      	; 0x2c4 <main+0x4>
+
+000002c6 <_exit>:
+ 2c6:	f8 94       	cli
+
+000002c8 <__stop_program>:
+ 2c8:	ff cf       	rjmp	.-2      	; 0x2c8 <__stop_program>

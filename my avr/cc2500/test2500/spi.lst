@@ -1,0 +1,172 @@
+   1               		.file	"spi.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   8               		.global __do_copy_data
+   9               		.global __do_clear_bss
+  17               	.Ltext0:
+  18               	.global	Init_spi
+  20               	Init_spi:
+  21               	.LFB3:
+  22               	.LM1:
+  23               	/* prologue: function */
+  24               	/* frame size = 0 */
+  25               	.LM2:
+  26 0000 8DE1      		ldi r24,lo8(29)
+  27 0002 8DB9      		out 45-32,r24
+  28               	.LM3:
+  29 0004 1EB8      		out 46-32,__zero_reg__
+  30               	/* epilogue start */
+  31               	.LM4:
+  32 0006 0895      		ret
+  33               	.LFE3:
+  35               	.global	SpiWrite
+  37               	SpiWrite:
+  38               	.LFB4:
+  39               	.LM5:
+  40               	.LVL0:
+  41               	/* prologue: function */
+  42               	/* frame size = 0 */
+  43               	.LM6:
+  44 0008 6E9A      		sbi 45-32,6
+  45               	.LM7:
+  46 000a 8FB9      		out 47-32,r24
+  47               	.L4:
+  48               	.LM8:
+  49 000c 779B      		sbis 46-32,7
+  50 000e 00C0      		rjmp .L4
+  51               	.LM9:
+  52 0010 9FB1      		in r25,47-32
+  53               	.LVL1:
+  54 0012 20E0      		ldi r18,lo8(0)
+  55 0014 30E0      		ldi r19,hi8(0)
+  56               	.LVL2:
+  57 0016 00C0      		rjmp .L5
+  58               	.L7:
+  59               	.LM10:
+  60 0018 FB01      		movw r30,r22
+  61 001a E20F      		add r30,r18
+  62 001c F31F      		adc r31,r19
+  63 001e 8081      		ld r24,Z
+  64               	.LVL3:
+  65 0020 8FB9      		out 47-32,r24
+  66               	.L6:
+  67               	.LM11:
+  68 0022 779B      		sbis 46-32,7
+  69 0024 00C0      		rjmp .L6
+  70               	.LM12:
+  71 0026 2F5F      		subi r18,lo8(-(1))
+  72 0028 3F4F      		sbci r19,hi8(-(1))
+  73               	.LVL4:
+  74               	.L5:
+  75 002a 2417      		cp r18,r20
+  76 002c 3507      		cpc r19,r21
+  77 002e 00F0      		brlo .L7
+  78               	.LM13:
+  79 0030 6E98      		cbi 45-32,6
+  80               	.LM14:
+  81 0032 892F      		mov r24,r25
+  82               	.LVL5:
+  83               	/* epilogue start */
+  84 0034 0895      		ret
+  85               	.LFE4:
+  87               	.global	SpiRead
+  89               	SpiRead:
+  90               	.LFB5:
+  91               	.LM15:
+  92               	.LVL6:
+  93               	/* prologue: function */
+  94               	/* frame size = 0 */
+  95               	.LM16:
+  96 0036 6E9A      		sbi 45-32,6
+  97               	.LM17:
+  98 0038 8FB9      		out 47-32,r24
+  99               	.L12:
+ 100               	.LM18:
+ 101 003a 779B      		sbis 46-32,7
+ 102 003c 00C0      		rjmp .L12
+ 103               	.LM19:
+ 104 003e 9FB1      		in r25,47-32
+ 105               	.LVL7:
+ 106 0040 20E0      		ldi r18,lo8(0)
+ 107 0042 30E0      		ldi r19,hi8(0)
+ 108               	.LVL8:
+ 109 0044 00C0      		rjmp .L13
+ 110               	.L15:
+ 111               	.LM20:
+ 112 0046 1FB8      		out 47-32,__zero_reg__
+ 113               	.L14:
+ 114               	.LM21:
+ 115 0048 779B      		sbis 46-32,7
+ 116 004a 00C0      		rjmp .L14
+ 117               	.LM22:
+ 118 004c 8FB1      		in r24,47-32
+ 119               	.LVL9:
+ 120 004e FB01      		movw r30,r22
+ 121 0050 E20F      		add r30,r18
+ 122 0052 F31F      		adc r31,r19
+ 123 0054 8083      		st Z,r24
+ 124               	.LM23:
+ 125 0056 2F5F      		subi r18,lo8(-(1))
+ 126 0058 3F4F      		sbci r19,hi8(-(1))
+ 127               	.LVL10:
+ 128               	.L13:
+ 129 005a 2417      		cp r18,r20
+ 130 005c 3507      		cpc r19,r21
+ 131 005e 00F0      		brlo .L15
+ 132               	.LM24:
+ 133 0060 6E98      		cbi 45-32,6
+ 134               	.LM25:
+ 135 0062 892F      		mov r24,r25
+ 136               	.LVL11:
+ 137               	/* epilogue start */
+ 138 0064 0895      		ret
+ 139               	.LFE5:
+ 141               	.global	SpiStrobe
+ 143               	SpiStrobe:
+ 144               	.LFB6:
+ 145               	.LM26:
+ 146               	.LVL12:
+ 147               	/* prologue: function */
+ 148               	/* frame size = 0 */
+ 149               	.LM27:
+ 150 0066 6E9A      		sbi 45-32,6
+ 151               	.LM28:
+ 152 0068 8FB9      		out 47-32,r24
+ 153               	.L20:
+ 154               	.LM29:
+ 155 006a 779B      		sbis 46-32,7
+ 156 006c 00C0      		rjmp .L20
+ 157               	.LM30:
+ 158 006e 8FB1      		in r24,47-32
+ 159               	.LVL13:
+ 160               	.LM31:
+ 161 0070 8FB1      		in r24,47-32
+ 162               	.LVL14:
+ 163               	.LM32:
+ 164 0072 6E98      		cbi 45-32,6
+ 165               	.LVL15:
+ 166               	/* epilogue start */
+ 167               	.LM33:
+ 168 0074 0895      		ret
+ 169               	.LFE6:
+ 219               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 spi.c
+C:\DOCUME~1\Ketan\LOCALS~1\Temp/ccVWCoBa.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\Ketan\LOCALS~1\Temp/ccVWCoBa.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\Ketan\LOCALS~1\Temp/ccVWCoBa.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\Ketan\LOCALS~1\Temp/ccVWCoBa.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\Ketan\LOCALS~1\Temp/ccVWCoBa.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\Ketan\LOCALS~1\Temp/ccVWCoBa.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\Ketan\LOCALS~1\Temp/ccVWCoBa.s:20     .text:00000000 Init_spi
+C:\DOCUME~1\Ketan\LOCALS~1\Temp/ccVWCoBa.s:37     .text:00000008 SpiWrite
+C:\DOCUME~1\Ketan\LOCALS~1\Temp/ccVWCoBa.s:89     .text:00000036 SpiRead
+C:\DOCUME~1\Ketan\LOCALS~1\Temp/ccVWCoBa.s:143    .text:00000066 SpiStrobe
+
+UNDEFINED SYMBOLS
+__do_copy_data
+__do_clear_bss

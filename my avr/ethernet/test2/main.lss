@@ -1,0 +1,3090 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000e0e  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .data         00000018  00800060  00000e0e  00000ea2  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  2 .bss          000001d4  00800078  00800078  00000eba  2**0
+                  ALLOC
+  3 .debug_aranges 00000020  00000000  00000000  00000eba  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_pubnames 0000030a  00000000  00000000  00000eda  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_info   00000f7b  00000000  00000000  000011e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_abbrev 0000031d  00000000  00000000  0000215f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_line   00001109  00000000  00000000  0000247c  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_frame  00000240  00000000  00000000  00003588  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_str    00000437  00000000  00000000  000037c8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_loc    000008f5  00000000  00000000  00003bff  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_ranges 00000048  00000000  00000000  000044f4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 6d 00 	jmp	0xda	; 0xda <__ctors_end>
+   4:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+   8:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+   c:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  10:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  14:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  18:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  1c:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  20:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  24:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  28:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  2c:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  30:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  34:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  38:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  3c:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  40:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  44:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  48:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  4c:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+  50:	0c 94 8a 00 	jmp	0x114	; 0x114 <__bad_interrupt>
+
+00000054 <__c.2178>:
+  54:	48 54 54 50 2f 31 2e 30 20 32 30 30 20 4f 4b 0d     HTTP/1.0 200 OK.
+  64:	0a 43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a 20 74     .Content-Type: t
+  74:	65 78 74 2f 68 74 6d 6c 0d 0a 0d 0a 3c 70 3e 41     ext/html....<p>A
+  84:	69 6d 73 20 4f 4b 2c 20 69 74 20 77 6f 72 6b 73     ims OK, it works
+  94:	3c 2f 70 3e 00                                      </p>.
+
+00000099 <__c.2176>:
+  99:	48 54 54 50 2f 31 2e 30 20 32 30 30 20 4f 4b 0d     HTTP/1.0 200 OK.
+  a9:	0a 43 6f 6e 74 65 6e 74 2d 54 79 70 65 3a 20 74     .Content-Type: t
+  b9:	65 78 74 2f 68 74 6d 6c 0d 0a 0d 0a 3c 68 31 3e     ext/html....<h1>
+  c9:	41 69 6d 73 20 32 30 30 20 4f 4b 3c 2f 68 31 3e     Aims 200 OK</h1>
+  d9:	00                                                  .
+
+000000da <__ctors_end>:
+  da:	11 24       	eor	r1, r1
+  dc:	1f be       	out	0x3f, r1	; 63
+  de:	cf e5       	ldi	r28, 0x5F	; 95
+  e0:	d4 e0       	ldi	r29, 0x04	; 4
+  e2:	de bf       	out	0x3e, r29	; 62
+  e4:	cd bf       	out	0x3d, r28	; 61
+
+000000e6 <__do_copy_data>:
+  e6:	10 e0       	ldi	r17, 0x00	; 0
+  e8:	a0 e6       	ldi	r26, 0x60	; 96
+  ea:	b0 e0       	ldi	r27, 0x00	; 0
+  ec:	ee e0       	ldi	r30, 0x0E	; 14
+  ee:	fe e0       	ldi	r31, 0x0E	; 14
+  f0:	02 c0       	rjmp	.+4      	; 0xf6 <.do_copy_data_start>
+
+000000f2 <.do_copy_data_loop>:
+  f2:	05 90       	lpm	r0, Z+
+  f4:	0d 92       	st	X+, r0
+
+000000f6 <.do_copy_data_start>:
+  f6:	a8 37       	cpi	r26, 0x78	; 120
+  f8:	b1 07       	cpc	r27, r17
+  fa:	d9 f7       	brne	.-10     	; 0xf2 <.do_copy_data_loop>
+
+000000fc <__do_clear_bss>:
+  fc:	12 e0       	ldi	r17, 0x02	; 2
+  fe:	a8 e7       	ldi	r26, 0x78	; 120
+ 100:	b0 e0       	ldi	r27, 0x00	; 0
+ 102:	01 c0       	rjmp	.+2      	; 0x106 <.do_clear_bss_start>
+
+00000104 <.do_clear_bss_loop>:
+ 104:	1d 92       	st	X+, r1
+
+00000106 <.do_clear_bss_start>:
+ 106:	ac 34       	cpi	r26, 0x4C	; 76
+ 108:	b1 07       	cpc	r27, r17
+ 10a:	e1 f7       	brne	.-8      	; 0x104 <.do_clear_bss_loop>
+ 10c:	0e 94 11 06 	call	0xc22	; 0xc22 <main>
+ 110:	0c 94 05 07 	jmp	0xe0a	; 0xe0a <_exit>
+
+00000114 <__bad_interrupt>:
+ 114:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+00000118 <enc28j60ReadOp>:
+//
+#define waitspi() while(!(SPSR&(1<<SPIF)))
+
+uint8_t enc28j60ReadOp(uint8_t op, uint8_t address)
+{
+        CSACTIVE;
+ 118:	c4 98       	cbi	0x18, 4	; 24
+        // issue read command
+        SPDR = op | (address & ADDR_MASK);
+ 11a:	96 2f       	mov	r25, r22
+ 11c:	9f 71       	andi	r25, 0x1F	; 31
+ 11e:	98 2b       	or	r25, r24
+ 120:	9f b9       	out	0x0f, r25	; 15
+        waitspi();
+ 122:	77 9b       	sbis	0x0e, 7	; 14
+ 124:	fe cf       	rjmp	.-4      	; 0x122 <enc28j60ReadOp+0xa>
+        // read data
+        SPDR = 0x00;
+ 126:	1f b8       	out	0x0f, r1	; 15
+        waitspi();
+ 128:	77 9b       	sbis	0x0e, 7	; 14
+ 12a:	fe cf       	rjmp	.-4      	; 0x128 <enc28j60ReadOp+0x10>
+        // do dummy read if needed (for mac and mii, see datasheet page 29)
+        if(address & 0x80)
+ 12c:	67 ff       	sbrs	r22, 7
+ 12e:	03 c0       	rjmp	.+6      	; 0x136 <enc28j60ReadOp+0x1e>
+        {
+                SPDR = 0x00;
+ 130:	1f b8       	out	0x0f, r1	; 15
+                waitspi();
+ 132:	77 9b       	sbis	0x0e, 7	; 14
+ 134:	fe cf       	rjmp	.-4      	; 0x132 <enc28j60ReadOp+0x1a>
+        }
+        // release CS
+        CSPASSIVE;
+ 136:	c4 9a       	sbi	0x18, 4	; 24
+        return(SPDR);
+ 138:	8f b1       	in	r24, 0x0f	; 15
+}
+ 13a:	08 95       	ret
+
+0000013c <enc28j60WriteOp>:
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 13c:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 13e:	6f 71       	andi	r22, 0x1F	; 31
+ 140:	68 2b       	or	r22, r24
+ 142:	6f b9       	out	0x0f, r22	; 15
+        waitspi();
+ 144:	77 9b       	sbis	0x0e, 7	; 14
+ 146:	fe cf       	rjmp	.-4      	; 0x144 <enc28j60WriteOp+0x8>
+        // write data
+        SPDR = data;
+ 148:	4f b9       	out	0x0f, r20	; 15
+        waitspi();
+ 14a:	77 9b       	sbis	0x0e, 7	; 14
+ 14c:	fe cf       	rjmp	.-4      	; 0x14a <enc28j60WriteOp+0xe>
+        CSPASSIVE;
+ 14e:	c4 9a       	sbi	0x18, 4	; 24
+}
+ 150:	08 95       	ret
+
+00000152 <enc28j60ReadBuffer>:
+
+void enc28j60ReadBuffer(uint16_t len, uint8_t* data)
+{
+ 152:	ac 01       	movw	r20, r24
+ 154:	fb 01       	movw	r30, r22
+        CSACTIVE;
+ 156:	c4 98       	cbi	0x18, 4	; 24
+        // issue read command
+        SPDR = ENC28J60_READ_BUF_MEM;
+ 158:	8a e3       	ldi	r24, 0x3A	; 58
+ 15a:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 15c:	77 9b       	sbis	0x0e, 7	; 14
+ 15e:	fe cf       	rjmp	.-4      	; 0x15c <enc28j60ReadBuffer+0xa>
+ 160:	9a 01       	movw	r18, r20
+ 162:	df 01       	movw	r26, r30
+ 164:	07 c0       	rjmp	.+14     	; 0x174 <enc28j60ReadBuffer+0x22>
+        while(len)
+        {
+                len--;
+                // read data
+                SPDR = 0x00;
+ 166:	1f b8       	out	0x0f, r1	; 15
+                waitspi();
+ 168:	77 9b       	sbis	0x0e, 7	; 14
+ 16a:	fe cf       	rjmp	.-4      	; 0x168 <enc28j60ReadBuffer+0x16>
+        // issue read command
+        SPDR = ENC28J60_READ_BUF_MEM;
+        waitspi();
+        while(len)
+        {
+                len--;
+ 16c:	21 50       	subi	r18, 0x01	; 1
+ 16e:	30 40       	sbci	r19, 0x00	; 0
+                // read data
+                SPDR = 0x00;
+                waitspi();
+                *data = SPDR;
+ 170:	8f b1       	in	r24, 0x0f	; 15
+ 172:	8d 93       	st	X+, r24
+{
+        CSACTIVE;
+        // issue read command
+        SPDR = ENC28J60_READ_BUF_MEM;
+        waitspi();
+        while(len)
+ 174:	21 15       	cp	r18, r1
+ 176:	31 05       	cpc	r19, r1
+ 178:	b1 f7       	brne	.-20     	; 0x166 <enc28j60ReadBuffer+0x14>
+                SPDR = 0x00;
+                waitspi();
+                *data = SPDR;
+                data++;
+        }
+        *data='\0';
+ 17a:	e4 0f       	add	r30, r20
+ 17c:	f5 1f       	adc	r31, r21
+ 17e:	10 82       	st	Z, r1
+        CSPASSIVE;
+ 180:	c4 9a       	sbi	0x18, 4	; 24
+}
+ 182:	08 95       	ret
+
+00000184 <enc28j60WriteBuffer>:
+
+void enc28j60WriteBuffer(uint16_t len, uint8_t* data)
+{
+ 184:	9c 01       	movw	r18, r24
+ 186:	fb 01       	movw	r30, r22
+        CSACTIVE;
+ 188:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+ 18a:	8a e7       	ldi	r24, 0x7A	; 122
+ 18c:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 18e:	77 9b       	sbis	0x0e, 7	; 14
+ 190:	fe cf       	rjmp	.-4      	; 0x18e <enc28j60WriteBuffer+0xa>
+ 192:	07 c0       	rjmp	.+14     	; 0x1a2 <enc28j60WriteBuffer+0x1e>
+        while(len)
+        {
+                len--;
+                // write data
+                SPDR = *data;
+ 194:	80 81       	ld	r24, Z
+ 196:	8f b9       	out	0x0f, r24	; 15
+                data++;
+                waitspi();
+ 198:	77 9b       	sbis	0x0e, 7	; 14
+ 19a:	fe cf       	rjmp	.-4      	; 0x198 <enc28j60WriteBuffer+0x14>
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+        waitspi();
+        while(len)
+        {
+                len--;
+ 19c:	21 50       	subi	r18, 0x01	; 1
+ 19e:	30 40       	sbci	r19, 0x00	; 0
+                // write data
+                SPDR = *data;
+                data++;
+ 1a0:	31 96       	adiw	r30, 0x01	; 1
+{
+        CSACTIVE;
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+        waitspi();
+        while(len)
+ 1a2:	21 15       	cp	r18, r1
+ 1a4:	31 05       	cpc	r19, r1
+ 1a6:	b1 f7       	brne	.-20     	; 0x194 <enc28j60WriteBuffer+0x10>
+                // write data
+                SPDR = *data;
+                data++;
+                waitspi();
+        }
+        CSPASSIVE;
+ 1a8:	c4 9a       	sbi	0x18, 4	; 24
+}
+ 1aa:	08 95       	ret
+
+000001ac <enc28j60SetBank>:
+
+void enc28j60SetBank(uint8_t address)
+{
+ 1ac:	48 2f       	mov	r20, r24
+        // set the bank (if needed)
+        if((address & BANK_MASK) != Enc28j60Bank)
+ 1ae:	28 2f       	mov	r18, r24
+ 1b0:	30 e0       	ldi	r19, 0x00	; 0
+ 1b2:	20 76       	andi	r18, 0x60	; 96
+ 1b4:	30 70       	andi	r19, 0x00	; 0
+ 1b6:	80 91 7c 00 	lds	r24, 0x007C
+ 1ba:	90 e0       	ldi	r25, 0x00	; 0
+ 1bc:	28 17       	cp	r18, r24
+ 1be:	39 07       	cpc	r19, r25
+ 1c0:	d9 f0       	breq	.+54     	; 0x1f8 <enc28j60SetBank+0x4c>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 1c2:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 1c4:	8f eb       	ldi	r24, 0xBF	; 191
+ 1c6:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 1c8:	77 9b       	sbis	0x0e, 7	; 14
+ 1ca:	fe cf       	rjmp	.-4      	; 0x1c8 <enc28j60SetBank+0x1c>
+        // write data
+        SPDR = data;
+ 1cc:	83 e0       	ldi	r24, 0x03	; 3
+ 1ce:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 1d0:	77 9b       	sbis	0x0e, 7	; 14
+ 1d2:	fe cf       	rjmp	.-4      	; 0x1d0 <enc28j60SetBank+0x24>
+        CSPASSIVE;
+ 1d4:	c4 9a       	sbi	0x18, 4	; 24
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 1d6:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 1d8:	8f e9       	ldi	r24, 0x9F	; 159
+ 1da:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 1dc:	77 9b       	sbis	0x0e, 7	; 14
+ 1de:	fe cf       	rjmp	.-4      	; 0x1dc <enc28j60SetBank+0x30>
+        // set the bank (if needed)
+        if((address & BANK_MASK) != Enc28j60Bank)
+        {
+                // set the bank
+                enc28j60WriteOp(ENC28J60_BIT_FIELD_CLR, ECON1, (ECON1_BSEL1|ECON1_BSEL0));
+                enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, (address & BANK_MASK)>>5);
+ 1e0:	85 e0       	ldi	r24, 0x05	; 5
+ 1e2:	35 95       	asr	r19
+ 1e4:	27 95       	ror	r18
+ 1e6:	8a 95       	dec	r24
+ 1e8:	e1 f7       	brne	.-8      	; 0x1e2 <enc28j60SetBank+0x36>
+        CSACTIVE;
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+        waitspi();
+        // write data
+        SPDR = data;
+ 1ea:	2f b9       	out	0x0f, r18	; 15
+        waitspi();
+ 1ec:	77 9b       	sbis	0x0e, 7	; 14
+ 1ee:	fe cf       	rjmp	.-4      	; 0x1ec <enc28j60SetBank+0x40>
+        CSPASSIVE;
+ 1f0:	c4 9a       	sbi	0x18, 4	; 24
+        if((address & BANK_MASK) != Enc28j60Bank)
+        {
+                // set the bank
+                enc28j60WriteOp(ENC28J60_BIT_FIELD_CLR, ECON1, (ECON1_BSEL1|ECON1_BSEL0));
+                enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, (address & BANK_MASK)>>5);
+                Enc28j60Bank = (address & BANK_MASK);
+ 1f2:	40 76       	andi	r20, 0x60	; 96
+ 1f4:	40 93 7c 00 	sts	0x007C, r20
+ 1f8:	08 95       	ret
+
+000001fa <enc28j60Read>:
+        }
+}
+
+uint8_t enc28j60Read(uint8_t address)
+{
+ 1fa:	1f 93       	push	r17
+ 1fc:	18 2f       	mov	r17, r24
+        // set the bank
+        enc28j60SetBank(address);
+ 1fe:	0e 94 d6 00 	call	0x1ac	; 0x1ac <enc28j60SetBank>
+        // do the read
+        return enc28j60ReadOp(ENC28J60_READ_CTRL_REG, address);
+ 202:	80 e0       	ldi	r24, 0x00	; 0
+ 204:	61 2f       	mov	r22, r17
+ 206:	0e 94 8c 00 	call	0x118	; 0x118 <enc28j60ReadOp>
+}
+ 20a:	1f 91       	pop	r17
+ 20c:	08 95       	ret
+
+0000020e <enc28j60Write>:
+	
+	return (enc28j60Read(MIRDH));
+}
+
+void enc28j60Write(uint8_t address, uint8_t data)
+{
+ 20e:	0f 93       	push	r16
+ 210:	1f 93       	push	r17
+ 212:	18 2f       	mov	r17, r24
+ 214:	06 2f       	mov	r16, r22
+        // set the bank
+        enc28j60SetBank(address);
+ 216:	0e 94 d6 00 	call	0x1ac	; 0x1ac <enc28j60SetBank>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 21a:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 21c:	1f 71       	andi	r17, 0x1F	; 31
+ 21e:	10 64       	ori	r17, 0x40	; 64
+ 220:	1f b9       	out	0x0f, r17	; 15
+        waitspi();
+ 222:	77 9b       	sbis	0x0e, 7	; 14
+ 224:	fe cf       	rjmp	.-4      	; 0x222 <enc28j60Write+0x14>
+        // write data
+        SPDR = data;
+ 226:	0f b9       	out	0x0f, r16	; 15
+        waitspi();
+ 228:	77 9b       	sbis	0x0e, 7	; 14
+ 22a:	fe cf       	rjmp	.-4      	; 0x228 <enc28j60Write+0x1a>
+        CSPASSIVE;
+ 22c:	c4 9a       	sbi	0x18, 4	; 24
+{
+        // set the bank
+        enc28j60SetBank(address);
+        // do the write
+        enc28j60WriteOp(ENC28J60_WRITE_CTRL_REG, address, data);
+}
+ 22e:	1f 91       	pop	r17
+ 230:	0f 91       	pop	r16
+ 232:	08 95       	ret
+
+00000234 <enc28j60PhyReadH>:
+        return enc28j60ReadOp(ENC28J60_READ_CTRL_REG, address);
+}
+
+// read upper 8 bits
+uint16_t enc28j60PhyReadH(uint8_t address)
+{
+ 234:	68 2f       	mov	r22, r24
+
+	// Set the right address and start the register read operation
+	enc28j60Write(MIREGADR, address);
+ 236:	84 ed       	ldi	r24, 0xD4	; 212
+ 238:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(MICMD, MICMD_MIIRD);
+ 23c:	82 ed       	ldi	r24, 0xD2	; 210
+ 23e:	61 e0       	ldi	r22, 0x01	; 1
+ 240:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+    can be achieved.
+*/
+void
+_delay_loop_1(uint8_t __count)
+{
+	__asm__ volatile (
+ 244:	80 e5       	ldi	r24, 0x50	; 80
+ 246:	8a 95       	dec	r24
+ 248:	f1 f7       	brne	.-4      	; 0x246 <enc28j60PhyReadH+0x12>
+        _delay_us(15);
+
+	// wait until the PHY read completes
+	while(enc28j60Read(MISTAT) & MISTAT_BUSY);
+ 24a:	8a ee       	ldi	r24, 0xEA	; 234
+ 24c:	0e 94 fd 00 	call	0x1fa	; 0x1fa <enc28j60Read>
+ 250:	80 fd       	sbrc	r24, 0
+ 252:	fb cf       	rjmp	.-10     	; 0x24a <enc28j60PhyReadH+0x16>
+
+	// reset reading bit
+	enc28j60Write(MICMD, 0x00);
+ 254:	82 ed       	ldi	r24, 0xD2	; 210
+ 256:	60 e0       	ldi	r22, 0x00	; 0
+ 258:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	
+	return (enc28j60Read(MIRDH));
+ 25c:	89 ed       	ldi	r24, 0xD9	; 217
+ 25e:	0e 94 fd 00 	call	0x1fa	; 0x1fa <enc28j60Read>
+}
+ 262:	90 e0       	ldi	r25, 0x00	; 0
+ 264:	08 95       	ret
+
+00000266 <enc28j60PhyWrite>:
+        // do the write
+        enc28j60WriteOp(ENC28J60_WRITE_CTRL_REG, address, data);
+}
+
+void enc28j60PhyWrite(uint8_t address, uint16_t data)
+{
+ 266:	0f 93       	push	r16
+ 268:	1f 93       	push	r17
+ 26a:	98 2f       	mov	r25, r24
+ 26c:	16 2f       	mov	r17, r22
+ 26e:	07 2f       	mov	r16, r23
+        // set the PHY register address
+        enc28j60Write(MIREGADR, address);
+ 270:	84 ed       	ldi	r24, 0xD4	; 212
+ 272:	69 2f       	mov	r22, r25
+ 274:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        // write the PHY data
+        enc28j60Write(MIWRL, data);
+ 278:	86 ed       	ldi	r24, 0xD6	; 214
+ 27a:	61 2f       	mov	r22, r17
+ 27c:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        enc28j60Write(MIWRH, data>>8);
+ 280:	87 ed       	ldi	r24, 0xD7	; 215
+ 282:	60 2f       	mov	r22, r16
+ 284:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+ 288:	10 e5       	ldi	r17, 0x50	; 80
+ 28a:	03 c0       	rjmp	.+6      	; 0x292 <enc28j60PhyWrite+0x2c>
+ 28c:	81 2f       	mov	r24, r17
+ 28e:	8a 95       	dec	r24
+ 290:	f1 f7       	brne	.-4      	; 0x28e <enc28j60PhyWrite+0x28>
+        // wait until the PHY write completes
+        while(enc28j60Read(MISTAT) & MISTAT_BUSY){
+ 292:	8a ee       	ldi	r24, 0xEA	; 234
+ 294:	0e 94 fd 00 	call	0x1fa	; 0x1fa <enc28j60Read>
+ 298:	80 fd       	sbrc	r24, 0
+ 29a:	f8 cf       	rjmp	.-16     	; 0x28c <enc28j60PhyWrite+0x26>
+                _delay_us(15);
+        }
+}
+ 29c:	1f 91       	pop	r17
+ 29e:	0f 91       	pop	r16
+ 2a0:	08 95       	ret
+
+000002a2 <enc28j60clkout>:
+
+void enc28j60clkout(uint8_t clk)
+{
+        //setup clkout: 2 is 12.5MHz:
+	enc28j60Write(ECOCON, clk & 0x7);
+ 2a2:	68 2f       	mov	r22, r24
+ 2a4:	67 70       	andi	r22, 0x07	; 7
+ 2a6:	85 e7       	ldi	r24, 0x75	; 117
+ 2a8:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+}
+ 2ac:	08 95       	ret
+
+000002ae <enc28j60Init>:
+
+void enc28j60Init(uint8_t* macaddr)
+{
+ 2ae:	cf 93       	push	r28
+ 2b0:	df 93       	push	r29
+ 2b2:	ec 01       	movw	r28, r24
+	// initialize I/O
+        // ss as output:
+	ENC28J60_CONTROL_DDR |= 1<<ENC28J60_CONTROL_CS;
+ 2b4:	bc 9a       	sbi	0x17, 4	; 23
+	CSPASSIVE; // ss=0
+ 2b6:	c4 9a       	sbi	0x18, 4	; 24
+        //	
+	ENC28J60_CONTROL_DDR  |= 1<<ENC28J60_CONTROL_SI | 1<<ENC28J60_CONTROL_SCK; // mosi, sck output
+ 2b8:	87 b3       	in	r24, 0x17	; 23
+ 2ba:	80 6a       	ori	r24, 0xA0	; 160
+ 2bc:	87 bb       	out	0x17, r24	; 23
+	cbi(ENC28J60_CONTROL_DDR,ENC28J60_CONTROL_SO); // MISO is input
+ 2be:	be 98       	cbi	0x17, 6	; 23
+        //
+        cbi(ENC28J60_CONTROL_PORT,ENC28J60_CONTROL_SI); // MOSI low
+ 2c0:	c5 98       	cbi	0x18, 5	; 24
+        cbi(ENC28J60_CONTROL_PORT,ENC28J60_CONTROL_SCK); // SCK low
+ 2c2:	c7 98       	cbi	0x18, 7	; 24
+	//
+	// initialize SPI interface
+	// master mode and Fosc/2 clock:
+        SPCR = (1<<SPE)|(1<<MSTR)|(1<<SPR0);//SPCR = (1<<SPE)|(1<<MSTR);
+ 2c4:	81 e5       	ldi	r24, 0x51	; 81
+ 2c6:	8d b9       	out	0x0d, r24	; 13
+        SPSR |= (1<<SPI2X);
+ 2c8:	70 9a       	sbi	0x0e, 0	; 14
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 2ca:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 2cc:	8f ef       	ldi	r24, 0xFF	; 255
+ 2ce:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 2d0:	77 9b       	sbis	0x0e, 7	; 14
+ 2d2:	fe cf       	rjmp	.-4      	; 0x2d0 <enc28j60Init+0x22>
+        // write data
+        SPDR = data;
+ 2d4:	8f ef       	ldi	r24, 0xFF	; 255
+ 2d6:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 2d8:	77 9b       	sbis	0x0e, 7	; 14
+ 2da:	fe cf       	rjmp	.-4      	; 0x2d8 <enc28j60Init+0x2a>
+        CSPASSIVE;
+ 2dc:	c4 9a       	sbi	0x18, 4	; 24
+ 2de:	8d ec       	ldi	r24, 0xCD	; 205
+ 2e0:	8a 95       	dec	r24
+ 2e2:	f1 f7       	brne	.-4      	; 0x2e0 <enc28j60Init+0x32>
+	//while(!(enc28j60Read(ESTAT) & ESTAT_CLKRDY));
+	// do bank 0 stuff
+	// initialize receive buffer
+	// 16-bit transfers, must write low byte first
+	// set receive buffer start address
+	gNextPacketPtr = RXSTART_INIT;
+ 2e4:	10 92 7e 00 	sts	0x007E, r1
+ 2e8:	10 92 7d 00 	sts	0x007D, r1
+        // Rx start
+	enc28j60Write(ERXSTL, RXSTART_INIT&0xFF);
+ 2ec:	88 e0       	ldi	r24, 0x08	; 8
+ 2ee:	60 e0       	ldi	r22, 0x00	; 0
+ 2f0:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(ERXSTH, RXSTART_INIT>>8);
+ 2f4:	89 e0       	ldi	r24, 0x09	; 9
+ 2f6:	60 e0       	ldi	r22, 0x00	; 0
+ 2f8:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// set receive pointer address
+	enc28j60Write(ERXRDPTL, RXSTART_INIT&0xFF);
+ 2fc:	8c e0       	ldi	r24, 0x0C	; 12
+ 2fe:	60 e0       	ldi	r22, 0x00	; 0
+ 300:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(ERXRDPTH, RXSTART_INIT>>8);
+ 304:	8d e0       	ldi	r24, 0x0D	; 13
+ 306:	60 e0       	ldi	r22, 0x00	; 0
+ 308:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// RX end
+	enc28j60Write(ERXNDL, RXSTOP_INIT&0xFF);
+ 30c:	8a e0       	ldi	r24, 0x0A	; 10
+ 30e:	6e ef       	ldi	r22, 0xFE	; 254
+ 310:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(ERXNDH, RXSTOP_INIT>>8);
+ 314:	8b e0       	ldi	r24, 0x0B	; 11
+ 316:	69 e1       	ldi	r22, 0x19	; 25
+ 318:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// TX start
+	enc28j60Write(ETXSTL, TXSTART_INIT&0xFF);
+ 31c:	84 e0       	ldi	r24, 0x04	; 4
+ 31e:	6f ef       	ldi	r22, 0xFF	; 255
+ 320:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(ETXSTH, TXSTART_INIT>>8);
+ 324:	85 e0       	ldi	r24, 0x05	; 5
+ 326:	69 e1       	ldi	r22, 0x19	; 25
+ 328:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// TX end
+	enc28j60Write(ETXNDL, TXSTOP_INIT&0xFF);
+ 32c:	86 e0       	ldi	r24, 0x06	; 6
+ 32e:	6f ef       	ldi	r22, 0xFF	; 255
+ 330:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(ETXNDH, TXSTOP_INIT>>8);
+ 334:	87 e0       	ldi	r24, 0x07	; 7
+ 336:	6f e1       	ldi	r22, 0x1F	; 31
+ 338:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        // Type     ETH.DST
+        // ARP      BROADCAST
+        // 06 08 -- ff ff ff ff ff ff -> ip checksum for theses bytes=f7f9
+        // in binary these poitions are:11 0000 0011 1111
+        // This is hex 303F->EPMM0=0x3f,EPMM1=0x30
+	enc28j60Write(ERXFCON, ERXFCON_UCEN|ERXFCON_CRCEN|ERXFCON_PMEN);
+ 33c:	88 e3       	ldi	r24, 0x38	; 56
+ 33e:	60 eb       	ldi	r22, 0xB0	; 176
+ 340:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(EPMM0, 0x3f);
+ 344:	88 e2       	ldi	r24, 0x28	; 40
+ 346:	6f e3       	ldi	r22, 0x3F	; 63
+ 348:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(EPMM1, 0x30);
+ 34c:	89 e2       	ldi	r24, 0x29	; 41
+ 34e:	60 e3       	ldi	r22, 0x30	; 48
+ 350:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(EPMCSL, 0xf9);
+ 354:	80 e3       	ldi	r24, 0x30	; 48
+ 356:	69 ef       	ldi	r22, 0xF9	; 249
+ 358:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(EPMCSH, 0xf7);
+ 35c:	81 e3       	ldi	r24, 0x31	; 49
+ 35e:	67 ef       	ldi	r22, 0xF7	; 247
+ 360:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        //
+        //
+	// do bank 2 stuff
+	// enable MAC receive
+	enc28j60Write(MACON1, MACON1_MARXEN|MACON1_TXPAUS|MACON1_RXPAUS);
+ 364:	80 ec       	ldi	r24, 0xC0	; 192
+ 366:	6d e0       	ldi	r22, 0x0D	; 13
+ 368:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// bring MAC out of reset
+	enc28j60Write(MACON2, 0x00);
+ 36c:	81 ec       	ldi	r24, 0xC1	; 193
+ 36e:	60 e0       	ldi	r22, 0x00	; 0
+ 370:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 374:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 376:	82 e8       	ldi	r24, 0x82	; 130
+ 378:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 37a:	77 9b       	sbis	0x0e, 7	; 14
+ 37c:	fe cf       	rjmp	.-4      	; 0x37a <enc28j60Init+0xcc>
+        // write data
+        SPDR = data;
+ 37e:	82 e3       	ldi	r24, 0x32	; 50
+ 380:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 382:	77 9b       	sbis	0x0e, 7	; 14
+ 384:	fe cf       	rjmp	.-4      	; 0x382 <enc28j60Init+0xd4>
+        CSPASSIVE;
+ 386:	c4 9a       	sbi	0x18, 4	; 24
+	// bring MAC out of reset
+	enc28j60Write(MACON2, 0x00);
+	// enable automatic padding to 60bytes and CRC operations
+	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, MACON3, MACON3_PADCFG0|MACON3_TXCRCEN|MACON3_FRMLNEN);
+	// set inter-frame gap (non-back-to-back)
+	enc28j60Write(MAIPGL, 0x12);
+ 388:	86 ec       	ldi	r24, 0xC6	; 198
+ 38a:	62 e1       	ldi	r22, 0x12	; 18
+ 38c:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(MAIPGH, 0x0C);
+ 390:	87 ec       	ldi	r24, 0xC7	; 199
+ 392:	6c e0       	ldi	r22, 0x0C	; 12
+ 394:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// set inter-frame gap (back-to-back)
+	enc28j60Write(MABBIPG, 0x12);
+ 398:	84 ec       	ldi	r24, 0xC4	; 196
+ 39a:	62 e1       	ldi	r22, 0x12	; 18
+ 39c:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// Set the maximum packet size which the controller will accept
+        // Do not send packets longer than MAX_FRAMELEN:
+	enc28j60Write(MAMXFLL, MAX_FRAMELEN&0xFF);	
+ 3a0:	8a ec       	ldi	r24, 0xCA	; 202
+ 3a2:	6c ed       	ldi	r22, 0xDC	; 220
+ 3a4:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(MAMXFLH, MAX_FRAMELEN>>8);
+ 3a8:	8b ec       	ldi	r24, 0xCB	; 203
+ 3aa:	65 e0       	ldi	r22, 0x05	; 5
+ 3ac:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// do bank 3 stuff
+        // write MAC address
+        // NOTE: MAC address in ENC28J60 is byte-backward
+        enc28j60Write(MAADR5, macaddr[0]);
+ 3b0:	84 ee       	ldi	r24, 0xE4	; 228
+ 3b2:	68 81       	ld	r22, Y
+ 3b4:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        enc28j60Write(MAADR4, macaddr[1]);
+ 3b8:	85 ee       	ldi	r24, 0xE5	; 229
+ 3ba:	69 81       	ldd	r22, Y+1	; 0x01
+ 3bc:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        enc28j60Write(MAADR3, macaddr[2]);
+ 3c0:	82 ee       	ldi	r24, 0xE2	; 226
+ 3c2:	6a 81       	ldd	r22, Y+2	; 0x02
+ 3c4:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        enc28j60Write(MAADR2, macaddr[3]);
+ 3c8:	83 ee       	ldi	r24, 0xE3	; 227
+ 3ca:	6b 81       	ldd	r22, Y+3	; 0x03
+ 3cc:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        enc28j60Write(MAADR1, macaddr[4]);
+ 3d0:	80 ee       	ldi	r24, 0xE0	; 224
+ 3d2:	6c 81       	ldd	r22, Y+4	; 0x04
+ 3d4:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        enc28j60Write(MAADR0, macaddr[5]);
+ 3d8:	81 ee       	ldi	r24, 0xE1	; 225
+ 3da:	6d 81       	ldd	r22, Y+5	; 0x05
+ 3dc:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// no loopback of transmitted frames
+	enc28j60PhyWrite(PHCON2, PHCON2_HDLDIS);
+ 3e0:	80 e1       	ldi	r24, 0x10	; 16
+ 3e2:	60 e0       	ldi	r22, 0x00	; 0
+ 3e4:	71 e0       	ldi	r23, 0x01	; 1
+ 3e6:	0e 94 33 01 	call	0x266	; 0x266 <enc28j60PhyWrite>
+	// switch to bank 0
+	enc28j60SetBank(ECON1);
+ 3ea:	8f e1       	ldi	r24, 0x1F	; 31
+ 3ec:	0e 94 d6 00 	call	0x1ac	; 0x1ac <enc28j60SetBank>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 3f0:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 3f2:	8b e9       	ldi	r24, 0x9B	; 155
+ 3f4:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 3f6:	77 9b       	sbis	0x0e, 7	; 14
+ 3f8:	fe cf       	rjmp	.-4      	; 0x3f6 <enc28j60Init+0x148>
+        // write data
+        SPDR = data;
+ 3fa:	80 ec       	ldi	r24, 0xC0	; 192
+ 3fc:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 3fe:	77 9b       	sbis	0x0e, 7	; 14
+ 400:	fe cf       	rjmp	.-4      	; 0x3fe <enc28j60Init+0x150>
+        CSPASSIVE;
+ 402:	c4 9a       	sbi	0x18, 4	; 24
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 404:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 406:	8f e9       	ldi	r24, 0x9F	; 159
+ 408:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 40a:	77 9b       	sbis	0x0e, 7	; 14
+ 40c:	fe cf       	rjmp	.-4      	; 0x40a <enc28j60Init+0x15c>
+        // write data
+        SPDR = data;
+ 40e:	84 e0       	ldi	r24, 0x04	; 4
+ 410:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 412:	77 9b       	sbis	0x0e, 7	; 14
+ 414:	fe cf       	rjmp	.-4      	; 0x412 <enc28j60Init+0x164>
+        CSPASSIVE;
+ 416:	c4 9a       	sbi	0x18, 4	; 24
+	enc28j60SetBank(ECON1);
+	// enable interrutps
+	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, EIE, EIE_INTIE|EIE_PKTIE);
+	// enable packet reception
+	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_RXEN);
+}
+ 418:	df 91       	pop	r29
+ 41a:	cf 91       	pop	r28
+ 41c:	08 95       	ret
+
+0000041e <enc28j60getrev>:
+
+// read the revision of the chip:
+uint8_t enc28j60getrev(void)
+{
+	return(enc28j60Read(EREVID));
+ 41e:	82 e7       	ldi	r24, 0x72	; 114
+ 420:	0e 94 fd 00 	call	0x1fa	; 0x1fa <enc28j60Read>
+}
+ 424:	08 95       	ret
+
+00000426 <enc28j60linkup>:
+
+// link status
+uint8_t enc28j60linkup(void)
+{
+        // bit 10 (= bit 3 in upper reg)
+	return(enc28j60PhyReadH(PHSTAT2) && 4);
+ 426:	81 e1       	ldi	r24, 0x11	; 17
+ 428:	0e 94 1a 01 	call	0x234	; 0x234 <enc28j60PhyReadH>
+ 42c:	20 e0       	ldi	r18, 0x00	; 0
+ 42e:	89 2b       	or	r24, r25
+ 430:	09 f0       	breq	.+2      	; 0x434 <enc28j60linkup+0xe>
+ 432:	21 e0       	ldi	r18, 0x01	; 1
+}
+ 434:	82 2f       	mov	r24, r18
+ 436:	08 95       	ret
+
+00000438 <enc28j60PacketSend>:
+
+void enc28j60PacketSend(uint16_t len, uint8_t* packet)
+{
+ 438:	df 92       	push	r13
+ 43a:	ef 92       	push	r14
+ 43c:	ff 92       	push	r15
+ 43e:	0f 93       	push	r16
+ 440:	1f 93       	push	r17
+ 442:	cf 93       	push	r28
+ 444:	df 93       	push	r29
+ 446:	ec 01       	movw	r28, r24
+ 448:	8b 01       	movw	r16, r22
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 44a:	3f e9       	ldi	r19, 0x9F	; 159
+ 44c:	d3 2e       	mov	r13, r19
+        waitspi();
+        // write data
+        SPDR = data;
+ 44e:	20 e8       	ldi	r18, 0x80	; 128
+ 450:	f2 2e       	mov	r15, r18
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 452:	9f eb       	ldi	r25, 0xBF	; 191
+ 454:	e9 2e       	mov	r14, r25
+ 456:	15 c0       	rjmp	.+42     	; 0x482 <__stack+0x23>
+{
+        // Check no transmit in progress
+        while (enc28j60ReadOp(ENC28J60_READ_CTRL_REG, ECON1) & ECON1_TXRTS)
+        {
+                // Reset the transmit logic problem. See Rev. B4 Silicon Errata point 12.
+                if( (enc28j60Read(EIR) & EIR_TXERIF) ) {
+ 458:	8c e1       	ldi	r24, 0x1C	; 28
+ 45a:	0e 94 fd 00 	call	0x1fa	; 0x1fa <enc28j60Read>
+ 45e:	81 ff       	sbrs	r24, 1
+ 460:	10 c0       	rjmp	.+32     	; 0x482 <__stack+0x23>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 462:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 464:	df b8       	out	0x0f, r13	; 15
+        waitspi();
+ 466:	77 9b       	sbis	0x0e, 7	; 14
+ 468:	fe cf       	rjmp	.-4      	; 0x466 <__stack+0x7>
+        // write data
+        SPDR = data;
+ 46a:	ff b8       	out	0x0f, r15	; 15
+        waitspi();
+ 46c:	77 9b       	sbis	0x0e, 7	; 14
+ 46e:	fe cf       	rjmp	.-4      	; 0x46c <__stack+0xd>
+        CSPASSIVE;
+ 470:	c4 9a       	sbi	0x18, 4	; 24
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 472:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 474:	ef b8       	out	0x0f, r14	; 15
+        waitspi();
+ 476:	77 9b       	sbis	0x0e, 7	; 14
+ 478:	fe cf       	rjmp	.-4      	; 0x476 <__stack+0x17>
+        // write data
+        SPDR = data;
+ 47a:	ff b8       	out	0x0f, r15	; 15
+        waitspi();
+ 47c:	77 9b       	sbis	0x0e, 7	; 14
+ 47e:	fe cf       	rjmp	.-4      	; 0x47c <__stack+0x1d>
+        CSPASSIVE;
+ 480:	c4 9a       	sbi	0x18, 4	; 24
+}
+
+void enc28j60PacketSend(uint16_t len, uint8_t* packet)
+{
+        // Check no transmit in progress
+        while (enc28j60ReadOp(ENC28J60_READ_CTRL_REG, ECON1) & ECON1_TXRTS)
+ 482:	80 e0       	ldi	r24, 0x00	; 0
+ 484:	6f e1       	ldi	r22, 0x1F	; 31
+ 486:	0e 94 8c 00 	call	0x118	; 0x118 <enc28j60ReadOp>
+ 48a:	83 fd       	sbrc	r24, 3
+ 48c:	e5 cf       	rjmp	.-54     	; 0x458 <enc28j60PacketSend+0x20>
+                        enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_TXRST);
+                        enc28j60WriteOp(ENC28J60_BIT_FIELD_CLR, ECON1, ECON1_TXRST);
+                }
+        }
+	// Set the write pointer to start of transmit buffer area
+	enc28j60Write(EWRPTL, TXSTART_INIT&0xFF);
+ 48e:	82 e0       	ldi	r24, 0x02	; 2
+ 490:	6f ef       	ldi	r22, 0xFF	; 255
+ 492:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(EWRPTH, TXSTART_INIT>>8);
+ 496:	83 e0       	ldi	r24, 0x03	; 3
+ 498:	69 e1       	ldi	r22, 0x19	; 25
+ 49a:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// Set the TXND pointer to correspond to the packet size given
+	enc28j60Write(ETXNDL, (TXSTART_INIT+len)&0xFF);
+ 49e:	ce 01       	movw	r24, r28
+ 4a0:	81 50       	subi	r24, 0x01	; 1
+ 4a2:	68 2f       	mov	r22, r24
+ 4a4:	86 e0       	ldi	r24, 0x06	; 6
+ 4a6:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(ETXNDH, (TXSTART_INIT+len)>>8);
+ 4aa:	9e 01       	movw	r18, r28
+ 4ac:	21 50       	subi	r18, 0x01	; 1
+ 4ae:	36 4e       	sbci	r19, 0xE6	; 230
+ 4b0:	87 e0       	ldi	r24, 0x07	; 7
+ 4b2:	63 2f       	mov	r22, r19
+ 4b4:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 4b8:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 4ba:	8a e7       	ldi	r24, 0x7A	; 122
+ 4bc:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 4be:	77 9b       	sbis	0x0e, 7	; 14
+ 4c0:	fe cf       	rjmp	.-4      	; 0x4be <__stack+0x5f>
+        // write data
+        SPDR = data;
+ 4c2:	1f b8       	out	0x0f, r1	; 15
+        waitspi();
+ 4c4:	77 9b       	sbis	0x0e, 7	; 14
+ 4c6:	fe cf       	rjmp	.-4      	; 0x4c4 <__stack+0x65>
+        CSPASSIVE;
+ 4c8:	c4 9a       	sbi	0x18, 4	; 24
+        CSPASSIVE;
+}
+
+void enc28j60WriteBuffer(uint16_t len, uint8_t* data)
+{
+        CSACTIVE;
+ 4ca:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+ 4cc:	8a e7       	ldi	r24, 0x7A	; 122
+ 4ce:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 4d0:	77 9b       	sbis	0x0e, 7	; 14
+ 4d2:	fe cf       	rjmp	.-4      	; 0x4d0 <__stack+0x71>
+ 4d4:	08 c0       	rjmp	.+16     	; 0x4e6 <__stack+0x87>
+        while(len)
+        {
+                len--;
+                // write data
+                SPDR = *data;
+ 4d6:	f8 01       	movw	r30, r16
+ 4d8:	80 81       	ld	r24, Z
+ 4da:	8f b9       	out	0x0f, r24	; 15
+                data++;
+                waitspi();
+ 4dc:	77 9b       	sbis	0x0e, 7	; 14
+ 4de:	fe cf       	rjmp	.-4      	; 0x4dc <__stack+0x7d>
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+        waitspi();
+        while(len)
+        {
+                len--;
+ 4e0:	21 97       	sbiw	r28, 0x01	; 1
+                // write data
+                SPDR = *data;
+                data++;
+ 4e2:	0f 5f       	subi	r16, 0xFF	; 255
+ 4e4:	1f 4f       	sbci	r17, 0xFF	; 255
+{
+        CSACTIVE;
+        // issue write command
+        SPDR = ENC28J60_WRITE_BUF_MEM;
+        waitspi();
+        while(len)
+ 4e6:	20 97       	sbiw	r28, 0x00	; 0
+ 4e8:	b1 f7       	brne	.-20     	; 0x4d6 <__stack+0x77>
+                // write data
+                SPDR = *data;
+                data++;
+                waitspi();
+        }
+        CSPASSIVE;
+ 4ea:	c4 9a       	sbi	0x18, 4	; 24
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 4ec:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 4ee:	8f e9       	ldi	r24, 0x9F	; 159
+ 4f0:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 4f2:	77 9b       	sbis	0x0e, 7	; 14
+ 4f4:	fe cf       	rjmp	.-4      	; 0x4f2 <__stack+0x93>
+        // write data
+        SPDR = data;
+ 4f6:	88 e0       	ldi	r24, 0x08	; 8
+ 4f8:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 4fa:	77 9b       	sbis	0x0e, 7	; 14
+ 4fc:	fe cf       	rjmp	.-4      	; 0x4fa <__stack+0x9b>
+        CSPASSIVE;
+ 4fe:	c4 9a       	sbi	0x18, 4	; 24
+	enc28j60WriteOp(ENC28J60_WRITE_BUF_MEM, 0, 0x00);
+	// copy the packet into the transmit buffer
+	enc28j60WriteBuffer(len, packet);
+	// send the contents of the transmit buffer onto the network
+	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON1, ECON1_TXRTS);
+}
+ 500:	df 91       	pop	r29
+ 502:	cf 91       	pop	r28
+ 504:	1f 91       	pop	r17
+ 506:	0f 91       	pop	r16
+ 508:	ff 90       	pop	r15
+ 50a:	ef 90       	pop	r14
+ 50c:	df 90       	pop	r13
+ 50e:	08 95       	ret
+
+00000510 <enc28j60hasRxPkt>:
+
+// just probe if there might be a packet
+uint8_t enc28j60hasRxPkt(void)
+{
+	if( enc28j60Read(EPKTCNT) ==0 ){
+ 510:	89 e3       	ldi	r24, 0x39	; 57
+ 512:	0e 94 fd 00 	call	0x1fa	; 0x1fa <enc28j60Read>
+ 516:	81 11       	cpse	r24, r1
+ 518:	81 e0       	ldi	r24, 0x01	; 1
+		return(0);
+        }
+        return(1);
+}
+ 51a:	08 95       	ret
+
+0000051c <enc28j60PacketReceive>:
+// The packet will by headed by an ethernet header.
+//      maxlen  The maximum acceptable length of a retrieved packet.
+//      packet  Pointer where packet data should be stored.
+// Returns: Packet length in bytes if a packet was retrieved, zero otherwise.
+uint16_t enc28j60PacketReceive(uint16_t maxlen, uint8_t* packet)
+{
+ 51c:	8f 92       	push	r8
+ 51e:	9f 92       	push	r9
+ 520:	af 92       	push	r10
+ 522:	bf 92       	push	r11
+ 524:	cf 92       	push	r12
+ 526:	df 92       	push	r13
+ 528:	ef 92       	push	r14
+ 52a:	ff 92       	push	r15
+ 52c:	0f 93       	push	r16
+ 52e:	1f 93       	push	r17
+ 530:	cf 93       	push	r28
+ 532:	df 93       	push	r29
+ 534:	5c 01       	movw	r10, r24
+ 536:	4b 01       	movw	r8, r22
+	uint16_t rxstat;
+	uint16_t len;
+	// check if a packet has been received and buffered
+	//if( !(enc28j60Read(EIR) & EIR_PKTIF) ){
+        // The above does not work. See Rev. B4 Silicon Errata point 6.
+	if( enc28j60Read(EPKTCNT) ==0 ){
+ 538:	89 e3       	ldi	r24, 0x39	; 57
+ 53a:	0e 94 fd 00 	call	0x1fa	; 0x1fa <enc28j60Read>
+ 53e:	88 23       	and	r24, r24
+ 540:	19 f4       	brne	.+6      	; 0x548 <enc28j60PacketReceive+0x2c>
+ 542:	c0 e0       	ldi	r28, 0x00	; 0
+ 544:	d0 e0       	ldi	r29, 0x00	; 0
+ 546:	76 c0       	rjmp	.+236    	; 0x634 <enc28j60PacketReceive+0x118>
+		return(0);
+        }
+
+	// Set the read pointer to the start of the received packet
+	enc28j60Write(ERDPTL, (gNextPacketPtr &0xFF));
+ 548:	60 91 7d 00 	lds	r22, 0x007D
+ 54c:	10 91 7e 00 	lds	r17, 0x007E
+ 550:	80 e0       	ldi	r24, 0x00	; 0
+ 552:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(ERDPTH, (gNextPacketPtr)>>8);
+ 556:	81 e0       	ldi	r24, 0x01	; 1
+ 558:	61 2f       	mov	r22, r17
+ 55a:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	// read the next packet pointer
+	gNextPacketPtr  = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
+ 55e:	8a e3       	ldi	r24, 0x3A	; 58
+ 560:	60 e0       	ldi	r22, 0x00	; 0
+ 562:	0e 94 8c 00 	call	0x118	; 0x118 <enc28j60ReadOp>
+ 566:	18 2f       	mov	r17, r24
+	gNextPacketPtr |= enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0)<<8;
+ 568:	8a e3       	ldi	r24, 0x3A	; 58
+ 56a:	60 e0       	ldi	r22, 0x00	; 0
+ 56c:	0e 94 8c 00 	call	0x118	; 0x118 <enc28j60ReadOp>
+ 570:	38 2f       	mov	r19, r24
+ 572:	20 e0       	ldi	r18, 0x00	; 0
+ 574:	e1 2e       	mov	r14, r17
+ 576:	ff 24       	eor	r15, r15
+ 578:	e2 2a       	or	r14, r18
+ 57a:	f3 2a       	or	r15, r19
+ 57c:	f0 92 7e 00 	sts	0x007E, r15
+ 580:	e0 92 7d 00 	sts	0x007D, r14
+	// read the packet length (see datasheet page 43)
+	len  = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
+ 584:	8a e3       	ldi	r24, 0x3A	; 58
+ 586:	60 e0       	ldi	r22, 0x00	; 0
+ 588:	0e 94 8c 00 	call	0x118	; 0x118 <enc28j60ReadOp>
+ 58c:	c8 2e       	mov	r12, r24
+	len |= enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0)<<8;
+ 58e:	8a e3       	ldi	r24, 0x3A	; 58
+ 590:	60 e0       	ldi	r22, 0x00	; 0
+ 592:	0e 94 8c 00 	call	0x118	; 0x118 <enc28j60ReadOp>
+ 596:	d8 2e       	mov	r13, r24
+        len-=4; //remove the CRC count
+	// read the receive status (see datasheet page 43)
+	rxstat  = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
+ 598:	8a e3       	ldi	r24, 0x3A	; 58
+ 59a:	60 e0       	ldi	r22, 0x00	; 0
+ 59c:	0e 94 8c 00 	call	0x118	; 0x118 <enc28j60ReadOp>
+ 5a0:	08 2f       	mov	r16, r24
+ 5a2:	10 e0       	ldi	r17, 0x00	; 0
+	rxstat |= ((uint16_t)enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0))<<8;
+ 5a4:	8a e3       	ldi	r24, 0x3A	; 58
+ 5a6:	60 e0       	ldi	r22, 0x00	; 0
+ 5a8:	0e 94 8c 00 	call	0x118	; 0x118 <enc28j60ReadOp>
+                len=maxlen-1;
+        }
+        // check CRC and symbol errors (see datasheet page 44, table 7-3):
+        // The ERXFCON.CRCEN is set by default. Normally we should not
+        // need to check this.
+        if ((rxstat & 0x80)==0){
+ 5ac:	38 2f       	mov	r19, r24
+ 5ae:	20 e0       	ldi	r18, 0x00	; 0
+ 5b0:	20 2b       	or	r18, r16
+ 5b2:	31 2b       	or	r19, r17
+ 5b4:	27 fd       	sbrc	r18, 7
+ 5b6:	03 c0       	rjmp	.+6      	; 0x5be <enc28j60PacketReceive+0xa2>
+ 5b8:	c0 e0       	ldi	r28, 0x00	; 0
+ 5ba:	d0 e0       	ldi	r29, 0x00	; 0
+ 5bc:	11 c0       	rjmp	.+34     	; 0x5e0 <enc28j60PacketReceive+0xc4>
+	enc28j60Write(ERDPTH, (gNextPacketPtr)>>8);
+	// read the next packet pointer
+	gNextPacketPtr  = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
+	gNextPacketPtr |= enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0)<<8;
+	// read the packet length (see datasheet page 43)
+	len  = enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0);
+ 5be:	cc 2d       	mov	r28, r12
+ 5c0:	d0 e0       	ldi	r29, 0x00	; 0
+	len |= enc28j60ReadOp(ENC28J60_READ_BUF_MEM, 0)<<8;
+ 5c2:	9d 2d       	mov	r25, r13
+ 5c4:	80 e0       	ldi	r24, 0x00	; 0
+ 5c6:	c8 2b       	or	r28, r24
+ 5c8:	d9 2b       	or	r29, r25
+        len-=4; //remove the CRC count
+ 5ca:	c5 01       	movw	r24, r10
+ 5cc:	01 97       	sbiw	r24, 0x01	; 1
+ 5ce:	24 97       	sbiw	r28, 0x04	; 4
+ 5d0:	8c 17       	cp	r24, r28
+ 5d2:	9d 07       	cpc	r25, r29
+ 5d4:	08 f4       	brcc	.+2      	; 0x5d8 <enc28j60PacketReceive+0xbc>
+ 5d6:	ec 01       	movw	r28, r24
+        if ((rxstat & 0x80)==0){
+                // invalid
+                len=0;
+        }else{
+                // copy the packet from the receive buffer
+                enc28j60ReadBuffer(len, packet);
+ 5d8:	ce 01       	movw	r24, r28
+ 5da:	b4 01       	movw	r22, r8
+ 5dc:	0e 94 a9 00 	call	0x152	; 0x152 <enc28j60ReadBuffer>
+        }
+	// Move the RX read pointer to the start of the next received packet
+	// This frees the memory we just read out
+	enc28j60Write(ERXRDPTL, (gNextPacketPtr &0xFF));
+ 5e0:	de 2c       	mov	r13, r14
+ 5e2:	8c e0       	ldi	r24, 0x0C	; 12
+ 5e4:	6e 2d       	mov	r22, r14
+ 5e6:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+	enc28j60Write(ERXRDPTH, (gNextPacketPtr)>>8);
+ 5ea:	8d e0       	ldi	r24, 0x0D	; 13
+ 5ec:	6f 2d       	mov	r22, r15
+ 5ee:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        // Move the RX read pointer to the start of the next received packet
+        // This frees the memory we just read out.
+        // However, compensate for the errata point 13, rev B4: enver write an even address!
+        if ((gNextPacketPtr - 1 < RXSTART_INIT)
+ 5f2:	87 01       	movw	r16, r14
+ 5f4:	01 50       	subi	r16, 0x01	; 1
+ 5f6:	10 40       	sbci	r17, 0x00	; 0
+ 5f8:	89 e1       	ldi	r24, 0x19	; 25
+ 5fa:	0f 3f       	cpi	r16, 0xFF	; 255
+ 5fc:	18 07       	cpc	r17, r24
+ 5fe:	38 f0       	brcs	.+14     	; 0x60e <enc28j60PacketReceive+0xf2>
+                || (gNextPacketPtr -1 > RXSTOP_INIT)) {
+                enc28j60Write(ERXRDPTL, (RXSTOP_INIT)&0xFF);
+ 600:	8c e0       	ldi	r24, 0x0C	; 12
+ 602:	6e ef       	ldi	r22, 0xFE	; 254
+ 604:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+                enc28j60Write(ERXRDPTH, (RXSTOP_INIT)>>8);
+ 608:	8d e0       	ldi	r24, 0x0D	; 13
+ 60a:	69 e1       	ldi	r22, 0x19	; 25
+ 60c:	07 c0       	rjmp	.+14     	; 0x61c <enc28j60PacketReceive+0x100>
+        } else {
+                enc28j60Write(ERXRDPTL, (gNextPacketPtr-1)&0xFF);
+ 60e:	da 94       	dec	r13
+ 610:	8c e0       	ldi	r24, 0x0C	; 12
+ 612:	6d 2d       	mov	r22, r13
+ 614:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+                enc28j60Write(ERXRDPTH, (gNextPacketPtr-1)>>8);
+ 618:	8d e0       	ldi	r24, 0x0D	; 13
+ 61a:	61 2f       	mov	r22, r17
+ 61c:	0e 94 07 01 	call	0x20e	; 0x20e <enc28j60Write>
+        return(SPDR);
+}
+
+void enc28j60WriteOp(uint8_t op, uint8_t address, uint8_t data)
+{
+        CSACTIVE;
+ 620:	c4 98       	cbi	0x18, 4	; 24
+        // issue write command
+        SPDR = op | (address & ADDR_MASK);
+ 622:	8e e9       	ldi	r24, 0x9E	; 158
+ 624:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 626:	77 9b       	sbis	0x0e, 7	; 14
+ 628:	fe cf       	rjmp	.-4      	; 0x626 <enc28j60PacketReceive+0x10a>
+        // write data
+        SPDR = data;
+ 62a:	80 e4       	ldi	r24, 0x40	; 64
+ 62c:	8f b9       	out	0x0f, r24	; 15
+        waitspi();
+ 62e:	77 9b       	sbis	0x0e, 7	; 14
+ 630:	fe cf       	rjmp	.-4      	; 0x62e <enc28j60PacketReceive+0x112>
+        CSPASSIVE;
+ 632:	c4 9a       	sbi	0x18, 4	; 24
+                enc28j60Write(ERXRDPTH, (gNextPacketPtr-1)>>8);
+        }
+	// decrement the packet counter indicate we are done with this packet
+	enc28j60WriteOp(ENC28J60_BIT_FIELD_SET, ECON2, ECON2_PKTDEC);
+	return(len);
+}
+ 634:	ce 01       	movw	r24, r28
+ 636:	df 91       	pop	r29
+ 638:	cf 91       	pop	r28
+ 63a:	1f 91       	pop	r17
+ 63c:	0f 91       	pop	r16
+ 63e:	ff 90       	pop	r15
+ 640:	ef 90       	pop	r14
+ 642:	df 90       	pop	r13
+ 644:	cf 90       	pop	r12
+ 646:	bf 90       	pop	r11
+ 648:	af 90       	pop	r10
+ 64a:	9f 90       	pop	r9
+ 64c:	8f 90       	pop	r8
+ 64e:	08 95       	ret
+
+00000650 <checksum>:
+//
+// For more information on how this algorithm works see:
+// http://www.netfor2.com/checksum.html
+// http://www.msc.uky.edu/ken/cs471/notes/chap3.htm
+// The RFC has also a C code example: http://www.faqs.org/rfcs/rfc1071.html
+uint16_t checksum(uint8_t *buf, uint16_t len,uint8_t type){
+ 650:	cf 92       	push	r12
+ 652:	df 92       	push	r13
+ 654:	ef 92       	push	r14
+ 656:	ff 92       	push	r15
+ 658:	0f 93       	push	r16
+ 65a:	1f 93       	push	r17
+ 65c:	cf 93       	push	r28
+ 65e:	df 93       	push	r29
+ 660:	6c 01       	movw	r12, r24
+        uint32_t sum = 0;
+
+        //if(type==0){
+        //        // do not add anything
+        //}
+        if(type==1){
+ 662:	41 30       	cpi	r20, 0x01	; 1
+ 664:	81 f4       	brne	.+32     	; 0x686 <checksum+0x36>
+                sum+=IP_PROTO_UDP_V; // protocol udp
+                // the length here is the length of udp (data+header len)
+                // =length given to this function - (IP.scr+IP.dst length)
+                sum+=len-8; // = real tcp len
+ 666:	68 50       	subi	r22, 0x08	; 8
+ 668:	70 40       	sbci	r23, 0x00	; 0
+ 66a:	7b 01       	movw	r14, r22
+ 66c:	00 e0       	ldi	r16, 0x00	; 0
+ 66e:	10 e0       	ldi	r17, 0x00	; 0
+ 670:	68 5f       	subi	r22, 0xF8	; 248
+ 672:	7f 4f       	sbci	r23, 0xFF	; 255
+ 674:	21 e1       	ldi	r18, 0x11	; 17
+ 676:	30 e0       	ldi	r19, 0x00	; 0
+ 678:	40 e0       	ldi	r20, 0x00	; 0
+ 67a:	50 e0       	ldi	r21, 0x00	; 0
+ 67c:	e2 0e       	add	r14, r18
+ 67e:	f3 1e       	adc	r15, r19
+ 680:	04 1f       	adc	r16, r20
+ 682:	15 1f       	adc	r17, r21
+ 684:	15 c0       	rjmp	.+42     	; 0x6b0 <checksum+0x60>
+        }
+        if(type==2){
+ 686:	42 30       	cpi	r20, 0x02	; 2
+ 688:	21 f0       	breq	.+8      	; 0x692 <checksum+0x42>
+ 68a:	ee 24       	eor	r14, r14
+ 68c:	ff 24       	eor	r15, r15
+ 68e:	87 01       	movw	r16, r14
+ 690:	0f c0       	rjmp	.+30     	; 0x6b0 <checksum+0x60>
+                sum+=IP_PROTO_TCP_V; 
+                // the length here is the length of tcp (data+header len)
+                // =length given to this function - (IP.scr+IP.dst length)
+                sum+=len-8; // = real tcp len
+ 692:	68 50       	subi	r22, 0x08	; 8
+ 694:	70 40       	sbci	r23, 0x00	; 0
+ 696:	7b 01       	movw	r14, r22
+ 698:	00 e0       	ldi	r16, 0x00	; 0
+ 69a:	10 e0       	ldi	r17, 0x00	; 0
+ 69c:	68 5f       	subi	r22, 0xF8	; 248
+ 69e:	7f 4f       	sbci	r23, 0xFF	; 255
+ 6a0:	86 e0       	ldi	r24, 0x06	; 6
+ 6a2:	90 e0       	ldi	r25, 0x00	; 0
+ 6a4:	a0 e0       	ldi	r26, 0x00	; 0
+ 6a6:	b0 e0       	ldi	r27, 0x00	; 0
+ 6a8:	e8 0e       	add	r14, r24
+ 6aa:	f9 1e       	adc	r15, r25
+ 6ac:	0a 1f       	adc	r16, r26
+ 6ae:	1b 1f       	adc	r17, r27
+ 6b0:	f6 01       	movw	r30, r12
+ 6b2:	eb 01       	movw	r28, r22
+ 6b4:	16 c0       	rjmp	.+44     	; 0x6e2 <checksum+0x92>
+        }
+        // build the sum of 16bit words
+        while(len >1){
+                sum += 0xFFFF & (((uint32_t)*buf<<8)|*(buf+1));
+ 6b6:	80 81       	ld	r24, Z
+ 6b8:	90 e0       	ldi	r25, 0x00	; 0
+ 6ba:	a0 e0       	ldi	r26, 0x00	; 0
+ 6bc:	b0 e0       	ldi	r27, 0x00	; 0
+ 6be:	ba 2f       	mov	r27, r26
+ 6c0:	a9 2f       	mov	r26, r25
+ 6c2:	98 2f       	mov	r25, r24
+ 6c4:	88 27       	eor	r24, r24
+ 6c6:	21 81       	ldd	r18, Z+1	; 0x01
+ 6c8:	30 e0       	ldi	r19, 0x00	; 0
+ 6ca:	40 e0       	ldi	r20, 0x00	; 0
+ 6cc:	50 e0       	ldi	r21, 0x00	; 0
+ 6ce:	82 2b       	or	r24, r18
+ 6d0:	93 2b       	or	r25, r19
+ 6d2:	a4 2b       	or	r26, r20
+ 6d4:	b5 2b       	or	r27, r21
+ 6d6:	e8 0e       	add	r14, r24
+ 6d8:	f9 1e       	adc	r15, r25
+ 6da:	0a 1f       	adc	r16, r26
+ 6dc:	1b 1f       	adc	r17, r27
+                buf+=2;
+ 6de:	32 96       	adiw	r30, 0x02	; 2
+                len-=2;
+ 6e0:	22 97       	sbiw	r28, 0x02	; 2
+                // the length here is the length of tcp (data+header len)
+                // =length given to this function - (IP.scr+IP.dst length)
+                sum+=len-8; // = real tcp len
+        }
+        // build the sum of 16bit words
+        while(len >1){
+ 6e2:	c2 30       	cpi	r28, 0x02	; 2
+ 6e4:	d1 05       	cpc	r29, r1
+ 6e6:	38 f7       	brcc	.-50     	; 0x6b6 <checksum+0x66>
+ 6e8:	fb 01       	movw	r30, r22
+ 6ea:	ee 7f       	andi	r30, 0xFE	; 254
+ 6ec:	ec 0d       	add	r30, r12
+ 6ee:	fd 1d       	adc	r31, r13
+                sum += 0xFFFF & (((uint32_t)*buf<<8)|*(buf+1));
+                buf+=2;
+                len-=2;
+        }
+        // if there is a byte left then add it (padded with zero)
+        if (len){
+ 6f0:	60 ff       	sbrs	r22, 0
+ 6f2:	15 c0       	rjmp	.+42     	; 0x71e <checksum+0xce>
+                sum += ((uint32_t)(0xFF & *buf))<<8;
+ 6f4:	80 81       	ld	r24, Z
+ 6f6:	90 e0       	ldi	r25, 0x00	; 0
+ 6f8:	a0 e0       	ldi	r26, 0x00	; 0
+ 6fa:	b0 e0       	ldi	r27, 0x00	; 0
+ 6fc:	ba 2f       	mov	r27, r26
+ 6fe:	a9 2f       	mov	r26, r25
+ 700:	98 2f       	mov	r25, r24
+ 702:	88 27       	eor	r24, r24
+ 704:	08 c0       	rjmp	.+16     	; 0x716 <checksum+0xc6>
+        }
+        // now calculate the sum over the bytes in the sum
+        // until the result is only 16bit long
+        while (sum>>16){
+                sum = (sum & 0xFFFF)+(sum >> 16);
+ 706:	2f ef       	ldi	r18, 0xFF	; 255
+ 708:	3f ef       	ldi	r19, 0xFF	; 255
+ 70a:	40 e0       	ldi	r20, 0x00	; 0
+ 70c:	50 e0       	ldi	r21, 0x00	; 0
+ 70e:	e2 22       	and	r14, r18
+ 710:	f3 22       	and	r15, r19
+ 712:	04 23       	and	r16, r20
+ 714:	15 23       	and	r17, r21
+ 716:	e8 0e       	add	r14, r24
+ 718:	f9 1e       	adc	r15, r25
+ 71a:	0a 1f       	adc	r16, r26
+ 71c:	1b 1f       	adc	r17, r27
+        if (len){
+                sum += ((uint32_t)(0xFF & *buf))<<8;
+        }
+        // now calculate the sum over the bytes in the sum
+        // until the result is only 16bit long
+        while (sum>>16){
+ 71e:	c8 01       	movw	r24, r16
+ 720:	aa 27       	eor	r26, r26
+ 722:	bb 27       	eor	r27, r27
+ 724:	00 97       	sbiw	r24, 0x00	; 0
+ 726:	a1 05       	cpc	r26, r1
+ 728:	b1 05       	cpc	r27, r1
+ 72a:	69 f7       	brne	.-38     	; 0x706 <checksum+0xb6>
+ 72c:	97 01       	movw	r18, r14
+ 72e:	20 95       	com	r18
+ 730:	30 95       	com	r19
+                sum = (sum & 0xFFFF)+(sum >> 16);
+        }
+        // build 1's complement:
+        return( (uint16_t) sum ^ 0xFFFF);
+}
+ 732:	c9 01       	movw	r24, r18
+ 734:	df 91       	pop	r29
+ 736:	cf 91       	pop	r28
+ 738:	1f 91       	pop	r17
+ 73a:	0f 91       	pop	r16
+ 73c:	ff 90       	pop	r15
+ 73e:	ef 90       	pop	r14
+ 740:	df 90       	pop	r13
+ 742:	cf 90       	pop	r12
+ 744:	08 95       	ret
+
+00000746 <init_ip_arp_udp_tcp>:
+
+// you must call this function once before you use any of the other functions:
+void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint8_t wwwp){
+ 746:	cf 93       	push	r28
+ 748:	df 93       	push	r29
+ 74a:	ec 01       	movw	r28, r24
+        uint8_t i=0;
+        wwwport=wwwp;
+ 74c:	40 93 75 00 	sts	0x0075, r20
+ 750:	20 e0       	ldi	r18, 0x00	; 0
+ 752:	30 e0       	ldi	r19, 0x00	; 0
+        while(i<4){
+                ipaddr[i]=myip[i];
+ 754:	f9 01       	movw	r30, r18
+ 756:	eb 57       	subi	r30, 0x7B	; 123
+ 758:	ff 4f       	sbci	r31, 0xFF	; 255
+ 75a:	db 01       	movw	r26, r22
+ 75c:	a2 0f       	add	r26, r18
+ 75e:	b3 1f       	adc	r27, r19
+ 760:	8c 91       	ld	r24, X
+ 762:	80 83       	st	Z, r24
+ 764:	2f 5f       	subi	r18, 0xFF	; 255
+ 766:	3f 4f       	sbci	r19, 0xFF	; 255
+
+// you must call this function once before you use any of the other functions:
+void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint8_t wwwp){
+        uint8_t i=0;
+        wwwport=wwwp;
+        while(i<4){
+ 768:	24 30       	cpi	r18, 0x04	; 4
+ 76a:	31 05       	cpc	r19, r1
+ 76c:	99 f7       	brne	.-26     	; 0x754 <init_ip_arp_udp_tcp+0xe>
+ 76e:	20 e0       	ldi	r18, 0x00	; 0
+ 770:	30 e0       	ldi	r19, 0x00	; 0
+                ipaddr[i]=myip[i];
+                i++;
+        }
+        i=0;
+        while(i<6){
+                macaddr[i]=mymac[i];
+ 772:	f9 01       	movw	r30, r18
+ 774:	e1 58       	subi	r30, 0x81	; 129
+ 776:	ff 4f       	sbci	r31, 0xFF	; 255
+ 778:	de 01       	movw	r26, r28
+ 77a:	a2 0f       	add	r26, r18
+ 77c:	b3 1f       	adc	r27, r19
+ 77e:	8c 91       	ld	r24, X
+ 780:	80 83       	st	Z, r24
+ 782:	2f 5f       	subi	r18, 0xFF	; 255
+ 784:	3f 4f       	sbci	r19, 0xFF	; 255
+        while(i<4){
+                ipaddr[i]=myip[i];
+                i++;
+        }
+        i=0;
+        while(i<6){
+ 786:	26 30       	cpi	r18, 0x06	; 6
+ 788:	31 05       	cpc	r19, r1
+ 78a:	99 f7       	brne	.-26     	; 0x772 <init_ip_arp_udp_tcp+0x2c>
+                macaddr[i]=mymac[i];
+                i++;
+        }
+}
+ 78c:	df 91       	pop	r29
+ 78e:	cf 91       	pop	r28
+ 790:	08 95       	ret
+
+00000792 <eth_type_is_arp_and_my_ip>:
+
+uint8_t eth_type_is_arp_and_my_ip(uint8_t *buf,uint16_t len){
+ 792:	fc 01       	movw	r30, r24
+        uint8_t i=0;
+        //  
+        if (len<41){
+ 794:	69 32       	cpi	r22, 0x29	; 41
+ 796:	71 05       	cpc	r23, r1
+ 798:	b0 f0       	brcs	.+44     	; 0x7c6 <eth_type_is_arp_and_my_ip+0x34>
+                return(0);
+        }
+        if(buf[ETH_TYPE_H_P] != ETHTYPE_ARP_H_V || 
+ 79a:	84 85       	ldd	r24, Z+12	; 0x0c
+ 79c:	88 30       	cpi	r24, 0x08	; 8
+ 79e:	99 f4       	brne	.+38     	; 0x7c6 <eth_type_is_arp_and_my_ip+0x34>
+ 7a0:	85 85       	ldd	r24, Z+13	; 0x0d
+ 7a2:	86 30       	cpi	r24, 0x06	; 6
+ 7a4:	81 f4       	brne	.+32     	; 0x7c6 <eth_type_is_arp_and_my_ip+0x34>
+ 7a6:	df 01       	movw	r26, r30
+ 7a8:	96 96       	adiw	r26, 0x26	; 38
+ 7aa:	e5 e8       	ldi	r30, 0x85	; 133
+ 7ac:	f0 e0       	ldi	r31, 0x00	; 0
+           buf[ETH_TYPE_L_P] != ETHTYPE_ARP_L_V){
+                return(0);
+        }
+        while(i<4){
+                if(buf[ETH_ARP_DST_IP_P+i] != ipaddr[i]){
+ 7ae:	9c 91       	ld	r25, X
+ 7b0:	80 81       	ld	r24, Z
+ 7b2:	98 17       	cp	r25, r24
+ 7b4:	41 f4       	brne	.+16     	; 0x7c6 <eth_type_is_arp_and_my_ip+0x34>
+ 7b6:	11 96       	adiw	r26, 0x01	; 1
+ 7b8:	31 96       	adiw	r30, 0x01	; 1
+        }
+        if(buf[ETH_TYPE_H_P] != ETHTYPE_ARP_H_V || 
+           buf[ETH_TYPE_L_P] != ETHTYPE_ARP_L_V){
+                return(0);
+        }
+        while(i<4){
+ 7ba:	80 e0       	ldi	r24, 0x00	; 0
+ 7bc:	e9 38       	cpi	r30, 0x89	; 137
+ 7be:	f8 07       	cpc	r31, r24
+ 7c0:	b1 f7       	brne	.-20     	; 0x7ae <eth_type_is_arp_and_my_ip+0x1c>
+ 7c2:	81 e0       	ldi	r24, 0x01	; 1
+ 7c4:	08 95       	ret
+ 7c6:	80 e0       	ldi	r24, 0x00	; 0
+                        return(0);
+                }
+                i++;
+        }
+        return(1);
+}
+ 7c8:	08 95       	ret
+
+000007ca <eth_type_is_ip_and_my_ip>:
+
+uint8_t eth_type_is_ip_and_my_ip(uint8_t *buf,uint16_t len){
+ 7ca:	fc 01       	movw	r30, r24
+        uint8_t i=0;
+        //eth+ip+udp header is 42
+        if (len<42){
+ 7cc:	6a 32       	cpi	r22, 0x2A	; 42
+ 7ce:	71 05       	cpc	r23, r1
+ 7d0:	d0 f0       	brcs	.+52     	; 0x806 <eth_type_is_ip_and_my_ip+0x3c>
+                return(0);
+        }
+        if(buf[ETH_TYPE_H_P]!=ETHTYPE_IP_H_V || 
+ 7d2:	84 85       	ldd	r24, Z+12	; 0x0c
+ 7d4:	88 30       	cpi	r24, 0x08	; 8
+ 7d6:	b9 f4       	brne	.+46     	; 0x806 <eth_type_is_ip_and_my_ip+0x3c>
+ 7d8:	85 85       	ldd	r24, Z+13	; 0x0d
+ 7da:	88 23       	and	r24, r24
+ 7dc:	a1 f4       	brne	.+40     	; 0x806 <eth_type_is_ip_and_my_ip+0x3c>
+           buf[ETH_TYPE_L_P]!=ETHTYPE_IP_L_V){
+                return(0);
+        }
+        if (buf[IP_HEADER_LEN_VER_P]!=0x45){
+ 7de:	86 85       	ldd	r24, Z+14	; 0x0e
+ 7e0:	85 34       	cpi	r24, 0x45	; 69
+ 7e2:	89 f4       	brne	.+34     	; 0x806 <eth_type_is_ip_and_my_ip+0x3c>
+ 7e4:	df 01       	movw	r26, r30
+ 7e6:	e5 e8       	ldi	r30, 0x85	; 133
+ 7e8:	f0 e0       	ldi	r31, 0x00	; 0
+                // must be IP V4 and 20 byte header
+                return(0);
+        }
+        while(i<4){
+                if(buf[IP_DST_P+i]!=ipaddr[i]){
+ 7ea:	5e 96       	adiw	r26, 0x1e	; 30
+ 7ec:	9c 91       	ld	r25, X
+ 7ee:	5e 97       	sbiw	r26, 0x1e	; 30
+ 7f0:	80 81       	ld	r24, Z
+ 7f2:	98 17       	cp	r25, r24
+ 7f4:	41 f4       	brne	.+16     	; 0x806 <eth_type_is_ip_and_my_ip+0x3c>
+ 7f6:	11 96       	adiw	r26, 0x01	; 1
+ 7f8:	31 96       	adiw	r30, 0x01	; 1
+        }
+        if (buf[IP_HEADER_LEN_VER_P]!=0x45){
+                // must be IP V4 and 20 byte header
+                return(0);
+        }
+        while(i<4){
+ 7fa:	80 e0       	ldi	r24, 0x00	; 0
+ 7fc:	e9 38       	cpi	r30, 0x89	; 137
+ 7fe:	f8 07       	cpc	r31, r24
+ 800:	a1 f7       	brne	.-24     	; 0x7ea <eth_type_is_ip_and_my_ip+0x20>
+ 802:	81 e0       	ldi	r24, 0x01	; 1
+ 804:	08 95       	ret
+ 806:	80 e0       	ldi	r24, 0x00	; 0
+                        return(0);
+                }
+                i++;
+        }
+        return(1);
+}
+ 808:	08 95       	ret
+
+0000080a <make_eth>:
+// make a return eth header from a received eth packet
+void make_eth(uint8_t *buf)
+{
+ 80a:	fc 01       	movw	r30, r24
+ 80c:	af e7       	ldi	r26, 0x7F	; 127
+ 80e:	b0 e0       	ldi	r27, 0x00	; 0
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+ 810:	86 81       	ldd	r24, Z+6	; 0x06
+ 812:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+ 814:	8d 91       	ld	r24, X+
+ 816:	86 83       	std	Z+6, r24	; 0x06
+ 818:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+ 81a:	80 e0       	ldi	r24, 0x00	; 0
+ 81c:	a5 38       	cpi	r26, 0x85	; 133
+ 81e:	b8 07       	cpc	r27, r24
+ 820:	b9 f7       	brne	.-18     	; 0x810 <make_eth+0x6>
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+                i++;
+        }
+}
+ 822:	08 95       	ret
+
+00000824 <fill_ip_hdr_checksum>:
+void fill_ip_hdr_checksum(uint8_t *buf)
+{
+ 824:	0f 93       	push	r16
+ 826:	1f 93       	push	r17
+ 828:	8c 01       	movw	r16, r24
+        uint16_t ck;
+        // clear the 2 byte checksum
+        buf[IP_CHECKSUM_P]=0;
+ 82a:	fc 01       	movw	r30, r24
+ 82c:	10 8e       	std	Z+24, r1	; 0x18
+        buf[IP_CHECKSUM_P+1]=0;
+ 82e:	11 8e       	std	Z+25, r1	; 0x19
+        buf[IP_FLAGS_P]=0x40; // don't fragment
+ 830:	80 e4       	ldi	r24, 0x40	; 64
+ 832:	84 8b       	std	Z+20, r24	; 0x14
+        buf[IP_FLAGS_P+1]=0;  // fragement offset
+ 834:	15 8a       	std	Z+21, r1	; 0x15
+        buf[IP_TTL_P]=64; // ttl
+ 836:	86 8b       	std	Z+22, r24	; 0x16
+        // calculate the checksum:
+        ck=checksum(&buf[IP_P], IP_HEADER_LEN,0);
+ 838:	c8 01       	movw	r24, r16
+ 83a:	0e 96       	adiw	r24, 0x0e	; 14
+ 83c:	64 e1       	ldi	r22, 0x14	; 20
+ 83e:	70 e0       	ldi	r23, 0x00	; 0
+ 840:	40 e0       	ldi	r20, 0x00	; 0
+ 842:	0e 94 28 03 	call	0x650	; 0x650 <checksum>
+        buf[IP_CHECKSUM_P]=ck>>8;
+ 846:	f8 01       	movw	r30, r16
+ 848:	90 8f       	std	Z+24, r25	; 0x18
+        buf[IP_CHECKSUM_P+1]=ck& 0xff;
+ 84a:	81 8f       	std	Z+25, r24	; 0x19
+}
+ 84c:	1f 91       	pop	r17
+ 84e:	0f 91       	pop	r16
+ 850:	08 95       	ret
+
+00000852 <make_ip>:
+
+// make a return ip header from a received ip packet
+void make_ip(uint8_t *buf)
+{
+ 852:	ac 01       	movw	r20, r24
+ 854:	fc 01       	movw	r30, r24
+ 856:	a5 e8       	ldi	r26, 0x85	; 133
+ 858:	b0 e0       	ldi	r27, 0x00	; 0
+        uint8_t i=0;
+        while(i<4){
+                buf[IP_DST_P+i]=buf[IP_SRC_P+i];
+ 85a:	82 8d       	ldd	r24, Z+26	; 0x1a
+ 85c:	86 8f       	std	Z+30, r24	; 0x1e
+                buf[IP_SRC_P+i]=ipaddr[i];
+ 85e:	8d 91       	ld	r24, X+
+ 860:	82 8f       	std	Z+26, r24	; 0x1a
+ 862:	31 96       	adiw	r30, 0x01	; 1
+
+// make a return ip header from a received ip packet
+void make_ip(uint8_t *buf)
+{
+        uint8_t i=0;
+        while(i<4){
+ 864:	80 e0       	ldi	r24, 0x00	; 0
+ 866:	a9 38       	cpi	r26, 0x89	; 137
+ 868:	b8 07       	cpc	r27, r24
+ 86a:	b9 f7       	brne	.-18     	; 0x85a <make_ip+0x8>
+                buf[IP_DST_P+i]=buf[IP_SRC_P+i];
+                buf[IP_SRC_P+i]=ipaddr[i];
+                i++;
+        }
+        fill_ip_hdr_checksum(buf);
+ 86c:	ca 01       	movw	r24, r20
+ 86e:	0e 94 12 04 	call	0x824	; 0x824 <fill_ip_hdr_checksum>
+}
+ 872:	08 95       	ret
+
+00000874 <make_tcphead>:
+//
+// After calling this function you can fill in the first data byte at TCP_OPTIONS_P+4
+// If cp_seq=0 then an initial sequence number is used (should be use in synack)
+// otherwise it is copied from the packet we received
+void make_tcphead(uint8_t *buf,uint16_t rel_ack_num,uint8_t mss,uint8_t cp_seq)
+{
+ 874:	fc 01       	movw	r30, r24
+        uint8_t i=0;
+        uint8_t tseq;
+        while(i<2){
+                buf[TCP_DST_PORT_H_P+i]=buf[TCP_SRC_PORT_H_P+i];
+ 876:	82 a1       	ldd	r24, Z+34	; 0x22
+ 878:	84 a3       	std	Z+36, r24	; 0x24
+                buf[TCP_SRC_PORT_H_P+i]=0; // clear source port
+ 87a:	12 a2       	std	Z+34, r1	; 0x22
+void make_tcphead(uint8_t *buf,uint16_t rel_ack_num,uint8_t mss,uint8_t cp_seq)
+{
+        uint8_t i=0;
+        uint8_t tseq;
+        while(i<2){
+                buf[TCP_DST_PORT_H_P+i]=buf[TCP_SRC_PORT_H_P+i];
+ 87c:	83 a1       	ldd	r24, Z+35	; 0x23
+ 87e:	85 a3       	std	Z+37, r24	; 0x25
+                buf[TCP_SRC_PORT_H_P+i]=0; // clear source port
+ 880:	13 a2       	std	Z+35, r1	; 0x23
+                i++;
+        }
+        // set source port  (http):
+        buf[TCP_SRC_PORT_L_P]=wwwport;
+ 882:	80 91 75 00 	lds	r24, 0x0075
+ 886:	83 a3       	std	Z+35, r24	; 0x23
+//
+// After calling this function you can fill in the first data byte at TCP_OPTIONS_P+4
+// If cp_seq=0 then an initial sequence number is used (should be use in synack)
+// otherwise it is copied from the packet we received
+void make_tcphead(uint8_t *buf,uint16_t rel_ack_num,uint8_t mss,uint8_t cp_seq)
+{
+ 888:	df 01       	movw	r26, r30
+ 88a:	99 96       	adiw	r26, 0x29	; 41
+ 88c:	94 e0       	ldi	r25, 0x04	; 4
+        buf[TCP_SRC_PORT_L_P]=wwwport;
+        i=4;
+        // sequence numbers:
+        // add the rel ack num to SEQACK
+        while(i>0){
+                rel_ack_num=buf[TCP_SEQ_H_P+i-1]+rel_ack_num;
+ 88e:	8c 91       	ld	r24, X
+ 890:	68 0f       	add	r22, r24
+ 892:	71 1d       	adc	r23, r1
+                tseq=buf[TCP_SEQACK_H_P+i-1];
+ 894:	14 96       	adiw	r26, 0x04	; 4
+ 896:	8c 91       	ld	r24, X
+ 898:	14 97       	sbiw	r26, 0x04	; 4
+                buf[TCP_SEQACK_H_P+i-1]=0xff&rel_ack_num;
+ 89a:	14 96       	adiw	r26, 0x04	; 4
+ 89c:	6c 93       	st	X, r22
+ 89e:	14 97       	sbiw	r26, 0x04	; 4
+                if (cp_seq){
+ 8a0:	22 23       	and	r18, r18
+ 8a2:	11 f0       	breq	.+4      	; 0x8a8 <make_tcphead+0x34>
+                        // copy the acknum sent to us into the sequence number
+                        buf[TCP_SEQ_H_P+i-1]=tseq;
+ 8a4:	8c 93       	st	X, r24
+ 8a6:	01 c0       	rjmp	.+2      	; 0x8aa <make_tcphead+0x36>
+                }else{
+                        buf[TCP_SEQ_H_P+i-1]= 0; // some preset vallue
+ 8a8:	1c 92       	st	X, r1
+                }
+                rel_ack_num=rel_ack_num>>8;
+                i--;
+ 8aa:	91 50       	subi	r25, 0x01	; 1
+ 8ac:	11 97       	sbiw	r26, 0x01	; 1
+        // set source port  (http):
+        buf[TCP_SRC_PORT_L_P]=wwwport;
+        i=4;
+        // sequence numbers:
+        // add the rel ack num to SEQACK
+        while(i>0){
+ 8ae:	99 23       	and	r25, r25
+ 8b0:	19 f0       	breq	.+6      	; 0x8b8 <make_tcphead+0x44>
+                        // copy the acknum sent to us into the sequence number
+                        buf[TCP_SEQ_H_P+i-1]=tseq;
+                }else{
+                        buf[TCP_SEQ_H_P+i-1]= 0; // some preset vallue
+                }
+                rel_ack_num=rel_ack_num>>8;
+ 8b2:	67 2f       	mov	r22, r23
+ 8b4:	77 27       	eor	r23, r23
+ 8b6:	eb cf       	rjmp	.-42     	; 0x88e <make_tcphead+0x1a>
+                i--;
+        }
+        if (cp_seq==0){
+ 8b8:	22 23       	and	r18, r18
+ 8ba:	49 f4       	brne	.+18     	; 0x8ce <make_tcphead+0x5a>
+                // put inital seq number
+                buf[TCP_SEQ_H_P+0]= 0;
+ 8bc:	16 a2       	std	Z+38, r1	; 0x26
+                buf[TCP_SEQ_H_P+1]= 0;
+ 8be:	17 a2       	std	Z+39, r1	; 0x27
+                // we step only the second byte, this allows us to send packts 
+                // with 255 bytes or 512 (if we step the initial seqnum by 2)
+                buf[TCP_SEQ_H_P+2]= seqnum; 
+ 8c0:	80 91 76 00 	lds	r24, 0x0076
+ 8c4:	80 a7       	std	Z+40, r24	; 0x28
+                buf[TCP_SEQ_H_P+3]= 0;
+ 8c6:	11 a6       	std	Z+41, r1	; 0x29
+                // step the inititial seq num by something we will not use
+                // during this tcp session:
+                seqnum+=2;
+ 8c8:	8e 5f       	subi	r24, 0xFE	; 254
+ 8ca:	80 93 76 00 	sts	0x0076, r24
+        }
+        // zero the checksum
+        buf[TCP_CHECKSUM_H_P]=0;
+ 8ce:	12 aa       	std	Z+50, r1	; 0x32
+        buf[TCP_CHECKSUM_L_P]=0;
+ 8d0:	13 aa       	std	Z+51, r1	; 0x33
+
+        // The tcp header length is only a 4 bit field (the upper 4 bits).
+        // It is calculated in units of 4 bytes. 
+        // E.g 24 bytes: 24/4=6 => 0x60=header len field
+        //buf[TCP_HEADER_LEN_P]=(((TCP_HEADER_LEN_PLAIN+4)/4)) <<4; // 0x60
+        if (mss){
+ 8d2:	44 23       	and	r20, r20
+ 8d4:	51 f0       	breq	.+20     	; 0x8ea <make_tcphead+0x76>
+                // the only option we set is MSS to 1408:
+                // 1408 in hex is 0x580
+                buf[TCP_OPTIONS_P]=2;
+ 8d6:	82 e0       	ldi	r24, 0x02	; 2
+ 8d8:	86 ab       	std	Z+54, r24	; 0x36
+                buf[TCP_OPTIONS_P+1]=4;
+ 8da:	84 e0       	ldi	r24, 0x04	; 4
+ 8dc:	87 ab       	std	Z+55, r24	; 0x37
+                buf[TCP_OPTIONS_P+2]=0x05; 
+ 8de:	85 e0       	ldi	r24, 0x05	; 5
+ 8e0:	80 af       	std	Z+56, r24	; 0x38
+                buf[TCP_OPTIONS_P+3]=0x80;
+ 8e2:	80 e8       	ldi	r24, 0x80	; 128
+ 8e4:	81 af       	std	Z+57, r24	; 0x39
+                // 24 bytes:
+                buf[TCP_HEADER_LEN_P]=0x60;
+ 8e6:	80 e6       	ldi	r24, 0x60	; 96
+ 8e8:	01 c0       	rjmp	.+2      	; 0x8ec <make_tcphead+0x78>
+        }else{
+                // no options:
+                // 20 bytes:
+                buf[TCP_HEADER_LEN_P]=0x50;
+ 8ea:	80 e5       	ldi	r24, 0x50	; 80
+ 8ec:	86 a7       	std	Z+46, r24	; 0x2e
+ 8ee:	08 95       	ret
+
+000008f0 <make_arp_answer_from_request>:
+        }
+}
+
+void make_arp_answer_from_request(uint8_t *buf)
+{
+ 8f0:	cf 93       	push	r28
+ 8f2:	df 93       	push	r29
+ 8f4:	ac 01       	movw	r20, r24
+ 8f6:	ec 01       	movw	r28, r24
+ 8f8:	2f e7       	ldi	r18, 0x7F	; 127
+ 8fa:	30 e0       	ldi	r19, 0x00	; 0
+ 8fc:	fc 01       	movw	r30, r24
+ 8fe:	d9 01       	movw	r26, r18
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+ 900:	86 81       	ldd	r24, Z+6	; 0x06
+ 902:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+ 904:	8d 91       	ld	r24, X+
+ 906:	86 83       	std	Z+6, r24	; 0x06
+ 908:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+ 90a:	80 e0       	ldi	r24, 0x00	; 0
+ 90c:	a5 38       	cpi	r26, 0x85	; 133
+ 90e:	b8 07       	cpc	r27, r24
+ 910:	b9 f7       	brne	.-18     	; 0x900 <make_arp_answer_from_request+0x10>
+void make_arp_answer_from_request(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        make_eth(buf);
+        buf[ETH_ARP_OPCODE_H_P]=ETH_ARP_OPCODE_REPLY_H_V;
+ 912:	fa 01       	movw	r30, r20
+ 914:	14 8a       	std	Z+20, r1	; 0x14
+        buf[ETH_ARP_OPCODE_L_P]=ETH_ARP_OPCODE_REPLY_L_V;
+ 916:	82 e0       	ldi	r24, 0x02	; 2
+ 918:	85 8b       	std	Z+21, r24	; 0x15
+        // fill the mac addresses:
+        while(i<6){
+                buf[ETH_ARP_DST_MAC_P+i]=buf[ETH_ARP_SRC_MAC_P+i];
+ 91a:	8e 89       	ldd	r24, Y+22	; 0x16
+ 91c:	88 a3       	std	Y+32, r24	; 0x20
+                buf[ETH_ARP_SRC_MAC_P+i]=macaddr[i];
+ 91e:	f9 01       	movw	r30, r18
+ 920:	81 91       	ld	r24, Z+
+ 922:	9f 01       	movw	r18, r30
+ 924:	8e 8b       	std	Y+22, r24	; 0x16
+ 926:	21 96       	adiw	r28, 0x01	; 1
+        //
+        make_eth(buf);
+        buf[ETH_ARP_OPCODE_H_P]=ETH_ARP_OPCODE_REPLY_H_V;
+        buf[ETH_ARP_OPCODE_L_P]=ETH_ARP_OPCODE_REPLY_L_V;
+        // fill the mac addresses:
+        while(i<6){
+ 928:	f0 e0       	ldi	r31, 0x00	; 0
+ 92a:	25 38       	cpi	r18, 0x85	; 133
+ 92c:	3f 07       	cpc	r19, r31
+ 92e:	a9 f7       	brne	.-22     	; 0x91a <make_arp_answer_from_request+0x2a>
+ 930:	fa 01       	movw	r30, r20
+ 932:	7c 96       	adiw	r30, 0x1c	; 28
+ 934:	a5 e8       	ldi	r26, 0x85	; 133
+ 936:	b0 e0       	ldi	r27, 0x00	; 0
+                buf[ETH_ARP_SRC_MAC_P+i]=macaddr[i];
+                i++;
+        }
+        i=0;
+        while(i<4){
+                buf[ETH_ARP_DST_IP_P+i]=buf[ETH_ARP_SRC_IP_P+i];
+ 938:	80 81       	ld	r24, Z
+ 93a:	82 87       	std	Z+10, r24	; 0x0a
+                buf[ETH_ARP_SRC_IP_P+i]=ipaddr[i];
+ 93c:	8d 91       	ld	r24, X+
+ 93e:	81 93       	st	Z+, r24
+                buf[ETH_ARP_DST_MAC_P+i]=buf[ETH_ARP_SRC_MAC_P+i];
+                buf[ETH_ARP_SRC_MAC_P+i]=macaddr[i];
+                i++;
+        }
+        i=0;
+        while(i<4){
+ 940:	80 e0       	ldi	r24, 0x00	; 0
+ 942:	a9 38       	cpi	r26, 0x89	; 137
+ 944:	b8 07       	cpc	r27, r24
+ 946:	c1 f7       	brne	.-16     	; 0x938 <make_arp_answer_from_request+0x48>
+                buf[ETH_ARP_DST_IP_P+i]=buf[ETH_ARP_SRC_IP_P+i];
+                buf[ETH_ARP_SRC_IP_P+i]=ipaddr[i];
+                i++;
+        }
+        // eth+arp is 42 bytes:
+        enc28j60PacketSend(42,buf); 
+ 948:	8a e2       	ldi	r24, 0x2A	; 42
+ 94a:	90 e0       	ldi	r25, 0x00	; 0
+ 94c:	ba 01       	movw	r22, r20
+ 94e:	0e 94 1c 02 	call	0x438	; 0x438 <enc28j60PacketSend>
+}
+ 952:	df 91       	pop	r29
+ 954:	cf 91       	pop	r28
+ 956:	08 95       	ret
+
+00000958 <make_echo_reply_from_request>:
+
+void make_echo_reply_from_request(uint8_t *buf,uint16_t len)
+{
+ 958:	0f 93       	push	r16
+ 95a:	1f 93       	push	r17
+ 95c:	cf 93       	push	r28
+ 95e:	df 93       	push	r29
+ 960:	ec 01       	movw	r28, r24
+ 962:	8b 01       	movw	r16, r22
+ 964:	fc 01       	movw	r30, r24
+ 966:	af e7       	ldi	r26, 0x7F	; 127
+ 968:	b0 e0       	ldi	r27, 0x00	; 0
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+ 96a:	86 81       	ldd	r24, Z+6	; 0x06
+ 96c:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+ 96e:	8d 91       	ld	r24, X+
+ 970:	86 83       	std	Z+6, r24	; 0x06
+ 972:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+ 974:	80 e0       	ldi	r24, 0x00	; 0
+ 976:	a5 38       	cpi	r26, 0x85	; 133
+ 978:	b8 07       	cpc	r27, r24
+ 97a:	b9 f7       	brne	.-18     	; 0x96a <make_echo_reply_from_request+0x12>
+}
+
+void make_echo_reply_from_request(uint8_t *buf,uint16_t len)
+{
+        make_eth(buf);
+        make_ip(buf);
+ 97c:	ce 01       	movw	r24, r28
+ 97e:	0e 94 29 04 	call	0x852	; 0x852 <make_ip>
+        buf[ICMP_TYPE_P]=ICMP_TYPE_ECHOREPLY_V;
+ 982:	1a a2       	std	Y+34, r1	; 0x22
+        // we changed only the icmp.type field from request(=8) to reply(=0).
+        // we can therefore easily correct the checksum:
+        if (buf[ICMP_CHECKSUM_P] > (0xff-0x08)){
+ 984:	8c a1       	ldd	r24, Y+36	; 0x24
+ 986:	88 3f       	cpi	r24, 0xF8	; 248
+ 988:	18 f0       	brcs	.+6      	; 0x990 <make_echo_reply_from_request+0x38>
+                buf[ICMP_CHECKSUM_P+1]++;
+ 98a:	8d a1       	ldd	r24, Y+37	; 0x25
+ 98c:	8f 5f       	subi	r24, 0xFF	; 255
+ 98e:	8d a3       	std	Y+37, r24	; 0x25
+        }
+        buf[ICMP_CHECKSUM_P]+=0x08;
+ 990:	8c a1       	ldd	r24, Y+36	; 0x24
+ 992:	88 5f       	subi	r24, 0xF8	; 248
+ 994:	8c a3       	std	Y+36, r24	; 0x24
+        //
+        enc28j60PacketSend(len,buf);
+ 996:	c8 01       	movw	r24, r16
+ 998:	be 01       	movw	r22, r28
+ 99a:	0e 94 1c 02 	call	0x438	; 0x438 <enc28j60PacketSend>
+}
+ 99e:	df 91       	pop	r29
+ 9a0:	cf 91       	pop	r28
+ 9a2:	1f 91       	pop	r17
+ 9a4:	0f 91       	pop	r16
+ 9a6:	08 95       	ret
+
+000009a8 <make_udp_reply_from_request>:
+
+// you can send a max of 220 bytes of data
+void make_udp_reply_from_request(uint8_t *buf,char *data,uint8_t datalen,uint16_t port)
+{
+ 9a8:	df 92       	push	r13
+ 9aa:	ef 92       	push	r14
+ 9ac:	ff 92       	push	r15
+ 9ae:	0f 93       	push	r16
+ 9b0:	1f 93       	push	r17
+ 9b2:	cf 93       	push	r28
+ 9b4:	df 93       	push	r29
+ 9b6:	ec 01       	movw	r28, r24
+ 9b8:	7b 01       	movw	r14, r22
+ 9ba:	d2 2e       	mov	r13, r18
+ 9bc:	13 2f       	mov	r17, r19
+ 9be:	fc 01       	movw	r30, r24
+ 9c0:	af e7       	ldi	r26, 0x7F	; 127
+ 9c2:	b0 e0       	ldi	r27, 0x00	; 0
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+ 9c4:	86 81       	ldd	r24, Z+6	; 0x06
+ 9c6:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+ 9c8:	8d 91       	ld	r24, X+
+ 9ca:	86 83       	std	Z+6, r24	; 0x06
+ 9cc:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+ 9ce:	80 e0       	ldi	r24, 0x00	; 0
+ 9d0:	a5 38       	cpi	r26, 0x85	; 133
+ 9d2:	b8 07       	cpc	r27, r24
+ 9d4:	b9 f7       	brne	.-18     	; 0x9c4 <make_udp_reply_from_request+0x1c>
+ 9d6:	04 2f       	mov	r16, r20
+ 9d8:	4d 3d       	cpi	r20, 0xDD	; 221
+ 9da:	08 f0       	brcs	.+2      	; 0x9de <make_udp_reply_from_request+0x36>
+ 9dc:	0c ed       	ldi	r16, 0xDC	; 220
+        make_eth(buf);
+        if (datalen>220){
+                datalen=220;
+        }
+        // total length field in the IP header must be set:
+        buf[IP_TOTLEN_H_P]=0;
+ 9de:	18 8a       	std	Y+16, r1	; 0x10
+        buf[IP_TOTLEN_L_P]=IP_HEADER_LEN+UDP_HEADER_LEN+datalen;
+ 9e0:	04 5e       	subi	r16, 0xE4	; 228
+ 9e2:	09 8b       	std	Y+17, r16	; 0x11
+        make_ip(buf);
+ 9e4:	ce 01       	movw	r24, r28
+ 9e6:	0e 94 29 04 	call	0x852	; 0x852 <make_ip>
+        // send to port:
+        //buf[UDP_DST_PORT_H_P]=port>>8;
+        //buf[UDP_DST_PORT_L_P]=port & 0xff;
+        // sent to port of sender and use "port" as own source:
+        buf[UDP_DST_PORT_H_P]=buf[UDP_SRC_PORT_H_P];
+ 9ea:	8a a1       	ldd	r24, Y+34	; 0x22
+ 9ec:	8c a3       	std	Y+36, r24	; 0x24
+        buf[UDP_DST_PORT_L_P]= buf[UDP_SRC_PORT_L_P];
+ 9ee:	8b a1       	ldd	r24, Y+35	; 0x23
+ 9f0:	8d a3       	std	Y+37, r24	; 0x25
+        buf[UDP_SRC_PORT_H_P]=port>>8;
+ 9f2:	1a a3       	std	Y+34, r17	; 0x22
+        buf[UDP_SRC_PORT_L_P]=port & 0xff;
+ 9f4:	db a2       	std	Y+35, r13	; 0x23
+        // calculte the udp length:
+        buf[UDP_LEN_H_P]=0;
+ 9f6:	1e a2       	std	Y+38, r1	; 0x26
+        buf[UDP_LEN_L_P]=UDP_HEADER_LEN+datalen;
+ 9f8:	04 51       	subi	r16, 0x14	; 20
+ 9fa:	0f a3       	std	Y+39, r16	; 0x27
+ 9fc:	08 50       	subi	r16, 0x08	; 8
+        // zero the checksum
+        buf[UDP_CHECKSUM_H_P]=0;
+ 9fe:	18 a6       	std	Y+40, r1	; 0x28
+        buf[UDP_CHECKSUM_L_P]=0;
+ a00:	19 a6       	std	Y+41, r1	; 0x29
+ a02:	de 01       	movw	r26, r28
+ a04:	9a 96       	adiw	r26, 0x2a	; 42
+ a06:	20 e0       	ldi	r18, 0x00	; 0
+ a08:	30 e0       	ldi	r19, 0x00	; 0
+ a0a:	07 c0       	rjmp	.+14     	; 0xa1a <make_udp_reply_from_request+0x72>
+        // copy the data:
+        while(i<datalen){
+                buf[UDP_DATA_P+i]=data[i];
+ a0c:	f7 01       	movw	r30, r14
+ a0e:	e2 0f       	add	r30, r18
+ a10:	f3 1f       	adc	r31, r19
+ a12:	80 81       	ld	r24, Z
+ a14:	8d 93       	st	X+, r24
+ a16:	2f 5f       	subi	r18, 0xFF	; 255
+ a18:	3f 4f       	sbci	r19, 0xFF	; 255
+        buf[UDP_LEN_L_P]=UDP_HEADER_LEN+datalen;
+        // zero the checksum
+        buf[UDP_CHECKSUM_H_P]=0;
+        buf[UDP_CHECKSUM_L_P]=0;
+        // copy the data:
+        while(i<datalen){
+ a1a:	20 17       	cp	r18, r16
+ a1c:	b8 f3       	brcs	.-18     	; 0xa0c <make_udp_reply_from_request+0x64>
+                buf[UDP_DATA_P+i]=data[i];
+                i++;
+        }
+        ck=checksum(&buf[IP_SRC_P], 16 + datalen,1);
+ a1e:	10 e0       	ldi	r17, 0x00	; 0
+ a20:	00 5f       	subi	r16, 0xF0	; 240
+ a22:	1f 4f       	sbci	r17, 0xFF	; 255
+ a24:	ce 01       	movw	r24, r28
+ a26:	4a 96       	adiw	r24, 0x1a	; 26
+ a28:	b8 01       	movw	r22, r16
+ a2a:	41 e0       	ldi	r20, 0x01	; 1
+ a2c:	0e 94 28 03 	call	0x650	; 0x650 <checksum>
+        buf[UDP_CHECKSUM_H_P]=ck>>8;
+ a30:	98 a7       	std	Y+40, r25	; 0x28
+        buf[UDP_CHECKSUM_L_P]=ck& 0xff;
+ a32:	89 a7       	std	Y+41, r24	; 0x29
+        enc28j60PacketSend(UDP_HEADER_LEN+IP_HEADER_LEN+ETH_HEADER_LEN+datalen,buf);
+ a34:	c8 01       	movw	r24, r16
+ a36:	4a 96       	adiw	r24, 0x1a	; 26
+ a38:	be 01       	movw	r22, r28
+ a3a:	0e 94 1c 02 	call	0x438	; 0x438 <enc28j60PacketSend>
+}
+ a3e:	df 91       	pop	r29
+ a40:	cf 91       	pop	r28
+ a42:	1f 91       	pop	r17
+ a44:	0f 91       	pop	r16
+ a46:	ff 90       	pop	r15
+ a48:	ef 90       	pop	r14
+ a4a:	df 90       	pop	r13
+ a4c:	08 95       	ret
+
+00000a4e <make_tcp_synack_from_syn>:
+
+void make_tcp_synack_from_syn(uint8_t *buf)
+{
+ a4e:	cf 93       	push	r28
+ a50:	df 93       	push	r29
+ a52:	ec 01       	movw	r28, r24
+ a54:	fc 01       	movw	r30, r24
+ a56:	af e7       	ldi	r26, 0x7F	; 127
+ a58:	b0 e0       	ldi	r27, 0x00	; 0
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+ a5a:	86 81       	ldd	r24, Z+6	; 0x06
+ a5c:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+ a5e:	8d 91       	ld	r24, X+
+ a60:	86 83       	std	Z+6, r24	; 0x06
+ a62:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+ a64:	80 e0       	ldi	r24, 0x00	; 0
+ a66:	a5 38       	cpi	r26, 0x85	; 133
+ a68:	b8 07       	cpc	r27, r24
+ a6a:	b9 f7       	brne	.-18     	; 0xa5a <make_tcp_synack_from_syn+0xc>
+{
+        uint16_t ck;
+        make_eth(buf);
+        // total length field in the IP header must be set:
+        // 20 bytes IP + 24 bytes (20tcp+4tcp options)
+        buf[IP_TOTLEN_H_P]=0;
+ a6c:	18 8a       	std	Y+16, r1	; 0x10
+        buf[IP_TOTLEN_L_P]=IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+4;
+ a6e:	8c e2       	ldi	r24, 0x2C	; 44
+ a70:	89 8b       	std	Y+17, r24	; 0x11
+        make_ip(buf);
+ a72:	ce 01       	movw	r24, r28
+ a74:	0e 94 29 04 	call	0x852	; 0x852 <make_ip>
+        buf[TCP_FLAGS_P]=TCP_FLAGS_SYNACK_V;
+ a78:	82 e1       	ldi	r24, 0x12	; 18
+ a7a:	8f a7       	std	Y+47, r24	; 0x2f
+        make_tcphead(buf,1,1,0);
+ a7c:	ce 01       	movw	r24, r28
+ a7e:	61 e0       	ldi	r22, 0x01	; 1
+ a80:	70 e0       	ldi	r23, 0x00	; 0
+ a82:	41 e0       	ldi	r20, 0x01	; 1
+ a84:	20 e0       	ldi	r18, 0x00	; 0
+ a86:	0e 94 3a 04 	call	0x874	; 0x874 <make_tcphead>
+        // calculate the checksum, len=8 (start from ip.src) + TCP_HEADER_LEN_PLAIN + 4 (one option: mss)
+        ck=checksum(&buf[IP_SRC_P], 8+TCP_HEADER_LEN_PLAIN+4,2);
+ a8a:	ce 01       	movw	r24, r28
+ a8c:	4a 96       	adiw	r24, 0x1a	; 26
+ a8e:	60 e2       	ldi	r22, 0x20	; 32
+ a90:	70 e0       	ldi	r23, 0x00	; 0
+ a92:	42 e0       	ldi	r20, 0x02	; 2
+ a94:	0e 94 28 03 	call	0x650	; 0x650 <checksum>
+        buf[TCP_CHECKSUM_H_P]=ck>>8;
+ a98:	9a ab       	std	Y+50, r25	; 0x32
+        buf[TCP_CHECKSUM_L_P]=ck& 0xff;
+ a9a:	8b ab       	std	Y+51, r24	; 0x33
+        // add 4 for option mss:
+        enc28j60PacketSend(IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+4+ETH_HEADER_LEN,buf);
+ a9c:	8a e3       	ldi	r24, 0x3A	; 58
+ a9e:	90 e0       	ldi	r25, 0x00	; 0
+ aa0:	be 01       	movw	r22, r28
+ aa2:	0e 94 1c 02 	call	0x438	; 0x438 <enc28j60PacketSend>
+}
+ aa6:	df 91       	pop	r29
+ aa8:	cf 91       	pop	r28
+ aaa:	08 95       	ret
+
+00000aac <get_tcp_data_pointer>:
+// get a pointer to the start of tcp data in buf
+// Returns 0 if there is no data
+// You must call init_len_info once before calling this function
+uint16_t get_tcp_data_pointer(void)
+{
+        if (info_data_len){
+ aac:	80 91 78 00 	lds	r24, 0x0078
+ ab0:	90 91 79 00 	lds	r25, 0x0079
+ ab4:	89 2b       	or	r24, r25
+ ab6:	19 f4       	brne	.+6      	; 0xabe <get_tcp_data_pointer+0x12>
+ ab8:	20 e0       	ldi	r18, 0x00	; 0
+ aba:	30 e0       	ldi	r19, 0x00	; 0
+ abc:	06 c0       	rjmp	.+12     	; 0xaca <get_tcp_data_pointer+0x1e>
+                return((uint16_t)TCP_SRC_PORT_H_P+info_hdr_len);
+ abe:	20 91 7a 00 	lds	r18, 0x007A
+ ac2:	30 91 7b 00 	lds	r19, 0x007B
+ ac6:	2e 5d       	subi	r18, 0xDE	; 222
+ ac8:	3f 4f       	sbci	r19, 0xFF	; 255
+        }else{
+                return(0);
+        }
+}
+ aca:	c9 01       	movw	r24, r18
+ acc:	08 95       	ret
+
+00000ace <init_len_info>:
+
+// do some basic length calculations and store the result in static varibales
+void init_len_info(uint8_t *buf)
+{
+ ace:	fc 01       	movw	r30, r24
+        info_data_len=(((int16_t)buf[IP_TOTLEN_H_P])<<8)|(buf[IP_TOTLEN_L_P]&0xff);
+ ad0:	90 89       	ldd	r25, Z+16	; 0x10
+ ad2:	80 e0       	ldi	r24, 0x00	; 0
+ ad4:	21 89       	ldd	r18, Z+17	; 0x11
+ ad6:	30 e0       	ldi	r19, 0x00	; 0
+ ad8:	28 2b       	or	r18, r24
+ ada:	39 2b       	or	r19, r25
+        info_data_len-=IP_HEADER_LEN;
+        info_hdr_len=(buf[TCP_HEADER_LEN_P]>>4)*4; // generate len in bytes;
+ adc:	86 a5       	ldd	r24, Z+46	; 0x2e
+ ade:	82 95       	swap	r24
+ ae0:	8f 70       	andi	r24, 0x0F	; 15
+ ae2:	90 e0       	ldi	r25, 0x00	; 0
+ ae4:	88 0f       	add	r24, r24
+ ae6:	99 1f       	adc	r25, r25
+ ae8:	88 0f       	add	r24, r24
+ aea:	99 1f       	adc	r25, r25
+ aec:	90 93 7b 00 	sts	0x007B, r25
+ af0:	80 93 7a 00 	sts	0x007A, r24
+        info_data_len-=info_hdr_len;
+ af4:	24 51       	subi	r18, 0x14	; 20
+ af6:	30 40       	sbci	r19, 0x00	; 0
+ af8:	28 1b       	sub	r18, r24
+ afa:	39 0b       	sbc	r19, r25
+ afc:	30 93 79 00 	sts	0x0079, r19
+ b00:	20 93 78 00 	sts	0x0078, r18
+        if (info_data_len<=0){
+ b04:	12 16       	cp	r1, r18
+ b06:	13 06       	cpc	r1, r19
+ b08:	24 f0       	brlt	.+8      	; 0xb12 <init_len_info+0x44>
+                info_data_len=0;
+ b0a:	10 92 79 00 	sts	0x0079, r1
+ b0e:	10 92 78 00 	sts	0x0078, r1
+ b12:	08 95       	ret
+
+00000b14 <fill_tcp_data_p>:
+
+// fill in tcp data at position pos. pos=0 means start of
+// tcp data. Returns the position at which the string after
+// this string could be filled.
+uint16_t fill_tcp_data_p(uint8_t *buf,uint16_t pos, const prog_char *progmem_s)
+{
+ b14:	6a 5c       	subi	r22, 0xCA	; 202
+ b16:	7f 4f       	sbci	r23, 0xFF	; 255
+ b18:	dc 01       	movw	r26, r24
+ b1a:	a6 0f       	add	r26, r22
+ b1c:	b7 1f       	adc	r27, r23
+ b1e:	66 53       	subi	r22, 0x36	; 54
+ b20:	70 40       	sbci	r23, 0x00	; 0
+ b22:	03 c0       	rjmp	.+6      	; 0xb2a <fill_tcp_data_p+0x16>
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+ b24:	8d 93       	st	X+, r24
+                pos++;
+ b26:	6f 5f       	subi	r22, 0xFF	; 255
+ b28:	7f 4f       	sbci	r23, 0xFF	; 255
+ b2a:	fa 01       	movw	r30, r20
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+ b2c:	4f 5f       	subi	r20, 0xFF	; 255
+ b2e:	5f 4f       	sbci	r21, 0xFF	; 255
+ b30:	84 91       	lpm	r24, Z+
+ b32:	88 23       	and	r24, r24
+ b34:	b9 f7       	brne	.-18     	; 0xb24 <fill_tcp_data_p+0x10>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+                pos++;
+        }
+        return(pos);
+}
+ b36:	cb 01       	movw	r24, r22
+ b38:	08 95       	ret
+
+00000b3a <fill_tcp_data>:
+
+// fill in tcp data at position pos. pos=0 means start of
+// tcp data. Returns the position at which the string after
+// this string could be filled.
+uint16_t fill_tcp_data(uint8_t *buf,uint16_t pos, const char *s)
+{
+ b3a:	fa 01       	movw	r30, r20
+ b3c:	6a 5c       	subi	r22, 0xCA	; 202
+ b3e:	7f 4f       	sbci	r23, 0xFF	; 255
+ b40:	dc 01       	movw	r26, r24
+ b42:	a6 0f       	add	r26, r22
+ b44:	b7 1f       	adc	r27, r23
+ b46:	66 53       	subi	r22, 0x36	; 54
+ b48:	70 40       	sbci	r23, 0x00	; 0
+ b4a:	04 c0       	rjmp	.+8      	; 0xb54 <fill_tcp_data+0x1a>
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while (*s) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=*s;
+ b4c:	8d 93       	st	X+, r24
+                pos++;
+ b4e:	6f 5f       	subi	r22, 0xFF	; 255
+ b50:	7f 4f       	sbci	r23, 0xFF	; 255
+                s++;
+ b52:	31 96       	adiw	r30, 0x01	; 1
+uint16_t fill_tcp_data(uint8_t *buf,uint16_t pos, const char *s)
+{
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while (*s) {
+ b54:	80 81       	ld	r24, Z
+ b56:	88 23       	and	r24, r24
+ b58:	c9 f7       	brne	.-14     	; 0xb4c <fill_tcp_data+0x12>
+                buf[TCP_CHECKSUM_L_P+3+pos]=*s;
+                pos++;
+                s++;
+        }
+        return(pos);
+}
+ b5a:	cb 01       	movw	r24, r22
+ b5c:	08 95       	ret
+
+00000b5e <make_tcp_ack_from_any>:
+
+// Make just an ack packet with no tcp data inside
+// This will modify the eth/ip/tcp header 
+void make_tcp_ack_from_any(uint8_t *buf)
+{
+ b5e:	cf 93       	push	r28
+ b60:	df 93       	push	r29
+ b62:	ec 01       	movw	r28, r24
+ b64:	fc 01       	movw	r30, r24
+ b66:	af e7       	ldi	r26, 0x7F	; 127
+ b68:	b0 e0       	ldi	r27, 0x00	; 0
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+                buf[ETH_DST_MAC +i]=buf[ETH_SRC_MAC +i];
+ b6a:	86 81       	ldd	r24, Z+6	; 0x06
+ b6c:	80 83       	st	Z, r24
+                buf[ETH_SRC_MAC +i]=macaddr[i];
+ b6e:	8d 91       	ld	r24, X+
+ b70:	86 83       	std	Z+6, r24	; 0x06
+ b72:	31 96       	adiw	r30, 0x01	; 1
+void make_eth(uint8_t *buf)
+{
+        uint8_t i=0;
+        //
+        //copy the destination mac from the source and fill my mac into src
+        while(i<6){
+ b74:	80 e0       	ldi	r24, 0x00	; 0
+ b76:	a5 38       	cpi	r26, 0x85	; 133
+ b78:	b8 07       	cpc	r27, r24
+ b7a:	b9 f7       	brne	.-18     	; 0xb6a <make_tcp_ack_from_any+0xc>
+void make_tcp_ack_from_any(uint8_t *buf)
+{
+        uint16_t j;
+        make_eth(buf);
+        // fill the header:
+        buf[TCP_FLAGS_P]=TCP_FLAGS_ACK_V;
+ b7c:	80 e1       	ldi	r24, 0x10	; 16
+ b7e:	8f a7       	std	Y+47, r24	; 0x2f
+        if (info_data_len==0){
+ b80:	60 91 78 00 	lds	r22, 0x0078
+ b84:	70 91 79 00 	lds	r23, 0x0079
+ b88:	61 15       	cp	r22, r1
+ b8a:	71 05       	cpc	r23, r1
+ b8c:	21 f4       	brne	.+8      	; 0xb96 <make_tcp_ack_from_any+0x38>
+                // if there is no data then we must still acknoledge one packet
+                make_tcphead(buf,1,0,1); // no options
+ b8e:	ce 01       	movw	r24, r28
+ b90:	61 e0       	ldi	r22, 0x01	; 1
+ b92:	70 e0       	ldi	r23, 0x00	; 0
+ b94:	01 c0       	rjmp	.+2      	; 0xb98 <make_tcp_ack_from_any+0x3a>
+        }else{
+                make_tcphead(buf,info_data_len,0,1); // no options
+ b96:	ce 01       	movw	r24, r28
+ b98:	40 e0       	ldi	r20, 0x00	; 0
+ b9a:	21 e0       	ldi	r18, 0x01	; 1
+ b9c:	0e 94 3a 04 	call	0x874	; 0x874 <make_tcphead>
+        }
+
+        // total length field in the IP header must be set:
+        // 20 bytes IP + 20 bytes tcp (when no options) 
+        j=IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN;
+        buf[IP_TOTLEN_H_P]=j>>8;
+ ba0:	18 8a       	std	Y+16, r1	; 0x10
+        buf[IP_TOTLEN_L_P]=j& 0xff;
+ ba2:	88 e2       	ldi	r24, 0x28	; 40
+ ba4:	89 8b       	std	Y+17, r24	; 0x11
+        make_ip(buf);
+ ba6:	ce 01       	movw	r24, r28
+ ba8:	0e 94 29 04 	call	0x852	; 0x852 <make_ip>
+        // calculate the checksum, len=8 (start from ip.src) + TCP_HEADER_LEN_PLAIN + data len
+        j=checksum(&buf[IP_SRC_P], 8+TCP_HEADER_LEN_PLAIN,2);
+ bac:	ce 01       	movw	r24, r28
+ bae:	4a 96       	adiw	r24, 0x1a	; 26
+ bb0:	6c e1       	ldi	r22, 0x1C	; 28
+ bb2:	70 e0       	ldi	r23, 0x00	; 0
+ bb4:	42 e0       	ldi	r20, 0x02	; 2
+ bb6:	0e 94 28 03 	call	0x650	; 0x650 <checksum>
+        buf[TCP_CHECKSUM_H_P]=j>>8;
+ bba:	9a ab       	std	Y+50, r25	; 0x32
+        buf[TCP_CHECKSUM_L_P]=j& 0xff;
+ bbc:	8b ab       	std	Y+51, r24	; 0x33
+        enc28j60PacketSend(IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+ETH_HEADER_LEN,buf);
+ bbe:	86 e3       	ldi	r24, 0x36	; 54
+ bc0:	90 e0       	ldi	r25, 0x00	; 0
+ bc2:	be 01       	movw	r22, r28
+ bc4:	0e 94 1c 02 	call	0x438	; 0x438 <enc28j60PacketSend>
+}
+ bc8:	df 91       	pop	r29
+ bca:	cf 91       	pop	r28
+ bcc:	08 95       	ret
+
+00000bce <make_tcp_ack_with_data>:
+// dlen is the amount of tcp data (http data) we send in this packet
+// You can use this function only immediately after make_tcp_ack_from_any
+// This is because this function will NOT modify the eth/ip/tcp header except for
+// length and checksum
+void make_tcp_ack_with_data(uint8_t *buf,uint16_t dlen)
+{
+ bce:	ef 92       	push	r14
+ bd0:	ff 92       	push	r15
+ bd2:	0f 93       	push	r16
+ bd4:	1f 93       	push	r17
+ bd6:	8c 01       	movw	r16, r24
+ bd8:	7b 01       	movw	r14, r22
+        uint16_t j;
+        // fill the header:
+        // This code requires that we send only one data packet
+        // because we keep no state information. We must therefore set
+        // the fin here:
+        buf[TCP_FLAGS_P]=TCP_FLAGS_ACK_V|TCP_FLAGS_PUSH_V|TCP_FLAGS_FIN_V;
+ bda:	89 e1       	ldi	r24, 0x19	; 25
+ bdc:	f8 01       	movw	r30, r16
+ bde:	87 a7       	std	Z+47, r24	; 0x2f
+
+        // total length field in the IP header must be set:
+        // 20 bytes IP + 20 bytes tcp (when no options) + len of data
+        j=IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+dlen;
+ be0:	cb 01       	movw	r24, r22
+ be2:	88 96       	adiw	r24, 0x28	; 40
+        buf[IP_TOTLEN_H_P]=j>>8;
+ be4:	90 8b       	std	Z+16, r25	; 0x10
+        buf[IP_TOTLEN_L_P]=j& 0xff;
+ be6:	81 8b       	std	Z+17, r24	; 0x11
+        fill_ip_hdr_checksum(buf);
+ be8:	c8 01       	movw	r24, r16
+ bea:	0e 94 12 04 	call	0x824	; 0x824 <fill_ip_hdr_checksum>
+        // zero the checksum
+        buf[TCP_CHECKSUM_H_P]=0;
+ bee:	f8 01       	movw	r30, r16
+ bf0:	12 aa       	std	Z+50, r1	; 0x32
+        buf[TCP_CHECKSUM_L_P]=0;
+ bf2:	13 aa       	std	Z+51, r1	; 0x33
+        // calculate the checksum, len=8 (start from ip.src) + TCP_HEADER_LEN_PLAIN + data len
+        j=checksum(&buf[IP_SRC_P], 8+TCP_HEADER_LEN_PLAIN+dlen,2);
+ bf4:	8c e1       	ldi	r24, 0x1C	; 28
+ bf6:	90 e0       	ldi	r25, 0x00	; 0
+ bf8:	e8 0e       	add	r14, r24
+ bfa:	f9 1e       	adc	r15, r25
+ bfc:	c8 01       	movw	r24, r16
+ bfe:	4a 96       	adiw	r24, 0x1a	; 26
+ c00:	b7 01       	movw	r22, r14
+ c02:	42 e0       	ldi	r20, 0x02	; 2
+ c04:	0e 94 28 03 	call	0x650	; 0x650 <checksum>
+        buf[TCP_CHECKSUM_H_P]=j>>8;
+ c08:	f8 01       	movw	r30, r16
+ c0a:	92 ab       	std	Z+50, r25	; 0x32
+        buf[TCP_CHECKSUM_L_P]=j& 0xff;
+ c0c:	83 ab       	std	Z+51, r24	; 0x33
+        enc28j60PacketSend(IP_HEADER_LEN+TCP_HEADER_LEN_PLAIN+dlen+ETH_HEADER_LEN,buf);
+ c0e:	c7 01       	movw	r24, r14
+ c10:	4a 96       	adiw	r24, 0x1a	; 26
+ c12:	b8 01       	movw	r22, r16
+ c14:	0e 94 1c 02 	call	0x438	; 0x438 <enc28j60PacketSend>
+}
+ c18:	1f 91       	pop	r17
+ c1a:	0f 91       	pop	r16
+ c1c:	ff 90       	pop	r15
+ c1e:	ef 90       	pop	r14
+ c20:	08 95       	ret
+
+00000c22 <main>:
+//
+
+#define BUFFER_SIZE 450
+static uint8_t buf[BUFFER_SIZE+1];
+
+int main(void){
+ c22:	1f 93       	push	r17
+ c24:	cf 93       	push	r28
+ c26:	df 93       	push	r29
+ c28:	12 e3       	ldi	r17, 0x32	; 50
+ c2a:	81 2f       	mov	r24, r17
+ c2c:	8a 95       	dec	r24
+ c2e:	f1 f7       	brne	.-4      	; 0xc2c <main+0xa>
+     //   CLKPR=0; // 8 MHZ
+        _delay_loop_1(50); // 12ms
+        
+        // LED
+        /* enable PB1, LED as output */
+        DDRB|= (1<<DDB1);
+ c30:	b9 9a       	sbi	0x17, 1	; 23
+
+        /* set output to Vcc, LED off */
+        PORTB|= (1<<PORTB1);
+ c32:	c1 9a       	sbi	0x18, 1	; 24
+
+        /*initialize enc28j60*/
+        enc28j60Init(mymac);
+ c34:	8b e6       	ldi	r24, 0x6B	; 107
+ c36:	90 e0       	ldi	r25, 0x00	; 0
+ c38:	0e 94 57 01 	call	0x2ae	; 0x2ae <enc28j60Init>
+        enc28j60clkout(2); // change clkout from 6.25MHz to 12.5MHz
+ c3c:	82 e0       	ldi	r24, 0x02	; 2
+ c3e:	0e 94 51 01 	call	0x2a2	; 0x2a2 <enc28j60clkout>
+ c42:	81 2f       	mov	r24, r17
+ c44:	8a 95       	dec	r24
+ c46:	f1 f7       	brne	.-4      	; 0xc44 <main+0x22>
+        /* Magjack leds configuration, see enc28j60 datasheet, page 11 */
+        // LEDB=yellow LEDA=green
+        //
+        // 0x476 is PHLCON LEDA=links status, LEDB=receive/transmit
+        // enc28j60PhyWrite(PHLCON,0b0000 0100 0111 01 10);
+        enc28j60PhyWrite(PHLCON,0x476);
+ c48:	84 e1       	ldi	r24, 0x14	; 20
+ c4a:	66 e7       	ldi	r22, 0x76	; 118
+ c4c:	74 e0       	ldi	r23, 0x04	; 4
+ c4e:	0e 94 33 01 	call	0x266	; 0x266 <enc28j60PhyWrite>
+ c52:	1a 95       	dec	r17
+ c54:	f1 f7       	brne	.-4      	; 0xc52 <main+0x30>
+        _delay_loop_1(50); // 12ms
+        
+        /* set output to GND, red LED on */
+        PORTB &= ~(1<<PORTB1);
+ c56:	c1 98       	cbi	0x18, 1	; 24
+}
+
+// you must call this function once before you use any of the other functions:
+void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint8_t wwwp){
+        uint8_t i=0;
+        wwwport=wwwp;
+ c58:	80 e5       	ldi	r24, 0x50	; 80
+ c5a:	80 93 75 00 	sts	0x0075, r24
+ c5e:	20 e0       	ldi	r18, 0x00	; 0
+ c60:	30 e0       	ldi	r19, 0x00	; 0
+        while(i<4){
+                ipaddr[i]=myip[i];
+ c62:	f9 01       	movw	r30, r18
+ c64:	eb 57       	subi	r30, 0x7B	; 123
+ c66:	ff 4f       	sbci	r31, 0xFF	; 255
+ c68:	d9 01       	movw	r26, r18
+ c6a:	af 58       	subi	r26, 0x8F	; 143
+ c6c:	bf 4f       	sbci	r27, 0xFF	; 255
+ c6e:	8c 91       	ld	r24, X
+ c70:	80 83       	st	Z, r24
+ c72:	2f 5f       	subi	r18, 0xFF	; 255
+ c74:	3f 4f       	sbci	r19, 0xFF	; 255
+
+// you must call this function once before you use any of the other functions:
+void init_ip_arp_udp_tcp(uint8_t *mymac,uint8_t *myip,uint8_t wwwp){
+        uint8_t i=0;
+        wwwport=wwwp;
+        while(i<4){
+ c76:	24 30       	cpi	r18, 0x04	; 4
+ c78:	31 05       	cpc	r19, r1
+ c7a:	99 f7       	brne	.-26     	; 0xc62 <main+0x40>
+ c7c:	20 e0       	ldi	r18, 0x00	; 0
+ c7e:	30 e0       	ldi	r19, 0x00	; 0
+                ipaddr[i]=myip[i];
+                i++;
+        }
+        i=0;
+        while(i<6){
+                macaddr[i]=mymac[i];
+ c80:	f9 01       	movw	r30, r18
+ c82:	e1 58       	subi	r30, 0x81	; 129
+ c84:	ff 4f       	sbci	r31, 0xFF	; 255
+ c86:	d9 01       	movw	r26, r18
+ c88:	a5 59       	subi	r26, 0x95	; 149
+ c8a:	bf 4f       	sbci	r27, 0xFF	; 255
+ c8c:	8c 91       	ld	r24, X
+ c8e:	80 83       	st	Z, r24
+ c90:	2f 5f       	subi	r18, 0xFF	; 255
+ c92:	3f 4f       	sbci	r19, 0xFF	; 255
+        while(i<4){
+                ipaddr[i]=myip[i];
+                i++;
+        }
+        i=0;
+        while(i<6){
+ c94:	26 30       	cpi	r18, 0x06	; 6
+ c96:	31 05       	cpc	r19, r1
+ c98:	99 f7       	brne	.-26     	; 0xc80 <main+0x5e>
+ c9a:	11 e0       	ldi	r17, 0x01	; 1
+        //init the ethernet/ip layer:
+        init_ip_arp_udp_tcp(mymac,myip,MYWWWPORT);
+
+        while(1){
+                // get the next new packet:
+                plen = enc28j60PacketReceive(BUFFER_SIZE, buf);
+ c9c:	82 ec       	ldi	r24, 0xC2	; 194
+ c9e:	91 e0       	ldi	r25, 0x01	; 1
+ ca0:	69 e8       	ldi	r22, 0x89	; 137
+ ca2:	70 e0       	ldi	r23, 0x00	; 0
+ ca4:	0e 94 8e 02 	call	0x51c	; 0x51c <enc28j60PacketReceive>
+ ca8:	ec 01       	movw	r28, r24
+
+                /*plen will ne unequal to zero if there is a valid 
+                 * packet (without crc error) */
+                if(plen==0){
+ caa:	00 97       	sbiw	r24, 0x00	; 0
+ cac:	b9 f3       	breq	.-18     	; 0xc9c <main+0x7a>
+                        continue;
+                }
+                // arp is broadcast if unknown but a host may also
+                // verify the mac address by sending it to 
+                // a unicast address.
+                if(eth_type_is_arp_and_my_ip(buf,plen)){
+ cae:	89 e8       	ldi	r24, 0x89	; 137
+ cb0:	90 e0       	ldi	r25, 0x00	; 0
+ cb2:	be 01       	movw	r22, r28
+ cb4:	0e 94 c9 03 	call	0x792	; 0x792 <eth_type_is_arp_and_my_ip>
+ cb8:	88 23       	and	r24, r24
+ cba:	29 f0       	breq	.+10     	; 0xcc6 <main+0xa4>
+                        make_arp_answer_from_request(buf);
+ cbc:	89 e8       	ldi	r24, 0x89	; 137
+ cbe:	90 e0       	ldi	r25, 0x00	; 0
+ cc0:	0e 94 78 04 	call	0x8f0	; 0x8f0 <make_arp_answer_from_request>
+ cc4:	eb cf       	rjmp	.-42     	; 0xc9c <main+0x7a>
+                        continue;
+                }
+                // check if ip packets (icmp or udp) are for us:
+                if(eth_type_is_ip_and_my_ip(buf,plen)==0){
+ cc6:	89 e8       	ldi	r24, 0x89	; 137
+ cc8:	90 e0       	ldi	r25, 0x00	; 0
+ cca:	be 01       	movw	r22, r28
+ ccc:	0e 94 e5 03 	call	0x7ca	; 0x7ca <eth_type_is_ip_and_my_ip>
+ cd0:	88 23       	and	r24, r24
+ cd2:	21 f3       	breq	.-56     	; 0xc9c <main+0x7a>
+                        continue;
+                }
+                
+                if (i){
+ cd4:	11 23       	and	r17, r17
+ cd6:	19 f0       	breq	.+6      	; 0xcde <main+0xbc>
+                        /* set output to Vcc, LED off */
+                        PORTB|= (1<<PORTB1);
+ cd8:	c1 9a       	sbi	0x18, 1	; 24
+ cda:	10 e0       	ldi	r17, 0x00	; 0
+ cdc:	02 c0       	rjmp	.+4      	; 0xce2 <main+0xc0>
+                        i=0;
+                }else{
+                        /* set output to GND, LED on */
+                        PORTB &= ~(1<<PORTB1);
+ cde:	c1 98       	cbi	0x18, 1	; 24
+ ce0:	11 e0       	ldi	r17, 0x01	; 1
+                        i=1;
+                }
+
+                        
+                if(buf[IP_PROTO_P]==IP_PROTO_ICMP_V && buf[ICMP_TYPE_P]==ICMP_TYPE_ECHOREQUEST_V){
+ ce2:	80 91 a0 00 	lds	r24, 0x00A0
+ ce6:	81 30       	cpi	r24, 0x01	; 1
+ ce8:	51 f4       	brne	.+20     	; 0xcfe <main+0xdc>
+ cea:	80 91 ab 00 	lds	r24, 0x00AB
+ cee:	88 30       	cpi	r24, 0x08	; 8
+ cf0:	a9 f6       	brne	.-86     	; 0xc9c <main+0x7a>
+                        // a ping packet, let's send pong
+                        make_echo_reply_from_request(buf,plen);
+ cf2:	89 e8       	ldi	r24, 0x89	; 137
+ cf4:	90 e0       	ldi	r25, 0x00	; 0
+ cf6:	be 01       	movw	r22, r28
+ cf8:	0e 94 ac 04 	call	0x958	; 0x958 <make_echo_reply_from_request>
+ cfc:	cf cf       	rjmp	.-98     	; 0xc9c <main+0x7a>
+                        continue;
+                }
+                // tcp port www start, compare only the lower byte
+                if (buf[IP_PROTO_P]==IP_PROTO_TCP_V&&buf[TCP_DST_PORT_H_P]==0&&buf[TCP_DST_PORT_L_P]==MYWWWPORT){
+ cfe:	86 30       	cpi	r24, 0x06	; 6
+ d00:	09 f0       	breq	.+2      	; 0xd04 <main+0xe2>
+ d02:	5e c0       	rjmp	.+188    	; 0xdc0 <main+0x19e>
+ d04:	80 91 ad 00 	lds	r24, 0x00AD
+ d08:	88 23       	and	r24, r24
+ d0a:	41 f6       	brne	.-112    	; 0xc9c <main+0x7a>
+ d0c:	80 91 ae 00 	lds	r24, 0x00AE
+ d10:	80 35       	cpi	r24, 0x50	; 80
+ d12:	21 f6       	brne	.-120    	; 0xc9c <main+0x7a>
+                        if (buf[TCP_FLAGS_P] & TCP_FLAGS_SYN_V){
+ d14:	80 91 b8 00 	lds	r24, 0x00B8
+ d18:	81 ff       	sbrs	r24, 1
+ d1a:	05 c0       	rjmp	.+10     	; 0xd26 <main+0x104>
+                                make_tcp_synack_from_syn(buf);
+ d1c:	89 e8       	ldi	r24, 0x89	; 137
+ d1e:	90 e0       	ldi	r25, 0x00	; 0
+ d20:	0e 94 27 05 	call	0xa4e	; 0xa4e <make_tcp_synack_from_syn>
+ d24:	bb cf       	rjmp	.-138    	; 0xc9c <main+0x7a>
+                                // make_tcp_synack_from_syn does already send the syn,ack
+                                continue;
+                        }
+                        if (buf[TCP_FLAGS_P] & TCP_FLAGS_ACK_V){
+ d26:	84 ff       	sbrs	r24, 4
+ d28:	b9 cf       	rjmp	.-142    	; 0xc9c <main+0x7a>
+                                init_len_info(buf); // init some data structures
+ d2a:	89 e8       	ldi	r24, 0x89	; 137
+ d2c:	90 e0       	ldi	r25, 0x00	; 0
+ d2e:	0e 94 67 05 	call	0xace	; 0xace <init_len_info>
+// get a pointer to the start of tcp data in buf
+// Returns 0 if there is no data
+// You must call init_len_info once before calling this function
+uint16_t get_tcp_data_pointer(void)
+{
+        if (info_data_len){
+ d32:	80 91 78 00 	lds	r24, 0x0078
+ d36:	90 91 79 00 	lds	r25, 0x0079
+ d3a:	89 2b       	or	r24, r25
+ d3c:	39 f0       	breq	.+14     	; 0xd4c <main+0x12a>
+                return((uint16_t)TCP_SRC_PORT_H_P+info_hdr_len);
+ d3e:	60 91 7a 00 	lds	r22, 0x007A
+ d42:	70 91 7b 00 	lds	r23, 0x007B
+ d46:	6e 5d       	subi	r22, 0xDE	; 222
+ d48:	7f 4f       	sbci	r23, 0xFF	; 255
+                                // we can possibly have no data, just ack:
+                                dat_p=get_tcp_data_pointer();
+                                if (dat_p==0){
+ d4a:	49 f4       	brne	.+18     	; 0xd5e <main+0x13c>
+                                        if (buf[TCP_FLAGS_P] & TCP_FLAGS_FIN_V){
+ d4c:	80 91 b8 00 	lds	r24, 0x00B8
+ d50:	80 ff       	sbrs	r24, 0
+ d52:	a4 cf       	rjmp	.-184    	; 0xc9c <main+0x7a>
+                                                // finack, answer with ack
+                                                make_tcp_ack_from_any(buf);
+ d54:	89 e8       	ldi	r24, 0x89	; 137
+ d56:	90 e0       	ldi	r25, 0x00	; 0
+ d58:	0e 94 af 05 	call	0xb5e	; 0xb5e <make_tcp_ack_from_any>
+ d5c:	9f cf       	rjmp	.-194    	; 0xc9c <main+0x7a>
+                                        }
+                                        // just an ack with no data, wait for next packet
+                                        continue;
+                                }
+                                if (strncmp("GET ",(char *)&(buf[dat_p]),4)!=0){
+ d5e:	67 57       	subi	r22, 0x77	; 119
+ d60:	7f 4f       	sbci	r23, 0xFF	; 255
+ d62:	80 e6       	ldi	r24, 0x60	; 96
+ d64:	90 e0       	ldi	r25, 0x00	; 0
+ d66:	44 e0       	ldi	r20, 0x04	; 4
+ d68:	50 e0       	ldi	r21, 0x00	; 0
+ d6a:	0e 94 f7 06 	call	0xdee	; 0xdee <strncmp>
+ d6e:	00 97       	sbiw	r24, 0x00	; 0
+ d70:	19 f4       	brne	.+6      	; 0xd78 <main+0x156>
+ d72:	c0 e0       	ldi	r28, 0x00	; 0
+ d74:	d0 e0       	ldi	r29, 0x00	; 0
+ d76:	14 c0       	rjmp	.+40     	; 0xda0 <main+0x17e>
+ d78:	c0 e0       	ldi	r28, 0x00	; 0
+ d7a:	d0 e0       	ldi	r29, 0x00	; 0
+ d7c:	05 c0       	rjmp	.+10     	; 0xd88 <main+0x166>
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+ d7e:	fe 01       	movw	r30, r28
+ d80:	e7 57       	subi	r30, 0x77	; 119
+ d82:	ff 4f       	sbci	r31, 0xFF	; 255
+ d84:	86 ab       	std	Z+54, r24	; 0x36
+                pos++;
+ d86:	21 96       	adiw	r28, 0x01	; 1
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+ d88:	fe 01       	movw	r30, r28
+ d8a:	e7 56       	subi	r30, 0x67	; 103
+ d8c:	ff 4f       	sbci	r31, 0xFF	; 255
+ d8e:	84 91       	lpm	r24, Z+
+ d90:	88 23       	and	r24, r24
+ d92:	a9 f7       	brne	.-22     	; 0xd7e <main+0x15c>
+ d94:	0b c0       	rjmp	.+22     	; 0xdac <main+0x18a>
+                buf[TCP_CHECKSUM_L_P+3+pos]=c;
+ d96:	fe 01       	movw	r30, r28
+ d98:	e7 57       	subi	r30, 0x77	; 119
+ d9a:	ff 4f       	sbci	r31, 0xFF	; 255
+ d9c:	86 ab       	std	Z+54, r24	; 0x36
+                pos++;
+ d9e:	21 96       	adiw	r28, 0x01	; 1
+{
+        char c;
+        // fill in tcp data at position pos
+        //
+        // with no options the data starts after the checksum + 2 more bytes (urgent ptr)
+        while ((c = pgm_read_byte(progmem_s++))) {
+ da0:	fe 01       	movw	r30, r28
+ da2:	ec 5a       	subi	r30, 0xAC	; 172
+ da4:	ff 4f       	sbci	r31, 0xFF	; 255
+ da6:	84 91       	lpm	r24, Z+
+ da8:	88 23       	and	r24, r24
+ daa:	a9 f7       	brne	.-22     	; 0xd96 <main+0x174>
+                                }else{
+                                        // the "get" method
+                                        plen=fill_tcp_data_p(buf,0,PSTR("HTTP/1.0 200 OK\r\nContent-Type: text/html\r\n\r\n<p>Aims OK, it works</p>"));
+                                }
+
+                                make_tcp_ack_from_any(buf); // send ack for http get
+ dac:	89 e8       	ldi	r24, 0x89	; 137
+ dae:	90 e0       	ldi	r25, 0x00	; 0
+ db0:	0e 94 af 05 	call	0xb5e	; 0xb5e <make_tcp_ack_from_any>
+                                make_tcp_ack_with_data(buf,plen); // send data
+ db4:	89 e8       	ldi	r24, 0x89	; 137
+ db6:	90 e0       	ldi	r25, 0x00	; 0
+ db8:	be 01       	movw	r22, r28
+ dba:	0e 94 e7 05 	call	0xbce	; 0xbce <make_tcp_ack_with_data>
+ dbe:	6e cf       	rjmp	.-292    	; 0xc9c <main+0x7a>
+                                continue;
+                        }
+
+                }
+                // udp interface:
+                if (buf[IP_PROTO_P]==IP_PROTO_UDP_V){
+ dc0:	81 31       	cpi	r24, 0x11	; 17
+ dc2:	09 f0       	breq	.+2      	; 0xdc6 <main+0x1a4>
+ dc4:	6b cf       	rjmp	.-298    	; 0xc9c <main+0x7a>
+                        payloadlen=buf[UDP_LEN_L_P]-UDP_HEADER_LEN;
+ dc6:	90 91 b0 00 	lds	r25, 0x00B0
+                        // the received command has to start with t and be 4 char long
+                        // e.g "test\0"
+                        if (buf[UDP_DATA_P]=='t' && payloadlen==5){
+ dca:	80 91 b3 00 	lds	r24, 0x00B3
+ dce:	84 37       	cpi	r24, 0x74	; 116
+ dd0:	09 f0       	breq	.+2      	; 0xdd4 <main+0x1b2>
+ dd2:	64 cf       	rjmp	.-312    	; 0xc9c <main+0x7a>
+ dd4:	9d 30       	cpi	r25, 0x0D	; 13
+ dd6:	09 f0       	breq	.+2      	; 0xdda <main+0x1b8>
+ dd8:	61 cf       	rjmp	.-318    	; 0xc9c <main+0x7a>
+                                make_udp_reply_from_request(buf,"hello",6,MYUDPPORT);
+ dda:	89 e8       	ldi	r24, 0x89	; 137
+ ddc:	90 e0       	ldi	r25, 0x00	; 0
+ dde:	65 e6       	ldi	r22, 0x65	; 101
+ de0:	70 e0       	ldi	r23, 0x00	; 0
+ de2:	46 e0       	ldi	r20, 0x06	; 6
+ de4:	20 eb       	ldi	r18, 0xB0	; 176
+ de6:	34 e0       	ldi	r19, 0x04	; 4
+ de8:	0e 94 d4 04 	call	0x9a8	; 0x9a8 <make_udp_reply_from_request>
+ dec:	57 cf       	rjmp	.-338    	; 0xc9c <main+0x7a>
+
+00000dee <strncmp>:
+ dee:	fb 01       	movw	r30, r22
+ df0:	dc 01       	movw	r26, r24
+ df2:	41 50       	subi	r20, 0x01	; 1
+ df4:	50 40       	sbci	r21, 0x00	; 0
+ df6:	30 f0       	brcs	.+12     	; 0xe04 <strncmp+0x16>
+ df8:	8d 91       	ld	r24, X+
+ dfa:	01 90       	ld	r0, Z+
+ dfc:	80 19       	sub	r24, r0
+ dfe:	19 f4       	brne	.+6      	; 0xe06 <strncmp+0x18>
+ e00:	00 20       	and	r0, r0
+ e02:	b9 f7       	brne	.-18     	; 0xdf2 <strncmp+0x4>
+ e04:	88 1b       	sub	r24, r24
+ e06:	99 0b       	sbc	r25, r25
+ e08:	08 95       	ret
+
+00000e0a <_exit>:
+ e0a:	f8 94       	cli
+
+00000e0c <__stop_program>:
+ e0c:	ff cf       	rjmp	.-2      	; 0xe0c <__stop_program>

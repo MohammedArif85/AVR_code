@@ -1,0 +1,254 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  69               	.global	USART_INIT
+  71               	USART_INIT:
+  73               	.Ltext1:
+   1:uart.h        **** /*
+   2:uart.h        **** ===================================================================
+   3:uart.h        **** SET DESIRED BAUD RATE
+   4:uart.h        **** ===================================================================
+   5:uart.h        **** */
+   6:uart.h        **** 
+   7:uart.h        **** #define BAUDRATE 9600
+   8:uart.h        **** /*
+   9:uart.h        **** ===================================================================
+  10:uart.h        **** CALCULATE UBRR VALUE
+  11:uart.h        **** ===================================================================
+  12:uart.h        **** */
+  13:uart.h        **** #define UBRRVAL ((F_CPU/(BAUDRATE*16UL))-1)
+  14:uart.h        **** 
+  15:uart.h        **** void USART_INIT()
+  16:uart.h        **** {
+  74               	me size = 0 */
+  76               	.LM1:
+  77               		ldi r24,lo8(103)
+  78               		out 41-32,r24
+  17:uart.h        **** /*
+  18:uart.h        **** ===================================================================
+  19:uart.h        **** SET BAUD RATE
+  20:uart.h        **** ===================================================================
+  21:uart.h        **** */
+  22:uart.h        **** 	UBRRL=UBRRVAL;
+  79               	SART_INIT:
+  81 0000 87E6      	.Ltext1:
+  23:uart.h        **** 	UBRRH=(UBRRVAL>>8);
+  83               	,0
+  24:uart.h        **** 
+  25:uart.h        **** /*===================================================================
+  26:uart.h        **** SET DATAFRAME FORMAT : ASYNCHRONOUS MODE, NO PARITY, 1 START BIT, 8BIT
+  27:uart.h        ****                        SIZE DATA	
+  28:uart.h        **** ===================================================================
+  29:uart.h        **** */
+  30:uart.h        **** 	UCSRC=(1<<URSEL)|(0<<UMSEL)|(0<<UPM1)|(0<<UPM0)|(0<<USBS)|(1<<UCSZ1)|(1<<UCSZ0);
+  86               	stabn	162,0,0,0
+  31:uart.h        **** /*
+  32:uart.h        **** ===================================================================
+  33:uart.h        **** ENABLE TRANSMITTER AND RECEIVER	
+  34:uart.h        **** ===================================================================
+  35:uart.h        **** */
+  36:uart.h        **** 	UCSRB=(1<<RXEN)|(1<<TXEN);
+  90               	nt_farptr_t:t(3,2)=(4,6)",128,0,0,0
+  37:uart.h        **** }
+  95               	nt_farptr_t:t(3,2)=(4,6)",128,0,0,0
+ 103               	.global	USART_INIT
+  38:uart.h        **** 
+  39:uart.h        **** /*
+  40:uart.h        **** ===================================================================
+  41:uart.h        **** FUNCTION TO WRITE CHARACTER
+  42:uart.h        **** ===================================================================
+  43:uart.h        **** */
+  44:uart.h        **** void rswritechar(unsigned char c)
+  45:uart.h        **** {
+ 105               	",130,0,0,0
+ 110               	.global	USART_INIT
+  46:uart.h        **** /*
+  47:uart.h        **** ===================================================================
+  48:uart.h        **** WAIT FOR EMPTY TRANSMIT BUFFER
+  49:uart.h        **** ===================================================================
+  50:uart.h        **** */
+  51:uart.h        **** 	while(!(UCSRA&(1<<UDRE)));
+ 111               	c/../../avr/include/avr/fuse.h",130,0,0,0
+  52:uart.h        **** 	UDR=c; //SEND RECEIVED DATA BACK
+ 115               	stabn	162,0,0,0
+  53:uart.h        **** }
+ 119               	nt_farptr_t:t(3,2)=(4,6)",128,0,0,0
+ 127               	.global	USART_INIT
+  54:uart.h        **** 
+  55:uart.h        **** /*
+  56:uart.h        **** ===================================================================
+  57:uart.h        **** FUNCTION TO READ CHARACTER
+  58:uart.h        **** ===================================================================
+  59:uart.h        **** */
+  60:uart.h        **** 
+  61:uart.h        **** unsigned char rsreadchar(void)
+  62:uart.h        **** {
+ 128               	c/../../avr/include/avr/fuse.h",130,0,0,0
+ 133               	.global	USART_INIT
+  63:uart.h        **** /*
+  64:uart.h        **** ===================================================================
+  65:uart.h        **** WAIT UNTIL DATA IS AVAILABLE
+  66:uart.h        **** ===================================================================
+  67:uart.h        **** */
+  68:uart.h        **** 	while(!(UCSRA&(1<<RXC)))
+ 134               	c/../../avr/include/avr/fuse.h",130,0,0,0
+  69:uart.h        **** 	{	}
+  70:uart.h        **** 	return UDR;
+ 138               	stabn	162,0,0,0
+  71:uart.h        **** }
+ 142               	nt_farptr_t:t(3,2)=(4,6)",128,0,0,0
+ 150               	.global	USART_INIT
+  72:uart.h        **** 
+  73:uart.h        **** /*
+  74:uart.h        **** ===================================================================
+  75:uart.h        **** FUNCTION TO PRINT STRING
+  76:uart.h        **** ===================================================================
+  77:uart.h        **** */
+  78:uart.h        **** void rsstr(char *s)
+  79:uart.h        **** {
+ 152               	",130,0,0,0
+ 157 0020 FC01      	.global	USART_INIT
+ 159               	USART_INIT:
+ 161               	.Ltext1:
+ 163               	.LM0:
+ 164 0024 5D9B      	.LFBB1:
+ 165 0026 00C0      	/* prologue: function */
+ 166               	/* frame size = 0 */
+ 168 0028 8CB9      	.LM1:
+ 169               		ldi r24,lo8(103)
+ 170               		out 41-32,r24
+  80:uart.h        **** 	while(*s)
+  81:uart.h        **** 	{
+  82:uart.h        **** 		rswritechar(*s);
+  83:uart.h        **** 		s++;
+ 171               	SART_INIT:
+ 173 002a 3196      	.Ltext1:
+ 175               	.LM0:
+ 176               	.LFBB1:
+ 177 002c 8081      	/* prologue: function */
+ 178 002e 8823      	/* frame size = 0 */
+ 180               	.LM1:
+  84:uart.h        **** 	}
+  85:uart.h        **** }...
+ 181               	INIT
+ 183 0032 0895      	USART_INIT:
+ 185               	.Ltext1:
+ 187               	.LM0:
+ 188               	.LFBB1:
+ 189               	/* prologue: function */
+ 190               	/* frame size = 0 */
+   1:main.c        **** /*
+   2:main.c        **** ===================================================================
+   3:main.c        **** PROGRAM TO PRINT A STRING ON COMPUTER SCREEN
+   4:main.c        **** ===================================================================
+   5:main.c        **** */
+   6:main.c        **** 
+   7:main.c        **** #include<avr/io.h>
+   8:main.c        **** #include "uart.h"
+   9:main.c        **** #include<util/delay.h>
+  10:main.c        **** #include <compat/deprecated.h>
+  11:main.c        **** 
+  12:main.c        **** int main(void)
+  13:main.c        **** {
+ 192               		USART_INIT
+ 194               	USART_INIT:
+ 196               	.Ltext1:
+ 198               	.LM0:
+ 199               	.LFBB1:
+ 200               	/* prologue: function */
+ 201               	/* frame size = 0 */
+ 203 0034 87E6      	.LM1:
+ 204 0036 89B9      		ldi r24,lo8(103)
+ 205               		out 41-32,r24
+ 207 0038 10BC      	.LM2:
+ 208               		out 64-32,__zero_reg__
+ 210 003a 86E8      	.LM3:
+ 211 003c 80BD      		ldi r24,lo8(-122)
+ 212               		out 64-32,r24
+ 214 003e 88E1      	.LM4:
+ 215 0040 8AB9      		ldi r24,lo8(24)
+ 216               		out 42-32,r24
+ 217               	/* epilogue start */
+ 219               	.LM5:
+  14:main.c        **** 	unsigned char t;
+  15:main.c        **** 	USART_INIT();
+  16:main.c        **** 	DDRA=0xFF;
+ 220               	eg__
+ 222 0042 8FEF      	.LM3:
+ 223 0044 8ABB      		ldi r24,lo8(-122)
+  17:main.c        **** 	while(1)
+  18:main.c        **** 	{
+  19:main.c        **** 		t=rsreadchar();
+  20:main.c        **** 		switch(t)
+  21:main.c        **** 		{
+  22:main.c        **** 		 case '5':PORTA=0xFF;break;
+  23:main.c        **** 		 case '6':PORTA=0x00;break;
+  24:main.c        **** 		 case '7':PORTA=0x30;break;
+ 224               	*/
+ 225               	/* frame size = 0 */
+  25:main.c        **** 		 case '8':PORTA=0xC0;break;
+ 227               		USART_INIT
+ 229 0048 20EC      	USART_INIT:
+ 231               	.Ltext1:
+ 233               	.LM0:
+ 234               	.LFBB1:
+ 235               	/* prologue: function */
+ 236               	/* frame size = 0 */
+ 238               	.LM1:
+ 239               		ldi r24,lo8(103)
+ 240 004c 5F9B      		out 41-32,r24
+ 242               	.LM2:
+ 243               		out 64-32,__zero_reg__
+ 245               	.LM3:
+ 246               		ldi r24,lo8(-122)
+ 247               		out 64-32,r24
+ 249               	.LM4:
+ 250               		ldi r24,lo8(24)
+ 251 0052 8633      		out 42-32,r24
+ 252 0054 01F0      	/* epilogue start */
+ 254 0058 00F4      	.LM5:
+ 255 005a 8533      		ret
+ 257 005e 00C0      	.Lscope1:
+ 260 0062 01F0      	.global	rswritechar
+ 262 0066 01F4      	rswritechar:
+ 264               	.LM6:
+ 265               	.LFBB2:
+ 266               	/* prologue: function */
+ 267 006a 9BBB      	/* frame size = 0 */
+ 268 006c 00C0      	.L4:
+ 270               	.LM7:
+ 271               		sbis 43-32,5
+ 272 006e 1BBA      		rjmp .L4
+ 274               	.LM8:
+ 275               		out 44-32,r24
+ 276               	/* epilogue start */
+ 278 0074 00C0      	.LM9:
+ 279               		ret
+ 281               	.Lscope2:
+ 283 0078 00C0      	.global	rsreadchar
+ 285               	rsreadchar:
+ 287               	.LM10:
+ 288               	.LFBB3:
+ 289               	/* prologue: function */
+ 290               	/* frame size = 0 */
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:71     .text:00000000 USART_INIT
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:104    .text:00000010 rswritechar
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:127    .text:00000018 rsreadchar
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:151    .text:00000020 rsstr
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccwFPvAl.s:189    .text:00000034 main
+
+NO UNDEFINED SYMBOLS

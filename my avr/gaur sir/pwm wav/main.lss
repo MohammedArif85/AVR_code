@@ -1,0 +1,126 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         00000090  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  000000e4  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 00000025  00000000  00000000  00000104  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   00000130  00000000  00000000  00000129  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 000000d5  00000000  00000000  00000259  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   0000013a  00000000  00000000  0000032e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000030  00000000  00000000  00000468  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000000da  00000000  00000000  00000498  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_ranges 00000048  00000000  00000000  00000572  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 39 00 	call	0x72	; 0x72 <main>
+  64:	0c 94 46 00 	jmp	0x8c	; 0x8c <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <setup>:
+without presscaler
+
+Non inverted mode in OC2 pin;
+
+FAST PWM*/
+TCCR2=(1<<FOC2)|(1<<COM21)|(1<<COM20)|(1<<WGM20)|(1<<WGM21)|(1<<CS00);
+  6c:	89 ef       	ldi	r24, 0xF9	; 249
+  6e:	85 bd       	out	0x25, r24	; 37
+
+   
+}
+  70:	08 95       	ret
+
+00000072 <main>:
+without presscaler
+
+Non inverted mode in OC2 pin;
+
+FAST PWM*/
+TCCR2=(1<<FOC2)|(1<<COM21)|(1<<COM20)|(1<<WGM20)|(1<<WGM21)|(1<<CS00);
+  72:	89 ef       	ldi	r24, 0xF9	; 249
+  74:	85 bd       	out	0x25, r24	; 37
+}
+
+int main(void)
+{unsigned char c;
+ setup();
+ DDRD=0xFF;
+  76:	8f ef       	ldi	r24, 0xFF	; 255
+  78:	81 bb       	out	0x11, r24	; 17
+  7a:	20 e0       	ldi	r18, 0x00	; 0
+    milliseconds can be achieved.
+ */
+void
+_delay_loop_2(uint16_t __count)
+{
+	__asm__ volatile (
+  7c:	40 e4       	ldi	r20, 0x40	; 64
+  7e:	5c e9       	ldi	r21, 0x9C	; 156
+ 
+ while(1)
+ {  
+  for(c=0;c<256;c++)
+  {
+   OCR2=c;
+  80:	23 bd       	out	0x23, r18	; 35
+  82:	ca 01       	movw	r24, r20
+  84:	01 97       	sbiw	r24, 0x01	; 1
+  86:	f1 f7       	brne	.-4      	; 0x84 <main+0x12>
+ setup();
+ DDRD=0xFF;
+ 
+ while(1)
+ {  
+  for(c=0;c<256;c++)
+  88:	2f 5f       	subi	r18, 0xFF	; 255
+  8a:	fa cf       	rjmp	.-12     	; 0x80 <main+0xe>
+
+0000008c <_exit>:
+  8c:	f8 94       	cli
+
+0000008e <__stop_program>:
+  8e:	ff cf       	rjmp	.-2      	; 0x8e <__stop_program>

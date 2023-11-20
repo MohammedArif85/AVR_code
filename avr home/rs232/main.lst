@@ -1,0 +1,1362 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+   9               		.text
+  10               	.Ltext0:
+  69               	.global	USART_INIT
+  71               	USART_INIT:
+  73               	.Ltext1:
+   1:uart.h        **** /*
+   2:uart.h        **** ===================================================================
+   3:uart.h        **** SET DESIRED BAUD RATE
+   4:uart.h        **** ===================================================================
+   5:uart.h        **** */
+   6:uart.h        **** 
+   7:uart.h        **** #define BAUDRATE 9600
+   8:uart.h        **** /*
+   9:uart.h        **** ===================================================================
+  10:uart.h        **** CALCULATE UBRR VALUE
+  11:uart.h        **** ===================================================================
+  12:uart.h        **** */
+  13:uart.h        **** #define UBRRVAL ((F_CPU/(BAUDRATE*16UL))-1)
+  14:uart.h        **** 
+  15:uart.h        **** void USART_INIT()
+  16:uart.h        **** {
+  74               	me size = 0 */
+  76               	.LM1:
+  77               		ldi r24,lo8(103)
+  78               		out 41-32,r24
+  17:uart.h        **** /*
+  18:uart.h        **** ===================================================================
+  19:uart.h        **** SET BAUD RATE
+  20:uart.h        **** ===================================================================
+  21:uart.h        **** */
+  22:uart.h        **** 	UBRRL=UBRRVAL;
+  79               	bn	68,0,23,.LM2-.LFBB1
+  80               	.LM2:
+  81 0000 87E6      		out 64-32,__zero_reg__
+  23:uart.h        **** 	UBRRH=(UBRRVAL>>8);
+  83               	:
+  84               		ldi r24,lo8(-122)
+  85 0004 10BC      		out 64-32,r24
+  24:uart.h        **** 
+  25:uart.h        **** /*===================================================================
+  26:uart.h        **** SET DATAFRAME FORMAT : ASYNCHRONOUS MODE, NO PARITY, 1 START BIT, 8BIT
+  27:uart.h        ****                        SIZE DATA	
+  28:uart.h        **** ===================================================================
+  29:uart.h        **** */
+  30:uart.h        **** 	UCSRC=(1<<URSEL)|(0<<UMSEL)|(0<<UPM1)|(0<<UPM0)|(0<<USBS)|(1<<UCSZ1)|(1<<UCSZ0);
+  86               	tabn	68,0,36,.LM4-.LFBB1
+  87               	.LM4:
+  88 0006 86E8      		ldi r24,lo8(24)
+  89 0008 80BD      		out 42-32,r24
+  31:uart.h        **** /*
+  32:uart.h        **** ===================================================================
+  33:uart.h        **** ENABLE TRANSMITTER AND RECEIVER	
+  34:uart.h        **** ===================================================================
+  35:uart.h        **** */
+  36:uart.h        **** 	UCSRB=(1<<RXEN)|(1<<TXEN);
+  90               	pilogue start */
+  92 000a 88E1      	.LM5:
+  93 000c 8AB9      		ret
+  37:uart.h        **** }
+  95               	pe1:
+  98               	.global	rswritechar
+ 100               	rswritechar:
+ 102               	.LM6:
+ 103               	.LFBB2:
+ 104               	/* prologue: function */
+  38:uart.h        **** 
+  39:uart.h        **** /*
+  40:uart.h        **** ===================================================================
+  41:uart.h        **** FUNCTION TO WRITE CHARACTER
+  42:uart.h        **** ===================================================================
+  43:uart.h        **** */
+  44:uart.h        **** void rswritechar(unsigned char c)
+  45:uart.h        **** {
+ 105               	ize = 0 */
+ 106               	.L4:
+ 108               	.LM7:
+ 109               		sbis 43-32,5
+ 110               		rjmp .L4
+  46:uart.h        **** /*
+  47:uart.h        **** ===================================================================
+  48:uart.h        **** WAIT FOR EMPTY TRANSMIT BUFFER
+  49:uart.h        **** ===================================================================
+  50:uart.h        **** */
+  51:uart.h        **** 	while(!(UCSRA&(1<<UDRE)));
+ 111               	n	68,0,52,.LM8-.LFBB2
+ 112               	.LM8:
+ 113 0010 5D9B      		out 44-32,r24
+ 114 0012 00C0      	/* epilogue start */
+  52:uart.h        **** 	UDR=c; //SEND RECEIVED DATA BACK
+ 115               	abn	68,0,53,.LM9-.LFBB2
+ 116               	.LM9:
+ 117 0014 8CB9      		ret
+  53:uart.h        **** }
+ 119               	ope2:
+ 121 0016 0895      	.global	rsreadchar
+ 123               	rsreadchar:
+ 125               	.LM10:
+ 126               	.LFBB3:
+ 127               	/* prologue: function */
+  54:uart.h        **** 
+  55:uart.h        **** /*
+  56:uart.h        **** ===================================================================
+  57:uart.h        **** FUNCTION TO READ CHARACTER
+  58:uart.h        **** ===================================================================
+  59:uart.h        **** */
+  60:uart.h        **** 
+  61:uart.h        **** unsigned char rsreadchar(void)
+  62:uart.h        **** {
+ 128               	size = 0 */
+ 129               	.L8:
+ 131               	.LM11:
+ 132               		sbis 43-32,7
+ 133               		rjmp .L8
+  63:uart.h        **** /*
+  64:uart.h        **** ===================================================================
+  65:uart.h        **** WAIT UNTIL DATA IS AVAILABLE
+  66:uart.h        **** ===================================================================
+  67:uart.h        **** */
+  68:uart.h        **** 	while(!(UCSRA&(1<<RXC)))
+ 134               	n	68,0,70,.LM12-.LFBB3
+ 135               	.LM12:
+ 136 0018 5F9B      		in r24,44-32
+ 137 001a 00C0      	/* epilogue start */
+  69:uart.h        **** 	{	}
+  70:uart.h        **** 	return UDR;
+ 138               	abn	68,0,71,.LM13-.LFBB3
+ 139               	.LM13:
+ 140 001c 8CB1      		ret
+  71:uart.h        **** }
+ 142               	ope3:
+ 145               	.global	rsstr
+ 147               	rsstr:
+ 149               	.LM14:
+ 150               	.LFBB4:
+ 151               	/* prologue: function */
+  72:uart.h        **** 
+  73:uart.h        **** /*
+  74:uart.h        **** ===================================================================
+  75:uart.h        **** FUNCTION TO PRINT STRING
+  76:uart.h        **** ===================================================================
+  77:uart.h        **** */
+  78:uart.h        **** void rsstr(char *s)
+  79:uart.h        **** {
+ 152               	ize = 0 */
+ 153               		movw r30,r24
+ 154               		rjmp .L12
+ 155               	.L15:
+ 156               	.LBB162:
+ 157 0020 FC01      	.LBB163:
+ 159               	.LM15:
+ 160               		sbis 43-32,5
+ 161               		rjmp .L15
+ 163               	.LM16:
+ 164 0024 5D9B      		out 44-32,r24
+ 165 0026 00C0      	.LBE163:
+ 166               	.LBE162:
+ 168 0028 8CB9      	.LM17:
+ 169               		adiw r30,1
+ 170               	.L12:
+  80:uart.h        **** 	while(*s)
+  81:uart.h        **** 	{
+  82:uart.h        **** 		rswritechar(*s);
+  83:uart.h        **** 		s++;
+ 171               	18-.LFBB4
+ 172               	.LM18:
+ 173 002a 3196      		ld r24,Z
+ 174               		tst r24
+ 175               		brne .L15
+ 176               	/* epilogue start */
+ 178 002e 8823      	.LM19:
+ 179 0030 01F4      		ret
+  84:uart.h        **** 	}
+  85:uart.h        **** }...
+ 182               	.global	lcd_reset
+ 184               	lcd_reset:
+ 186               	.Ltext2:
+ 188               	.LM20:
+ 189               	.LFBB5:
+ 190               	/* prologue: function */
+ 191               	/* frame size = 0 */
+   1:lcd.h         **** 
+   2:lcd.h         **** //The pins used are same as explained earlier
+   3:lcd.h         **** #define lcd_port    PORTB
+   4:lcd.h         **** 
+   5:lcd.h         **** //LCD Registers addresses
+   6:lcd.h         **** #define LCD_RS      0x01
+   7:lcd.h         **** #define LCD_RW      0x02
+   8:lcd.h         **** #define LCD_EN      0x04
+   9:lcd.h         **** 
+  10:lcd.h         **** void lcd_reset(void)
+  11:lcd.h         **** {
+ 192               	0,12,.LM21-.LFBB5
+ 193               	.LM21:
+ 194               		ldi r24,lo8(-1)
+ 195               		out 56-32,r24
+ 196               		ldi r24,lo8(200)
+  12:lcd.h         ****         lcd_port = 0xFF;
+ 197               	r25,hi8(200)
+ 198               	.LBB164:
+ 199 0034 8FEF      	.LBB165:
+ 200 0036 88BB      	.LBB166:
+ 201 0038 88EC      	.LBB167:
+ 203               	.Ltext3:
+ 205               	.LM22:
+ 206               		ldi r18,lo8(400)
+ 207               		ldi r19,hi8(400)
+ 208               	.L18:
+   1:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    Copyright (c) 2007 Joerg Wunsch
+   3:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    All rights reserved.
+   4:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+   5:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    Redistribution and use in source and binary forms, with or without
+   6:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    modification, are permitted provided that the following conditions are met:
+   7:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+   8:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    * Redistributions of source code must retain the above copyright
+   9:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer.
+  10:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  11:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    * Redistributions in binary form must reproduce the above copyright
+  12:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      notice, this list of conditions and the following disclaimer in
+  13:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      the documentation and/or other materials provided with the
+  14:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      distribution.
+  15:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  16:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****    * Neither the name of the copyright holders nor the names of
+  17:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      contributors may be used to endorse or promote products derived
+  18:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****      from this software without specific prior written permission.
+  19:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  20:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  21:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  22:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  23:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  24:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  25:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  26:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  27:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  28:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  29:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  30:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  31:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  32:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /* $Id: delay_basic.h,v 1.1 2007/05/13 21:23:20 joerg_wunsch Exp $ */
+  33:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  34:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #ifndef _UTIL_DELAY_BASIC_H_
+  35:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #define _UTIL_DELAY_BASIC_H_ 1
+  36:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  37:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #include <inttypes.h>
+  38:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  39:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \file */
+  40:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \defgroup util_delay_basic <util/delay_basic.h>: Basic busy-wait delay loops
+  41:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     \code
+  42:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     #include <util/delay_basic.h>
+  43:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     \endcode
+  44:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  45:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     The functions in this header file implement simple delay loops
+  46:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     that perform a busy-waiting.  They are typically used to
+  47:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     facilitate short delays in the program execution.  They are
+  48:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     implemented as count-down loops with a well-known CPU cycle
+  49:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     count per loop iteration.  As such, no other processing can
+  50:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     occur simultaneously.  It should be kept in mind that the
+  51:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     functions described here do not disable interrupts.
+  52:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  53:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     In general, for long delays, the use of hardware timers is
+  54:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     much preferrable, as they free the CPU, and allow for
+  55:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     concurrent processing of other events while the timer is
+  56:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     running.  However, in particular for very short delays, the
+  57:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     overhead of setting up a hardware timer is too much compared
+  58:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     to the overall delay time.
+  59:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  60:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Two inline functions are provided for the actual delay algorithms.
+  61:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  62:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** */
+  63:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  64:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #if !defined(__DOXYGEN__)
+  65:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** static inline void _delay_loop_1(uint8_t __count) __attribute__((always_inline));
+  66:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** static inline void _delay_loop_2(uint16_t __count) __attribute__((always_inline));
+  67:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** #endif
+  68:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  69:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  70:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  71:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Delay loop using an 8-bit counter \c __count, so up to 256
+  72:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     iterations are possible.  (The value 256 would have to be passed
+  73:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     as 0.)  The loop executes three CPU cycles per iteration, not
+  74:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     including the overhead the compiler needs to setup the counter
+  75:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     register.
+  76:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  77:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to 768 microseconds
+  78:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     can be achieved.
+  79:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** */
+  80:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** void
+  81:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** _delay_loop_1(uint8_t __count)
+  82:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** {
+  83:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
+  84:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		"1: dec %0" "\n\t"
+  85:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		"brne 1b"
+  86:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		: "=r" (__count)
+  87:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 		: "0" (__count)
+  88:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 	);
+  89:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** }
+  90:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  91:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** /** \ingroup util_delay_basic
+  92:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  93:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Delay loop using a 16-bit counter \c __count, so up to 65536
+  94:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     iterations are possible.  (The value 65536 would have to be
+  95:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     passed as 0.)  The loop executes four CPU cycles per iteration,
+  96:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     not including the overhead the compiler requires to setup the
+  97:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     counter register pair.
+  98:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 
+  99:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     Thus, at a CPU speed of 1 MHz, delays of up to about 262.1
+ 100:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****     milliseconds can be achieved.
+ 101:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h ****  */
+ 102:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** void
+ 103:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** _delay_loop_2(uint16_t __count)
+ 104:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** {
+ 105:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h **** 	__asm__ volatile (
+ 209               	8
+ 210               	/* #APP */
+ 211 003c 20E9      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 212 003e 31E0      		1: sbiw r30,1
+ 213               		brne 1b
+ 214 0040 F901      	 ;  0 "" 2
+ 215               	/* #NOAPP */
+ 216               	.LBE167:
+ 217 0042 3197      	.LBE166:
+ 219               	.Ltext4:
+ 221               	.LM23:
+ 222               		sbiw r24,1
+ 224               	.LM24:
+   1:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /* Copyright (c) 2002, Marek Michalkiewicz
+   2:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Copyright (c) 2004,2005,2007 Joerg Wunsch
+   3:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Copyright (c) 2007  Florin-Viorel Petrov
+   4:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    All rights reserved.
+   5:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+   6:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Redistribution and use in source and binary forms, with or without
+   7:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    modification, are permitted provided that the following conditions are met:
+   8:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+   9:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    * Redistributions of source code must retain the above copyright
+  10:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer.
+  11:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  12:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    * Redistributions in binary form must reproduce the above copyright
+  13:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      notice, this list of conditions and the following disclaimer in
+  14:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      the documentation and/or other materials provided with the
+  15:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      distribution.
+  16:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  17:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    * Neither the name of the copyright holders nor the names of
+  18:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      contributors may be used to endorse or promote products derived
+  19:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****      from this software without specific prior written permission.
+  20:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  21:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  22:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  23:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  24:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+  25:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  26:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+  27:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+  28:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+  29:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+  30:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+  31:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****   POSSIBILITY OF SUCH DAMAGE. */
+  32:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  33:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /* $Id: delay.h,v 1.5.2.1 2009/02/25 10:14:03 joerg_wunsch Exp $ */
+  34:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  35:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #ifndef _UTIL_DELAY_H_
+  36:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #define _UTIL_DELAY_H_ 1
+  37:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  38:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #include <inttypes.h>
+  39:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #include <util/delay_basic.h>
+  40:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  41:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /** \file */
+  42:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /** \defgroup util_delay <util/delay.h>: Convenience functions for busy-wait delay loops
+  43:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \code
+  44:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     #define F_CPU 1000000UL  // 1 MHz
+  45:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     //#define F_CPU 14.7456E6
+  46:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     #include <util/delay.h>
+  47:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \endcode
+  48:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  49:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \note As an alternative method, it is possible to pass the
+  50:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     F_CPU macro down to the compiler from the Makefile.
+  51:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     Obviously, in that case, no \c \#define statement should be
+  52:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     used.
+  53:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  54:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     The functions in this header file are wrappers around the basic
+  55:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     busy-wait functions from <util/delay_basic.h>.  They are meant as
+  56:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     convenience functions where actual time values can be specified
+  57:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     rather than a number of cycles to wait for.  The idea behind is
+  58:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     that compile-time constant expressions will be eliminated by
+  59:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     compiler optimization so floating-point expressions can be used
+  60:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     to calculate the number of delay cycles needed based on the CPU
+  61:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     frequency passed by the macro F_CPU.
+  62:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  63:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     \note In order for these functions to work as intended, compiler
+  64:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     optimizations <em>must</em> be enabled, and the delay time
+  65:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     <em>must</em> be an expression that is a known constant at
+  66:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     compile-time.  If these requirements are not met, the resulting
+  67:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     delay will be much longer (and basically unpredictable), and
+  68:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     applications that otherwise do not use floating-point calculations
+  69:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     will experience severe code bloat by the floating-point library
+  70:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     routines linked into the application.
+  71:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  72:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     The functions available allow the specification of microsecond, and
+  73:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     millisecond delays directly, using the application-supplied macro
+  74:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****     F_CPU as the CPU clock frequency (in Hertz).
+  75:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  76:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** */
+  77:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  78:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #if !defined(__DOXYGEN__)
+  79:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** static inline void _delay_us(double __us) __attribute__((always_inline));
+  80:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** static inline void _delay_ms(double __ms) __attribute__((always_inline));
+  81:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #endif
+  82:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  83:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #ifndef F_CPU
+  84:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /* prevent compiler error by supplying a default */
+  85:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** # warning "F_CPU not defined for <util/delay.h>"
+  86:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** # define F_CPU 1000000UL
+  87:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #endif
+  88:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  89:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #ifndef __OPTIMIZE__
+  90:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** # warning "Compiler optimizations disabled; functions from <util/delay.h> won't work as designed"
+  91:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** #endif
+  92:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  93:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** /**
+  94:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    \ingroup util_delay
+  95:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  96:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    Perform a delay of \c __ms milliseconds, using _delay_loop_2().
+  97:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+  98:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    The macro F_CPU is supposed to be defined to a
+  99:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    constant defining the CPU clock frequency (in Hertz).
+ 100:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+ 101:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    The maximal possible delay is 262.14 ms / F_CPU in MHz.
+ 102:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 
+ 103:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    When the user request delay which exceed the maximum possible one,
+ 104:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    _delay_ms() provides a decreased resolution functionality. In this
+ 105:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    mode _delay_ms() will work with a resolution of 1/10 ms, providing
+ 106:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    delays up to 6.5535 seconds (independent from CPU frequency).  The
+ 107:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****    user will not be informed about decreased resolution.
+ 108:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h ****  */
+ 109:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** void
+ 110:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** _delay_ms(double __ms)
+ 111:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** {
+ 112:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	uint16_t __ticks;
+ 113:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	double __tmp = ((F_CPU) / 4e3) * __ms;
+ 114:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	if (__tmp < 1.0)
+ 115:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		__ticks = 1;
+ 116:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	else if (__tmp > 65535)
+ 117:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 	{
+ 118:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		//	__ticks = requested delay in 1/10 ms
+ 119:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		__ticks = (uint16_t) (__ms * 10.0);
+ 120:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		while(__ticks)
+ 121:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 		{
+ 122:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 			// wait 1/10 ms
+ 123:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 			_delay_loop_2(((F_CPU) / 4e3) / 10);
+ 124:c:/winavr-20090313/lib/gcc/../../avr/include/util/delay.h **** 			__ticks --;
+ 225               	65:
+ 226               	.LBE164:
+ 228               	.Ltext5:
+ 230 0048 01F4      	.LM25:
+ 231               		ldi r25,lo8(52)
+ 232               		out 56-32,r25
+ 234               	.LM26:
+  13:lcd.h         ****         _delay_ms(20);
+  14:lcd.h         ****         lcd_port = 0x30+LCD_EN;
+ 235               	o8(48)
+ 236               		out 56-32,r24
+ 237 004a 94E3      	.LBB168:
+ 238 004c 98BB      	.LBB169:
+  15:lcd.h         ****         lcd_port = 0x30;
+ 239               	170:
+ 240               	.LBB171:
+ 242 0050 88BB      	.Ltext6:
+ 244               	.LM27:
+ 245               		ldi r30,lo8(-25536)
+ 246               		ldi r31,hi8(-25536)
+ 247               	/* #APP */
+ 248               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 249               		1: sbiw r30,1
+ 250               		brne 1b
+ 251 0052 E0E4      	 ;  0 "" 2
+ 252 0054 FCE9      	/* #NOAPP */
+ 253               	.LBE171:
+ 254               	.LBE170:
+ 255 0056 3197      	.LBE169:
+ 256 0058 01F4      	.LBE168:
+ 258               	.Ltext7:
+ 260               	.LM28:
+ 261               		out 56-32,r25
+ 263               	.LM29:
+ 264               		out 56-32,r24
+  16:lcd.h         ****         _delay_ms(10);
+  17:lcd.h         ****         lcd_port = 0x30+LCD_EN;
+ 265               	
+ 266               	.LBB175:
+  18:lcd.h         ****         lcd_port = 0x30;
+ 268               	text8:
+ 270 005c 88BB      	.LM30:
+ 271               		ldi r18,lo8(4000)
+ 272               		ldi r19,hi8(4000)
+ 273               		movw r30,r18
+ 274               	/* #APP */
+ 275               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 276               		1: sbiw r30,1
+ 277               		brne 1b
+ 278               	 ;  0 "" 2
+ 279 005e 20EA      	/* #NOAPP */
+ 280 0060 3FE0      	.LBE175:
+ 281 0062 F901      	.LBE174:
+ 282               	.LBE173:
+ 283               	.LBE172:
+ 285 0066 01F4      	.Ltext9:
+ 287               	.LM31:
+ 288               		out 56-32,r25
+ 290               	.LM32:
+ 291               		out 56-32,r24
+ 292               	.LBB176:
+ 293               	.LBB177:
+  19:lcd.h         ****         _delay_ms(1);
+  20:lcd.h         ****         lcd_port = 0x30+LCD_EN;
+ 294               	"c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h",132,0,0,.Ltext10
+ 295               	.Ltext10:
+  21:lcd.h         ****         lcd_port = 0x30;
+ 297               	33:
+ 298               		movw r24,r18
+ 299 006a 88BB      	/* #APP */
+ 300               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 301               		1: sbiw r24,1
+ 302               		brne 1b
+ 303               	 ;  0 "" 2
+ 304               	/* #NOAPP */
+ 305               	.LBE179:
+ 306               	.LBE178:
+ 307               	.LBE177:
+ 308 006c C901      	.LBE176:
+ 310               	.Ltext11:
+ 312 0070 01F4      	.LM34:
+ 313               		ldi r24,lo8(36)
+ 314               		out 56-32,r24
+ 316               	.LM35:
+ 317               		ldi r24,lo8(32)
+ 318               		out 56-32,r24
+ 319               	.LBB180:
+ 320               	.LBB181:
+  22:lcd.h         ****         _delay_ms(1);
+  23:lcd.h         ****         lcd_port = 0x20+LCD_EN;
+ 321               	s	"c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h",132,0,0,.Ltext12
+ 322               	.Ltext12:
+ 324 0074 88BB      	.LM36:
+  24:lcd.h         ****         lcd_port = 0x20;
+ 325               	w r24,r18
+ 326               	/* #APP */
+ 327 0076 80E2      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 328 0078 88BB      		1: sbiw r24,1
+ 329               		brne 1b
+ 330               	 ;  0 "" 2
+ 331               	/* epilogue start */
+ 332               	/* #NOAPP */
+ 333               	.LBE183:
+ 334               	.LBE182:
+ 335               	.LBE181:
+ 336               	.LBE180:
+ 338               	.Ltext13:
+ 340 007c 0197      	.LM37:
+ 341 007e 01F4      		ret
+ 349               	.Lscope5:
+  25:lcd.h         ****         _delay_ms(1);
+  26:lcd.h         **** }
+ 351               	0,24
+ 352               	.global	lcd_cmd
+ 354               	lcd_cmd:
+ 356               	.LM38:
+ 357               	.LFBB6:
+ 358               	/* prologue: function */
+ 359               	/* frame size = 0 */
+ 361               	.LM39:
+ 362               		mov r19,r24
+ 363               		andi r19,lo8(-16)
+ 364               		mov r18,r19
+ 365               		ori r18,lo8(4)
+ 366               		out 56-32,r18
+  27:lcd.h         **** void lcd_cmd (char cmd)
+  28:lcd.h         **** {
+ 367               	.LM40-.LFBB6
+ 368               	.LM40:
+ 369               		out 56-32,r19
+ 371               	.LM41:
+  29:lcd.h         ****         lcd_port = (cmd & 0xF0)|LCD_EN;
+ 372               	r25,lo8(0)
+ 373               		ldi r18,4
+ 374 0082 382F      	1:	lsl r24
+ 375 0084 307F      		rol r25
+ 376 0086 232F      		dec r18
+ 377 0088 2460      		brne 1b
+ 378 008a 28BB      		mov r18,r24
+  30:lcd.h         ****         lcd_port = (cmd & 0xF0);
+ 379               	8,lo8(4)
+ 380               		out 56-32,r18
+  31:lcd.h         **** 		
+  32:lcd.h         ****         lcd_port = ((cmd << 4) & 0xF0)|LCD_EN;
+ 382               	42:
+ 383               		out 56-32,r24
+ 384 008e 90E0      	.LBB184:
+ 385 0090 24E0      	.LBB185:
+ 386 0092 880F      	.LBB186:
+ 387 0094 991F      	.LBB187:
+ 389 0098 01F4      	.Ltext14:
+ 391 009c 2460      	.LM43:
+ 392 009e 28BB      		ldi r24,lo8(8000)
+  33:lcd.h         ****         lcd_port = ((cmd << 4) & 0xF0);
+ 393               	8(8000)
+ 394               		movw r30,r24
+ 395 00a0 88BB      	/* #APP */
+ 396               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 397               		1: sbiw r30,1
+ 398               		brne 1b
+ 399               	 ;  0 "" 2
+ 400               	/* #NOAPP */
+ 401               	.LBE187:
+ 402               	.LBE186:
+ 403               	.LBE185:
+ 404 00a2 80E4      	.LBE184:
+ 405 00a4 9FE1      	.LBB188:
+ 406 00a6 FC01      	.LBB189:
+ 407               	.LBB190:
+ 408               	.LBB191:
+ 409 00a8 3197      	/* #APP */
+ 410 00aa 01F4      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 411               		1: sbiw r24,1
+ 412               		brne 1b
+ 413               	 ;  0 "" 2
+ 414               	/* epilogue start */
+ 415               	/* #NOAPP */
+ 416               	.LBE191:
+ 417               	.LBE190:
+ 418               	.LBE189:
+ 419               	.LBE188:
+ 421               	.Ltext15:
+ 423 00ac 0197      	.LM44:
+ 424 00ae 01F4      		ret
+ 426               	.Lscope6:
+ 428               	.global	lcd_init
+ 430               	lcd_init:
+ 432               	.LM45:
+ 433               	.LFBB7:
+  34:lcd.h         **** 
+  35:lcd.h         ****       
+  36:lcd.h         **** 
+  37:lcd.h         ****         _delay_ms(2);
+  38:lcd.h         ****         _delay_ms(2);
+  39:lcd.h         **** }
+ 434               	0 */
+ 436 00b0 0895      	.LM46:
+ 437               		ldi r24,lo8(-1)
+ 438               		out 55-32,r24
+ 440               	.LM47:
+ 441               		out 56-32,__zero_reg__
+  40:lcd.h         **** 
+  41:lcd.h         **** void lcd_init (void)
+  42:lcd.h         **** {       DDRB=0xFF;
+ 443               	all lcd_reset
+ 444               	.LBB192:
+ 445               	.LBB193:
+ 447               	.LM49:
+ 448               		ldi r24,lo8(36)
+ 449               		out 56-32,r24
+ 451 00b4 87BB      	.LM50:
+  43:lcd.h         ****         PORTB=0x00; 
+ 452               	lo8(32)
+ 453               		out 56-32,r24
+  44:lcd.h         ****         lcd_reset();         // Call LCD reset
+ 455               	51:
+ 456               		ldi r21,lo8(-124)
+ 457 00b8 0E94 0000 		out 56-32,r21
+ 459               	.LM52:
+ 460               		ldi r20,lo8(-128)
+ 461               		out 56-32,r20
+ 462 00bc 84E2      	.LBB194:
+ 463 00be 88BB      	.LBB195:
+ 464               	.LBB196:
+ 465               	.LBB197:
+ 467 00c2 88BB      	.Ltext16:
+ 469               	.LM53:
+ 470 00c4 54E8      		ldi r18,lo8(8000)
+ 471 00c6 58BB      		ldi r19,hi8(8000)
+ 472               		movw r24,r18
+ 473               	/* #APP */
+ 474 00c8 40E8      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 475 00ca 48BB      		1: sbiw r24,1
+ 476               		brne 1b
+ 477               	 ;  0 "" 2
+ 478               	/* #NOAPP */
+ 479               	.LBE197:
+ 480               	.LBE196:
+ 481               	.LBE195:
+ 482               	.LBE194:
+ 483               	.LBB198:
+ 484 00cc 20E4      	.LBB199:
+ 485 00ce 3FE1      	.LBB200:
+ 486 00d0 C901      	.LBB201:
+ 487               		movw r24,r18
+ 488               	/* #APP */
+ 489 00d2 0197      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 490 00d4 01F4      		1: sbiw r24,1
+ 491               		brne 1b
+ 492               	 ;  0 "" 2
+ 493               	/* #NOAPP */
+ 494               	.LBE201:
+ 495               	.LBE200:
+ 496               	.LBE199:
+ 497               	.LBE198:
+ 498               	.LBE193:
+ 499               	.LBE192:
+ 500               	.LBB202:
+ 501 00d6 C901      	.LBB203:
+ 503               	.Ltext17:
+ 505 00da 01F4      	.LM54:
+ 506               		ldi r25,lo8(4)
+ 507               		out 56-32,r25
+ 509               	.LM55:
+ 510               		out 56-32,__zero_reg__
+ 512               	.LM56:
+ 513               		ldi r24,lo8(-60)
+ 514               		out 56-32,r24
+ 516               	.LM57:
+ 517               		ldi r24,lo8(-64)
+ 518               		out 56-32,r24
+ 519               	.LBB204:
+ 520 00dc 94E0      	.LBB205:
+ 521 00de 98BB      	.LBB206:
+ 522               	.LBB207:
+ 524 00e0 18BA      	.Ltext18:
+ 526               	.LM58:
+ 527 00e2 84EC      		movw r30,r18
+ 528 00e4 88BB      	/* #APP */
+ 529               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 530               		1: sbiw r30,1
+ 531 00e6 80EC      		brne 1b
+ 532 00e8 88BB      	 ;  0 "" 2
+ 533               	/* #NOAPP */
+ 534               	.LBE207:
+ 535               	.LBE206:
+ 536               	.LBE205:
+ 537               	.LBE204:
+ 538               	.LBB208:
+ 539               	.LBB209:
+ 540               	.LBB210:
+ 541 00ea F901      	.LBB211:
+ 542               		movw r30,r18
+ 543               	/* #APP */
+ 544 00ec 3197      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 545 00ee 01F4      		1: sbiw r30,1
+ 546               		brne 1b
+ 547               	 ;  0 "" 2
+ 548               	/* #NOAPP */
+ 549               	.LBE211:
+ 550               	.LBE210:
+ 551               	.LBE209:
+ 552               	.LBE208:
+ 553               	.LBE203:
+ 554               	.LBE202:
+ 555               	.LBB212:
+ 556 00f0 F901      	.LBB213:
+ 558               	.Ltext19:
+ 560 00f4 01F4      	.LM59:
+ 561               		out 56-32,r25
+ 563               	.LM60:
+ 564               		out 56-32,__zero_reg__
+ 566               	.LM61:
+ 567               		ldi r24,lo8(100)
+ 568               		out 56-32,r24
+ 570               	.LM62:
+ 571               		ldi r24,lo8(96)
+ 572               		out 56-32,r24
+ 573               	.LBB214:
+ 574               	.LBB215:
+ 575 00f6 98BB      	.LBB216:
+ 576               	.LBB217:
+ 578 00f8 18BA      	.Ltext20:
+ 580               	.LM63:
+ 581 00fa 84E6      		movw r30,r18
+ 582 00fc 88BB      	/* #APP */
+ 583               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 584               		1: sbiw r30,1
+ 585 00fe 80E6      		brne 1b
+ 586 0100 88BB      	 ;  0 "" 2
+ 587               	/* #NOAPP */
+ 588               	.LBE217:
+ 589               	.LBE216:
+ 590               	.LBE215:
+ 591               	.LBE214:
+ 592               	.LBB218:
+ 593               	.LBB219:
+ 594               	.LBB220:
+ 595 0102 F901      	.LBB221:
+ 596               		movw r30,r18
+ 597               	/* #APP */
+ 598 0104 3197      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 599 0106 01F4      		1: sbiw r30,1
+ 600               		brne 1b
+ 601               	 ;  0 "" 2
+ 602               	/* #NOAPP */
+ 603               	.LBE221:
+ 604               	.LBE220:
+ 605               	.LBE219:
+ 606               	.LBE218:
+ 607               	.LBE213:
+ 608               	.LBE212:
+ 609               	.LBB222:
+ 610 0108 F901      	.LBB223:
+ 612               	.Ltext21:
+ 614 010c 01F4      	.LM64:
+ 615               		out 56-32,r21
+ 617               	.LM65:
+ 618               		out 56-32,r20
+ 620               	.LM66:
+ 621               		out 56-32,r25
+ 623               	.LM67:
+ 624               		out 56-32,__zero_reg__
+ 625               	.LBB224:
+ 626               	.LBB225:
+ 627               	.LBB226:
+ 628               	.LBB227:
+ 630               	.Ltext22:
+ 632 0110 48BB      	.LM68:
+ 633               		movw r24,r18
+ 634               	/* #APP */
+ 635 0112 98BB      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 636               		1: sbiw r24,1
+ 637               		brne 1b
+ 638 0114 18BA      	 ;  0 "" 2
+ 639               	/* #NOAPP */
+ 640               	.LBE227:
+ 641               	.LBE226:
+ 642               	.LBE225:
+ 643               	.LBE224:
+ 644               	.LBB228:
+ 645               	.LBB229:
+ 646               	.LBB230:
+ 647 0116 C901      	.LBB231:
+ 648               		movw r24,r18
+ 649               	/* #APP */
+ 650 0118 0197      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 651 011a 01F4      		1: sbiw r24,1
+ 652               		brne 1b
+ 653               	 ;  0 "" 2
+ 654               	/* epilogue start */
+ 655               	/* #NOAPP */
+ 656               	.LBE231:
+ 657               	.LBE230:
+ 658               	.LBE229:
+ 659               	.LBE228:
+ 660               	.LBE223:
+ 661               	.LBE222:
+ 663               	.Ltext23:
+ 665 011e 0197      	.LM69:
+ 666 0120 01F4      		ret
+ 668               	.Lscope7:
+ 671               	.global	lcd_data
+ 673               	lcd_data:
+ 675               	.LM70:
+ 676               	.LFBB8:
+ 677               	/* prologue: function */
+  45:lcd.h         ****         lcd_cmd(0x28);       // 4-bit mode - 2 line - 5x7 font.
+  46:lcd.h         ****         lcd_cmd(0x0C);       // Display on cursor - off .
+  47:lcd.h         ****         lcd_cmd(0x06);       // Automatic Increment - No Display shift.
+  48:lcd.h         ****         lcd_cmd(0x80);       // Address DDRAM with 0 offset 80h.
+  49:lcd.h         ****  }
+ 678               	LFBB8
+ 679               	.LM73:
+ 680 0122 0895      		swap r24
+ 681               		andi r24,lo8(-16)
+ 682               		mov r25,r24
+ 683               		ori r25,lo8(5)
+ 684               		out 56-32,r25
+ 686               	.LM74:
+ 687               		ori r24,lo8(1)
+  50:lcd.h         **** 
+  51:lcd.h         **** 
+  52:lcd.h         **** void lcd_data (unsigned char dat)
+  53:lcd.h         **** {
+ 688               	,r24
+ 689               	.LBB232:
+ 690               	.LBB233:
+ 691               	.LBB234:
+ 692               	.LBB235:
+  54:lcd.h         ****         lcd_port = ((dat & 0xF0)|LCD_EN|LCD_RS);
+ 693               	bs	"c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h",132,0,0,.Ltext24
+ 694               	.Ltext24:
+ 696 0126 907F      	.LM75:
+ 697 0128 292F      		ldi r24,lo8(8000)
+ 698 012a 2560      		ldi r25,hi8(8000)
+ 699 012c 28BB      		movw r30,r24
+  55:lcd.h         ****         lcd_port = ((dat & 0xF0)|LCD_RS);
+ 700               	 */
+ 701               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 702 012e 9160      		1: sbiw r30,1
+ 703 0130 98BB      		brne 1b
+  56:lcd.h         **** 		
+  57:lcd.h         **** 		lcd_port = (((dat << 4) & 0xF0)|LCD_EN|LCD_RS);
+ 704               	0 "" 2
+ 705               	/* #NOAPP */
+ 706 0132 8295      	.LBE235:
+ 707 0134 807F      	.LBE234:
+ 708 0136 982F      	.LBE233:
+ 709 0138 9560      	.LBE232:
+ 710 013a 98BB      	.LBB236:
+  58:lcd.h         ****         lcd_port = (((dat << 4) & 0xF0)|LCD_RS);
+ 711               	:
+ 712               	.LBB238:
+ 713 013c 8160      	.LBB239:
+ 714 013e 88BB      	/* #APP */
+ 715               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 716               		1: sbiw r24,1
+ 717               		brne 1b
+ 718               	 ;  0 "" 2
+ 719               	/* epilogue start */
+ 720               	/* #NOAPP */
+ 721               	.LBE239:
+ 722               	.LBE238:
+ 723 0140 80E4      	.LBE237:
+ 724 0142 9FE1      	.LBE236:
+ 726               	.Ltext25:
+ 728 0146 3197      	.LM76:
+ 729 0148 01F4      		ret
+ 731               	.Lscope8:
+ 733               	.global	lcd_puts
+ 735               	lcd_puts:
+ 737               	.LM77:
+ 738               	.LFBB9:
+ 739               		push r28
+ 740               		push r29
+ 741               	/* prologue: function */
+ 742 014a 0197      	/* frame size = 0 */
+ 744               	.LM78:
+ 745               		movw r28,r24
+ 746               		rjmp .L28
+ 747               	.L29:
+ 749               	.LM79:
+ 750               		call lcd_data
+ 751               	.L28:
+  59:lcd.h         ****        
+  60:lcd.h         ****       
+  61:lcd.h         **** 
+  62:lcd.h         ****        _delay_ms(2);
+  63:lcd.h         ****        _delay_ms(2);
+  64:lcd.h         **** }
+ 753               	pilogue start */
+ 755 014e 0895      	.LM81:
+ 756               		pop r29
+ 757               		pop r28
+ 758               		ret
+ 760               	.Lscope9:
+  65:lcd.h         **** void lcd_puts(char *aaa)
+  66:lcd.h         **** {
+ 762               	num:P(4,4)",64,0,0,14
+ 763               	.global	itoa
+ 765 0150 CF93      	itoa:
+ 767               	.LM82:
+ 768               	.LFBB10:
+ 769               		push r12
+ 770               		push r13
+ 771 0154 EC01      		push r14
+ 772 0156 00C0      		push r15
+ 773               		push r16
+  67:lcd.h         **** unsigned int i;
+  68:lcd.h         **** for(i=0;aaa[i]!=0;i++)
+  69:lcd.h         **** lcd_data(aaa[i]);
+ 774               	 prologue: function */
+ 775               	/* frame size = 0 */
+ 776 0158 0E94 0000 		movw r14,r24
+ 778               	.LM83:
+ 779               		ldi r22,lo8(10)
+ 780 015c 8991      		ldi r23,hi8(10)
+ 781 015e 8823      		call __udivmodhi4
+ 782 0160 01F4      		mov r13,r22
+ 783               		mov r12,r23
+  70:lcd.h         **** 
+  71:lcd.h         **** }
+ 784               	,0,78,.LM84-.LFBB10
+ 785               	.LM84:
+ 786 0162 DF91      		mov r24,r22
+ 787 0164 CF91      		mov r25,r23
+ 788 0166 0895      		ldi r22,lo8(10)
+ 789               		ldi r23,hi8(10)
+ 790               		call __udivmodhi4
+ 791               		mov r17,r22
+ 792               		mov r16,r23
+ 794               	.LM85:
+ 795               		mov r24,r22
+  72:lcd.h         **** void itoa(uint16_t num)
+  73:lcd.h         **** {
+ 796               	
+ 797               		ldi r22,lo8(10)
+ 798               		ldi r23,hi8(10)
+ 799 0168 CF92      		call __udivmodhi4
+ 800 016a DF92      		movw r24,r22
+ 801 016c EF92      		ldi r22,lo8(10)
+ 802 016e FF92      		ldi r23,hi8(10)
+ 803 0170 0F93      		call __udivmodhi4
+ 804 0172 1F93      		subi r24,lo8(-(48))
+ 805               		call lcd_data
+ 807 0174 7C01      	.LM86:
+  74:lcd.h         ****  unsigned char a,b,c,d;
+  75:lcd.h         ****  a=num%10;
+  76:lcd.h         ****  num=num/10;
+ 808               	7
+ 809               		mov r25,r16
+ 810 0176 6AE0      		ldi r22,lo8(10)
+ 811 0178 70E0      		ldi r23,hi8(10)
+ 812 017a 0E94 0000 		call __udivmodhi4
+ 813 017e D62E      		subi r24,lo8(-(48))
+ 814 0180 C72E      		call lcd_data
+  77:lcd.h         ****  b=num%10;
+  78:lcd.h         ****  num=num/10;
+ 815               		68,0,85,.LM87-.LFBB10
+ 816               	.LM87:
+ 817 0182 862F      		mov r24,r13
+ 818 0184 972F      		mov r25,r12
+ 819 0186 6AE0      		ldi r22,lo8(10)
+ 820 0188 70E0      		ldi r23,hi8(10)
+ 821 018a 0E94 0000 		call __udivmodhi4
+ 822 018e 162F      		subi r24,lo8(-(48))
+ 823 0190 072F      		call lcd_data
+  79:lcd.h         ****  c=num%10;
+  80:lcd.h         ****  num=num/10;
+  81:lcd.h         ****  d=num%10;
+  82:lcd.h         ****  num=num/10;
+  83:lcd.h         ****  lcd_data(0x30+d); 
+ 824               	8,0,86,.LM88-.LFBB10
+ 825               	.LM88:
+ 826 0192 862F      		movw r24,r14
+ 827 0194 972F      		ldi r22,lo8(10)
+ 828 0196 6AE0      		ldi r23,hi8(10)
+ 829 0198 70E0      		call __udivmodhi4
+ 830 019a 0E94 0000 		subi r24,lo8(-(48))
+ 831 019e CB01      		call lcd_data
+ 832 01a0 6AE0      	/* epilogue start */
+ 834 01a4 0E94 0000 	.LM89:
+ 835 01a8 805D      		pop r17
+ 836 01aa 0E94 0000 		pop r16
+  84:lcd.h         ****  lcd_data(0x30+c); 
+ 837               	 r14
+ 838               		pop r13
+ 839 01ae 812F      		pop r12
+ 840 01b0 902F      		ret
+ 842 01b4 70E0      	.Lscope10:
+ 844 01ba 805D      	.global	main
+  85:lcd.h         ****  lcd_data(0x30+b); 
+ 846               	tabs	"main.c",132,0,0,.Ltext26
+ 847               	.Ltext26:
+ 849 01c2 9C2D      	.LM90:
+ 850 01c4 6AE0      	.LFBB11:
+ 851 01c6 70E0      		push r13
+ 852 01c8 0E94 0000 		push r14
+ 853 01cc 805D      		push r15
+ 854 01ce 0E94 0000 		push r16
+  86:lcd.h         ****  lcd_data(0x30+a); 
+ 855               	
+ 856               		push r28
+ 857 01d2 C701      		push r29
+ 858 01d4 6AE0      	/* prologue: function */
+ 859 01d6 70E0      	/* frame size = 0 */
+ 860 01d8 0E94 0000 	.LBB240:
+ 861 01dc 805D      	.LBB241:
+ 863               	.Ltext27:
+  87:lcd.h         **** }...
+ 864               	68,0,22,.LM91-.LFBB11
+ 865               	.LM91:
+ 866 01e2 1F91      		ldi r24,lo8(103)
+ 867 01e4 0F91      		out 41-32,r24
+ 869 01e8 EF90      	.LM92:
+ 870 01ea DF90      		out 64-32,__zero_reg__
+ 872 01ee 0895      	.LM93:
+ 873               		ldi r24,lo8(-122)
+ 874               		out 64-32,r24
+ 876               	.LM94:
+ 877               		ldi r24,lo8(24)
+ 878               		out 42-32,r24
+ 879               	.LBE241:
+ 880               	.LBE240:
+   1:main.c        **** /*
+   2:main.c        **** ===================================================================
+   3:main.c        **** PROGRAM TO PRINT A STRING ON COMPUTER SCREEN
+   4:main.c        **** ===================================================================
+   5:main.c        **** */
+   6:main.c        **** 
+   7:main.c        **** #include<avr/io.h>
+   8:main.c        **** #include<util/delay.h>
+   9:main.c        **** #include <compat/deprecated.h>
+  10:main.c        **** #include "uart.h"
+  11:main.c        **** #include "lcd.h"
+  12:main.c        **** 
+  13:main.c        **** 
+  14:main.c        **** int main(void)
+  15:main.c        **** {
+ 881               	132,0,0,.Ltext28
+ 882               	.Ltext28:
+ 884 01f0 DF92      	.LM95:
+ 885 01f2 EF92      		call lcd_init
+ 886 01f4 FF92      	.LBB242:
+ 887 01f6 0F93      	.LBB243:
+ 889 01fa CF93      	.Ltext29:
+ 891               	.LM96:
+ 892               		ldi r25,lo8(4)
+ 893               		out 56-32,r25
+ 895               	.LM97:
+ 896               		out 56-32,__zero_reg__
+ 898               	.LM98:
+ 899 01fe 87E6      		ldi r24,lo8(-60)
+ 900 0200 89B9      		out 56-32,r24
+ 902               	.LM99:
+ 903 0202 10BC      		ldi r24,lo8(-64)
+ 904               		out 56-32,r24
+ 905               	.LBB244:
+ 906 0204 86E8      	.LBB245:
+ 907 0206 80BD      	.LBB246:
+ 908               	.LBB247:
+ 910 0208 88E1      	.Ltext30:
+ 912               	.LM100:
+ 913               		ldi r18,lo8(8000)
+ 914               		ldi r19,hi8(8000)
+ 915               		movw r30,r18
+  16:main.c        **** 	unsigned char t;
+  17:main.c        **** 	USART_INIT();
+  18:main.c        **** 	lcd_init();
+ 916               	313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 917               		1: sbiw r30,1
+ 918 020c 0E94 0000 		brne 1b
+ 919               	 ;  0 "" 2
+ 920               	/* #NOAPP */
+ 921               	.LBE247:
+ 922               	.LBE246:
+ 923               	.LBE245:
+ 924               	.LBE244:
+ 925 0210 94E0      	.LBB248:
+ 926 0212 98BB      	.LBB249:
+ 927               	.LBB250:
+ 928               	.LBB251:
+ 929 0214 18BA      		movw r30,r18
+ 930               	/* #APP */
+ 931               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 932 0216 84EC      		1: sbiw r30,1
+ 933 0218 88BB      		brne 1b
+ 934               	 ;  0 "" 2
+ 935               	/* #NOAPP */
+ 936 021a 80EC      	.LBE251:
+ 937 021c 88BB      	.LBE250:
+ 938               	.LBE249:
+ 939               	.LBE248:
+ 940               	.LBE243:
+ 941               	.LBE242:
+ 942               	.LBB252:
+ 943               	.LBB253:
+ 945               	.Ltext31:
+ 947 0220 3FE1      	.LM101:
+ 948 0222 F901      		out 56-32,r25
+ 950               	.LM102:
+ 951 0224 3197      		out 56-32,__zero_reg__
+ 953               	.LM103:
+ 954               		ldi r24,lo8(20)
+ 955               		out 56-32,r24
+ 957               	.LM104:
+ 958               		ldi r24,lo8(16)
+ 959               		out 56-32,r24
+ 960               	.LBB254:
+ 961               	.LBB255:
+ 962               	.LBB256:
+ 963 0228 F901      	.LBB257:
+ 965               	.Ltext32:
+ 967 022c 01F4      	.LM105:
+ 968               		movw r24,r18
+ 969               	/* #APP */
+ 970               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 971               		1: sbiw r24,1
+ 972               		brne 1b
+ 973               	 ;  0 "" 2
+ 974               	/* #NOAPP */
+ 975               	.LBE257:
+ 976               	.LBE256:
+ 977               	.LBE255:
+ 978               	.LBE254:
+ 979               	.LBB258:
+ 980               	.LBB259:
+ 981               	.LBB260:
+ 982 022e 98BB      	.LBB261:
+ 983               		movw r24,r18
+ 984               	/* #APP */
+ 985 0230 18BA      	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 986               		1: sbiw r24,1
+ 987               		brne 1b
+ 988 0232 84E1      	 ;  0 "" 2
+ 989 0234 88BB      	/* #NOAPP */
+ 990               	.LBE261:
+ 991               	.LBE260:
+ 992 0236 80E1      	.LBE259:
+ 993 0238 88BB      	.LBE258:
+ 994               	.LBE253:
+ 995               	.LBE252:
+ 996               	.LBB262:
+ 997               	.LBB263:
+ 999               	.Ltext33:
+ 1001               	.LM106:
+ 1002 023a C901      		ldi r21,lo8(-60)
+ 1003               		mov r13,r21
+ 1005 023c 0197      	.LM107:
+ 1006 023e 01F4      		ldi r20,lo8(-64)
+ 1007               		mov r14,r20
+ 1009               	.LM108:
+ 1010               		ldi r17,lo8(4)
+ 1011               	.LBB264:
+ 1012               	.LBB265:
+ 1013               	.LBB266:
+ 1014               	.LBB267:
+ 1016               	.Ltext34:
+ 1018               	.LM109:
+ 1019               		ldi r28,lo8(8000)
+ 1020 0242 0197      		ldi r29,hi8(8000)
+ 1021 0244 01F4      	.LBE267:
+ 1022               	.LBE266:
+ 1023               	.LBE265:
+ 1024               	.LBE264:
+ 1025               	.LBE263:
+ 1026               	.LBE262:
+ 1027               	.LBB277:
+ 1028               	.LBB278:
+ 1030               	.Ltext35:
+ 1032               	.LM110:
+ 1033               		ldi r19,lo8(20)
+ 1034               		mov r15,r19
+ 1036 0246 54EC      	.LM111:
+ 1037 0248 D52E      		ldi r16,lo8(16)
+ 1038               	.L40:
+ 1039               	.LBE278:
+ 1040 024a 40EC      	.LBE277:
+ 1041 024c E42E      	.LBB280:
+ 1042               	.LBB281:
+ 1044 024e 14E0      	.Ltext36:
+ 1046               	.LM112:
+ 1047               		sbis 43-32,7
+ 1048               		rjmp .L40
+ 1050               	.LM113:
+ 1051               		in r24,44-32
+ 1052               	.LBE281:
+ 1053 0250 C0E4      	.LBE280:
+ 1055               	.Ltext37:
+ 1057               	.LM114:
+ 1058               		cpi r24,lo8(27)
+ 1059               		brne .L35
+ 1060               	.LBB282:
+ 1061               	.LBB279:
+ 1063               	.Ltext38:
+ 1065               	.LM115:
+ 1066               		out 56-32,r17
+ 1068 0256 F32E      	.LM116:
+ 1069               		out 56-32,__zero_reg__
+ 1071 0258 00E1      	.LM117:
+ 1072               		out 56-32,r15
+ 1074               	.LM118:
+ 1075               		out 56-32,r16
+ 1076               		rjmp .L41
+ 1077               	.L35:
+ 1078               	.LBE279:
+ 1079               	.LBE282:
+ 1081 025a 5F9B      	.Ltext39:
+ 1083               	.LM119:
+ 1084               		cpi r24,lo8(13)
+ 1085 025e 8CB1      		brne .L36
+ 1086               	.LBB283:
+ 1087               	.LBB276:
+ 1089               	.Ltext40:
+  19:main.c        **** 	lcd_cmd(0x0c);
+  20:main.c        **** 	lcd_cmd(0x01);
+  21:main.c        **** 	while(1)
+  22:main.c        **** 	{
+  23:main.c        **** 		t=rsreadchar();
+  24:main.c        **** 		if(t==27)
+ 1090               	36
+ 1091               	.LBB283:
+ 1092 0260 8B31      	.LBB276:
+ 1094               	.Ltext40:
+ 1096               	.LM120:
+ 1097               		out 56-32,r13
+ 1099               	.LM121:
+ 1100 0264 18BB      		out 56-32,r14
+ 1102               	.LM122:
+ 1103 0266 18BA      		out 56-32,r17
+ 1105               	.LM123:
+ 1106 0268 F8BA      		out 56-32,__zero_reg__
+ 1107               	.L41:
+ 1108               	.LBB271:
+ 1109 026a 08BB      	.LBB270:
+ 1110 026c 00C0      	.LBB269:
+ 1111               	.LBB268:
+ 1113               	.Ltext41:
+ 1115               	.LM124:
+  25:main.c        **** 		lcd_cmd(0x01);
+  26:main.c        **** 		else if(t==0x0d)
+ 1116               	1:
+ 1118 026e 8D30      	.LM124:
+ 1119 0270 01F4      		movw r24,r28
+ 1120               	/* #APP */
+ 1121               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1122               		1: sbiw r24,1
+ 1123               		brne 1b
+ 1124               	 ;  0 "" 2
+ 1125               	/* #NOAPP */
+ 1126 0272 D8BA      	.LBE268:
+ 1127               	.LBE269:
+ 1128               	.LBE270:
+ 1129 0274 E8BA      	.LBE271:
+ 1130               	.LBB272:
+ 1131               	.LBB273:
+ 1132 0276 18BB      	.LBB274:
+ 1133               	.LBB275:
+ 1134               		movw r24,r28
+ 1135 0278 18BA      	/* #APP */
+ 1136               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 1137               		1: sbiw r24,1
+ 1138               		brne 1b
+ 1139               	 ;  0 "" 2
+ 1140               	/* #NOAPP */
+ 1141               		rjmp .L40
+ 1142               	.L36:
+ 1143               	.LBE275:
+ 1144               	.LBE274:
+ 1145 027a CE01      	.LBE273:
+ 1146               	.LBE272:
+ 1147               	.LBE276:
+ 1148 027c 0197      	.LBE283:
+ 1150               	.Ltext42:
+ 1152               	.LM125:
+ 1153               		call lcd_data
+ 1154               		rjmp .L40
+ 1159               	.Lscope11:
+ 1161               	.Letext0:
+ 1162               	...
+  27:main.c        **** 		lcd_cmd(0xc0);
+  28:main.c        **** 		else
+  29:main.c        **** 		lcd_data(t);
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:71     .text:00000000 USART_INIT
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:104    .text:00000010 rswritechar
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:127    .text:00000018 rsreadchar
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:151    .text:00000020 rsstr
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:189    .text:00000034 lcd_reset
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:366    .text:00000082 lcd_cmd
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:442    .text:000000b2 lcd_init
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:687    .text:00000124 lcd_data
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:761    .text:00000150 lcd_puts
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:795    .text:00000168 itoa
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccJ0erPj.s:878    .text:000001f0 main
+
+UNDEFINED SYMBOLS
+__udivmodhi4

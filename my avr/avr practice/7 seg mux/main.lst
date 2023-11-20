@@ -1,0 +1,109 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	main
+  18               	main:
+  19               	.LFB6:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 8FEF      		ldi r24,lo8(-1)
+  25 0002 84BB      		out 52-32,r24
+  26               	.LM3:
+  27 0004 15BA      		out 53-32,__zero_reg__
+  28               	.LM4:
+  29 0006 81BB      		out 49-32,r24
+  30               	.LM5:
+  31 0008 82BB      		out 50-32,r24
+  32 000a 20E0      		ldi r18,lo8(0)
+  33 000c 30E0      		ldi r19,hi8(0)
+  34               	.LVL0:
+  35               	.LBB12:
+  36               	.LBB13:
+  37               	.LBB14:
+  38               	.LBB15:
+  39               	.LM6:
+  40 000e 48EC      		ldi r20,lo8(200)
+  41 0010 50E0      		ldi r21,hi8(200)
+  42               	.LVL1:
+  43               	.L8:
+  44               	.LBE15:
+  45               	.LBE14:
+  46               	.LBE13:
+  47               	.LBE12:
+  48               	.LM7:
+  49 0012 F901      		movw r30,r18
+  50               	.LVL2:
+  51 0014 E050      		subi r30,lo8(-(seg))
+  52 0016 F040      		sbci r31,hi8(-(seg))
+  53 0018 8081      		ld r24,Z
+  54               	.LVL3:
+  55 001a 85BB      		out 53-32,r24
+  56 001c 80E1      		ldi r24,lo8(10000)
+  57 001e 97E2      		ldi r25,hi8(10000)
+  58               	.LVL4:
+  59               	.L2:
+  60               	.LBB19:
+  61               	.LBB18:
+  62               	.LBB17:
+  63               	.LBB16:
+  64               	.LM8:
+  65 0020 FA01      		movw r30,r20
+  66               	.LVL5:
+  67               	/* #APP */
+  68               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+  69 0022 3197      		1: sbiw r30,1
+  70 0024 01F4      		brne 1b
+  71               	 ;  0 "" 2
+  72               	/* #NOAPP */
+  73               	.LBE16:
+  74               	.LBE17:
+  75               	.LM9:
+  76 0026 0197      		sbiw r24,1
+  77               	.LM10:
+  78 0028 01F4      		brne .L2
+  79               	.LBE18:
+  80               	.LBE19:
+  81               	.LM11:
+  82 002a 2F5F      		subi r18,lo8(-(1))
+  83 002c 3F4F      		sbci r19,hi8(-(1))
+  84 002e 2830      		cpi r18,8
+  85 0030 3105      		cpc r19,__zero_reg__
+  86 0032 00F0      		brlo .L8
+  87 0034 20E0      		ldi r18,lo8(0)
+  88 0036 30E0      		ldi r19,hi8(0)
+  89 0038 00C0      		rjmp .L8
+  90               	.LFE6:
+  92               	.global	seg
+  93               		.data
+  96               	seg:
+  97 0000 77        		.byte	119
+  98 0001 24        		.byte	36
+  99 0002 6B        		.byte	107
+ 100 0003 6E        		.byte	110
+ 101 0004 5C        		.byte	92
+ 102 0005 3C        		.byte	60
+ 103 0006 3F        		.byte	63
+ 104 0007 64        		.byte	100
+ 105 0008 7F        		.byte	127
+ 106 0009 7D        		.byte	125
+ 131               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccR7dA3a.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccR7dA3a.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccR7dA3a.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccR7dA3a.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccR7dA3a.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccR7dA3a.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccR7dA3a.s:18     .text:00000000 main
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/ccR7dA3a.s:96     .data:00000000 seg
+
+UNDEFINED SYMBOLS
+__do_copy_data

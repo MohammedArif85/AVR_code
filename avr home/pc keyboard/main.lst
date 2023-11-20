@@ -1,0 +1,216 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	USART_INIT
+  18               	USART_INIT:
+  19               	.LFB2:
+  20               	.LM1:
+  21               	/* prologue: function */
+  22               	/* frame size = 0 */
+  23               	.LM2:
+  24 0000 87E6      		ldi r24,lo8(103)
+  25 0002 89B9      		out 41-32,r24
+  26               	.LM3:
+  27 0004 10BC      		out 64-32,__zero_reg__
+  28               	.LM4:
+  29 0006 86E8      		ldi r24,lo8(-122)
+  30 0008 80BD      		out 64-32,r24
+  31               	.LM5:
+  32 000a 88E1      		ldi r24,lo8(24)
+  33 000c 8AB9      		out 42-32,r24
+  34               	/* epilogue start */
+  35               	.LM6:
+  36 000e 0895      		ret
+  37               	.LFE2:
+  39               	.global	rswritechar
+  41               	rswritechar:
+  42               	.LFB3:
+  43               	.LM7:
+  44               	/* prologue: function */
+  45               	/* frame size = 0 */
+  46               	.LVL0:
+  47               	.L4:
+  48               	.LM8:
+  49 0010 5D9B      		sbis 43-32,5
+  50 0012 00C0      		rjmp .L4
+  51               	.LM9:
+  52 0014 8CB9      		out 44-32,r24
+  53               	/* epilogue start */
+  54               	.LM10:
+  55 0016 0895      		ret
+  56               	.LFE3:
+  58               	.global	rsreadchar
+  60               	rsreadchar:
+  61               	.LFB4:
+  62               	.LM11:
+  63               	/* prologue: function */
+  64               	/* frame size = 0 */
+  65               	.L8:
+  66               	.LM12:
+  67 0018 5F9B      		sbis 43-32,7
+  68 001a 00C0      		rjmp .L8
+  69               	.LM13:
+  70 001c 8CB1      		in r24,44-32
+  71               	/* epilogue start */
+  72               	.LM14:
+  73 001e 0895      		ret
+  74               	.LFE4:
+  76               	.global	rsstr
+  78               	rsstr:
+  79               	.LFB5:
+  80               	.LM15:
+  81               	.LVL1:
+  82               	/* prologue: function */
+  83               	/* frame size = 0 */
+  84 0020 FC01      		movw r30,r24
+  85 0022 00C0      		rjmp .L12
+  86               	.LVL2:
+  87               	.L15:
+  88               	.LBB12:
+  89               	.LBB13:
+  90               	.LM16:
+  91 0024 5D9B      		sbis 43-32,5
+  92 0026 00C0      		rjmp .L15
+  93               	.LM17:
+  94 0028 8CB9      		out 44-32,r24
+  95               	.LBE13:
+  96               	.LBE12:
+  97               	.LM18:
+  98 002a 3196      		adiw r30,1
+  99               	.LVL3:
+ 100               	.L12:
+ 101               	.LM19:
+ 102 002c 8081      		ld r24,Z
+ 103 002e 8823      		tst r24
+ 104 0030 01F4      		brne .L15
+ 105               	/* epilogue start */
+ 106               	.LM20:
+ 107 0032 0895      		ret
+ 108               	.LFE5:
+ 110               		.data
+ 111               	.LC0:
+ 112 0000 6865 6C6C 		.string	"hello i m micro\r\n"
+ 112      6F20 6920 
+ 112      6D20 6D69 
+ 112      6372 6F0D 
+ 112      0A00 
+ 113               		.text
+ 114               	.global	main
+ 116               	main:
+ 117               	.LFB11:
+ 118               	.LM21:
+ 119               	/* prologue: function */
+ 120               	/* frame size = 0 */
+ 121               	.LBB14:
+ 122               	.LBB15:
+ 123               	.LM22:
+ 124 0034 87E6      		ldi r24,lo8(103)
+ 125 0036 89B9      		out 41-32,r24
+ 126               	.LM23:
+ 127 0038 10BC      		out 64-32,__zero_reg__
+ 128               	.LM24:
+ 129 003a 86E8      		ldi r24,lo8(-122)
+ 130 003c 80BD      		out 64-32,r24
+ 131               	.LM25:
+ 132 003e 88E1      		ldi r24,lo8(24)
+ 133 0040 8AB9      		out 42-32,r24
+ 134               	.LBE15:
+ 135               	.LBE14:
+ 136               	.LM26:
+ 137 0042 8FEF      		ldi r24,lo8(-1)
+ 138 0044 8ABB      		out 58-32,r24
+ 139 0046 E0E0      		ldi r30,lo8(.LC0)
+ 140 0048 F0E0      		ldi r31,hi8(.LC0)
+ 141               	.LVL4:
+ 142 004a 00C0      		rjmp .L18
+ 143               	.L28:
+ 144               	.LBB16:
+ 145               	.LBB17:
+ 146               	.LBB18:
+ 147               	.LBB19:
+ 148               	.LM27:
+ 149 004c 5D9B      		sbis 43-32,5
+ 150 004e 00C0      		rjmp .L28
+ 151               	.LM28:
+ 152 0050 8CB9      		out 44-32,r24
+ 153               	.LBE19:
+ 154               	.LBE18:
+ 155               	.LM29:
+ 156 0052 3196      		adiw r30,1
+ 157               	.L18:
+ 158               	.LM30:
+ 159 0054 8081      		ld r24,Z
+ 160 0056 8823      		tst r24
+ 161 0058 01F4      		brne .L28
+ 162               	.LBE17:
+ 163               	.LBE16:
+ 164               	.LM31:
+ 165 005a 30E3      		ldi r19,lo8(48)
+ 166               	.LM32:
+ 167 005c 20EC      		ldi r18,lo8(-64)
+ 168               	.LM33:
+ 169 005e 9FEF      		ldi r25,lo8(-1)
+ 170               	.LVL5:
+ 171               	.L31:
+ 172               	.LBB20:
+ 173               	.LBB21:
+ 174               	.LM34:
+ 175 0060 5F9B      		sbis 43-32,7
+ 176 0062 00C0      		rjmp .L31
+ 177               	.LM35:
+ 178 0064 8CB1      		in r24,44-32
+ 179               	.LBE21:
+ 180               	.LBE20:
+ 181               	.LM36:
+ 182 0066 8633      		cpi r24,lo8(54)
+ 183 0068 01F0      		breq .L22
+ 184 006a 8733      		cpi r24,lo8(55)
+ 185 006c 00F4      		brsh .L25
+ 186 006e 8533      		cpi r24,lo8(53)
+ 187 0070 01F4      		brne .L31
+ 188 0072 00C0      		rjmp .L32
+ 189               	.L25:
+ 190 0074 8733      		cpi r24,lo8(55)
+ 191 0076 01F0      		breq .L23
+ 192 0078 8833      		cpi r24,lo8(56)
+ 193 007a 01F4      		brne .L31
+ 194 007c 00C0      		rjmp .L33
+ 195               	.L32:
+ 196               	.LM37:
+ 197 007e 9BBB      		out 59-32,r25
+ 198 0080 00C0      		rjmp .L31
+ 199               	.L22:
+ 200               	.LM38:
+ 201 0082 1BBA      		out 59-32,__zero_reg__
+ 202 0084 00C0      		rjmp .L31
+ 203               	.L23:
+ 204               	.LM39:
+ 205 0086 3BBB      		out 59-32,r19
+ 206 0088 00C0      		rjmp .L31
+ 207               	.L33:
+ 208               	.LM40:
+ 209 008a 2BBB      		out 59-32,r18
+ 210 008c 00C0      		rjmp .L31
+ 211               	.LFE11:
+ 269               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:18     .text:00000000 USART_INIT
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:41     .text:00000010 rswritechar
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:60     .text:00000018 rsreadchar
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:78     .text:00000020 rsstr
+C:\DOCUME~1\anupam\LOCALS~1\Temp/ccYaaJZJ.s:116    .text:00000034 main
+
+UNDEFINED SYMBOLS
+__do_copy_data

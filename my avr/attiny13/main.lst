@@ -1,0 +1,450 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	main
+  18               	main:
+  19               	.LFB6:
+  20               	.LM1:
+  21 0000 CF92      		push r12
+  22 0002 DF92      		push r13
+  23 0004 EF92      		push r14
+  24 0006 FF92      		push r15
+  25 0008 0F93      		push r16
+  26 000a 1F93      		push r17
+  27 000c CF93      		push r28
+  28 000e DF93      		push r29
+  29               	/* prologue: function */
+  30               	/* frame size = 0 */
+  31               	.LM2:
+  32 0010 8FEF      		ldi r24,lo8(-1)
+  33 0012 87BB      		out 55-32,r24
+  34               	.LM3:
+  35 0014 18BA      		out 56-32,__zero_reg__
+  36 0016 60E0      		ldi r22,lo8(0)
+  37 0018 70E0      		ldi r23,hi8(0)
+  38               	.LVL0:
+  39 001a 80E0      		ldi r24,lo8(0)
+  40               	.LVL1:
+  41               	.LBB14:
+  42               	.LBB15:
+  43               	.LBB16:
+  44               	.LBB17:
+  45               	.LM4:
+  46 001c 90EC      		ldi r25,lo8(24000)
+  47 001e C92E      		mov r12,r25
+  48 0020 9DE5      		ldi r25,hi8(24000)
+  49 0022 D92E      		mov r13,r25
+  50               	.LVL2:
+  51               	.L12:
+  52               	.LBE17:
+  53               	.LBE16:
+  54               	.LBE15:
+  55               	.LBE14:
+  56               	.LBB21:
+  57               	.LM5:
+  58 0024 FB01      		movw r30,r22
+  59 0026 E050      		subi r30,lo8(-(b))
+  60 0028 F040      		sbci r31,hi8(-(b))
+  61               	/* #APP */
+  62               	 ;  88 "main.c" 1
+  63 002a A491      		lpm r26, Z
+  64               		
+  65               	 ;  0 "" 2
+  66               	/* #NOAPP */
+  67               	.LBE21:
+  68               	.LM6:
+  69 002c A80F      		add r26,r24
+  70 002e 40E0      		ldi r20,lo8(0)
+  71 0030 50E0      		ldi r21,hi8(0)
+  72               	.LM7:
+  73 0032 C82F      		mov r28,r24
+  74               	.LVL3:
+  75 0034 D0E0      		ldi r29,lo8(0)
+  76 0036 80E0      		ldi r24,lo8(a)
+  77 0038 E82E      		mov r14,r24
+  78 003a 80E0      		ldi r24,hi8(a)
+  79 003c F82E      		mov r15,r24
+  80               	.LVL4:
+  81 003e EC0E      		add r14,r28
+  82 0040 FD1E      		adc r15,r29
+  83 0042 0A2F      		mov r16,r26
+  84 0044 10E0      		ldi r17,lo8(0)
+  85               	.LVL5:
+  86               	.L4:
+  87 0046 9E01      		movw r18,r28
+  88 0048 F701      		movw r30,r14
+  89 004a 00C0      		rjmp .L2
+  90               	.LVL6:
+  91               	.L3:
+  92               	.LBB22:
+  93               	.LM8:
+  94               	/* #APP */
+  95               	 ;  94 "main.c" 1
+  96 004c 8491      		lpm r24, Z
+  97               		
+  98               	 ;  0 "" 2
+  99               	.LVL7:
+ 100               	/* #NOAPP */
+ 101               	.LBE22:
+ 102               	.LM9:
+ 103 004e 8695      		lsr r24
+ 104 0050 8695      		lsr r24
+ 105               	.LM10:
+ 106 0052 88BB      		out 56-32,r24
+ 107               	.LBB23:
+ 108               	.LBB20:
+ 109               	.LBB19:
+ 110               	.LBB18:
+ 111               	.LM11:
+ 112 0054 C601      		movw r24,r12
+ 113               	.LVL8:
+ 114               	/* #APP */
+ 115               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 116 0056 0197      		1: sbiw r24,1
+ 117 0058 01F4      		brne 1b
+ 118               	 ;  0 "" 2
+ 119               	/* #NOAPP */
+ 120               	.LBE18:
+ 121               	.LBE19:
+ 122               	.LBE20:
+ 123               	.LBE23:
+ 124               	.LM12:
+ 125 005a 2F5F      		subi r18,lo8(-(1))
+ 126 005c 3F4F      		sbci r19,hi8(-(1))
+ 127 005e 3196      		adiw r30,1
+ 128               	.LVL9:
+ 129               	.L2:
+ 130 0060 2017      		cp r18,r16
+ 131 0062 3107      		cpc r19,r17
+ 132 0064 00F0      		brlo .L3
+ 133               	.LM13:
+ 134 0066 4F5F      		subi r20,lo8(-(1))
+ 135 0068 5F4F      		sbci r21,hi8(-(1))
+ 136 006a 4F30      		cpi r20,15
+ 137 006c 5105      		cpc r21,__zero_reg__
+ 138 006e 01F4      		brne .L4
+ 139               	.LM14:
+ 140 0070 6F31      		cpi r22,31
+ 141 0072 7105      		cpc r23,__zero_reg__
+ 142 0074 01F4      		brne .L5
+ 143 0076 80E0      		ldi r24,lo8(0)
+ 144               	.LVL10:
+ 145 0078 00C0      		rjmp .L6
+ 146               	.LVL11:
+ 147               	.L5:
+ 148 007a 8A2F      		mov r24,r26
+ 149               	.LVL12:
+ 150               	.L6:
+ 151               	.LM15:
+ 152 007c 6F5F      		subi r22,lo8(-(1))
+ 153 007e 7F4F      		sbci r23,hi8(-(1))
+ 154 0080 6032      		cpi r22,32
+ 155 0082 7105      		cpc r23,__zero_reg__
+ 156 0084 00F0      		brlo .L12
+ 157 0086 60E0      		ldi r22,lo8(0)
+ 158 0088 70E0      		ldi r23,hi8(0)
+ 159 008a 00C0      		rjmp .L12
+ 160               	.LFE6:
+ 162               	.global	a
+ 163               		.section	.progmem.data,"a",@progbits
+ 166               	a:
+ 167 0000 C4        		.byte	-60
+ 168 0001 E0        		.byte	-32
+ 169 0002 70        		.byte	112
+ 170 0003 38        		.byte	56
+ 171 0004 1C        		.byte	28
+ 172 0005 8D        		.byte	-115
+ 173 0006 8C        		.byte	-116
+ 174 0007 1C        		.byte	28
+ 175 0008 38        		.byte	56
+ 176 0009 70        		.byte	112
+ 177 000a E0        		.byte	-32
+ 178 000b C4        		.byte	-60
+ 179 000c 78        		.byte	120
+ 180 000d 3C        		.byte	60
+ 181 000e 9C        		.byte	-100
+ 182 000f CC        		.byte	-52
+ 183 0010 E4        		.byte	-28
+ 184 0011 F0        		.byte	-16
+ 185 0012 F0        		.byte	-16
+ 186 0013 E4        		.byte	-28
+ 187 0014 CC        		.byte	-52
+ 188 0015 9C        		.byte	-100
+ 189 0016 3C        		.byte	60
+ 190 0017 78        		.byte	120
+ 191 0018 90        		.byte	-112
+ 192 0019 90        		.byte	-112
+ 193 001a 48        		.byte	72
+ 194 001b 48        		.byte	72
+ 195 001c 24        		.byte	36
+ 196 001d 24        		.byte	36
+ 197 001e 24        		.byte	36
+ 198 001f 24        		.byte	36
+ 199 0020 48        		.byte	72
+ 200 0021 48        		.byte	72
+ 201 0022 90        		.byte	-112
+ 202 0023 90        		.byte	-112
+ 203 0024 80        		.byte	-128
+ 204 0025 C0        		.byte	-64
+ 205 0026 E0        		.byte	-32
+ 206 0027 F0        		.byte	-16
+ 207 0028 F8        		.byte	-8
+ 208 0029 FC        		.byte	-4
+ 209 002a 7C        		.byte	124
+ 210 002b 3C        		.byte	60
+ 211 002c 1C        		.byte	28
+ 212 002d 0C        		.byte	12
+ 213 002e 04        		.byte	4
+ 214 002f 00        		.byte	0
+ 215 0030 40        		.byte	64
+ 216 0031 0C        		.byte	12
+ 217 0032 1C        		.byte	28
+ 218 0033 3C        		.byte	60
+ 219 0034 7C        		.byte	124
+ 220 0035 FC        		.byte	-4
+ 221 0036 F8        		.byte	-8
+ 222 0037 F0        		.byte	-16
+ 223 0038 E0        		.byte	-32
+ 224 0039 C0        		.byte	-64
+ 225 003a 80        		.byte	-128
+ 226 003b 00        		.byte	0
+ 227 003c 18        		.byte	24
+ 228 003d 00        		.byte	0
+ 229 003e 1C        		.byte	28
+ 230 003f 00        		.byte	0
+ 231 0040 38        		.byte	56
+ 232 0041 00        		.byte	0
+ 233 0042 70        		.byte	112
+ 234 0043 00        		.byte	0
+ 235 0044 E0        		.byte	-32
+ 236 0045 00        		.byte	0
+ 237 0046 C4        		.byte	-60
+ 238 0047 00        		.byte	0
+ 239 0048 C4        		.byte	-60
+ 240 0049 00        		.byte	0
+ 241 004a E0        		.byte	-32
+ 242 004b 00        		.byte	0
+ 243 004c 70        		.byte	112
+ 244 004d 00        		.byte	0
+ 245 004e 38        		.byte	56
+ 246 004f 00        		.byte	0
+ 247 0050 1C        		.byte	28
+ 248 0051 00        		.byte	0
+ 249 0052 18        		.byte	24
+ 250 0053 00        		.byte	0
+ 251 0054 80        		.byte	-128
+ 252 0055 40        		.byte	64
+ 253 0056 40        		.byte	64
+ 254 0057 20        		.byte	32
+ 255 0058 10        		.byte	16
+ 256 0059 08        		.byte	8
+ 257 005a 04        		.byte	4
+ 258 005b 04        		.byte	4
+ 259 005c 08        		.byte	8
+ 260 005d 10        		.byte	16
+ 261 005e 20        		.byte	32
+ 262 005f 40        		.byte	64
+ 263 0060 80        		.byte	-128
+ 264 0061 84        		.byte	-124
+ 265 0062 C0        		.byte	-64
+ 266 0063 60        		.byte	96
+ 267 0064 30        		.byte	48
+ 268 0065 18        		.byte	24
+ 269 0066 0C        		.byte	12
+ 270 0067 0C        		.byte	12
+ 271 0068 18        		.byte	24
+ 272 0069 30        		.byte	48
+ 273 006a 60        		.byte	96
+ 274 006b C0        		.byte	-64
+ 275 006c 84        		.byte	-124
+ 276 006d E0        		.byte	-32
+ 277 006e E0        		.byte	-32
+ 278 006f 1C        		.byte	28
+ 279 0070 1C        		.byte	28
+ 280 0071 A8        		.byte	-88
+ 281 0072 A8        		.byte	-88
+ 282 0073 54        		.byte	84
+ 283 0074 54        		.byte	84
+ 284 0075 6C        		.byte	108
+ 285 0076 6C        		.byte	108
+ 286 0077 B4        		.byte	-76
+ 287 0078 B4        		.byte	-76
+ 288 0079 D8        		.byte	-40
+ 289 007a D8        		.byte	-40
+ 290 007b D8        		.byte	-40
+ 291 007c D8        		.byte	-40
+ 292 007d B4        		.byte	-76
+ 293 007e B4        		.byte	-76
+ 294 007f 6C        		.byte	108
+ 295 0080 6C        		.byte	108
+ 296 0081 80        		.byte	-128
+ 297 0082 40        		.byte	64
+ 298 0083 20        		.byte	32
+ 299 0084 10        		.byte	16
+ 300 0085 08        		.byte	8
+ 301 0086 04        		.byte	4
+ 302 0087 04        		.byte	4
+ 303 0088 08        		.byte	8
+ 304 0089 10        		.byte	16
+ 305 008a 20        		.byte	32
+ 306 008b 40        		.byte	64
+ 307 008c 80        		.byte	-128
+ 308 008d C0        		.byte	-64
+ 309 008e C0        		.byte	-64
+ 310 008f 30        		.byte	48
+ 311 0090 30        		.byte	48
+ 312 0091 0C        		.byte	12
+ 313 0092 0C        		.byte	12
+ 314 0093 0C        		.byte	12
+ 315 0094 0C        		.byte	12
+ 316 0095 30        		.byte	48
+ 317 0096 30        		.byte	48
+ 318 0097 C0        		.byte	-64
+ 319 0098 C0        		.byte	-64
+ 320 0099 3C        		.byte	60
+ 321 009a 3C        		.byte	60
+ 322 009b CC        		.byte	-52
+ 323 009c CC        		.byte	-52
+ 324 009d F0        		.byte	-16
+ 325 009e F0        		.byte	-16
+ 326 009f F0        		.byte	-16
+ 327 00a0 F0        		.byte	-16
+ 328 00a1 CC        		.byte	-52
+ 329 00a2 CC        		.byte	-52
+ 330 00a3 3C        		.byte	60
+ 331 00a4 3C        		.byte	60
+ 332 00a5 C0        		.byte	-64
+ 333 00a6 C0        		.byte	-64
+ 334 00a7 30        		.byte	48
+ 335 00a8 30        		.byte	48
+ 336 00a9 0C        		.byte	12
+ 337 00aa 0C        		.byte	12
+ 338 00ab 30        		.byte	48
+ 339 00ac 30        		.byte	48
+ 340 00ad 3C        		.byte	60
+ 341 00ae 3C        		.byte	60
+ 342 00af CC        		.byte	-52
+ 343 00b0 CC        		.byte	-52
+ 344 00b1 F0        		.byte	-16
+ 345 00b2 F0        		.byte	-16
+ 346 00b3 CC        		.byte	-52
+ 347 00b4 CC        		.byte	-52
+ 348 00b5 80        		.byte	-128
+ 349 00b6 40        		.byte	64
+ 350 00b7 20        		.byte	32
+ 351 00b8 10        		.byte	16
+ 352 00b9 08        		.byte	8
+ 353 00ba 04        		.byte	4
+ 354 00bb 08        		.byte	8
+ 355 00bc 10        		.byte	16
+ 356 00bd 20        		.byte	32
+ 357 00be 40        		.byte	64
+ 358 00bf 7C        		.byte	124
+ 359 00c0 BC        		.byte	-68
+ 360 00c1 DC        		.byte	-36
+ 361 00c2 EC        		.byte	-20
+ 362 00c3 F4        		.byte	-12
+ 363 00c4 F8        		.byte	-8
+ 364 00c5 F8        		.byte	-8
+ 365 00c6 F4        		.byte	-12
+ 366 00c7 EC        		.byte	-20
+ 367 00c8 DC        		.byte	-36
+ 368 00c9 BC        		.byte	-68
+ 369 00ca 7C        		.byte	124
+ 370 00cb 84        		.byte	-124
+ 371 00cc C0        		.byte	-64
+ 372 00cd 60        		.byte	96
+ 373 00ce 30        		.byte	48
+ 374 00cf 18        		.byte	24
+ 375 00d0 0C        		.byte	12
+ 376 00d1 0C        		.byte	12
+ 377 00d2 18        		.byte	24
+ 378 00d3 30        		.byte	48
+ 379 00d4 60        		.byte	96
+ 380 00d5 C0        		.byte	-64
+ 381 00d6 84        		.byte	-124
+ 382 00d7 80        		.byte	-128
+ 383 00d8 00        		.byte	0
+ 384 00d9 40        		.byte	64
+ 385 00da 00        		.byte	0
+ 386 00db 20        		.byte	32
+ 387 00dc 00        		.byte	0
+ 388 00dd 10        		.byte	16
+ 389 00de 00        		.byte	0
+ 390 00df 08        		.byte	8
+ 391 00e0 00        		.byte	0
+ 392 00e1 04        		.byte	4
+ 393 00e2 00        		.byte	0
+ 394 00e3 04        		.byte	4
+ 395 00e4 00        		.byte	0
+ 396 00e5 08        		.byte	8
+ 397 00e6 00        		.byte	0
+ 398 00e7 10        		.byte	16
+ 399 00e8 00        		.byte	0
+ 400 00e9 20        		.byte	32
+ 401 00ea 00        		.byte	0
+ 402 00eb 40        		.byte	64
+ 403 00ec 00        		.byte	0
+ 404 00ed 80        		.byte	-128
+ 405 00ee 00        		.byte	0
+ 406 00ef E0        		.byte	-32
+ 407 00f0 E0        		.byte	-32
+ 408 00f1 00        		.byte	0
+ 409 00f2 00        		.byte	0
+ 410 00f3 54        		.byte	84
+ 411 00f4 54        		.byte	84
+ 412 00f5 00        		.byte	0
+ 413 00f6 00        		.byte	0
+ 414               	.global	b
+ 417               	b:
+ 418 00f7 06        		.byte	6
+ 419 00f8 06        		.byte	6
+ 420 00f9 06        		.byte	6
+ 421 00fa 06        		.byte	6
+ 422 00fb 06        		.byte	6
+ 423 00fc 06        		.byte	6
+ 424 00fd 0C        		.byte	12
+ 425 00fe 0C        		.byte	12
+ 426 00ff 0C        		.byte	12
+ 427 0100 0C        		.byte	12
+ 428 0101 0D        		.byte	13
+ 429 0102 0C        		.byte	12
+ 430 0103 04        		.byte	4
+ 431 0104 04        		.byte	4
+ 432 0105 06        		.byte	6
+ 433 0106 06        		.byte	6
+ 434 0107 06        		.byte	6
+ 435 0108 06        		.byte	6
+ 436 0109 06        		.byte	6
+ 437 010a 06        		.byte	6
+ 438 010b 06        		.byte	6
+ 439 010c 06        		.byte	6
+ 440 010d 08        		.byte	8
+ 441 010e 08        		.byte	8
+ 442 010f 0A        		.byte	10
+ 443 0110 06        		.byte	6
+ 444 0111 06        		.byte	6
+ 445 0112 06        		.byte	6
+ 446 0113 06        		.byte	6
+ 447 0114 0C        		.byte	12
+ 448 0115 0C        		.byte	12
+ 449 0116 08        		.byte	8
+ 474               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\xp\LOCALS~1\Temp/ccissNKH.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\xp\LOCALS~1\Temp/ccissNKH.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\xp\LOCALS~1\Temp/ccissNKH.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\xp\LOCALS~1\Temp/ccissNKH.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\xp\LOCALS~1\Temp/ccissNKH.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\xp\LOCALS~1\Temp/ccissNKH.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\xp\LOCALS~1\Temp/ccissNKH.s:18     .text:00000000 main
+C:\DOCUME~1\xp\LOCALS~1\Temp/ccissNKH.s:417    .progmem.data:000000f7 b
+C:\DOCUME~1\xp\LOCALS~1\Temp/ccissNKH.s:166    .progmem.data:00000000 a
+
+NO UNDEFINED SYMBOLS

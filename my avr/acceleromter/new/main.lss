@@ -1,0 +1,232 @@
+
+main.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .text         000000fc  00000000  00000000  00000054  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  1 .debug_aranges 00000020  00000000  00000000  00000150  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  2 .debug_pubnames 00000023  00000000  00000000  00000170  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  3 .debug_info   0000012f  00000000  00000000  00000193  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  4 .debug_abbrev 000000ed  00000000  00000000  000002c2  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  5 .debug_line   00000195  00000000  00000000  000003af  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_frame  00000030  00000000  00000000  00000544  2**2
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_str    000000ae  00000000  00000000  00000574  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    00000053  00000000  00000000  00000622  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_ranges 00000060  00000000  00000000  00000675  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 2a 00 	jmp	0x54	; 0x54 <__ctors_end>
+   4:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   8:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+   c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  10:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  14:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  18:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  1c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  20:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  24:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  28:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  2c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  30:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  34:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  38:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  3c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  40:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  44:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  48:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  4c:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+  50:	0c 94 34 00 	jmp	0x68	; 0x68 <__bad_interrupt>
+
+00000054 <__ctors_end>:
+  54:	11 24       	eor	r1, r1
+  56:	1f be       	out	0x3f, r1	; 63
+  58:	cf e5       	ldi	r28, 0x5F	; 95
+  5a:	d4 e0       	ldi	r29, 0x04	; 4
+  5c:	de bf       	out	0x3e, r29	; 62
+  5e:	cd bf       	out	0x3d, r28	; 61
+  60:	0e 94 44 00 	call	0x88	; 0x88 <main>
+  64:	0c 94 7c 00 	jmp	0xf8	; 0xf8 <_exit>
+
+00000068 <__bad_interrupt>:
+  68:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+0000006c <adc>:
+#include<avr/io.h>
+#include<util/delay.h>
+#include<compat/deprecated.h>
+unsigned int adc(unsigned char channel)
+{  unsigned int val;
+   ADMUX=0x40+channel;
+  6c:	80 5c       	subi	r24, 0xC0	; 192
+  6e:	87 b9       	out	0x07, r24	; 7
+   ADCSRA=(1<<ADEN);
+  70:	80 e8       	ldi	r24, 0x80	; 128
+  72:	86 b9       	out	0x06, r24	; 6
+   ADCSRA|=(1<<ADSC);
+  74:	36 9a       	sbi	0x06, 6	; 6
+    ADCSRA|=0x07;
+  76:	86 b1       	in	r24, 0x06	; 6
+  78:	87 60       	ori	r24, 0x07	; 7
+  7a:	86 b9       	out	0x06, r24	; 6
+   while(bit_is_clear(ADCSRA,ADIF));
+  7c:	34 9b       	sbis	0x06, 4	; 6
+  7e:	fe cf       	rjmp	.-4      	; 0x7c <adc+0x10>
+   val=ADCW; 
+  80:	24 b1       	in	r18, 0x04	; 4
+  82:	35 b1       	in	r19, 0x05	; 5
+   return val;
+}
+  84:	c9 01       	movw	r24, r18
+  86:	08 95       	ret
+
+00000088 <main>:
+
+int main(void)
+{unsigned int xaxis,yaxis;
+ unsigned char direction;
+DDRA=0x0F;
+  88:	8f e0       	ldi	r24, 0x0F	; 15
+  8a:	8a bb       	out	0x1a, r24	; 26
+DDRB=0xFF;
+  8c:	8f ef       	ldi	r24, 0xFF	; 255
+  8e:	87 bb       	out	0x17, r24	; 23
+PORTB=0xFF;
+  90:	88 bb       	out	0x18, r24	; 24
+PORTA=0x00;
+  92:	1b ba       	out	0x1b, r1	; 27
+#include<avr/io.h>
+#include<util/delay.h>
+#include<compat/deprecated.h>
+unsigned int adc(unsigned char channel)
+{  unsigned int val;
+   ADMUX=0x40+channel;
+  94:	64 e4       	ldi	r22, 0x44	; 68
+   ADCSRA=(1<<ADEN);
+  96:	40 e8       	ldi	r20, 0x80	; 128
+#include<avr/io.h>
+#include<util/delay.h>
+#include<compat/deprecated.h>
+unsigned int adc(unsigned char channel)
+{  unsigned int val;
+   ADMUX=0x40+channel;
+  98:	55 e4       	ldi	r21, 0x45	; 69
+  9a:	67 b9       	out	0x07, r22	; 7
+   ADCSRA=(1<<ADEN);
+  9c:	46 b9       	out	0x06, r20	; 6
+   ADCSRA|=(1<<ADSC);
+  9e:	36 9a       	sbi	0x06, 6	; 6
+    ADCSRA|=0x07;
+  a0:	86 b1       	in	r24, 0x06	; 6
+  a2:	87 60       	ori	r24, 0x07	; 7
+  a4:	86 b9       	out	0x06, r24	; 6
+   while(bit_is_clear(ADCSRA,ADIF));
+  a6:	34 9b       	sbis	0x06, 4	; 6
+  a8:	fe cf       	rjmp	.-4      	; 0xa6 <main+0x1e>
+   val=ADCW; 
+  aa:	24 b1       	in	r18, 0x04	; 4
+  ac:	35 b1       	in	r19, 0x05	; 5
+#include<avr/io.h>
+#include<util/delay.h>
+#include<compat/deprecated.h>
+unsigned int adc(unsigned char channel)
+{  unsigned int val;
+   ADMUX=0x40+channel;
+  ae:	57 b9       	out	0x07, r21	; 7
+   ADCSRA=(1<<ADEN);
+  b0:	46 b9       	out	0x06, r20	; 6
+   ADCSRA|=(1<<ADSC);
+  b2:	36 9a       	sbi	0x06, 6	; 6
+    ADCSRA|=0x07;
+  b4:	86 b1       	in	r24, 0x06	; 6
+  b6:	87 60       	ori	r24, 0x07	; 7
+  b8:	86 b9       	out	0x06, r24	; 6
+   while(bit_is_clear(ADCSRA,ADIF));
+  ba:	34 9b       	sbis	0x06, 4	; 6
+  bc:	fe cf       	rjmp	.-4      	; 0xba <main+0x32>
+   val=ADCW; 
+  be:	84 b1       	in	r24, 0x04	; 4
+  c0:	95 b1       	in	r25, 0x05	; 5
+ direction=0x00;
+ while(1)
+ {  
+   xaxis=adc(4);
+   yaxis=adc(5);
+   if(xaxis>250)
+  c2:	2b 3f       	cpi	r18, 0xFB	; 251
+  c4:	31 05       	cpc	r19, r1
+  c6:	18 f0       	brcs	.+6      	; 0xce <main+0x46>
+   {
+   sbi(PORTA,0);
+  c8:	d8 9a       	sbi	0x1b, 0	; 27
+   sbi(PORTA,2);  
+  ca:	da 9a       	sbi	0x1b, 2	; 27
+  cc:	07 c0       	rjmp	.+14     	; 0xdc <main+0x54>
+   }
+   else
+   {
+   if(xaxis<100)
+  ce:	24 36       	cpi	r18, 0x64	; 100
+  d0:	31 05       	cpc	r19, r1
+  d2:	10 f4       	brcc	.+4      	; 0xd8 <main+0x50>
+   {cbi(PORTA,0);
+  d4:	d8 98       	cbi	0x1b, 0	; 27
+  d6:	01 c0       	rjmp	.+2      	; 0xda <main+0x52>
+   cbi(PORTA,2);
+   }
+   else
+   {
+   sbi(PORTA,0);
+  d8:	d8 9a       	sbi	0x1b, 0	; 27
+   cbi(PORTA,2);
+  da:	da 98       	cbi	0x1b, 2	; 27
+   }
+   }
+   if(yaxis>250)
+  dc:	8b 3f       	cpi	r24, 0xFB	; 251
+  de:	91 05       	cpc	r25, r1
+  e0:	18 f0       	brcs	.+6      	; 0xe8 <main+0x60>
+   {
+   sbi(PORTA,1);
+  e2:	d9 9a       	sbi	0x1b, 1	; 27
+   sbi(PORTA,3);
+  e4:	db 9a       	sbi	0x1b, 3	; 27
+  e6:	d9 cf       	rjmp	.-78     	; 0x9a <main+0x12>
+
+   }
+   else
+   {
+   if(yaxis<100)
+  e8:	84 36       	cpi	r24, 0x64	; 100
+  ea:	91 05       	cpc	r25, r1
+  ec:	10 f4       	brcc	.+4      	; 0xf2 <main+0x6a>
+   {
+   cbi(PORTA,1);
+  ee:	d9 98       	cbi	0x1b, 1	; 27
+  f0:	01 c0       	rjmp	.+2      	; 0xf4 <main+0x6c>
+   cbi(PORTA,3);
+   }
+   else
+   {
+   sbi(PORTA,1);
+  f2:	d9 9a       	sbi	0x1b, 1	; 27
+   cbi(PORTA,3);
+  f4:	db 98       	cbi	0x1b, 3	; 27
+  f6:	d1 cf       	rjmp	.-94     	; 0x9a <main+0x12>
+
+000000f8 <_exit>:
+  f8:	f8 94       	cli
+
+000000fa <__stop_program>:
+  fa:	ff cf       	rjmp	.-2      	; 0xfa <__stop_program>

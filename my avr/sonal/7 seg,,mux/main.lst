@@ -1,0 +1,325 @@
+   1               		.file	"main.c"
+   2               	__SREG__ = 0x3f
+   3               	__SP_H__ = 0x3e
+   4               	__SP_L__ = 0x3d
+   5               	__CCP__  = 0x34
+   6               	__tmp_reg__ = 0
+   7               	__zero_reg__ = 1
+  15               	.Ltext0:
+  16               	.global	__vector_9
+  18               	__vector_9:
+  19               	.LFB6:
+  20               	.LM1:
+  21 0000 1F92      		push __zero_reg__
+  22 0002 0F92      		push r0
+  23 0004 0FB6      		in r0,__SREG__
+  24 0006 0F92      		push r0
+  25 0008 1124      		clr __zero_reg__
+  26 000a 6F93      		push r22
+  27 000c 7F93      		push r23
+  28 000e 8F93      		push r24
+  29 0010 9F93      		push r25
+  30               	/* prologue: Signal */
+  31               	/* frame size = 0 */
+  32               	.LM2:
+  33 0012 8091 0000 		lds r24,count
+  34 0016 8F5F      		subi r24,lo8(-(1))
+  35 0018 8093 0000 		sts count,r24
+  36               	.LM3:
+  37 001c 8091 0000 		lds r24,count
+  38 0020 6FE0      		ldi r22,lo8(15)
+  39 0022 0E94 0000 		call __udivmodqi4
+  40 0026 9923      		tst r25
+  41 0028 01F4      		brne .L2
+  42               	.LM4:
+  43 002a 8091 0000 		lds r24,dot
+  44 002e 8823      		tst r24
+  45 0030 01F0      		breq .L3
+  46               	.LM5:
+  47 0032 1092 0000 		sts dot,__zero_reg__
+  48 0036 00C0      		rjmp .L2
+  49               	.L3:
+  50               	.LM6:
+  51 0038 80E8      		ldi r24,lo8(-128)
+  52 003a 8093 0000 		sts dot,r24
+  53               	.L2:
+  54               	.LM7:
+  55 003e 8091 0000 		lds r24,count
+  56 0042 8F31      		cpi r24,lo8(31)
+  57 0044 01F4      		brne .L8
+  58               	.LM8:
+  59 0046 1092 0000 		sts count,__zero_reg__
+  60               	.LM9:
+  61 004a 8091 0000 		lds r24,d1
+  62 004e 8F5F      		subi r24,lo8(-(1))
+  63 0050 8093 0000 		sts d1,r24
+  64               	.LM10:
+  65 0054 8091 0000 		lds r24,d1
+  66 0058 8A30      		cpi r24,lo8(10)
+  67 005a 00F0      		brlo .L5
+  68               	.LM11:
+  69 005c 1092 0000 		sts d1,__zero_reg__
+  70               	.LM12:
+  71 0060 8091 0000 		lds r24,d2
+  72 0064 8F5F      		subi r24,lo8(-(1))
+  73 0066 8093 0000 		sts d2,r24
+  74               	.L5:
+  75               	.LM13:
+  76 006a 8091 0000 		lds r24,d2
+  77 006e 8630      		cpi r24,lo8(6)
+  78 0070 00F0      		brlo .L6
+  79               	.LM14:
+  80 0072 1092 0000 		sts d2,__zero_reg__
+  81               	.LM15:
+  82 0076 8091 0000 		lds r24,d3
+  83 007a 8F5F      		subi r24,lo8(-(1))
+  84 007c 8093 0000 		sts d3,r24
+  85               	.L6:
+  86               	.LM16:
+  87 0080 8091 0000 		lds r24,d3
+  88 0084 8A30      		cpi r24,lo8(10)
+  89 0086 00F0      		brlo .L7
+  90               	.LM17:
+  91 0088 1092 0000 		sts d3,__zero_reg__
+  92               	.LM18:
+  93 008c 8091 0000 		lds r24,d4
+  94 0090 8F5F      		subi r24,lo8(-(1))
+  95 0092 8093 0000 		sts d4,r24
+  96               	.L7:
+  97               	.LM19:
+  98 0096 8091 0000 		lds r24,d4
+  99 009a 8630      		cpi r24,lo8(6)
+ 100 009c 00F0      		brlo .L8
+ 101               	.LM20:
+ 102 009e 1092 0000 		sts d4,__zero_reg__
+ 103               	.L8:
+ 104               	/* epilogue start */
+ 105               	.LM21:
+ 106 00a2 9F91      		pop r25
+ 107 00a4 8F91      		pop r24
+ 108 00a6 7F91      		pop r23
+ 109 00a8 6F91      		pop r22
+ 110 00aa 0F90      		pop r0
+ 111 00ac 0FBE      		out __SREG__,r0
+ 112 00ae 0F90      		pop r0
+ 113 00b0 1F90      		pop __zero_reg__
+ 114 00b2 1895      		reti
+ 115               	.LFE6:
+ 117               	.global	main
+ 119               	main:
+ 120               	.LFB7:
+ 121               	.LM22:
+ 122               	/* prologue: function */
+ 123               	/* frame size = 0 */
+ 124               	.LM23:
+ 125 00b4 8FE0      		ldi r24,lo8(15)
+ 126 00b6 87BB      		out 55-32,r24
+ 127               	.LM24:
+ 128 00b8 8FEF      		ldi r24,lo8(-1)
+ 129 00ba 8ABB      		out 58-32,r24
+ 130               	.LM25:
+ 131 00bc 18BA      		out 56-32,__zero_reg__
+ 132               	.LM26:
+ 133 00be 1BBA      		out 59-32,__zero_reg__
+ 134               	.LM27:
+ 135 00c0 85E0      		ldi r24,lo8(5)
+ 136 00c2 83BF      		out 83-32,r24
+ 137               	.LM28:
+ 138 00c4 12BE      		out 82-32,__zero_reg__
+ 139               	.LM29:
+ 140 00c6 81E0      		ldi r24,lo8(1)
+ 141 00c8 89BF      		out 89-32,r24
+ 142               	.LM30:
+ 143 00ca 1092 0000 		sts d1,__zero_reg__
+ 144               	.LM31:
+ 145 00ce 1092 0000 		sts d2,__zero_reg__
+ 146               	.LM32:
+ 147 00d2 1092 0000 		sts d3,__zero_reg__
+ 148               	.LM33:
+ 149 00d6 1092 0000 		sts d4,__zero_reg__
+ 150               	.LM34:
+ 151               	/* #APP */
+ 152               	 ;  71 "main.c" 1
+ 153 00da 7894      		sei
+ 154               	 ;  0 "" 2
+ 155               	.LM35:
+ 156               	/* #NOAPP */
+ 157 00dc 71E0      		ldi r23,lo8(1)
+ 158               	.LBB30:
+ 159               	.LBB31:
+ 160               	.LBB32:
+ 161               	.LBB33:
+ 162               	.LM36:
+ 163 00de 20ED      		ldi r18,lo8(2000)
+ 164 00e0 37E0      		ldi r19,hi8(2000)
+ 165               	.LBE33:
+ 166               	.LBE32:
+ 167               	.LBE31:
+ 168               	.LBE30:
+ 169               	.LM37:
+ 170 00e2 62E0      		ldi r22,lo8(2)
+ 171               	.LM38:
+ 172 00e4 54E0      		ldi r21,lo8(4)
+ 173               	.LM39:
+ 174 00e6 48E0      		ldi r20,lo8(8)
+ 175               	.L10:
+ 176               	.LM40:
+ 177 00e8 78BB      		out 56-32,r23
+ 178               	.LM41:
+ 179 00ea E091 0000 		lds r30,d1
+ 180 00ee F0E0      		ldi r31,lo8(0)
+ 181 00f0 E050      		subi r30,lo8(-(segdisp))
+ 182 00f2 F040      		sbci r31,hi8(-(segdisp))
+ 183 00f4 8081      		ld r24,Z
+ 184 00f6 8BBB      		out 59-32,r24
+ 185               	.LBB37:
+ 186               	.LBB36:
+ 187               	.LBB35:
+ 188               	.LBB34:
+ 189               	.LM42:
+ 190 00f8 C901      		movw r24,r18
+ 191               	.LVL0:
+ 192               	/* #APP */
+ 193               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 194 00fa 0197      		1: sbiw r24,1
+ 195 00fc 01F4      		brne 1b
+ 196               	 ;  0 "" 2
+ 197               	/* #NOAPP */
+ 198               	.LBE34:
+ 199               	.LBE35:
+ 200               	.LBE36:
+ 201               	.LBE37:
+ 202               	.LM43:
+ 203 00fe 68BB      		out 56-32,r22
+ 204               	.LM44:
+ 205 0100 E091 0000 		lds r30,d2
+ 206 0104 F0E0      		ldi r31,lo8(0)
+ 207 0106 E050      		subi r30,lo8(-(segdisp))
+ 208 0108 F040      		sbci r31,hi8(-(segdisp))
+ 209 010a 8081      		ld r24,Z
+ 210               	.LVL1:
+ 211 010c 8BBB      		out 59-32,r24
+ 212               	.LBB38:
+ 213               	.LBB39:
+ 214               	.LBB40:
+ 215               	.LBB41:
+ 216               	.LM45:
+ 217 010e C901      		movw r24,r18
+ 218               	.LVL2:
+ 219               	/* #APP */
+ 220               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 221 0110 0197      		1: sbiw r24,1
+ 222 0112 01F4      		brne 1b
+ 223               	 ;  0 "" 2
+ 224               	/* #NOAPP */
+ 225               	.LBE41:
+ 226               	.LBE40:
+ 227               	.LBE39:
+ 228               	.LBE38:
+ 229               	.LM46:
+ 230 0114 58BB      		out 56-32,r21
+ 231               	.LM47:
+ 232 0116 E091 0000 		lds r30,d3
+ 233 011a F0E0      		ldi r31,lo8(0)
+ 234 011c E050      		subi r30,lo8(-(segdisp))
+ 235 011e F040      		sbci r31,hi8(-(segdisp))
+ 236 0120 8081      		ld r24,Z
+ 237               	.LVL3:
+ 238 0122 9091 0000 		lds r25,dot
+ 239 0126 892B      		or r24,r25
+ 240 0128 8BBB      		out 59-32,r24
+ 241               	.LBB42:
+ 242               	.LBB43:
+ 243               	.LBB44:
+ 244               	.LBB45:
+ 245               	.LM48:
+ 246 012a C901      		movw r24,r18
+ 247               	.LVL4:
+ 248               	/* #APP */
+ 249               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 250 012c 0197      		1: sbiw r24,1
+ 251 012e 01F4      		brne 1b
+ 252               	 ;  0 "" 2
+ 253               	/* #NOAPP */
+ 254               	.LBE45:
+ 255               	.LBE44:
+ 256               	.LBE43:
+ 257               	.LBE42:
+ 258               	.LM49:
+ 259 0130 48BB      		out 56-32,r20
+ 260               	.LM50:
+ 261 0132 E091 0000 		lds r30,d4
+ 262 0136 F0E0      		ldi r31,lo8(0)
+ 263 0138 E050      		subi r30,lo8(-(segdisp))
+ 264 013a F040      		sbci r31,hi8(-(segdisp))
+ 265 013c 8081      		ld r24,Z
+ 266               	.LVL5:
+ 267 013e 8BBB      		out 59-32,r24
+ 268               	.LBB46:
+ 269               	.LBB47:
+ 270               	.LBB48:
+ 271               	.LBB49:
+ 272               	.LM51:
+ 273 0140 C901      		movw r24,r18
+ 274               	.LVL6:
+ 275               	/* #APP */
+ 276               	 ;  105 "c:/winavr-20090313/lib/gcc/../../avr/include/util/delay_basic.h" 1
+ 277 0142 0197      		1: sbiw r24,1
+ 278 0144 01F4      		brne 1b
+ 279               	 ;  0 "" 2
+ 280               	/* #NOAPP */
+ 281 0146 00C0      		rjmp .L10
+ 282               	.LBE49:
+ 283               	.LBE48:
+ 284               	.LBE47:
+ 285               	.LBE46:
+ 286               	.LFE7:
+ 288               	.global	segdisp
+ 289               		.data
+ 292               	segdisp:
+ 293 0000 7B        		.byte	123
+ 294 0001 42        		.byte	66
+ 295 0002 37        		.byte	55
+ 296 0003 67        		.byte	103
+ 297 0004 4E        		.byte	78
+ 298 0005 6D        		.byte	109
+ 299 0006 7D        		.byte	125
+ 300 0007 43        		.byte	67
+ 301 0008 7F        		.byte	127
+ 302 0009 6F        		.byte	111
+ 303               	.global	count
+ 304               	.global	count
+ 305               		.section .bss
+ 308               	count:
+ 309 0000 00        		.skip 1,0
+ 310               	.global	dot
+ 311               	.global	dot
+ 314               	dot:
+ 315 0001 00        		.skip 1,0
+ 316               		.comm d1,1,1
+ 317               		.comm d2,1,1
+ 318               		.comm d3,1,1
+ 319               		.comm d4,1,1
+ 352               	.Letext0:
+DEFINED SYMBOLS
+                            *ABS*:00000000 main.c
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:2      *ABS*:0000003f __SREG__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:3      *ABS*:0000003e __SP_H__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:4      *ABS*:0000003d __SP_L__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:5      *ABS*:00000034 __CCP__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:6      *ABS*:00000000 __tmp_reg__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:7      *ABS*:00000001 __zero_reg__
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:18     .text:00000000 __vector_9
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:308    .bss:00000000 count
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:314    .bss:00000001 dot
+                            *COM*:00000001 d1
+                            *COM*:00000001 d2
+                            *COM*:00000001 d3
+                            *COM*:00000001 d4
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:119    .text:000000b4 main
+C:\DOCUME~1\AIMSIN~1\LOCALS~1\Temp/cc7m2uGw.s:292    .data:00000000 segdisp
+
+UNDEFINED SYMBOLS
+__udivmodqi4
+__do_copy_data
+__do_clear_bss
